@@ -26,13 +26,13 @@ import views.html.register.individual.NationalInsuranceYesNoView
 
 class NationalInsuranceYesNoViewSpec extends YesNoViewBehaviours {
 
-  val messageKeyPrefix = "individualProtector.nationalInsuranceYesNo"
+  val messageKeyPrefix = "individualOtherIndividual.nationalInsuranceYesNo"
   val index = 0
   val name: FullName = FullName("First", None, "Last")
 
   val form: Form[Boolean] = new YesNoFormProvider().withPrefix(messageKeyPrefix)
 
-  "IndividualProtectorNationalInsuranceYesNo view" must {
+  "IndividualOtherIndividualNationalInsuranceYesNo view" must {
 
     val userAnswers = emptyUserAnswers
       .set(NamePage(index), name).success.value

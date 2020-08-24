@@ -17,22 +17,21 @@
 package repositories
 
 import javax.inject.Inject
-import mapping.register.ProtectorsMapper
+import mapping.register.OtherIndividualsMapper
 import models._
-import pages.register.TrustHasProtectorYesNoPage
+import pages.register.TrustHasOtherIndividualYesNoPage
 import play.api.i18n.Messages
 import play.api.libs.json.Json
 import utils.RegistrationProgress
-import utils.answers.{BusinessProtectorAnswersHelper, IndividualProtectorAnswersHelper}
+import utils.answers.OtherIndividualAnswersHelper
 import viewmodels.{AnswerRow, AnswerSection}
 
 class SubmissionSetFactory @Inject()(registrationProgress: RegistrationProgress,
-                                     protectorsMapper: ProtectorsMapper,
-                                     individualProtectorAnswersHelper: IndividualProtectorAnswersHelper,
-                                     businessProtectorAnswerHelper: BusinessProtectorAnswersHelper) {
+                                     otherIndividualsMapper: OtherIndividualsMapper,
+                                     individualOtherIndividualAnswersHelper: OtherIndividualAnswersHelper) {
 
   def createFrom(userAnswers: UserAnswers)(implicit messages: Messages): RegistrationSubmission.DataSet = {
-    val status = registrationProgress.protectorsStatus(userAnswers)
+    val status = registrationProgress.otherIndividualsStatus(userAnswers)
     answerSectionsIfCompleted(userAnswers, status)
 
     RegistrationSubmission.DataSet(
@@ -45,8 +44,8 @@ class SubmissionSetFactory @Inject()(registrationProgress: RegistrationProgress,
 
   private def mappedDataIfCompleted(userAnswers: UserAnswers, status: Option[Status]) = {
     if (status.contains(Status.Completed)) {
-      protectorsMapper.build(userAnswers) match {
-        case Some(assets) => List(RegistrationSubmission.MappedPiece("trust/entities/protectors", Json.toJson(assets)))
+      otherIndividualsMapper.build(userAnswers) match {
+        case Some(assets) => List(RegistrationSubmission.MappedPiece("trust/entities/naturalPerson", Json.toJson(assets)))
         case _ => List.empty
       }
     } else {
@@ -57,22 +56,21 @@ class SubmissionSetFactory @Inject()(registrationProgress: RegistrationProgress,
   def answerSectionsIfCompleted(userAnswers: UserAnswers, status: Option[Status])
                                (implicit messages: Messages): List[RegistrationSubmission.AnswerSection] = {
 
-    val trustHasProtectorYesNo = userAnswers.get(TrustHasProtectorYesNoPage) match {
+    val trustHasOtherIndividualYesNo = userAnswers.get(TrustHasOtherIndividualYesNoPage) match {
       case Some(true) => true
       case _ => false
     }
 
-    if (status.contains(Status.Completed) && trustHasProtectorYesNo) {
+    if (status.contains(Status.Completed) && trustHasOtherIndividualYesNo) {
 
       val entitySections = List(
-        individualProtectorAnswersHelper.individualProtectors(userAnswers, canEdit = false),
-        businessProtectorAnswerHelper.businessProtectors(userAnswers, canEdit = false)
+        individualOtherIndividualAnswersHelper.individualOtherIndividuals(userAnswers, canEdit = false)
       ).flatten.flatten
 
       val updatedFirstSection = AnswerSection(
         entitySections.head.headingKey,
         entitySections.head.rows,
-        Some(Messages("answerPage.section.protectors.heading"))
+        Some(Messages("answerPage.section.otherIndividuals.heading"))
       )
 
       val updatedSections = updatedFirstSection :: entitySections.tail

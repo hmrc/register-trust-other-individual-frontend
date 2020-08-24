@@ -23,19 +23,19 @@
 @(draftId: String)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = messages("protectorsInfo.title")
+    title = messages("otherIndividualsInfo.title")
     ) {
 
     @components.back_link()
 
-    <span class="govuk-caption-xl">@messages("protectorsInfo.caption")</span>
-    @components.heading("protectorsInfo.heading", headingSize = "heading-large govuk-fieldset__heading")
+    <span class="govuk-caption-xl">@messages("otherIndividualsInfo.caption")</span>
+    @components.heading("otherIndividualsInfo.heading", headingSize = "heading-large govuk-fieldset__heading")
 
-    <h2>@messages("protectorsInfo.subheading1")</h2>
+    <h2>@messages("otherIndividualsInfo.subheading1")</h2>
 
-    <p>@messages("protectorsInfo.paragraph1")</p>
+    <p>@messages("otherIndividualsInfo.paragraph1")</p>
 
-    @components.bullet_list("protectorsInfo",
+    @components.bullet_list("otherIndividualsInfo",
         List(
             "bulletpoint1",
             "bulletpoint2",
@@ -43,11 +43,11 @@
         )
     )
 
-    <h2>@messages("protectorsInfo.subheading2")</h2>
+    <h2>@messages("otherIndividualsInfo.subheading2")</h2>
 
-    <p>@messages("protectorsInfo.paragraph2")</p>
+    <p>@messages("otherIndividualsInfo.paragraph2")</p>
 
-    @components.bullet_list("protectorsInfo",
+    @components.bullet_list("otherIndividualsInfo",
         List(
             "bulletpoint4",
             "bulletpoint5"

@@ -19,11 +19,11 @@ package pages.register
 import models.register.pages.IndividualOrBusinessToAdd
 import pages.QuestionPage
 import play.api.libs.json.JsPath
-import sections.Protectors
+import sections.OtherIndividuals
 
 case object IndividualOrBusinessPage extends QuestionPage[IndividualOrBusinessToAdd] {
 
-  override def path: JsPath = Protectors.path \ toString
+  override def path: JsPath = OtherIndividuals.path \ toString
 
   override def toString: String = "individualOrBusiness"
 }

@@ -25,14 +25,14 @@ import views.html.register.individual.NationalInsuranceNumberView
 
 class NationalInsuranceNumberViewSpec extends StringViewBehaviours {
 
-  val messageKeyPrefix = "individualProtector.nationalInsuranceNumber"
+  val messageKeyPrefix = "individualOtherIndividual.nationalInsuranceNumber"
   val index = 0
   val name: FullName = FullName("First", None, "Last")
 
   val form: Form[String] =
     new NationalInsuranceNumberFormProvider().withPrefix(messageKeyPrefix)
 
-  "IndividualProtectorNationalInsuranceNumber view" must {
+  "IndividualOtherIndividualNationalInsuranceNumber view" must {
 
     val view = viewFor[NationalInsuranceNumberView](Some(emptyUserAnswers))
 

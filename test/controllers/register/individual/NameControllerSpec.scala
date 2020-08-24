@@ -17,7 +17,7 @@
 package controllers.register.individual
 
 import base.SpecBase
-import config.annotations.IndividualProtector
+import config.annotations.OtherIndividual
 import forms.NameFormProvider
 import models.{FullName, ReadOnlyUserAnswers}
 import navigation.{FakeNavigator, Navigator}
@@ -35,11 +35,11 @@ import scala.concurrent.Future
 class NameControllerSpec extends SpecBase {
 
   private val formProvider = new NameFormProvider()
-  private val form = formProvider.withPrefix("individualProtector.name")
+  private val form = formProvider.withPrefix("individualOtherIndividual.name")
   private val name: FullName = FullName("First", Some("Middle"), "Last")
   private val index: Int = 0
 
-  lazy val individualProtectorNameRoute = routes.NameController.onPageLoad(index, draftId).url
+  lazy val individualOtherIndividualNameRoute = routes.NameController.onPageLoad(index, draftId).url
 
   val userAnswers = emptyUserAnswers
     .set(NamePage(index), name).success.value
@@ -50,7 +50,7 @@ class NameControllerSpec extends SpecBase {
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-      val request = FakeRequest(GET, individualProtectorNameRoute)
+      val request = FakeRequest(GET, individualOtherIndividualNameRoute)
 
       val view = application.injector.instanceOf[NameView]
 
@@ -68,7 +68,7 @@ class NameControllerSpec extends SpecBase {
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
-      val request = FakeRequest(GET, individualProtectorNameRoute)
+      val request = FakeRequest(GET, individualOtherIndividualNameRoute)
 
       val view = application.injector.instanceOf[NameView]
 
@@ -90,11 +90,11 @@ class NameControllerSpec extends SpecBase {
 
         val application = applicationBuilder(userAnswers = Some(emptyUserAnswers))
           .overrides(
-            bind[Navigator].qualifiedWith(classOf[IndividualProtector]).toInstance(new FakeNavigator)
+            bind[Navigator].qualifiedWith(classOf[OtherIndividual]).toInstance(new FakeNavigator)
           ).build()
 
         val request =
-          FakeRequest(POST, individualProtectorNameRoute)
+          FakeRequest(POST, individualOtherIndividualNameRoute)
             .withFormUrlEncodedBody(("firstName", "first"), ("middleName", "middle"), ("lastName", "last"))
 
         val result = route(application, request).value
@@ -112,11 +112,11 @@ class NameControllerSpec extends SpecBase {
 
         val application = applicationBuilder(userAnswers = Some(emptyUserAnswers))
           .overrides(
-            bind[Navigator].qualifiedWith(classOf[IndividualProtector]).toInstance(new FakeNavigator)
+            bind[Navigator].qualifiedWith(classOf[OtherIndividual]).toInstance(new FakeNavigator)
           ).build()
 
         val request =
-          FakeRequest(POST, individualProtectorNameRoute)
+          FakeRequest(POST, individualOtherIndividualNameRoute)
             .withFormUrlEncodedBody(("firstName", "first"), ("middleName", "middle"), ("lastName", "last"))
 
         val result = route(application, request).value
@@ -134,7 +134,7 @@ class NameControllerSpec extends SpecBase {
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
       val request =
-        FakeRequest(POST, individualProtectorNameRoute)
+        FakeRequest(POST, individualOtherIndividualNameRoute)
           .withFormUrlEncodedBody(("value", "invalid value"))
 
       val boundForm = form.bind(Map("value" -> "invalid value"))
@@ -155,7 +155,7 @@ class NameControllerSpec extends SpecBase {
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val request = FakeRequest(GET, individualProtectorNameRoute)
+      val request = FakeRequest(GET, individualOtherIndividualNameRoute)
 
       val result = route(application, request).value
 
@@ -170,7 +170,7 @@ class NameControllerSpec extends SpecBase {
       val application = applicationBuilder(userAnswers = None).build()
 
       val request =
-        FakeRequest(POST, individualProtectorNameRoute)
+        FakeRequest(POST, individualOtherIndividualNameRoute)
           .withFormUrlEncodedBody(("firstName", "first"), ("middleName", "middle"), ("lastName", "last"))
 
       val result = route(application, request).value

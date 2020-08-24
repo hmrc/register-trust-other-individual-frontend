@@ -17,7 +17,7 @@
 package controllers.register.individual
 
 import base.SpecBase
-import config.annotations.IndividualProtector
+import config.annotations.OtherIndividual
 import forms.InternationalAddressFormProvider
 import models.{FullName, InternationalAddress}
 import navigation.{FakeNavigator, Navigator}
@@ -89,7 +89,7 @@ class NonUkAddressControllerSpec extends SpecBase with MockitoSugar {
       val application =
         applicationBuilder(userAnswers = Some(emptyUserAnswers))
           .overrides(
-            bind[Navigator].qualifiedWith(classOf[IndividualProtector]).toInstance(new FakeNavigator(onwardRoute))
+            bind[Navigator].qualifiedWith(classOf[OtherIndividual]).toInstance(new FakeNavigator(onwardRoute))
           ).build()
 
       val request =

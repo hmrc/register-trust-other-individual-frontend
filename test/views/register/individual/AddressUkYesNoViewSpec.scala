@@ -26,7 +26,7 @@ import views.html.register.individual.AddressUkYesNoView
 class AddressUkYesNoViewSpec extends YesNoViewBehaviours {
 
   private val index = 0
-  val messageKeyPrefix = "individualProtector.addressUkYesNo"
+  val messageKeyPrefix = "individualOtherIndividual.addressUkYesNo"
   val name = FullName("FirstName", None, "LastName")
 
   val form: Form[Boolean] = new YesNoFormProvider().withPrefix(messageKeyPrefix)

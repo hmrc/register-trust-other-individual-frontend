@@ -19,24 +19,24 @@ package models.register.pages
 import models.{Enumerable, WithName}
 import viewmodels.RadioOption
 
-sealed trait AddAProtector
+sealed trait AddOtherIndividual
 
-object AddAProtector extends Enumerable.Implicits {
+object AddOtherIndividual extends Enumerable.Implicits {
 
-  case object YesNow extends WithName("add-them-now") with AddAProtector
-  case object YesLater extends WithName("add-them-later") with AddAProtector
-  case object NoComplete extends WithName("no-complete") with AddAProtector
+  case object YesNow extends WithName("add-them-now") with AddOtherIndividual
+  case object YesLater extends WithName("add-them-later") with AddOtherIndividual
+  case object NoComplete extends WithName("no-complete") with AddOtherIndividual
 
-  val values: List[AddAProtector] = List(
+  val values: List[AddOtherIndividual] = List(
     YesNow, YesLater, NoComplete
   )
 
   val options: List[RadioOption] = values.map {
     value =>
-      RadioOption("addAProtector", value.toString)
+      RadioOption("addOtherIndividual", value.toString)
   }
 
-  implicit val enumerable: Enumerable[AddAProtector] =
+  implicit val enumerable: Enumerable[AddOtherIndividual] =
     Enumerable(values.map(v => v.toString -> v): _*)
 }
 

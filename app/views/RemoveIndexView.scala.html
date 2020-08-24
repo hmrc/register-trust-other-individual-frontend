@@ -26,7 +26,7 @@
 @(form: Form[_], draftId: String, index: Int, name: String, action: Call)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = s"${errorPrefix(form)} ${messages("removeProtector.title")}"
+    title = s"${errorPrefix(form)} ${messages("removeOtherIndividual.title")}"
 ) {
 
     @formHelper(action = action, 'autoComplete -> "off") {
@@ -37,7 +37,7 @@
 
         @components.input_yes_no(
             field = form("value"),
-            label = messages("removeProtector.heading", name),
+            label = messages("removeOtherIndividual.heading", name),
             legendAsHeading = true
         )
 

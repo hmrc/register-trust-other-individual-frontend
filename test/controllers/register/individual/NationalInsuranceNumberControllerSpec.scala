@@ -17,7 +17,7 @@
 package controllers.register.individual
 
 import base.SpecBase
-import config.annotations.IndividualProtector
+import config.annotations.OtherIndividual
 import forms.NationalInsuranceNumberFormProvider
 import models.FullName
 import navigation.{FakeNavigator, Navigator}
@@ -30,11 +30,11 @@ import views.html.register.individual.NationalInsuranceNumberView
 class NationalInsuranceNumberControllerSpec extends SpecBase {
 
   private val formProvider = new NationalInsuranceNumberFormProvider()
-  private val form = formProvider.withPrefix("individualProtector.nationalInsuranceNumber")
+  private val form = formProvider.withPrefix("individualOtherIndividual.nationalInsuranceNumber")
   private val index: Int = 0
   private val name = FullName("first name", None, "Last name")
 
-  lazy val individualProtectorNationalInsuranceNumberRoute = routes.NationalInsuranceNumberController.onPageLoad(index,draftId).url
+  lazy val individualOtherIndividualNationalInsuranceNumberRoute = routes.NationalInsuranceNumberController.onPageLoad(index,draftId).url
 
   "NationalInsuranceNumber Controller" must {
 
@@ -45,7 +45,7 @@ class NationalInsuranceNumberControllerSpec extends SpecBase {
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
-      val request = FakeRequest(GET, individualProtectorNationalInsuranceNumberRoute)
+      val request = FakeRequest(GET, individualOtherIndividualNationalInsuranceNumberRoute)
 
       val result = route(application, request).value
 
@@ -66,7 +66,7 @@ class NationalInsuranceNumberControllerSpec extends SpecBase {
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
-      val request = FakeRequest(GET, individualProtectorNationalInsuranceNumberRoute)
+      val request = FakeRequest(GET, individualOtherIndividualNationalInsuranceNumberRoute)
 
       val view = application.injector.instanceOf[NationalInsuranceNumberView]
 
@@ -88,11 +88,11 @@ class NationalInsuranceNumberControllerSpec extends SpecBase {
       val application =
         applicationBuilder(userAnswers = Some(userAnswers))
           .overrides(
-            bind[Navigator].qualifiedWith(classOf[IndividualProtector]).toInstance(new FakeNavigator)
+            bind[Navigator].qualifiedWith(classOf[OtherIndividual]).toInstance(new FakeNavigator)
           ).build()
 
       val request =
-        FakeRequest(POST, individualProtectorNationalInsuranceNumberRoute)
+        FakeRequest(POST, individualOtherIndividualNationalInsuranceNumberRoute)
           .withFormUrlEncodedBody(("value", "JP123456A"))
 
       val result = route(application, request).value
@@ -111,7 +111,7 @@ class NationalInsuranceNumberControllerSpec extends SpecBase {
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       val request =
-        FakeRequest(POST, individualProtectorNationalInsuranceNumberRoute)
+        FakeRequest(POST, individualOtherIndividualNationalInsuranceNumberRoute)
           .withFormUrlEncodedBody(("value", ""))
 
       val boundForm = form.bind(Map("value" -> ""))
@@ -132,7 +132,7 @@ class NationalInsuranceNumberControllerSpec extends SpecBase {
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val request = FakeRequest(GET, individualProtectorNationalInsuranceNumberRoute)
+      val request = FakeRequest(GET, individualOtherIndividualNationalInsuranceNumberRoute)
 
       val result = route(application, request).value
 
@@ -148,7 +148,7 @@ class NationalInsuranceNumberControllerSpec extends SpecBase {
       val application = applicationBuilder(userAnswers = None).build()
 
       val request =
-        FakeRequest(POST, individualProtectorNationalInsuranceNumberRoute)
+        FakeRequest(POST, individualOtherIndividualNationalInsuranceNumberRoute)
           .withFormUrlEncodedBody(("value", "answer"))
 
       val result = route(application, request).value

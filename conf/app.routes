@@ -17,18 +17,17 @@ GET        /timeout                                     controllers.SessionTimeo
 
 GET        /feature-not-available                       controllers.FeatureNotAvailableController.onPageLoad()
 
-->         /business                                    businessProtector.Routes
-->         /individual                                  individualProtector.Routes
+->         /individual                                  otherIndividual.Routes
 
-GET        /:draftId/add                                controllers.register.AddAProtectorController.onPageLoad(draftId: String)
-POST       /:draftId/add                                controllers.register.AddAProtectorController.submitOne(draftId: String)
-POST       /:draftId/add-another                        controllers.register.AddAProtectorController.submitAnother(draftId: String)
-POST       /complete                                    controllers.register.AddAProtectorController.submitComplete(draftId: String)
+GET        /:draftId/add                                controllers.register.AddOtherIndividualController.onPageLoad(draftId: String)
+POST       /:draftId/add                                controllers.register.AddOtherIndividualController.submitOne(draftId: String)
+POST       /:draftId/add-another                        controllers.register.AddOtherIndividualController.submitAnother(draftId: String)
+POST       /complete                                    controllers.register.AddOtherIndividualController.submitComplete(draftId: String)
 
 GET        /:draftId/individual-or-business             controllers.register.IndividualOrBusinessController.onPageLoad(draftId: String)
 POST       /:draftId/individual-or-business             controllers.register.IndividualOrBusinessController.onSubmit(draftId: String)
 
 GET        /:draftId/information-you-need               controllers.register.InfoController.onPageLoad(draftId: String)
 
-GET        /:draftId/has-protectors                     controllers.register.TrustHasProtectorYesNoController.onPageLoad(draftId: String)
-POST       /:draftId/has-protectors                     controllers.register.TrustHasProtectorYesNoController.onSubmit(draftId: String)
+GET        /:draftId/has-otherIndividuals               controllers.register.TrustHasOtherIndividualYesNoController.onPageLoad(draftId: String)
+POST       /:draftId/has-otherIndividuals               controllers.register.TrustHasOtherIndividualYesNoController.onSubmit(draftId: String)

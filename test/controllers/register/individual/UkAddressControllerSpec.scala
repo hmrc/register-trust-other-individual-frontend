@@ -17,7 +17,7 @@
 package controllers.register.individual
 
 import base.SpecBase
-import config.annotations.IndividualProtector
+import config.annotations.OtherIndividual
 import forms.UkAddressFormProvider
 import models.{FullName, UkAddress}
 import navigation.{FakeNavigator, Navigator}
@@ -89,7 +89,7 @@ class UkAddressControllerSpec extends SpecBase {
       val application =
         applicationBuilder(userAnswers = Some(userAnswers))
           .overrides(
-            bind[Navigator].qualifiedWith(classOf[IndividualProtector]).toInstance(new FakeNavigator)
+            bind[Navigator].qualifiedWith(classOf[OtherIndividual]).toInstance(new FakeNavigator)
           ).build()
 
       val request =

@@ -19,7 +19,7 @@ package controllers.register.individual
 import java.time.{LocalDate, ZoneOffset}
 
 import base.SpecBase
-import config.annotations.IndividualProtector
+import config.annotations.OtherIndividual
 import forms.DateOfBirthFormProvider
 import models.FullName
 import navigation.{FakeNavigator, Navigator}
@@ -33,13 +33,13 @@ import views.html.register.individual.DateOfBirthView
 class DateOfBirthControllerSpec extends SpecBase with MockitoSugar {
 
   private val formProvider = new DateOfBirthFormProvider(frontendAppConfig)
-  private val form = formProvider.withPrefix("individualProtector.dateOfBirth")
+  private val form = formProvider.withPrefix("individualOtherIndividual.dateOfBirth")
   private val index: Int = 0
   private val name = FullName("first name", None, "Last name")
 
   val validAnswer = LocalDate.now(ZoneOffset.UTC)
 
-  lazy val individualProtectorDateOfBirthRoute = routes.DateOfBirthController.onPageLoad(index, draftId).url
+  lazy val individualOtherIndividualDateOfBirthRoute = routes.DateOfBirthController.onPageLoad(index, draftId).url
 
   "DateOfBirth Controller" must {
 
@@ -50,7 +50,7 @@ class DateOfBirthControllerSpec extends SpecBase with MockitoSugar {
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
-      val request = FakeRequest(GET, individualProtectorDateOfBirthRoute)
+      val request = FakeRequest(GET, individualOtherIndividualDateOfBirthRoute)
 
       val result = route(application, request).value
 
@@ -71,7 +71,7 @@ class DateOfBirthControllerSpec extends SpecBase with MockitoSugar {
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
-      val request = FakeRequest(GET, individualProtectorDateOfBirthRoute)
+      val request = FakeRequest(GET, individualOtherIndividualDateOfBirthRoute)
 
       val view = application.injector.instanceOf[DateOfBirthView]
 
@@ -92,11 +92,11 @@ class DateOfBirthControllerSpec extends SpecBase with MockitoSugar {
 
       val application = applicationBuilder(userAnswers = Some(userAnswers))
         .overrides(
-          bind[Navigator].qualifiedWith(classOf[IndividualProtector]).toInstance(new FakeNavigator)
+          bind[Navigator].qualifiedWith(classOf[OtherIndividual]).toInstance(new FakeNavigator)
         ).build()
 
       val request =
-        FakeRequest(POST, individualProtectorDateOfBirthRoute)
+        FakeRequest(POST, individualOtherIndividualDateOfBirthRoute)
           .withFormUrlEncodedBody(
             "value.day"   -> validAnswer.getDayOfMonth.toString,
             "value.month" -> validAnswer.getMonthValue.toString,
@@ -120,7 +120,7 @@ class DateOfBirthControllerSpec extends SpecBase with MockitoSugar {
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       val request =
-        FakeRequest(POST, individualProtectorDateOfBirthRoute)
+        FakeRequest(POST, individualOtherIndividualDateOfBirthRoute)
           .withFormUrlEncodedBody(("value", "invalid value"))
 
       val boundForm = form.bind(Map("value" -> "invalid value"))
@@ -141,7 +141,7 @@ class DateOfBirthControllerSpec extends SpecBase with MockitoSugar {
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val request = FakeRequest(GET, individualProtectorDateOfBirthRoute)
+      val request = FakeRequest(GET, individualOtherIndividualDateOfBirthRoute)
 
       val result = route(application, request).value
 
@@ -156,7 +156,7 @@ class DateOfBirthControllerSpec extends SpecBase with MockitoSugar {
       val application = applicationBuilder(userAnswers = None).build()
 
       val request =
-        FakeRequest(POST, individualProtectorDateOfBirthRoute)
+        FakeRequest(POST, individualOtherIndividualDateOfBirthRoute)
           .withFormUrlEncodedBody(
             "value.day"   -> validAnswer.getDayOfMonth.toString,
             "value.month" -> validAnswer.getMonthValue.toString,

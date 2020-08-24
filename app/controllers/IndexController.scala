@@ -17,7 +17,7 @@
 package controllers
 
 import controllers.actions.register.RegistrationIdentifierAction
-import controllers.register.AnyProtectors
+import controllers.register.AnyOtherIndividuals
 import javax.inject.Inject
 import models.UserAnswers
 import play.api.i18n.I18nSupport
@@ -33,7 +33,7 @@ class IndexController @Inject()(
                                  val controllerComponents: MessagesControllerComponents,
                                  repository: RegistrationsRepository,
                                  identify: RegistrationIdentifierAction
-                               ) extends FrontendBaseController with I18nSupport with AnyProtectors {
+                               ) extends FrontendBaseController with I18nSupport with AnyOtherIndividuals {
 
   implicit val executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
@@ -52,10 +52,10 @@ class IndexController @Inject()(
   }
 
   private def redirect(userAnswers: UserAnswers, draftId: String) = {
-    if (isAnyProtectorAdded(userAnswers)) {
-      Redirect(rts.AddAProtectorController.onPageLoad(draftId))
+    if (isAnyOtherIndividualAdded(userAnswers)) {
+      Redirect(rts.AddOtherIndividualController.onPageLoad(draftId))
     } else {
-      Redirect(rts.TrustHasProtectorYesNoController.onPageLoad(draftId))
+      Redirect(rts.TrustHasOtherIndividualYesNoController.onPageLoad(draftId))
     }
   }
 }
