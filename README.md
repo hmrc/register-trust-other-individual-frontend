@@ -1,5 +1,5 @@
 
-# register-trust-protector-frontend
+# register-trust-other-individual-frontend
 
 This is a placeholder README.md for a new repository
 
