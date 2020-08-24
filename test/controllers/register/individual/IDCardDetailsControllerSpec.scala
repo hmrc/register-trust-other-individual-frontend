@@ -34,7 +34,7 @@ import views.html.register.individual.IDCardDetailsView
 class IDCardDetailsControllerSpec extends SpecBase {
 
   private val formProvider = new PassportOrIdCardFormProvider(frontendAppConfig)
-  private val form = formProvider("individualOtherIndividual.idCardDetails")
+  private val form = formProvider("otherIndividual.idCardDetails")
   private val cardDetails = PassportOrIdCardDetails("UK", "0987654321234", LocalDate.now())
   private val index = 0
   private val name = FullName("FirstName", None, "LastName")

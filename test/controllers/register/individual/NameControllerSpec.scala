@@ -35,7 +35,7 @@ import scala.concurrent.Future
 class NameControllerSpec extends SpecBase {
 
   private val formProvider = new NameFormProvider()
-  private val form = formProvider.withPrefix("individualOtherIndividual.name")
+  private val form = formProvider.withPrefix("otherIndividual.name")
   private val name: FullName = FullName("First", Some("Middle"), "Last")
   private val index: Int = 0
 

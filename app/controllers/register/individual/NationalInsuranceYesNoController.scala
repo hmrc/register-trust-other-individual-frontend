@@ -43,7 +43,7 @@ class NationalInsuranceYesNoController @Inject()(
                                                   view: NationalInsuranceYesNoView
                                                 )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  val form: Form[Boolean] = formProvider.withPrefix("individualOtherIndividual.nationalInsuranceYesNo")
+  val form: Form[Boolean] = formProvider.withPrefix("otherIndividual.nationalInsuranceYesNo")
 
   def onPageLoad(index: Int, draftId: String): Action[AnyContent] = standardActionSets.identifiedUserWithData(draftId).andThen(nameAction(index)) {
     implicit request =>

@@ -41,7 +41,7 @@ class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation 
 
   private val index = 0
   private val testName = FullName("A", Some("Test"), "Name")
-  private val defaultOtherIndividualName = "the otherIndividual"
+  private val defaultOtherIndividualName = "the other individual"
 
   private lazy val removeRoute: String = routes.RemoveOtherIndividualController.onPageLoad(index, fakeDraftId).url
 

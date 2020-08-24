@@ -25,7 +25,7 @@ import views.html.register.individual.IDCardDetailsYesNoView
 
 class IDCardDetailsYesNoViewSpec extends YesNoViewBehaviours {
 
-  private val messageKeyPrefix = "individualOtherIndividual.idCardDetailsYesNo"
+  private val messageKeyPrefix = "otherIndividual.idCardDetailsYesNo"
   private val index = 0
   private val name = FullName("First", Some("middle"), "Last")
 

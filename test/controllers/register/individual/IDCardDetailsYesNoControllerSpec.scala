@@ -30,7 +30,7 @@ import views.html.register.individual.IDCardDetailsYesNoView
 class IDCardDetailsYesNoControllerSpec extends SpecBase {
 
   private val formProvider = new YesNoFormProvider()
-  private val form = formProvider.withPrefix("individualOtherIndividual.idCardDetailsYesNo")
+  private val form = formProvider.withPrefix("otherIndividual.idCardDetailsYesNo")
   private val index: Int = 0
   private val name = FullName("first name", None, "Last name")
 

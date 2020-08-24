@@ -124,7 +124,7 @@ class AddOtherIndividualControllerSpec extends SpecBase {
       }
     }
 
-    "there are no otherIndividuals" must {
+    "there are no other individuals" must {
 
       "return OK and the correct view for a GET" in {
 
@@ -186,7 +186,7 @@ class AddOtherIndividualControllerSpec extends SpecBase {
 
     }
 
-    "there are otherIndividuals" must {
+    "there are other individuals" must {
 
       "return OK and the correct view for a GET" in {
 
@@ -201,7 +201,7 @@ class AddOtherIndividualControllerSpec extends SpecBase {
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(form, fakeDraftId, Nil, otherIndividualsComplete, "You have added 3 otherIndividuals", Nil)(fakeRequest, messages).toString
+          view(form, fakeDraftId, Nil, otherIndividualsComplete, "You have added 3 other individuals", Nil)(fakeRequest, messages).toString
 
         application.stop()
       }
@@ -222,7 +222,7 @@ class AddOtherIndividualControllerSpec extends SpecBase {
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(form, fakeDraftId, Nil, otherIndividualsComplete, "You have added 3 otherIndividuals", Nil)(fakeRequest, messages).toString
+          view(form, fakeDraftId, Nil, otherIndividualsComplete, "You have added 3 other individuals", Nil)(fakeRequest, messages).toString
 
         application.stop()
       }
@@ -262,14 +262,14 @@ class AddOtherIndividualControllerSpec extends SpecBase {
         status(result) mustEqual BAD_REQUEST
 
         contentAsString(result) mustEqual
-          view(boundForm, fakeDraftId, Nil, Nil, "Add a otherIndividual", Nil)(fakeRequest, messages).toString
+          view(boundForm, fakeDraftId, Nil, Nil, "Add other individual", Nil)(fakeRequest, messages).toString
 
         application.stop()
       }
 
     }
 
-    "maxed out otherIndividuals" must {
+    "maxed out other individuals" must {
 
       "return correct view when otherIndividuals is maxed out" in {
 
@@ -284,8 +284,8 @@ class AddOtherIndividualControllerSpec extends SpecBase {
 
         val result = route(application, request).value
 
-        contentAsString(result) must include("You cannot add another otherIndividual as you have entered a maximum of 25.")
-        contentAsString(result) must include("If you have further otherIndividuals to add, write to HMRC with their details.")
+        contentAsString(result) must include("You cannot add another other individual as you have entered a maximum of 25.")
+        contentAsString(result) must include("If you have further other individuals to add, write to HMRC with their details.")
 
         application.stop()
       }

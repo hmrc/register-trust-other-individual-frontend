@@ -42,7 +42,7 @@ class AddressYesNoController @Inject()(
                                         view: AddressYesNoView
                                       )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  val form = formProvider.withPrefix("individualOtherIndividual.addressYesNo")
+  val form = formProvider.withPrefix("otherIndividual.addressYesNo")
 
   def onPageLoad(index: Int, draftId: String): Action[AnyContent] = standardActionSets.identifiedUserWithData(draftId).andThen(nameAction(index)) {
     implicit request =>

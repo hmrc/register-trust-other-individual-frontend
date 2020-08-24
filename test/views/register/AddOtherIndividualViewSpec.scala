@@ -44,10 +44,10 @@ class AddOtherIndividualViewSpec extends OptionsViewBehaviours with TabularDataV
   val view = viewFor[AddOtherIndividualView](Some(emptyUserAnswers))
 
   def applyView(form: Form[_]): HtmlFormat.Appendable =
-    view.apply(form, fakeDraftId, Nil, Nil, "Add a otherIndividual", Nil)(fakeRequest, messages)
+    view.apply(form, fakeDraftId, Nil, Nil, "Add other individual", Nil)(fakeRequest, messages)
 
   def applyView(form: Form[_], inProgressProtectros: Seq[AddRow], completeProtectros: Seq[AddRow], count : Int, maxedOut: List[String]): HtmlFormat.Appendable = {
-    val title = if (count > 1) s"You have added $count otherIndividuals" else "You have added 1 otherIndividual"
+    val title = if (count > 1) s"You have added $count other individuals" else "You have added 1 otherIndividual"
     view.apply(form, fakeDraftId, inProgressProtectros, completeProtectros, title, maxedOut)(fakeRequest, messages)
   }
 
@@ -104,7 +104,7 @@ class AddOtherIndividualViewSpec extends OptionsViewBehaviours with TabularDataV
     }
 
     "there is one maxed out otherIndividual" must {
-      val viewWithData = applyView(form, inProgressOtherIndividuals, completeOtherIndividuals, 4, List("OtherIndividuals"))
+      val viewWithData = applyView(form, inProgressOtherIndividuals, completeOtherIndividuals, 4, List("Other Individuals"))
 
       behave like dynamicTitlePage(viewWithData, "addOtherIndividual.count", "4")
 
@@ -117,8 +117,8 @@ class AddOtherIndividualViewSpec extends OptionsViewBehaviours with TabularDataV
       "shows no radios and shows content for maxed otherIndividuals" in {
         val doc = asDocument(viewWithData)
         assertNotRenderedById(doc, "value")
-        assertContainsText(doc, "You cannot add another otherIndividual as you have entered a maximum of 25.")
-        assertContainsText(doc, "Check the otherIndividuals you have added. If you have further otherIndividuals to add, write to HMRC with their details.")
+        assertContainsText(doc, "You cannot add another other individual as you have entered a maximum of 25.")
+        assertContainsText(doc, "Check the other individuals you have added. If you have further other individuals to add, write to HMRC with their details.")
       }
     }
   }

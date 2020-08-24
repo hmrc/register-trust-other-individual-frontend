@@ -26,7 +26,7 @@ import views.html.register.individual.NationalInsuranceYesNoView
 
 class NationalInsuranceYesNoViewSpec extends YesNoViewBehaviours {
 
-  val messageKeyPrefix = "individualOtherIndividual.nationalInsuranceYesNo"
+  val messageKeyPrefix = "otherIndividual.nationalInsuranceYesNo"
   val index = 0
   val name: FullName = FullName("First", None, "Last")
 

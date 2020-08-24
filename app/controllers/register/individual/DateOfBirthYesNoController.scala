@@ -43,7 +43,7 @@ class DateOfBirthYesNoController @Inject()(
                                             view: DateOfBirthYesNoView
                                           )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  val form: Form[Boolean] = yesNoFormProvider.withPrefix("individualOtherIndividual.dateOfBirthYesNo")
+  val form: Form[Boolean] = yesNoFormProvider.withPrefix("otherIndividual.dateOfBirthYesNo")
 
   def onPageLoad(index: Int, draftId: String): Action[AnyContent] = standardActionSets.identifiedUserWithData(draftId).andThen(nameAction(index)) {
     implicit request =>

@@ -52,7 +52,7 @@ class SubmissionSetFactorySpec extends SpecBase {
       "only one otherIndividual" must {
         "have 'OtherIndividuals' as section key" when {
 
-          "individual otherIndividual only" in {
+          "other Individual only" in {
             val userAnswers: UserAnswers = emptyUserAnswers
               .set(OtherIndividualStatus(0), Completed).success.value
               .set(TrustHasOtherIndividualYesNoPage, true).success.value
@@ -60,9 +60,9 @@ class SubmissionSetFactorySpec extends SpecBase {
             factory.answerSectionsIfCompleted(userAnswers, Some(Completed)) mustBe
               List(
                 AnswerSection(
-                  Some("Individual otherIndividual 1"),
+                  Some("Other Individual 1"),
                   Nil,
-                  Some("OtherIndividuals")
+                  Some("Other Individuals")
                 )
               )
           }
@@ -72,7 +72,7 @@ class SubmissionSetFactorySpec extends SpecBase {
       "more than one OtherIndividual" must {
         "have 'OtherIndividuals' as section key of the topmost section" when {
 
-          "Individual otherIndividuals" in {
+          "Other Individuals" in {
             val userAnswers: UserAnswers = emptyUserAnswers
               .set(OtherIndividualStatus(0), Completed).success.value
               .set(OtherIndividualStatus(1), Completed).success.value
@@ -81,12 +81,12 @@ class SubmissionSetFactorySpec extends SpecBase {
             factory.answerSectionsIfCompleted(userAnswers, Some(Completed)) mustBe
               List(
                 AnswerSection(
-                  Some("Individual otherIndividual 1"),
+                  Some("Other Individual 1"),
                   Nil,
-                  Some("OtherIndividuals")
+                  Some("Other Individuals")
                 ),
                 AnswerSection(
-                  Some("Individual otherIndividual 2"),
+                  Some("Other Individual 2"),
                   Nil,
                   None
                 )

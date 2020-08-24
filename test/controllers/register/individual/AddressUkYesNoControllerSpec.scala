@@ -33,7 +33,7 @@ import views.html.register.individual.AddressUkYesNoView
 class AddressUkYesNoControllerSpec extends SpecBase with MockitoSugar {
 
   private val index = 0
-  private val form: Form[Boolean] = new YesNoFormProvider().withPrefix("individualOtherIndividual.addressUkYesNo")
+  private val form: Form[Boolean] = new YesNoFormProvider().withPrefix("otherIndividual.addressUkYesNo")
   private val addressUkYesNoRoute: String = routes.AddressUkYesNoController.onPageLoad(index, draftId).url
   private val name: FullName = FullName("First", Some("Middle"), "Last")
   private val onwardRoute = Call("GET", "/foo")

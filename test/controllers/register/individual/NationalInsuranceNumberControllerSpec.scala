@@ -30,7 +30,7 @@ import views.html.register.individual.NationalInsuranceNumberView
 class NationalInsuranceNumberControllerSpec extends SpecBase {
 
   private val formProvider = new NationalInsuranceNumberFormProvider()
-  private val form = formProvider.withPrefix("individualOtherIndividual.nationalInsuranceNumber")
+  private val form = formProvider.withPrefix("otherIndividual.nationalInsuranceNumber")
   private val index: Int = 0
   private val name = FullName("first name", None, "Last name")
 

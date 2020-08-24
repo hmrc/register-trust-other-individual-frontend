@@ -41,7 +41,7 @@ class NameController @Inject()(
                                 view: NameView
                               )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  private val form = formProvider.withPrefix("individualOtherIndividual.name")
+  private val form = formProvider.withPrefix("otherIndividual.name")
 
   def onPageLoad(index: Int, draftId: String): Action[AnyContent] = standardActionSets.identifiedUserWithData(draftId) {
     implicit request =>

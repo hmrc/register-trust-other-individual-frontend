@@ -25,7 +25,7 @@
 @(form: Form[_], name: String, index: Int, draftId: String)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = s"${errorPrefix(form)} ${messages("individualOtherIndividual.nationalInsuranceNumber.title")}"
+    title = s"${errorPrefix(form)} ${messages("otherIndividual.nationalInsuranceNumber.title")}"
     ) {
 
     @formHelper(action = NationalInsuranceNumberController.onSubmit(index, draftId), 'autoComplete -> "off") {
@@ -36,11 +36,11 @@
 
         @components.input_text(
             field = form("value"),
-            label = messages("individualOtherIndividual.nationalInsuranceNumber.heading", name),
+            label = messages("otherIndividual.nationalInsuranceNumber.heading", name),
             labelClass = Some("heading-large"),
             labelAsHeading = true,
-            hint = Some(messages("individualOtherIndividual.nationalInsuranceNumber.hint")),
-            readerHint = Some(messages("individualOtherIndividual.nationalInsuranceNumber.hint.reader"))
+            hint = Some(messages("otherIndividual.nationalInsuranceNumber.hint")),
+            readerHint = Some(messages("otherIndividual.nationalInsuranceNumber.hint.reader"))
         )
 
         @components.submit_button()

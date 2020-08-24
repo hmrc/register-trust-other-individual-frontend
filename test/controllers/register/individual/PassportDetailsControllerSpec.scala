@@ -34,7 +34,7 @@ import views.html.register.individual.PassportDetailsView
 class PassportDetailsControllerSpec extends SpecBase {
 
   private val formProvider = new PassportOrIdCardFormProvider(frontendAppConfig)
-  private val form = formProvider("individualOtherIndividual.passportDetails")
+  private val form = formProvider("otherIndividual.passportDetails")
   private val index = 0
   private val name = FullName("FirstName", None, "LastName")
   private val countryOptions: Seq[InputOption] = app.injector.instanceOf[CountryOptions].options

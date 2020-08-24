@@ -25,7 +25,7 @@ import views.html.register.individual.NationalInsuranceNumberView
 
 class NationalInsuranceNumberViewSpec extends StringViewBehaviours {
 
-  val messageKeyPrefix = "individualOtherIndividual.nationalInsuranceNumber"
+  val messageKeyPrefix = "otherIndividual.nationalInsuranceNumber"
   val index = 0
   val name: FullName = FullName("First", None, "Last")
 

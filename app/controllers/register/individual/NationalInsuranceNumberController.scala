@@ -43,7 +43,7 @@ class NationalInsuranceNumberController @Inject()(
                                                    view: NationalInsuranceNumberView
                                                  )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  private val form = formProvider.withPrefix("individualOtherIndividual.nationalInsuranceNumber")
+  private val form = formProvider.withPrefix("otherIndividual.nationalInsuranceNumber")
 
   def onPageLoad(index: Int, draftId: String): Action[AnyContent] = standardActionSets.identifiedUserWithData(draftId).andThen(nameAction(index)) {
     implicit request =>

@@ -26,7 +26,7 @@ import views.html.register.individual.DateOfBirthYesNoView
 
 class DateOfBirthYesNoViewSpec extends YesNoViewBehaviours {
 
-  val messageKeyPrefix = "individualOtherIndividual.dateOfBirthYesNo"
+  val messageKeyPrefix = "otherIndividual.dateOfBirthYesNo"
   val index = 0
   val name: FullName = FullName("First", None, "Last")
 

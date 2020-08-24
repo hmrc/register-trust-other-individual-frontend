@@ -23,7 +23,7 @@ import views.html.register.individual.CheckDetailsView
 class CheckDetailsViewSpec extends ViewBehaviours {
 
   val index = 0
-  val messageKeyPrefix = "individualOtherIndividual.checkDetails"
+  val messageKeyPrefix = "otherIndividual.checkDetails"
 
   "CheckAnswers view" must {
 

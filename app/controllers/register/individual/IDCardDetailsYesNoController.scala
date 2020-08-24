@@ -43,7 +43,7 @@ class IDCardDetailsYesNoController @Inject()(
                                               view: IDCardDetailsYesNoView
                                             )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  private val form = yesNoFormProvider.withPrefix("individualOtherIndividual.idCardDetailsYesNo")
+  private val form = yesNoFormProvider.withPrefix("otherIndividual.idCardDetailsYesNo")
 
   def onPageLoad(index: Int, draftId: String): Action[AnyContent] = standardActionSets.identifiedUserWithData(draftId).andThen(nameAction(index)) {
     implicit request =>

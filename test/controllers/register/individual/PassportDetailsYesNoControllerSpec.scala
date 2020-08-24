@@ -30,7 +30,7 @@ import views.html.register.individual.PassportDetailsYesNoView
 class PassportDetailsYesNoControllerSpec extends SpecBase {
 
   private val formProvider = new YesNoFormProvider()
-  private val form = formProvider.withPrefix("individualOtherIndividual.passportDetailsYesNo")
+  private val form = formProvider.withPrefix("otherIndividual.passportDetailsYesNo")
   private val index: Int = 0
   private val name = FullName("first name", None, "Last name")
 

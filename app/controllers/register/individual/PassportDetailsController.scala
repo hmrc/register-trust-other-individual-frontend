@@ -45,7 +45,7 @@ class PassportDetailsController @Inject()(
                                            val countryOptions: CountryOptions
                                          )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  private val form = formProvider("individualOtherIndividual.passportDetails")
+  private val form = formProvider("otherIndividual.passportDetails")
 
   def onPageLoad(index: Int, draftId: String): Action[AnyContent] = standardActionSets.identifiedUserWithData(draftId).andThen(nameAction(index)) {
     implicit request =>

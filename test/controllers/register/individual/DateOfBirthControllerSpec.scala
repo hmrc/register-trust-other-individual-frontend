@@ -33,7 +33,7 @@ import views.html.register.individual.DateOfBirthView
 class DateOfBirthControllerSpec extends SpecBase with MockitoSugar {
 
   private val formProvider = new DateOfBirthFormProvider(frontendAppConfig)
-  private val form = formProvider.withPrefix("individualOtherIndividual.dateOfBirth")
+  private val form = formProvider.withPrefix("otherIndividual.dateOfBirth")
   private val index: Int = 0
   private val name = FullName("first name", None, "Last name")
 

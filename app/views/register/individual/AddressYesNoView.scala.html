@@ -24,7 +24,7 @@
 @(form: Form[_], name: String, index : Int, draftId: String)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = s"${errorPrefix(form)} ${messages("individualOtherIndividual.addressYesNo.title")}"
+    title = s"${errorPrefix(form)} ${messages("otherIndividual.addressYesNo.title")}"
 ) {
 
     @formHelper(action = AddressYesNoController.onSubmit(index, draftId), 'autoComplete -> "off") {
@@ -35,7 +35,7 @@
 
         @components.input_yes_no(
             field = form("value"),
-            label = messages("individualOtherIndividual.addressYesNo.heading", name),
+            label = messages("otherIndividual.addressYesNo.heading", name),
             legendAsHeading = true
         )
 
