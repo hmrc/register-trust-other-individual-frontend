@@ -17,7 +17,7 @@
 package repositories
 
 import javax.inject.Inject
-import mapping.register.OtherIndividualsMapper
+import mapping.register.OtherIndividualMapper
 import models._
 import pages.register.TrustHasOtherIndividualYesNoPage
 import play.api.i18n.Messages
@@ -27,7 +27,7 @@ import utils.answers.OtherIndividualAnswersHelper
 import viewmodels.{AnswerRow, AnswerSection}
 
 class SubmissionSetFactory @Inject()(registrationProgress: RegistrationProgress,
-                                     otherIndividualsMapper: OtherIndividualsMapper,
+                                     otherIndividualMapper: OtherIndividualMapper,
                                      otherIndividualAnswersHelper: OtherIndividualAnswersHelper) {
 
   def createFrom(userAnswers: UserAnswers)(implicit messages: Messages): RegistrationSubmission.DataSet = {
@@ -44,7 +44,7 @@ class SubmissionSetFactory @Inject()(registrationProgress: RegistrationProgress,
 
   private def mappedDataIfCompleted(userAnswers: UserAnswers, status: Option[Status]) = {
     if (status.contains(Status.Completed)) {
-      otherIndividualsMapper.build(userAnswers) match {
+      otherIndividualMapper.build(userAnswers) match {
         case Some(assets) => List(RegistrationSubmission.MappedPiece("trust/entities/naturalPerson", Json.toJson(assets)))
         case _ => List.empty
       }

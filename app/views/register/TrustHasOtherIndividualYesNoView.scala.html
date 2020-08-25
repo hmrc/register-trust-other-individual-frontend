@@ -15,10 +15,12 @@
  *@
 
 @import controllers.register.routes._
+@import config.FrontendAppConfig
 
 @this(
         main_template: MainTemplate,
-        formHelper: FormWithCSRF
+        formHelper: FormWithCSRF,
+        appConfig: FrontendAppConfig
 )
 
 @(form: Form[_], draftId: String)(implicit request: Request[_], messages: Messages)
@@ -36,9 +38,12 @@
         @components.input_yes_no(
             field = form("value"),
             label = messages("trustHasOtherIndividualYesNo.heading"),
-            legendAsHeading = true
+            legendAsHeading = true,
+            hint = Some(messages("trustHasOtherIndividualYesNo.hint"))
         )
 
         @components.submit_button()
+
+        <p><a href="@{appConfig.registrationProgressUrl(draftId)}">@messages("site.returnToRegistrationProgress")</a></p>
     }
 }

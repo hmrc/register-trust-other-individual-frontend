@@ -16,10 +16,12 @@
 
 @import controllers.register.individual.routes._
 @import utils.InputOption
+@import config.FrontendAppConfig
 
 @this(
         main_template: MainTemplate,
-        formHelper: FormWithCSRF
+        formHelper: FormWithCSRF,
+        appConfig: FrontendAppConfig
 )
 
 @(form: Form[_], countryOptions: Seq[InputOption], name: String, index : Int, draftId: String)(implicit request: Request[_], messages: Messages)
@@ -39,5 +41,7 @@
         @components.international_address(form, countryOptions)
 
         @components.submit_button()
+
+        <p><a href="@{appConfig.registrationProgressUrl(draftId)}">@messages("site.returnToRegistrationProgress")</a></p>
     }
 }
