@@ -18,131 +18,267 @@ package navigation
 
 import base.SpecBase
 import config.FrontendAppConfig
-import controllers.register.individual.{routes => irts}
 import controllers.register.{routes => rts}
+import controllers.register.individual.{routes => irts}
 import generators.Generators
-import models.{FullName, UserAnswers}
-import models.register.pages.{AddOtherIndividual, IndividualOrBusinessToAdd}
+import models._
+import models.register.pages.AddOtherIndividual
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
-import pages.register._
-import pages.register.individual.NamePage
+import pages.register.{AddOtherIndividualPage, AddOtherIndividualYesNoPage, AnswersPage, TrustHasOtherIndividualYesNoPage}
+import pages.register.individual._
 import play.api.mvc.Call
 
 class OtherIndividualNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Generators {
+
+  val navigator = new OtherIndividualNavigator(frontendAppConfig)
+  val index = 0
 
   private def otherIndividualsCompletedRoute(draftId: String, config: FrontendAppConfig): Call = {
     Call("GET", config.registrationProgressUrl(draftId))
   }
 
-  val navigator: OtherIndividualNavigator = injector.instanceOf[OtherIndividualNavigator]
+  "OtherIndividual navigator" must {
 
-   "AnswersPage" when {
-     "go to AddOtherIndividualPage from AnswersPage" in {
-       forAll(arbitrary[UserAnswers]) {
-         userAnswers =>
-           navigator.nextPage(AnswersPage, fakeDraftId, userAnswers)
-             .mustBe(controllers.register.routes.AddOtherIndividualController.onPageLoad(fakeDraftId))
-       }
-     }
-   }
-
-
-  "AddOtherIndividualYesNoPage" when {
-
-    "go to NamePage from AddOtherIndividualYesNoPage when selected yes" in {
-
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
-
-          val index = 0
-          val answers = userAnswers.set(AddOtherIndividualYesNoPage, true).success.value
-
-          navigator.nextPage(AddOtherIndividualYesNoPage, fakeDraftId, answers)
-            .mustBe(controllers.register.individual.routes.NameController.onPageLoad(index, fakeDraftId))
+      "AnswersPage -> AddOtherIndividualPage" in {
+        forAll(arbitrary[UserAnswers]) {
+          userAnswers =>
+            navigator.nextPage(AnswersPage, fakeDraftId, userAnswers)
+              .mustBe(controllers.register.routes.AddOtherIndividualController.onPageLoad(fakeDraftId))
+        }
       }
 
+      "AddOtherIndividualYesNoPage -> Yes -> NamePage from AddOtherIndividualYesNoPage" in {
+
+        forAll(arbitrary[UserAnswers]) {
+          userAnswers =>
+
+            val index = 0
+            val answers = userAnswers.set(AddOtherIndividualYesNoPage, true).success.value
+
+            navigator.nextPage(AddOtherIndividualYesNoPage, fakeDraftId, answers)
+              .mustBe(controllers.register.individual.routes.NameController.onPageLoad(index, fakeDraftId))
+        }
+
+      }
+
+      "AddOtherIndividualYesNoPage -> No -> RegistrationProgress" in {
+
+        forAll(arbitrary[UserAnswers]) {
+          userAnswers =>
+
+            val answers = userAnswers.set(AddOtherIndividualYesNoPage, false).success.value
+
+            navigator.nextPage(AddOtherIndividualYesNoPage, fakeDraftId, answers)
+              .mustBe(otherIndividualsCompletedRoute(fakeDraftId, frontendAppConfig))
+        }
+      }
+
+      "AddOtherIndividualPage -> add them now -> NamePage" in {
+        forAll(arbitrary[UserAnswers]) {
+          userAnswers =>
+
+            val index = 0
+            val answers = userAnswers.set(AddOtherIndividualPage, AddOtherIndividual.YesNow).success.value
+
+            navigator.nextPage(AddOtherIndividualPage, fakeDraftId, answers)
+              .mustBe(controllers.register.individual.routes.NameController.onPageLoad(index, fakeDraftId))
+        }
+
+      }
+
+      "ddOtherIndividualPage -> add them later -> RegistrationProgress" in {
+        forAll(arbitrary[UserAnswers]) {
+          userAnswers =>
+
+            val answers = userAnswers
+              .set(NamePage(0), FullName("First", None, "Last")).success.value
+              .set(AddOtherIndividualPage, AddOtherIndividual.YesLater).success.value
+
+            navigator.nextPage(AddOtherIndividualPage, fakeDraftId, answers)
+              .mustBe(otherIndividualsCompletedRoute(fakeDraftId, frontendAppConfig))
+        }
+      }
+
+      "ddOtherIndividualPage -> added them all -> RegistrationProgress" in {
+        forAll(arbitrary[UserAnswers]) {
+          userAnswers =>
+
+            val answers = userAnswers
+              .set(NamePage(0), FullName("First", None, "Last")).success.value
+              .set(AddOtherIndividualPage, AddOtherIndividual.NoComplete).success.value
+
+            navigator.nextPage(AddOtherIndividualPage, fakeDraftId, answers)
+              .mustBe(otherIndividualsCompletedRoute(fakeDraftId, frontendAppConfig))
+        }
+      }
+
+      "TrustHasOtherIndividualYesNoPage -> yes -> InfoPage" in {
+        forAll(arbitrary[UserAnswers]) {
+          userAnswers =>
+            val answers = userAnswers.set(TrustHasOtherIndividualYesNoPage, value = true).success.value
+
+            navigator.nextPage(TrustHasOtherIndividualYesNoPage, fakeDraftId, answers)
+              .mustBe(rts.InfoController.onPageLoad(fakeDraftId))
+        }
+      }
+
+      "TrustHasOtherIndividualYesNoPage -> no -> RegistrationProgress" in {
+        forAll(arbitrary[UserAnswers]) {
+          userAnswers =>
+            val answers = userAnswers.set(TrustHasOtherIndividualYesNoPage, value = false).success.value
+
+            navigator.nextPage(TrustHasOtherIndividualYesNoPage, fakeDraftId, answers)
+              .mustBe(otherIndividualsCompletedRoute(fakeDraftId, frontendAppConfig))
+        }
+      }
+
+    "NamePage -> DateOfBirthYesNoPage" in {
+      forAll(arbitrary[UserAnswers]) {
+        userAnswers =>
+          navigator.nextPage(NamePage(index), draftId, userAnswers)
+            .mustBe(irts.DateOfBirthYesNoController.onPageLoad(index, draftId))
+      }
     }
 
-    "go to RegistrationProgress from AddOtherIndividualYesNoPage when selected no" in {
-
+    "DateOfBirthYesNoPage -> Yes -> DateOfBirthPage" in {
       forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
-
-          val answers = userAnswers.set(AddOtherIndividualYesNoPage, false).success.value
-
-          navigator.nextPage(AddOtherIndividualYesNoPage, fakeDraftId, answers)
-            .mustBe(otherIndividualsCompletedRoute(fakeDraftId, frontendAppConfig))
+        baseAnswers =>
+          val answers = baseAnswers.set(DateOfBirthYesNoPage(index), true).success.value
+          navigator.nextPage(DateOfBirthYesNoPage(index), draftId, answers)
+            .mustBe(irts.DateOfBirthController.onPageLoad(index, draftId))
       }
     }
 
-    "go to NamePage from AddOtherIndividualPage when selected add them now" in {
+    "DateOfBirthYesNoPage -> No -> NationalInsuranceYesNoPage" in {
+      forAll(arbitrary[UserAnswers]) {
+        baseAnswers =>
+          val answers = baseAnswers.set(DateOfBirthYesNoPage(index), false).success.value
+          navigator.nextPage(DateOfBirthYesNoPage(index), draftId, answers)
+            .mustBe(irts.NationalInsuranceYesNoController.onPageLoad(index, draftId))
+      }
+    }
+
+    "DateOfBirthPage -> NationalInsuranceYesNoPage" in {
       forAll(arbitrary[UserAnswers]) {
         userAnswers =>
-
-          val index = 0
-          val answers = userAnswers.set(AddOtherIndividualPage, AddOtherIndividual.YesNow).success.value
-
-          navigator.nextPage(AddOtherIndividualPage, fakeDraftId, answers)
-            .mustBe(controllers.register.individual.routes.NameController.onPageLoad(index, fakeDraftId))
+          navigator.nextPage(DateOfBirthPage(index), draftId, userAnswers)
+            .mustBe(irts.NationalInsuranceYesNoController.onPageLoad(index, draftId))
       }
+    }
 
+    "NationalInsuranceYesNoPage -> Yes -> NationalInsurancePage" in {
+      forAll(arbitrary[UserAnswers]) {
+        baseAnswers =>
+          val answers = baseAnswers.set(NationalInsuranceYesNoPage(index), true).success.value
+          navigator.nextPage(NationalInsuranceYesNoPage(index), draftId, answers)
+            .mustBe(irts.NationalInsuranceNumberController.onPageLoad(index, draftId))
+      }
+    }
+
+    "NationalInsuranceYesNoPage -> No -> AddressYesNoPage" in {
+      forAll(arbitrary[UserAnswers]) {
+        baseAnswers =>
+          val answers = baseAnswers.set(NationalInsuranceYesNoPage(index), false).success.value
+          navigator.nextPage(NationalInsuranceYesNoPage(index), draftId, answers)
+            .mustBe(irts.AddressYesNoController.onPageLoad(index, draftId))
+      }
+    }
+
+    "NationalInsurancePage -> CheckDetailsPage" in {
+      forAll(arbitrary[UserAnswers]) {
+        userAnswers =>
+          navigator.nextPage(NationalInsuranceNumberPage(index), draftId, userAnswers)
+            .mustBe(irts.CheckDetailsController.onPageLoad(index, draftId))
+      }
+    }
+    
+    "AddressYesNoPage -> Yes -> AddressUkYesNoPage" in {
+      val answers = emptyUserAnswers
+        .set(AddressYesNoPage(index), true).success.value
+
+      navigator.nextPage(AddressYesNoPage(index), draftId, answers)
+        .mustBe(irts.AddressUkYesNoController.onPageLoad(index, draftId))
+    }
+
+    "AddressYesNoPage -> No -> CheckDetailsPage" in {
+      val answers = emptyUserAnswers
+        .set(AddressYesNoPage(index), false).success.value
+
+      navigator.nextPage(AddressYesNoPage(index), draftId, answers)
+        .mustBe(irts.CheckDetailsController.onPageLoad(index, draftId))
+    }
+
+    "AddressUkYesNoPage -> Yes -> UKAddressPage" in {
+      val answers = emptyUserAnswers
+        .set(AddressUkYesNoPage(index), true).success.value
+
+      navigator.nextPage(AddressUkYesNoPage(index), draftId, answers)
+        .mustBe(irts.UkAddressController.onPageLoad(index, draftId))
+    }
+
+    "AddressUkYesNoPage -> No -> NonUKAddressPage" in {
+      val answers = emptyUserAnswers
+        .set(AddressUkYesNoPage(index), false).success.value
+
+      navigator.nextPage(AddressUkYesNoPage(index), draftId, answers)
+        .mustBe(irts.NonUkAddressController.onPageLoad(index, draftId))
+    }
+
+    "UKAddressPage -> PassportDetailsYesNoController" in {
+      forAll(arbitrary[UserAnswers]) {
+        userAnswers =>
+          navigator.nextPage(UkAddressPage(index), draftId, userAnswers)
+            .mustBe(irts.PassportDetailsYesNoController.onPageLoad(index, draftId))
+      }
+    }
+
+    "NonUKAddressPage -> PassportDetailsYesNoController" in {
+      forAll(arbitrary[UserAnswers]) {
+        userAnswers =>
+          navigator.nextPage(NonUkAddressPage(index), draftId, userAnswers)
+            .mustBe(irts.PassportDetailsYesNoController.onPageLoad(index, draftId))
+      }
+    }
+
+    "PassportDetailsYesNoPage -> Yes -> PassportDetailsPage" in {
+      val answers = emptyUserAnswers
+        .set(PassportDetailsYesNoPage(index), true).success.value
+
+      navigator.nextPage(PassportDetailsYesNoPage(index), draftId, answers)
+        .mustBe(irts.PassportDetailsController.onPageLoad(index, draftId))
+    }
+
+    "PassportDetailsYesNoPage -> No -> IDCardDetailsYesNoPage" in {
+      val answers = emptyUserAnswers
+        .set(PassportDetailsYesNoPage(index), false).success.value
+
+      navigator.nextPage(PassportDetailsYesNoPage(index), draftId, answers)
+        .mustBe(irts.IDCardDetailsYesNoController.onPageLoad(index, draftId))
+    }
+
+    "IDCardDetailsYesNoPage -> Yes -> IDCardDetailsPage" in {
+      val answers = emptyUserAnswers
+        .set(IDCardDetailsYesNoPage(index), true).success.value
+
+      navigator.nextPage(IDCardDetailsYesNoPage(index), draftId, answers)
+        .mustBe(irts.IDCardDetailsController.onPageLoad(index, draftId))
+    }
+
+    "IDCardDetailsYesNoPage -> No -> CheckDetailsPage" in {
+      val answers = emptyUserAnswers
+        .set(IDCardDetailsYesNoPage(index), false).success.value
+
+      navigator.nextPage(IDCardDetailsYesNoPage(index), draftId, answers)
+        .mustBe(irts.CheckDetailsController.onPageLoad(index, draftId))
+    }
+
+    "CheckDetailsPage -> AddOtherIndividualPage" in {
+      forAll(arbitrary[UserAnswers]) {
+        userAnswers =>
+          navigator.nextPage(CheckDetailsPage, draftId, userAnswers)
+            .mustBe(rts.AddOtherIndividualController.onPageLoad(draftId))
+      }
     }
   }
-
-
-  "go to RegistrationProgress from AddOtherIndividualPage" when {
-
-    "selecting add them later" in {
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
-
-          val answers = userAnswers
-            .set(NamePage(0), FullName("First", None, "Last")).success.value
-            .set(AddOtherIndividualPage, AddOtherIndividual.YesLater).success.value
-
-          navigator.nextPage(AddOtherIndividualPage, fakeDraftId, answers)
-            .mustBe(otherIndividualsCompletedRoute(fakeDraftId, frontendAppConfig))
-      }
-    }
-
-    "selecting added them all" in {
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
-
-          val answers = userAnswers
-            .set(NamePage(0), FullName("First", None, "Last")).success.value
-            .set(AddOtherIndividualPage, AddOtherIndividual.NoComplete).success.value
-
-          navigator.nextPage(AddOtherIndividualPage, fakeDraftId, answers)
-            .mustBe(otherIndividualsCompletedRoute(fakeDraftId, frontendAppConfig))
-      }
-    }
-
-  }
-
-  "TrustHasOtherIndividualYesNoPage" when {
-
-    "go to InfoPage from TrustHasOtherIndividualYesNoPage when yes selected" in {
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
-          val answers = userAnswers.set(TrustHasOtherIndividualYesNoPage, value = true).success.value
-
-          navigator.nextPage(TrustHasOtherIndividualYesNoPage, fakeDraftId, answers)
-            .mustBe(rts.InfoController.onPageLoad(fakeDraftId))
-      }
-    }
-
-    "go to RegistrationProgress from TrustHasOtherIndividualYesNoPage when no selected" in {
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
-          val answers = userAnswers.set(TrustHasOtherIndividualYesNoPage, value = false).success.value
-
-          navigator.nextPage(TrustHasOtherIndividualYesNoPage, fakeDraftId, answers)
-            .mustBe(otherIndividualsCompletedRoute(fakeDraftId, frontendAppConfig))
-      }
-    }
-
-  }
-
 }

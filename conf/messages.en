@@ -238,13 +238,6 @@ otherIndividualsInfo.paragraph2 = If the other individual is a business, tell us
 otherIndividualsInfo.bulletpoint4 = Unique Taxpayer Reference (UTR)
 otherIndividualsInfo.bulletpoint5 = address
 
-individualOrBusiness.title = Is the other individual an individual or a business?
-individualOrBusiness.heading = Is the other individual an individual or a business?
-individualOrBusiness.checkYourAnswersLabel = Is the other individual an individual or a business?
-individualOrBusiness.error.required = Select the type of other individual you need to add
-individualOrBusiness.individual = Individual
-individualOrBusiness.business = Business
-
 removeOtherIndividual.title = Are you sure you want to remove the other individual?
 removeOtherIndividual.heading = Are you sure you want to remove {0}?
 removeOtherIndividual.error.required = Select yes if you want to remove the other individual

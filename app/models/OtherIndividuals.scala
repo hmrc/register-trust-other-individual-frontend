@@ -16,25 +16,12 @@
 
 package models
 
-import models.register.pages.IndividualOrBusinessToAdd
-import viewmodels.RadioOption
 import viewmodels.addAnother.OtherIndividualViewModel
 
 case class OtherIndividuals(individuals: List[OtherIndividualViewModel] = Nil) {
 
-  type OtherIndividualOption = (Int, IndividualOrBusinessToAdd)
-  type OtherIndividualOptions = List[OtherIndividualOption]
+  val size: Int = individuals.size
 
-  private val options: OtherIndividualOptions = {
-    (individuals.size, IndividualOrBusinessToAdd.Individual) ::
-      Nil
-  }
-
-  val maxedOutOptions: List[RadioOption] = {
-
-    options.filter(x => x._1 >= 25).map {
-      x => RadioOption(IndividualOrBusinessToAdd.prefix, x._2.toString)
-    }
-  }
+  val isMaxedOut: Boolean = size >= 25
 
 }

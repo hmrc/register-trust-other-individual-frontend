@@ -17,6 +17,7 @@
 package controllers.register
 
 import config.FrontendAppConfig
+import config.annotations.OtherIndividual
 import controllers.actions.{RequiredAnswer, RequiredAnswerActionProvider, StandardActionSets}
 import forms.{AddOtherIndividualFormProvider, YesNoFormProvider}
 import javax.inject.Inject
@@ -38,7 +39,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class AddOtherIndividualController @Inject()(
                                            override val messagesApi: MessagesApi,
                                            registrationsRepository: RegistrationsRepository,
-                                           navigator: Navigator,
+                                           @OtherIndividual navigator: Navigator,
                                            standardActionSets: StandardActionSets,
                                            requiredAnswer: RequiredAnswerActionProvider,
                                            addAnotherFormProvider: AddOtherIndividualFormProvider,
@@ -73,14 +74,24 @@ class AddOtherIndividualController @Inject()(
 
       val allOtherIndividuals = otherIndividuals(request.userAnswers)
 
-      if(rows.count > 0) {
-        val listOfMaxed = allOtherIndividuals.maxedOutOptions.map(_.messageKey)
-        if(listOfMaxed.size == 1) {Logger.info(s"[AddOtherIndividualController] ${request.internalId} has maxed out otherIndividuals")}
-        else {Logger.info(s"[AddOtherIndividualController] ${request.internalId} has not maxed out otherIndividuals")}
-        Ok(addAnotherView(addAnotherForm, draftId, rows.inProgress, rows.complete, heading(rows.count), listOfMaxed))
-      } else {
-        Logger.info(s"[AddOtherIndividualController] ${request.internalId} has added no otherIndividuals")
-        Ok(yesNoView(yesNoForm, draftId))
+      allOtherIndividuals.size match {
+        case 0 =>
+          Logger.info(s"[AddOtherIndividualController] ${request.internalId} has added no other individuals")
+          Ok(yesNoView(yesNoForm, draftId))
+        case _ =>
+          if (allOtherIndividuals.isMaxedOut) {
+            Logger.info(s"[AddOtherIndividualController] ${request.internalId} has maxed out otherIndividuals")
+          } else {
+            Logger.info(s"[AddOtherIndividualController] ${request.internalId} has not maxed out otherIndividuals")
+          }
+          Ok(addAnotherView(
+            addAnotherForm,
+            draftId,
+            rows.inProgress,
+            rows.complete,
+            heading(rows.count),
+            allOtherIndividuals.isMaxedOut
+          ))
       }
   }
 
@@ -109,7 +120,6 @@ class AddOtherIndividualController @Inject()(
 
           val rows = new AddOtherIndividualViewHelper(request.userAnswers, draftId).rows
           val allOtherIndividuals = otherIndividuals(request.userAnswers)
-          val listOfMaxed = allOtherIndividuals.maxedOutOptions.map(_.messageKey)
 
           Future.successful(BadRequest(
             addAnotherView(
@@ -118,7 +128,7 @@ class AddOtherIndividualController @Inject()(
               rows.inProgress,
               rows.complete,
               heading(rows.count),
-              listOfMaxed
+              allOtherIndividuals.isMaxedOut
             )
           ))
         },

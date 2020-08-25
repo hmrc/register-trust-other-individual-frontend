@@ -17,7 +17,7 @@
 package generators
 
 import models._
-import models.register.pages.{AddOtherIndividual, IndividualOrBusinessToAdd}
+import models.register.pages.AddOtherIndividual
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.{Arbitrary, Gen}
 
@@ -44,11 +44,6 @@ trait ModelGenerators {
   implicit lazy val arbitraryAddOtherIndividual: Arbitrary[AddOtherIndividual] =
     Arbitrary {
       Gen.oneOf(AddOtherIndividual.values)
-    }
-
-  implicit lazy val arbitraryIndividualOrBusiness: Arbitrary[IndividualOrBusinessToAdd] =
-    Arbitrary {
-      Gen.oneOf(IndividualOrBusinessToAdd.values)
     }
 
 }

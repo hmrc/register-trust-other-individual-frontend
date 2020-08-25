@@ -44,9 +44,9 @@ class AddOtherIndividualViewSpec extends OptionsViewBehaviours with TabularDataV
   val view = viewFor[AddOtherIndividualView](Some(emptyUserAnswers))
 
   def applyView(form: Form[_]): HtmlFormat.Appendable =
-    view.apply(form, fakeDraftId, Nil, Nil, "Add other individual", Nil)(fakeRequest, messages)
+    view.apply(form, fakeDraftId, Nil, Nil, "Add other individual", false)(fakeRequest, messages)
 
-  def applyView(form: Form[_], inProgressProtectros: Seq[AddRow], completeProtectros: Seq[AddRow], count : Int, maxedOut: List[String]): HtmlFormat.Appendable = {
+  def applyView(form: Form[_], inProgressProtectros: Seq[AddRow], completeProtectros: Seq[AddRow], count : Int, maxedOut: Boolean): HtmlFormat.Appendable = {
     val title = if (count > 1) s"You have added $count other individuals" else "You have added 1 otherIndividual"
     view.apply(form, fakeDraftId, inProgressProtectros, completeProtectros, title, maxedOut)(fakeRequest, messages)
   }
@@ -66,7 +66,7 @@ class AddOtherIndividualViewSpec extends OptionsViewBehaviours with TabularDataV
 
     "there is data in progress" must {
 
-      val viewWithData = applyView(form, inProgressOtherIndividuals, Nil, 2, Nil)
+      val viewWithData = applyView(form, inProgressOtherIndividuals, Nil, 2, false)
 
       behave like dynamicTitlePage(viewWithData, "addOtherIndividual.count", "2")
 
@@ -79,7 +79,7 @@ class AddOtherIndividualViewSpec extends OptionsViewBehaviours with TabularDataV
 
     "there is complete data" must {
 
-      val viewWithData = applyView(form, Nil, completeOtherIndividuals, 2, Nil)
+      val viewWithData = applyView(form, Nil, completeOtherIndividuals, 2, false)
 
       behave like dynamicTitlePage(viewWithData, "addOtherIndividual.count", "2")
 
@@ -92,7 +92,7 @@ class AddOtherIndividualViewSpec extends OptionsViewBehaviours with TabularDataV
 
     "there is both in progress and complete data" must {
 
-      val viewWithData = applyView(form, inProgressOtherIndividuals, completeOtherIndividuals, 4, Nil)
+      val viewWithData = applyView(form, inProgressOtherIndividuals, completeOtherIndividuals, 4, false)
 
       behave like dynamicTitlePage(viewWithData, "addOtherIndividual.count", "4")
 
@@ -104,7 +104,7 @@ class AddOtherIndividualViewSpec extends OptionsViewBehaviours with TabularDataV
     }
 
     "there is one maxed out otherIndividual" must {
-      val viewWithData = applyView(form, inProgressOtherIndividuals, completeOtherIndividuals, 4, List("Other Individuals"))
+      val viewWithData = applyView(form, inProgressOtherIndividuals, completeOtherIndividuals, 4, true)
 
       behave like dynamicTitlePage(viewWithData, "addOtherIndividual.count", "4")
 

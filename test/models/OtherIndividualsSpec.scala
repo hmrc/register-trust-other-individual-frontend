@@ -18,7 +18,6 @@ package models
 
 import base.SpecBase
 import models.Status._
-import models.register.pages.IndividualOrBusinessToAdd
 import viewmodels.addAnother.OtherIndividualViewModel
 
 class OtherIndividualsSpec extends SpecBase {
@@ -29,18 +28,16 @@ class OtherIndividualsSpec extends SpecBase {
 
   val individual: OtherIndividualViewModel = OtherIndividualViewModel(Some(name), Completed)
 
-  val prefix: String = IndividualOrBusinessToAdd.prefix
-
   "otherIndividuals model" must {
 
-    "determine maxed-out options" when {
+    "determine isMaxedOut" when {
 
       "otherIndividuals maxed out" in {
         val otherIndividuals = OtherIndividuals(
           individuals = List.fill(max)(individual)
         )
 
-        otherIndividuals.maxedOutOptions.size mustEqual (1)
+        otherIndividuals.isMaxedOut mustEqual true
       }
 
       "otherIndividuals not maxed out" in {
@@ -48,7 +45,7 @@ class OtherIndividualsSpec extends SpecBase {
           individuals = List.fill(max - 1)(individual)
         )
 
-        otherIndividuals.maxedOutOptions.size mustEqual (0)
+        otherIndividuals.isMaxedOut mustEqual false
       }
     }
   }

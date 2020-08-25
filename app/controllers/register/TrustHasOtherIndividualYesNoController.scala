@@ -17,6 +17,7 @@
 package controllers.register
 
 import config.FrontendAppConfig
+import config.annotations.OtherIndividual
 import controllers.actions.StandardActionSets
 import forms.YesNoFormProvider
 import javax.inject.Inject
@@ -33,7 +34,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class TrustHasOtherIndividualYesNoController @Inject()(
                                     override val messagesApi: MessagesApi,
                                     repository: RegistrationsRepository,
-                                    navigator: Navigator,
+                                    @OtherIndividual navigator: Navigator,
                                     standardActionSets: StandardActionSets,
                                     formProvider: YesNoFormProvider,
                                     val controllerComponents: MessagesControllerComponents,

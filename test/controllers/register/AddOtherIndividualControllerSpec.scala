@@ -29,6 +29,7 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import viewmodels.AddRow
 import views.html.register.{AddOtherIndividualView, TrustHasOtherIndividualYesNoView}
+import controllers.register.individual.{routes => irts}
 
 class AddOtherIndividualControllerSpec extends SpecBase {
 
@@ -46,6 +47,8 @@ class AddOtherIndividualControllerSpec extends SpecBase {
   private lazy val addOtherIndividualRoute = routes.AddOtherIndividualController.onPageLoad(fakeDraftId).url
 
   private lazy val trustHasOtherIndividualRoute = routes.TrustHasOtherIndividualYesNoController.onPageLoad(fakeDraftId).url
+
+  private lazy val nameRoute = irts.NameController.onPageLoad(index, fakeDraftId).url
 
   private lazy val addOnePostRoute = routes.AddOtherIndividualController.submitOne(fakeDraftId).url
 
@@ -157,7 +160,7 @@ class AddOtherIndividualControllerSpec extends SpecBase {
 
         status(result) mustEqual SEE_OTHER
 
-        redirectLocation(result).value mustEqual onwardRoute.url
+        redirectLocation(result).value mustEqual nameRoute
 
         application.stop()
       }
@@ -201,7 +204,7 @@ class AddOtherIndividualControllerSpec extends SpecBase {
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(form, fakeDraftId, Nil, otherIndividualsComplete, "You have added 3 other individuals", Nil)(fakeRequest, messages).toString
+          view(form, fakeDraftId, Nil, otherIndividualsComplete, "You have added 3 other individuals", false)(fakeRequest, messages).toString
 
         application.stop()
       }
@@ -222,13 +225,14 @@ class AddOtherIndividualControllerSpec extends SpecBase {
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(form, fakeDraftId, Nil, otherIndividualsComplete, "You have added 3 other individuals", Nil)(fakeRequest, messages).toString
+          view(form, fakeDraftId, Nil, otherIndividualsComplete, "You have added 3 other individuals", false)(fakeRequest, messages).toString
 
         application.stop()
       }
 
       "redirect to the next page when valid data is submitted" in {
 
+        val index =3
         val application =
           applicationBuilder(userAnswers = Some(userAnswersWithOtherIndividualsComplete)).build()
 
@@ -240,7 +244,7 @@ class AddOtherIndividualControllerSpec extends SpecBase {
 
         status(result) mustEqual SEE_OTHER
 
-        redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
+        redirectLocation(result).value mustEqual irts.NameController.onPageLoad(index, fakeDraftId).url
 
         application.stop()
       }
@@ -262,7 +266,7 @@ class AddOtherIndividualControllerSpec extends SpecBase {
         status(result) mustEqual BAD_REQUEST
 
         contentAsString(result) mustEqual
-          view(boundForm, fakeDraftId, Nil, Nil, "Add other individual", Nil)(fakeRequest, messages).toString
+          view(boundForm, fakeDraftId, Nil, Nil, "Add other individual", false)(fakeRequest, messages).toString
 
         application.stop()
       }

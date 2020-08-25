@@ -88,7 +88,7 @@ class TrustHasOtherIndividualYesNoControllerSpec extends SpecBase with MockitoSu
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual onwardRoute.url
+      redirectLocation(result).value mustEqual routes.InfoController.onPageLoad(draftId).url
 
       application.stop()
     }

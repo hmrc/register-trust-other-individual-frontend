@@ -28,14 +28,14 @@
     inProgress: Seq[AddRow],
     complete: Seq[AddRow],
     heading: String,
-    maxedOut: List[String]
+    maxedOut: Boolean
 )(implicit request: Request[_], messages: Messages)
 
 @main_template(
     title = s"${errorPrefix(form)} $heading"
     ) {
 
-        @formHelper(action = if(maxedOut.size == 1) {AddOtherIndividualController.submitComplete(draftId)} else {AddOtherIndividualController.submitAnother(draftId)}, 'autoComplete -> "off") {
+        @formHelper(action = if(maxedOut) {AddOtherIndividualController.submitComplete(draftId)} else {AddOtherIndividualController.submitAnother(draftId)}, 'autoComplete -> "off") {
 
         @components.back_link()
 
@@ -47,7 +47,7 @@
 
         @components.data_list(complete, "complete", "otherIndividual")
 
-        @if(maxedOut.size == 1) {
+        @if(maxedOut) {
         <ul>
             <li class="panel-indent"><p>@messages("addOtherIndividual.maxedOut")</p></li>
             <li class="panel-indent"><p>@messages("addOtherIndividual.maxedOut.paragraph")</p></li>
