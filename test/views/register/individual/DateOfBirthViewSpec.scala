@@ -27,13 +27,13 @@ import views.html.register.individual.DateOfBirthView
 
 class DateOfBirthViewSpec extends QuestionViewBehaviours[LocalDate] {
 
-  val messageKeyPrefix = "individualProtector.dateOfBirth"
+  val messageKeyPrefix = "otherIndividual.dateOfBirth"
   val index = 0
   val name: FullName = FullName("First", None, "Last")
 
-  val form = new DateOfBirthFormProvider(frontendAppConfig).withPrefix("individualProtector.dateOfBirth")
+  val form = new DateOfBirthFormProvider(frontendAppConfig).withPrefix("otherIndividual.dateOfBirth")
 
-  "IndividualProtectorDateOfBirthView view" must {
+  "OtherIndividualDateOfBirthView view" must {
 
     val view = viewFor[DateOfBirthView](Some(emptyUserAnswers))
 

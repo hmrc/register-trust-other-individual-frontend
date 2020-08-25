@@ -15,16 +15,18 @@
  *@
 
 @import controllers.register.individual.routes._
+@import config.FrontendAppConfig
 
 @this(
         main_template: MainTemplate,
-        formHelper: FormWithCSRF
+        formHelper: FormWithCSRF,
+        appConfig: FrontendAppConfig
 )
 
 @(form: Form[_], name: String, index : Int, draftId: String)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = s"${errorPrefix(form)} ${messages("individualProtector.addressUkYesNo.title", name)}"
+    title = s"${errorPrefix(form)} ${messages("otherIndividual.addressUkYesNo.title", name)}"
 ) {
 
     @formHelper(action = AddressUkYesNoController.onSubmit(index, draftId), 'autoComplete -> "off") {
@@ -35,10 +37,12 @@
 
         @components.input_yes_no(
             field = form("value"),
-            label = messages("individualProtector.addressUkYesNo.heading", name),
+            label = messages("otherIndividual.addressUkYesNo.heading", name),
             legendAsHeading = true
         )
 
         @components.submit_button()
+
+        <p><a href="@{appConfig.registrationProgressUrl(draftId)}">@messages("site.returnToRegistrationProgress")</a></p>
     }
 }

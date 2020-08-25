@@ -27,7 +27,7 @@ import views.html.register.individual.PassportDetailsView
 
 class PassportDetailsViewSpec extends QuestionViewBehaviours[PassportOrIdCardDetails] {
 
-  private val messageKeyPrefix = "individualProtector.passportDetails"
+  private val messageKeyPrefix = "otherIndividual.passportDetails"
   private val index = 0
   private val name = FullName("First", Some("Middle"), "Last")
 

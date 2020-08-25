@@ -21,7 +21,7 @@ import models.FullName
 import play.api.data.Form
 import play.twirl.api.HtmlFormat
 import views.behaviours.UkAddressViewBehaviours
-import views.html.register.business.UkAddressView
+import views.html.register.individual.UkAddressView
 
 class UkAddressViewSpec extends UkAddressViewBehaviours {
 

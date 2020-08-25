@@ -16,16 +16,18 @@
 
 @import controllers.register.individual.routes._
 @import models.FullName
+@import config.FrontendAppConfig
 
 @this(
         main_template: MainTemplate,
-        formHelper: FormWithCSRF
+        formHelper: FormWithCSRF,
+        appConfig: FrontendAppConfig
 )
 
 @(form: Form[_], name: String, index: Int, draftId: String)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = s"${errorPrefix(form)} ${messages("individualProtector.dateOfBirth.title")}"
+    title = s"${errorPrefix(form)} ${messages("otherIndividual.dateOfBirth.title")}"
 ) {
 
     @formHelper(action = DateOfBirthController.onSubmit(index, draftId), 'autoComplete -> "off") {
@@ -36,12 +38,14 @@
 
         @components.input_date(
             field = form("value"),
-            legend = messages("individualProtector.dateOfBirth.heading", name),
+            legend = messages("otherIndividual.dateOfBirth.heading", name),
             legendClass = "heading-large",
             legendAsHeading = true,
-            hint = Some(messages(s"individualProtector.dateOfBirth.hint"))
+            hint = Some(messages(s"otherIndividual.dateOfBirth.hint"))
         )
 
         @components.submit_button()
+
+        <p><a href="@{appConfig.registrationProgressUrl(draftId)}">@messages("site.returnToRegistrationProgress")</a></p>
     }
 }

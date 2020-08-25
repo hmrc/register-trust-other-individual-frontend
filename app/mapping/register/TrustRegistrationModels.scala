@@ -24,26 +24,26 @@ import play.api.libs.json._
   * Trust Registration API Schema - definitions models below
   */
 
-case class ProtectorsType(protector: Option[List[Protector]],
-                          protectorCompany: Option[List[ProtectorCompany]])
+case class OtherIndividualsType(otherIndividual: Option[List[OtherIndividual]],
+                          otherIndividualCompany: Option[List[OtherIndividualCompany]])
 
-object ProtectorsType {
-  implicit val protectorsTypeFormat: Format[ProtectorsType] = Json.format[ProtectorsType]
+object OtherIndividualsType {
+  implicit val otherIndividualsTypeFormat: Format[OtherIndividualsType] = Json.format[OtherIndividualsType]
 }
 
-case class Protector(name: NameType,
-                     dateOfBirth: Option[LocalDate],
-                     identification: Option[IdentificationType])
+case class OtherIndividual(name: NameType,
+                           dateOfBirth: Option[LocalDate],
+                           identification: Option[IdentificationType])
 
-object Protector {
-  implicit val protectorFormat: Format[Protector] = Json.format[Protector]
+object OtherIndividual {
+  implicit val otherIndividualFormat: Format[OtherIndividual] = Json.format[OtherIndividual]
 }
 
-case class ProtectorCompany(name: String,
+case class OtherIndividualCompany(name: String,
                             identification: Option[IdentificationOrgType])
 
-object ProtectorCompany {
-  implicit val protectorCompanyFormat: Format[ProtectorCompany] = Json.format[ProtectorCompany]
+object OtherIndividualCompany {
+  implicit val otherIndividualCompanyFormat: Format[OtherIndividualCompany] = Json.format[OtherIndividualCompany]
 }
 
 case class NameType(firstName: String,

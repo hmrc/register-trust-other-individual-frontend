@@ -16,7 +16,7 @@
 
 package controllers.register.individual
 
-import config.annotations.IndividualProtector
+import config.annotations.OtherIndividual
 import controllers.actions._
 import controllers.actions.register.individual.NameRequiredAction
 import forms.PassportOrIdCardFormProvider
@@ -36,7 +36,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class IDCardDetailsController @Inject()(
                                          override val messagesApi: MessagesApi,
                                          registrationsRepository: RegistrationsRepository,
-                                         @IndividualProtector navigator: Navigator,
+                                         @OtherIndividual navigator: Navigator,
                                          standardActionSets: StandardActionSets,
                                          nameAction: NameRequiredAction,
                                          formProvider: PassportOrIdCardFormProvider,
@@ -45,7 +45,7 @@ class IDCardDetailsController @Inject()(
                                          val countryOptions: CountryOptions
                                        )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  private val form = formProvider("individualProtector.idCardDetails")
+  private val form = formProvider("otherIndividual.idCardDetails")
 
   def onPageLoad(index: Int, draftId: String): Action[AnyContent] = standardActionSets.identifiedUserWithData(draftId).andThen(nameAction(index)) {
     implicit request =>
@@ -55,7 +55,7 @@ class IDCardDetailsController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, countryOptions.options, request.protectorName, index, draftId))
+      Ok(view(preparedForm, countryOptions.options, request.otherIndividualName, index, draftId))
   }
 
   def onSubmit(index: Int, draftId: String): Action[AnyContent] = standardActionSets.identifiedUserWithData(draftId).andThen(nameAction(index)).async {
@@ -63,7 +63,7 @@ class IDCardDetailsController @Inject()(
 
       form.bindFromRequest().fold(
         (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors, countryOptions.options, request.protectorName, index, draftId))),
+          Future.successful(BadRequest(view(formWithErrors, countryOptions.options, request.otherIndividualName, index, draftId))),
 
         value => {
           for {

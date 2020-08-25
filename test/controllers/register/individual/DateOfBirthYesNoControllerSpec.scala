@@ -17,7 +17,7 @@
 package controllers.register.individual
 
 import base.SpecBase
-import config.annotations.IndividualProtector
+import config.annotations.OtherIndividual
 import forms.YesNoFormProvider
 import models.FullName
 import navigation.{FakeNavigator, Navigator}
@@ -30,11 +30,11 @@ import views.html.register.individual.DateOfBirthYesNoView
 class DateOfBirthYesNoControllerSpec extends SpecBase {
 
   private val formProvider = new YesNoFormProvider()
-  private val form = formProvider.withPrefix("individualProtector.dateOfBirthYesNo")
+  private val form = formProvider.withPrefix("otherIndividual.dateOfBirthYesNo")
   private val index: Int = 0
   private val name = FullName("first name", None, "Last name")
 
-  lazy val individualProtectorDateOfBirthYesNoRoute = routes.DateOfBirthYesNoController.onPageLoad(index, draftId).url
+  lazy val otherIndividualDateOfBirthYesNoRoute = routes.DateOfBirthYesNoController.onPageLoad(index, draftId).url
 
   "DateOfBirthYesNo Controller" must {
 
@@ -45,7 +45,7 @@ class DateOfBirthYesNoControllerSpec extends SpecBase {
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
-      val request = FakeRequest(GET, individualProtectorDateOfBirthYesNoRoute)
+      val request = FakeRequest(GET, otherIndividualDateOfBirthYesNoRoute)
 
       val result = route(application, request).value
 
@@ -66,7 +66,7 @@ class DateOfBirthYesNoControllerSpec extends SpecBase {
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
-      val request = FakeRequest(GET, individualProtectorDateOfBirthYesNoRoute)
+      val request = FakeRequest(GET, otherIndividualDateOfBirthYesNoRoute)
 
       val view = application.injector.instanceOf[DateOfBirthYesNoView]
 
@@ -87,11 +87,11 @@ class DateOfBirthYesNoControllerSpec extends SpecBase {
 
       val application = applicationBuilder(userAnswers = Some(userAnswers))
         .overrides(
-          bind[Navigator].qualifiedWith(classOf[IndividualProtector]).toInstance(new FakeNavigator)
+          bind[Navigator].qualifiedWith(classOf[OtherIndividual]).toInstance(new FakeNavigator)
         ).build()
 
       val request =
-        FakeRequest(POST, individualProtectorDateOfBirthYesNoRoute)
+        FakeRequest(POST, otherIndividualDateOfBirthYesNoRoute)
           .withFormUrlEncodedBody(("value", "true"))
 
       val result = route(application, request).value
@@ -111,7 +111,7 @@ class DateOfBirthYesNoControllerSpec extends SpecBase {
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       val request =
-        FakeRequest(POST, individualProtectorDateOfBirthYesNoRoute)
+        FakeRequest(POST, otherIndividualDateOfBirthYesNoRoute)
           .withFormUrlEncodedBody(("value", ""))
 
       val boundForm = form.bind(Map("value" -> ""))
@@ -132,7 +132,7 @@ class DateOfBirthYesNoControllerSpec extends SpecBase {
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val request = FakeRequest(GET, individualProtectorDateOfBirthYesNoRoute)
+      val request = FakeRequest(GET, otherIndividualDateOfBirthYesNoRoute)
 
       val result = route(application, request).value
 
@@ -148,7 +148,7 @@ class DateOfBirthYesNoControllerSpec extends SpecBase {
       val application = applicationBuilder(userAnswers = None).build()
 
       val request =
-        FakeRequest(POST, individualProtectorDateOfBirthYesNoRoute)
+        FakeRequest(POST, otherIndividualDateOfBirthYesNoRoute)
           .withFormUrlEncodedBody(("value", "true"))
 
       val result = route(application, request).value

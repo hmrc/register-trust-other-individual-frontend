@@ -25,7 +25,7 @@ import views.html.register.individual.PassportDetailsYesNoView
 
 class PassportDetailsYesNoViewSpec extends YesNoViewBehaviours {
 
-  private val messageKeyPrefix = "individualProtector.passportDetailsYesNo"
+  private val messageKeyPrefix = "otherIndividual.passportDetailsYesNo"
   private val index = 0
   private val name = FullName("First", Some("middle"), "Last")
 

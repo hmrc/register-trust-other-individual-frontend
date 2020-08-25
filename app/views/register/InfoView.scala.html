@@ -14,28 +14,29 @@
  * limitations under the License.
  *@
 
-@import controllers.register.routes._
+@import controllers.register.individual.routes._
+@import config.FrontendAppConfig
 
 @this(
-    main_template: MainTemplate
+    main_template: MainTemplate,
+    appConfig: FrontendAppConfig
 )
+
 
 @(draftId: String)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = messages("protectorsInfo.title")
+    title = messages("otherIndividualsInfo.title")
     ) {
 
     @components.back_link()
 
-    <span class="govuk-caption-xl">@messages("protectorsInfo.caption")</span>
-    @components.heading("protectorsInfo.heading", headingSize = "heading-large govuk-fieldset__heading")
+    <span class="govuk-caption-xl">@messages("otherIndividualsInfo.caption")</span>
+    @components.heading("otherIndividualsInfo.heading", headingSize = "heading-large govuk-fieldset__heading")
 
-    <h2>@messages("protectorsInfo.subheading1")</h2>
+    <p>@messages("otherIndividualsInfo.paragraph1")</p>
 
-    <p>@messages("protectorsInfo.paragraph1")</p>
-
-    @components.bullet_list("protectorsInfo",
+    @components.bullet_list("otherIndividualsInfo",
         List(
             "bulletpoint1",
             "bulletpoint2",
@@ -43,17 +44,8 @@
         )
     )
 
-    <h2>@messages("protectorsInfo.subheading2")</h2>
+    @components.button_link(messages("site.continue"), NameController.onPageLoad(0, draftId).url)
 
-    <p>@messages("protectorsInfo.paragraph2")</p>
-
-    @components.bullet_list("protectorsInfo",
-        List(
-            "bulletpoint4",
-            "bulletpoint5"
-        )
-    )
-
-    @components.button_link(messages("site.continue"), IndividualOrBusinessController.onPageLoad(draftId).url)
+    <p><a href="@{appConfig.registrationProgressUrl(draftId)}">@messages("site.returnToRegistrationProgress")</a></p>
 
 }

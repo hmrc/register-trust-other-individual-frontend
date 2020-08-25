@@ -19,7 +19,7 @@ package controllers.register.individual
 import java.time.LocalDate
 
 import base.SpecBase
-import config.annotations.IndividualProtector
+import config.annotations.OtherIndividual
 import forms.PassportOrIdCardFormProvider
 import models.{FullName, PassportOrIdCardDetails}
 import navigation.{FakeNavigator, Navigator}
@@ -34,7 +34,7 @@ import views.html.register.individual.PassportDetailsView
 class PassportDetailsControllerSpec extends SpecBase {
 
   private val formProvider = new PassportOrIdCardFormProvider(frontendAppConfig)
-  private val form = formProvider("individualProtector.passportDetails")
+  private val form = formProvider("otherIndividual.passportDetails")
   private val index = 0
   private val name = FullName("FirstName", None, "LastName")
   private val countryOptions: Seq[InputOption] = app.injector.instanceOf[CountryOptions].options
@@ -100,7 +100,7 @@ class PassportDetailsControllerSpec extends SpecBase {
         applicationBuilder(userAnswers = Some(userAnswers))
           .overrides(
             bind[Navigator]
-              .qualifiedWith(classOf[IndividualProtector])
+              .qualifiedWith(classOf[OtherIndividual])
               .toInstance(new FakeNavigator())
           ).build()
 

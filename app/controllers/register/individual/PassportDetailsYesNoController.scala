@@ -16,7 +16,7 @@
 
 package controllers.register.individual
 
-import config.annotations.IndividualProtector
+import config.annotations.OtherIndividual
 import controllers.actions._
 import controllers.actions.register.individual.NameRequiredAction
 import forms.YesNoFormProvider
@@ -35,7 +35,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class PassportDetailsYesNoController @Inject()(
                                                 override val messagesApi: MessagesApi,
                                                 registrationsRepository: RegistrationsRepository,
-                                                @IndividualProtector navigator: Navigator,
+                                                @OtherIndividual navigator: Navigator,
                                                 standardActionSets: StandardActionSets,
                                                 nameAction: NameRequiredAction,
                                                 yesNoFormProvider: YesNoFormProvider,
@@ -43,7 +43,7 @@ class PassportDetailsYesNoController @Inject()(
                                                 view: PassportDetailsYesNoView
                                               )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  private val form = yesNoFormProvider.withPrefix("individualProtector.passportDetailsYesNo")
+  private val form = yesNoFormProvider.withPrefix("otherIndividual.passportDetailsYesNo")
 
   def onPageLoad(index: Int, draftId: String): Action[AnyContent] = standardActionSets.identifiedUserWithData(draftId).andThen(nameAction(index)) {
     implicit request =>
@@ -53,7 +53,7 @@ class PassportDetailsYesNoController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, request.protectorName, index, draftId))
+      Ok(view(preparedForm, request.otherIndividualName, index, draftId))
   }
 
   def onSubmit(index: Int, draftId: String): Action[AnyContent] = standardActionSets.identifiedUserWithData(draftId).andThen(nameAction(index)).async {
@@ -61,7 +61,7 @@ class PassportDetailsYesNoController @Inject()(
 
       form.bindFromRequest().fold(
         (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors, request.protectorName, index, draftId))),
+          Future.successful(BadRequest(view(formWithErrors, request.otherIndividualName, index, draftId))),
 
         value => {
           for {

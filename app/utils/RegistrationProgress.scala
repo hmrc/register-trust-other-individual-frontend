@@ -16,21 +16,21 @@
 
 package utils
 
-import controllers.register.AnyProtectors
-import models.register.pages.AddAProtector
+import controllers.register.AnyOtherIndividuals
+import models.register.pages.AddOtherIndividual
 import models.{ReadableUserAnswers, Status}
 import pages.QuestionPage
-import pages.register.{AddAProtectorPage, TrustHasProtectorYesNoPage}
+import pages.register.{AddOtherIndividualPage, TrustHasOtherIndividualYesNoPage}
 import play.api.libs.json.Reads
-import sections.{BusinessProtectors, IndividualProtectors}
+import sections.OtherIndividualsView
 import viewmodels.addAnother._
 
-class RegistrationProgress extends AnyProtectors {
+class RegistrationProgress extends AnyOtherIndividuals {
 
-  def protectorsStatus(userAnswers: ReadableUserAnswers): Option[Status] = {
+  def otherIndividualsStatus(userAnswers: ReadableUserAnswers): Option[Status] = {
 
-    if (!isAnyProtectorAdded(userAnswers)) {
-      userAnswers.get(TrustHasProtectorYesNoPage) match {
+    if (!isAnyOtherIndividualAdded(userAnswers)) {
+      userAnswers.get(TrustHasOtherIndividualYesNoPage) match {
         case Some(true) => Some(Status.InProgress)
         case Some(false) => Some(Status.Completed)
         case _ => None
@@ -38,9 +38,8 @@ class RegistrationProgress extends AnyProtectors {
     } else {
 
       val statusList: List[IsComplete] = List(
-        AddingProtectorsIsComplete,
-        BusinessProtectorsAreComplete,
-        IndividualProtectorsAreComplete
+        AddingOtherIndividualsIsComplete,
+        OtherIndividualsAreComplete
       )
 
       statusList match {
@@ -62,22 +61,21 @@ class RegistrationProgress extends AnyProtectors {
     def apply(userAnswers: ReadableUserAnswers): Boolean
   }
 
-  sealed class ListIsComplete[T <: ProtectorViewModel](section: QuestionPage[List[T]])
+  sealed class ListIsComplete[T <: OtherIndividualViewModel](section: QuestionPage[List[T]])
                                                       (implicit reads: Reads[T]) extends IsComplete {
 
     override def apply(userAnswers: ReadableUserAnswers): Boolean = {
       userAnswers.get(section) match {
-        case Some(protectors) => !protectors.exists(_.status == Status.InProgress)
+        case Some(otherIndividuals) => !otherIndividuals.exists(_.status == Status.InProgress)
         case _ => true
       }
     }
   }
 
-  private object AddingProtectorsIsComplete extends IsComplete {
+  private object AddingOtherIndividualsIsComplete extends IsComplete {
     override def apply(userAnswers: ReadableUserAnswers): Boolean =
-      userAnswers.get(AddAProtectorPage).contains(AddAProtector.NoComplete)
+      userAnswers.get(AddOtherIndividualPage).contains(AddOtherIndividual.NoComplete)
   }
 
-  private object BusinessProtectorsAreComplete extends ListIsComplete(BusinessProtectors)
-  private object IndividualProtectorsAreComplete extends ListIsComplete(IndividualProtectors)
+  private object OtherIndividualsAreComplete extends ListIsComplete(OtherIndividualsView)
 }

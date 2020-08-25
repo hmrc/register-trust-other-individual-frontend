@@ -16,7 +16,7 @@
 
 package controllers.register.individual
 
-import config.annotations.IndividualProtector
+import config.annotations.OtherIndividual
 import controllers.actions.StandardActionSets
 import forms.NameFormProvider
 import javax.inject.Inject
@@ -34,14 +34,14 @@ import scala.concurrent.{ExecutionContext, Future}
 class NameController @Inject()(
                                 override val messagesApi: MessagesApi,
                                 registrationsRepository: RegistrationsRepository,
-                                @IndividualProtector navigator: Navigator,
+                                @OtherIndividual navigator: Navigator,
                                 standardActionSets: StandardActionSets,
                                 formProvider: NameFormProvider,
                                 val controllerComponents: MessagesControllerComponents,
                                 view: NameView
                               )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  private val form = formProvider.withPrefix("individualProtector.name")
+  private val form = formProvider.withPrefix("otherIndividual.name")
 
   def onPageLoad(index: Int, draftId: String): Action[AnyContent] = standardActionSets.identifiedUserWithData(draftId) {
     implicit request =>

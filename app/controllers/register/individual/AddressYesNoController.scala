@@ -16,7 +16,7 @@
 
 package controllers.register.individual
 
-import config.annotations.IndividualProtector
+import config.annotations.OtherIndividual
 import controllers.actions.StandardActionSets
 import controllers.actions.register.individual.NameRequiredAction
 import forms.YesNoFormProvider
@@ -34,7 +34,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class AddressYesNoController @Inject()(
                                         override val messagesApi: MessagesApi,
                                         repository: RegistrationsRepository,
-                                        @IndividualProtector navigator: Navigator,
+                                        @OtherIndividual navigator: Navigator,
                                         standardActionSets: StandardActionSets,
                                         nameAction: NameRequiredAction,
                                         formProvider: YesNoFormProvider,
@@ -42,7 +42,7 @@ class AddressYesNoController @Inject()(
                                         view: AddressYesNoView
                                       )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  val form = formProvider.withPrefix("individualProtector.addressYesNo")
+  val form = formProvider.withPrefix("otherIndividual.addressYesNo")
 
   def onPageLoad(index: Int, draftId: String): Action[AnyContent] = standardActionSets.identifiedUserWithData(draftId).andThen(nameAction(index)) {
     implicit request =>
@@ -52,7 +52,7 @@ class AddressYesNoController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, request.protectorName, index, draftId))
+      Ok(view(preparedForm, request.otherIndividualName, index, draftId))
   }
 
   def onSubmit(index: Int, draftId: String): Action[AnyContent] = standardActionSets.identifiedUserWithData(draftId).andThen(nameAction(index)).async {
@@ -60,7 +60,7 @@ class AddressYesNoController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, request.protectorName, index, draftId))),
+          Future.successful(BadRequest(view(formWithErrors, request.otherIndividualName, index, draftId))),
 
         value =>
           for {

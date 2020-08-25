@@ -19,11 +19,11 @@ package pages.register.individual
 import models.FullName
 import pages.QuestionPage
 import play.api.libs.json.JsPath
-import sections.IndividualProtectors
+import sections.OtherIndividualsView
 
 final case class NamePage(index: Int) extends QuestionPage[FullName] {
 
-  override def path: JsPath = IndividualProtectors.path \ index \ toString
+  override def path: JsPath = OtherIndividualsView.path \ index \ toString
 
   override def toString: String = "name"
 }

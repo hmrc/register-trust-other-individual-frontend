@@ -16,16 +16,18 @@
 
 @import controllers.register.individual.routes._
 @import models.FullName
+@import config.FrontendAppConfig
 
 @this(
-    main_template: MainTemplate,
-    formHelper: FormWithCSRF
+        main_template: MainTemplate,
+        formHelper: FormWithCSRF,
+        appConfig: FrontendAppConfig
 )
 
 @(form: Form[_], name: String, index: Int, draftId: String)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = s"${errorPrefix(form)} ${messages("individualProtector.nationalInsuranceNumber.title")}"
+    title = s"${errorPrefix(form)} ${messages("otherIndividual.nationalInsuranceNumber.title")}"
     ) {
 
     @formHelper(action = NationalInsuranceNumberController.onSubmit(index, draftId), 'autoComplete -> "off") {
@@ -36,13 +38,15 @@
 
         @components.input_text(
             field = form("value"),
-            label = messages("individualProtector.nationalInsuranceNumber.heading", name),
+            label = messages("otherIndividual.nationalInsuranceNumber.heading", name),
             labelClass = Some("heading-large"),
             labelAsHeading = true,
-            hint = Some(messages("individualProtector.nationalInsuranceNumber.hint")),
-            readerHint = Some(messages("individualProtector.nationalInsuranceNumber.hint.reader"))
+            hint = Some(messages("otherIndividual.nationalInsuranceNumber.hint")),
+            readerHint = Some(messages("otherIndividual.nationalInsuranceNumber.hint.reader"))
         )
 
         @components.submit_button()
+
+        <p><a href="@{appConfig.registrationProgressUrl(draftId)}">@messages("site.returnToRegistrationProgress")</a></p>
     }
 }

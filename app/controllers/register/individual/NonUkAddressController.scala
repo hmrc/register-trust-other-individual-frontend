@@ -16,7 +16,7 @@
 
 package controllers.register.individual
 
-import config.annotations.IndividualProtector
+import config.annotations.OtherIndividual
 import controllers.actions._
 import controllers.actions.register.individual.NameRequiredAction
 import forms.InternationalAddressFormProvider
@@ -35,7 +35,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class NonUkAddressController @Inject()(
                                         override val messagesApi: MessagesApi,
                                         repository: RegistrationsRepository,
-                                        @IndividualProtector navigator: Navigator,
+                                        @OtherIndividual navigator: Navigator,
                                         standardActionSets: StandardActionSets,
                                         nameAction: NameRequiredAction,
                                         formProvider: InternationalAddressFormProvider,
@@ -54,7 +54,7 @@ class NonUkAddressController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, countryOptions.options, request.protectorName, index, draftId))
+      Ok(view(preparedForm, countryOptions.options, request.otherIndividualName, index, draftId))
   }
 
   def onSubmit(index: Int, draftId: String): Action[AnyContent] = standardActionSets.identifiedUserWithData(draftId).andThen(nameAction(index)).async {
@@ -62,7 +62,7 @@ class NonUkAddressController @Inject()(
 
       form.bindFromRequest().fold(
         formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, countryOptions.options, request.protectorName, index, draftId))),
+          Future.successful(BadRequest(view(formWithErrors, countryOptions.options, request.otherIndividualName, index, draftId))),
 
         value =>
           for {

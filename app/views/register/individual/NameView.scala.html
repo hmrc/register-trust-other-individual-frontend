@@ -15,16 +15,18 @@
  *@
 
 @import controllers.register.individual.routes._
+@import config.FrontendAppConfig
 
 @this(
     main_template: MainTemplate,
-    formHelper: FormWithCSRF
+    formHelper: FormWithCSRF,
+    appConfig: FrontendAppConfig
 )
 
 @(form: Form[_], index: Int, draftId: String)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = s"${errorPrefix(form)} ${messages("individualProtector.name.title")}"
+    title = s"${errorPrefix(form)} ${messages("otherIndividual.name.title")}"
     ) {
 
     @formHelper(action = NameController.onSubmit(index, draftId), 'autoComplete -> "on") {
@@ -36,28 +38,30 @@
         <fieldset>
 
             <legend>
-                @components.heading("individualProtector.name.heading")
+                @components.heading("otherIndividual.name.heading")
             </legend>
 
             @components.input_text(
                 field = form("firstName"),
-                label = messages("individualProtector.name.firstName"),
+                label = messages("otherIndividual.name.firstName"),
                 autocomplete = Some("given-name")
             )
 
             @components.input_text(
                 field = form("middleName"),
-                label = messages("individualProtector.name.middleName"),
+                label = messages("otherIndividual.name.middleName"),
                 autocomplete = Some("additional-name")
             )
 
             @components.input_text(
                 field = form("lastName"),
-                label = messages("individualProtector.name.lastName"),
+                label = messages("otherIndividual.name.lastName"),
                 autocomplete = Some("family-name")
             )
         </fieldset>
 
         @components.submit_button()
+
+        <p><a href="@{appConfig.registrationProgressUrl(draftId)}">@messages("site.returnToRegistrationProgress")</a></p>
     }
 }

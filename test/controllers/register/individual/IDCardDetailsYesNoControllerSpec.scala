@@ -17,7 +17,7 @@
 package controllers.register.individual
 
 import base.SpecBase
-import config.annotations.IndividualProtector
+import config.annotations.OtherIndividual
 import forms.YesNoFormProvider
 import models.FullName
 import navigation.{FakeNavigator, Navigator}
@@ -30,11 +30,11 @@ import views.html.register.individual.IDCardDetailsYesNoView
 class IDCardDetailsYesNoControllerSpec extends SpecBase {
 
   private val formProvider = new YesNoFormProvider()
-  private val form = formProvider.withPrefix("individualProtector.idCardDetailsYesNo")
+  private val form = formProvider.withPrefix("otherIndividual.idCardDetailsYesNo")
   private val index: Int = 0
   private val name = FullName("first name", None, "Last name")
 
-  lazy val individualProtectorIdCardDetailsYesNoRoute = routes.IDCardDetailsYesNoController.onPageLoad(index, draftId).url
+  lazy val otherIndividualIdCardDetailsYesNoRoute = routes.IDCardDetailsYesNoController.onPageLoad(index, draftId).url
 
   "IdCardDetailsYesNo Controller" must {
 
@@ -45,7 +45,7 @@ class IDCardDetailsYesNoControllerSpec extends SpecBase {
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
-      val request = FakeRequest(GET, individualProtectorIdCardDetailsYesNoRoute)
+      val request = FakeRequest(GET, otherIndividualIdCardDetailsYesNoRoute)
 
       val result = route(application, request).value
 
@@ -66,7 +66,7 @@ class IDCardDetailsYesNoControllerSpec extends SpecBase {
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
-      val request = FakeRequest(GET, individualProtectorIdCardDetailsYesNoRoute)
+      val request = FakeRequest(GET, otherIndividualIdCardDetailsYesNoRoute)
 
       val view = application.injector.instanceOf[IDCardDetailsYesNoView]
 
@@ -87,11 +87,11 @@ class IDCardDetailsYesNoControllerSpec extends SpecBase {
 
       val application = applicationBuilder(userAnswers = Some(userAnswers))
         .overrides(
-          bind[Navigator].qualifiedWith(classOf[IndividualProtector]).toInstance(new FakeNavigator)
+          bind[Navigator].qualifiedWith(classOf[OtherIndividual]).toInstance(new FakeNavigator)
         ).build()
 
       val request =
-        FakeRequest(POST, individualProtectorIdCardDetailsYesNoRoute)
+        FakeRequest(POST, otherIndividualIdCardDetailsYesNoRoute)
           .withFormUrlEncodedBody(("value", "true"))
 
       val result = route(application, request).value
@@ -111,7 +111,7 @@ class IDCardDetailsYesNoControllerSpec extends SpecBase {
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       val request =
-        FakeRequest(POST, individualProtectorIdCardDetailsYesNoRoute)
+        FakeRequest(POST, otherIndividualIdCardDetailsYesNoRoute)
           .withFormUrlEncodedBody(("value", ""))
 
       val boundForm = form.bind(Map("value" -> ""))
@@ -132,7 +132,7 @@ class IDCardDetailsYesNoControllerSpec extends SpecBase {
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val request = FakeRequest(GET, individualProtectorIdCardDetailsYesNoRoute)
+      val request = FakeRequest(GET, otherIndividualIdCardDetailsYesNoRoute)
 
       val result = route(application, request).value
 
@@ -148,7 +148,7 @@ class IDCardDetailsYesNoControllerSpec extends SpecBase {
       val application = applicationBuilder(userAnswers = None).build()
 
       val request =
-        FakeRequest(POST, individualProtectorIdCardDetailsYesNoRoute)
+        FakeRequest(POST, otherIndividualIdCardDetailsYesNoRoute)
           .withFormUrlEncodedBody(("value", "true"))
 
       val result = route(application, request).value

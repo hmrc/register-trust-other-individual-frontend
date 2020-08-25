@@ -19,9 +19,10 @@ package repositories
 import base.SpecBase
 import models.RegistrationSubmission.AnswerSection
 import models.Status.{Completed, InProgress}
-import models.UserAnswers
-import pages.entitystatus.{BusinessProtectorStatus, IndividualProtectorStatus}
-import pages.register.TrustHasProtectorYesNoPage
+import models.{RegistrationSubmission, Status, UserAnswers}
+import pages.entitystatus.OtherIndividualStatus
+import pages.register.TrustHasOtherIndividualYesNoPage
+import play.api.libs.json.{JsNull, Json}
 
 import scala.collection.immutable.Nil
 
@@ -31,122 +32,76 @@ class SubmissionSetFactorySpec extends SpecBase {
 
     val factory = injector.instanceOf[SubmissionSetFactory]
 
-    "return no answer sections if no completed protectors" in {
+    "return no answer sections if no completed otherIndividuals" in {
 
-      factory.answerSectionsIfCompleted(emptyUserAnswers, Some(InProgress))
-        .mustBe(Nil)
+      factory.createFrom(emptyUserAnswers) mustBe RegistrationSubmission.DataSet(
+        Json.toJson(emptyUserAnswers),
+        None,
+        List(RegistrationSubmission.MappedPiece("trust/entities/naturalPerson", JsNull)),
+        List.empty
+      )
     }
 
     "return completed answer sections" when {
 
-      "trust has protectors is set to 'false'" must {
+      "trust has otherIndividuals is set to 'false'" must {
           "return an empty list" in {
             val userAnswers: UserAnswers = emptyUserAnswers
-              .set(TrustHasProtectorYesNoPage, false).success.value
+              .set(TrustHasOtherIndividualYesNoPage, false).success.value
 
-            factory.answerSectionsIfCompleted(userAnswers, Some(Completed)) mustBe
+            factory.createFrom(userAnswers) mustBe RegistrationSubmission.DataSet(
+              Json.toJson(userAnswers),
+              Some(Status.Completed),
+              List(RegistrationSubmission.MappedPiece("trust/entities/naturalPerson", JsNull)),
               List.empty
+            )
           }
       }
 
-      "only one protector" must {
-        "have 'Protectors' as section key" when {
-          "business protector only" in {
+      "only one otherIndividual" must {
+        "have 'OtherIndividuals' as section key" when {
+
+          "other Individual only" in {
             val userAnswers: UserAnswers = emptyUserAnswers
-              .set(BusinessProtectorStatus(0), Completed).success.value
-              .set(TrustHasProtectorYesNoPage, true).success.value
+              .set(OtherIndividualStatus(0), Completed).success.value
+              .set(TrustHasOtherIndividualYesNoPage, true).success.value
 
             factory.answerSectionsIfCompleted(userAnswers, Some(Completed)) mustBe
               List(
                 AnswerSection(
-                  Some("Business protector 1"),
+                  Some("Other Individual 1"),
                   Nil,
-                  Some("Protectors")
-                )
-              )
-          }
-
-          "individual protector only" in {
-            val userAnswers: UserAnswers = emptyUserAnswers
-              .set(IndividualProtectorStatus(0), Completed).success.value
-              .set(TrustHasProtectorYesNoPage, true).success.value
-
-            factory.answerSectionsIfCompleted(userAnswers, Some(Completed)) mustBe
-              List(
-                AnswerSection(
-                  Some("Individual protector 1"),
-                  Nil,
-                  Some("Protectors")
+                  Some("Other Individuals")
                 )
               )
           }
         }
       }
 
-      "more than one Protector" must {
-        "have 'Protectors' as section key of the topmost section" when {
-          "Business protectors" in {
+      "more than one OtherIndividual" must {
+        "have 'OtherIndividuals' as section key of the topmost section" when {
+
+          "Other Individuals" in {
             val userAnswers: UserAnswers = emptyUserAnswers
-              .set(BusinessProtectorStatus(0), Completed).success.value
-              .set(BusinessProtectorStatus(1), Completed).success.value
-              .set(TrustHasProtectorYesNoPage, true).success.value
+              .set(OtherIndividualStatus(0), Completed).success.value
+              .set(OtherIndividualStatus(1), Completed).success.value
+              .set(TrustHasOtherIndividualYesNoPage, true).success.value
 
             factory.answerSectionsIfCompleted(userAnswers, Some(Completed)) mustBe
               List(
                 AnswerSection(
-                  Some("Business protector 1"),
+                  Some("Other Individual 1"),
                   Nil,
-                  Some("Protectors")
+                  Some("Other Individuals")
                 ),
                 AnswerSection(
-                  Some("Business protector 2"),
+                  Some("Other Individual 2"),
                   Nil,
                   None
                 )
               )
           }
 
-          "Individual protectors" in {
-            val userAnswers: UserAnswers = emptyUserAnswers
-              .set(IndividualProtectorStatus(0), Completed).success.value
-              .set(IndividualProtectorStatus(1), Completed).success.value
-              .set(TrustHasProtectorYesNoPage, true).success.value
-
-            factory.answerSectionsIfCompleted(userAnswers, Some(Completed)) mustBe
-              List(
-                AnswerSection(
-                  Some("Individual protector 1"),
-                  Nil,
-                  Some("Protectors")
-                ),
-                AnswerSection(
-                  Some("Individual protector 2"),
-                  Nil,
-                  None
-                )
-              )
-          }
-
-          "Individual and Business protectors" in {
-            val userAnswers: UserAnswers = emptyUserAnswers
-              .set(IndividualProtectorStatus(0), Completed).success.value
-              .set(BusinessProtectorStatus(0), Completed).success.value
-              .set(TrustHasProtectorYesNoPage, true).success.value
-
-            factory.answerSectionsIfCompleted(userAnswers, Some(Completed)) mustBe
-              List(
-                AnswerSection(
-                  Some("Individual protector 1"),
-                  Nil,
-                  Some("Protectors")
-                ),
-                AnswerSection(
-                  Some("Business protector 1"),
-                  Nil,
-                  None
-                )
-              )
-          }
         }
       }
 
