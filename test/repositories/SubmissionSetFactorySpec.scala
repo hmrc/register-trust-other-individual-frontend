@@ -19,9 +19,10 @@ package repositories
 import base.SpecBase
 import models.RegistrationSubmission.AnswerSection
 import models.Status.{Completed, InProgress}
-import models.UserAnswers
+import models.{RegistrationSubmission, Status, UserAnswers}
 import pages.entitystatus.OtherIndividualStatus
 import pages.register.TrustHasOtherIndividualYesNoPage
+import play.api.libs.json.{JsNull, Json}
 
 import scala.collection.immutable.Nil
 
@@ -33,8 +34,12 @@ class SubmissionSetFactorySpec extends SpecBase {
 
     "return no answer sections if no completed otherIndividuals" in {
 
-      factory.answerSectionsIfCompleted(emptyUserAnswers, Some(InProgress))
-        .mustBe(Nil)
+      factory.createFrom(emptyUserAnswers) mustBe RegistrationSubmission.DataSet(
+        Json.toJson(emptyUserAnswers),
+        None,
+        List(RegistrationSubmission.MappedPiece("trust/entities/naturalPerson", JsNull)),
+        List.empty
+      )
     }
 
     "return completed answer sections" when {
@@ -44,8 +49,12 @@ class SubmissionSetFactorySpec extends SpecBase {
             val userAnswers: UserAnswers = emptyUserAnswers
               .set(TrustHasOtherIndividualYesNoPage, false).success.value
 
-            factory.answerSectionsIfCompleted(userAnswers, Some(Completed)) mustBe
+            factory.createFrom(userAnswers) mustBe RegistrationSubmission.DataSet(
+              Json.toJson(userAnswers),
+              Some(Status.Completed),
+              List(RegistrationSubmission.MappedPiece("trust/entities/naturalPerson", JsNull)),
               List.empty
+            )
           }
       }
 

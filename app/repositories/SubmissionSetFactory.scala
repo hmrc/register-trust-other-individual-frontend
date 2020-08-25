@@ -21,7 +21,7 @@ import mapping.register.OtherIndividualMapper
 import models._
 import pages.register.TrustHasOtherIndividualYesNoPage
 import play.api.i18n.Messages
-import play.api.libs.json.Json
+import play.api.libs.json.{JsNull, JsValue, Json}
 import utils.RegistrationProgress
 import utils.answers.OtherIndividualAnswersHelper
 import viewmodels.{AnswerRow, AnswerSection}
@@ -42,14 +42,17 @@ class SubmissionSetFactory @Inject()(registrationProgress: RegistrationProgress,
     )
   }
 
+  private def mappedPieces(otherIndividualsJson: JsValue) =
+    List(RegistrationSubmission.MappedPiece("trust/entities/naturalPerson", otherIndividualsJson))
+
   private def mappedDataIfCompleted(userAnswers: UserAnswers, status: Option[Status]) = {
     if (status.contains(Status.Completed)) {
       otherIndividualMapper.build(userAnswers) match {
-        case Some(assets) => List(RegistrationSubmission.MappedPiece("trust/entities/naturalPerson", Json.toJson(assets)))
-        case _ => List.empty
+        case Some(assets) => mappedPieces(Json.toJson(assets))
+        case _ => mappedPieces(JsNull)
       }
     } else {
-      List.empty
+      mappedPieces(JsNull)
     }
   }
 
