@@ -16,30 +16,21 @@
 
 package viewmodels.addAnother
 
-import models.Status
-import play.api.libs.json.Reads
+import models.{FullName, Status}
+import play.api.libs.json.{Reads, __}
 
-import scala.language.implicitConversions
-
-trait OtherIndividualViewModel {
-  val status: Status
-  def displayName: Option[String]
+case class OtherIndividualViewModel(name: Option[FullName], status: Status) {
+  def displayName: Option[String] = name.map(_.toString)
+  def isComplete: Boolean = name.nonEmpty && (status == Status.Completed)
 }
 
 object OtherIndividualViewModel {
 
-  implicit val reads : Reads[OtherIndividualViewModel] = {
+  import play.api.libs.functional.syntax._
 
-    implicit class ReadsWithContravariantOr[A](a: Reads[A]) {
+  implicit val reads : Reads[OtherIndividualViewModel] = (
+    (__ \ "name").readNullable[FullName] and
+      (__ \ "status").readWithDefault[Status](Status.InProgress)
+    )(OtherIndividualViewModel.apply _)
 
-      def or[B >: A](b: Reads[B]): Reads[B] = {
-        a.map[B](identity).orElse(b)
-      }
-    }
-
-    implicit def convertToSupertype[A, B >: A](a: Reads[A]): Reads[B] =
-      a.map(identity)
-
-    IndividualOtherIndividualViewModel.reads
-  }
 }

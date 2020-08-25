@@ -14,7 +14,7 @@
  * limitations under the License.
  *@
 
-@import controllers.register.routes._
+@import controllers.register.individual.routes._
 
 @this(
     main_template: MainTemplate
@@ -54,6 +54,6 @@
         )
     )
 
-    @components.button_link(messages("site.continue"), IndividualOrBusinessController.onPageLoad(draftId).url)
+    @components.button_link(messages("site.continue"), NameController.onPageLoad(0, draftId).url)
 
 }

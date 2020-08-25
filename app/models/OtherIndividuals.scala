@@ -18,9 +18,9 @@ package models
 
 import models.register.pages.IndividualOrBusinessToAdd
 import viewmodels.RadioOption
-import viewmodels.addAnother.IndividualOtherIndividualViewModel
+import viewmodels.addAnother.OtherIndividualViewModel
 
-case class OtherIndividuals(individuals: List[IndividualOtherIndividualViewModel] = Nil) {
+case class OtherIndividuals(individuals: List[OtherIndividualViewModel] = Nil) {
 
   type OtherIndividualOption = (Int, IndividualOrBusinessToAdd)
   type OtherIndividualOptions = List[OtherIndividualOption]

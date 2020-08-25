@@ -20,7 +20,7 @@ import controllers.register.individual.{routes => individualRts}
 import models.UserAnswers
 import play.api.i18n.Messages
 import sections.IndividualOtherIndividuals
-import viewmodels.addAnother.IndividualOtherIndividualViewModel
+import viewmodels.addAnother.OtherIndividualViewModel
 import viewmodels.{AddRow, AddToRows}
 
 class AddOtherIndividualViewHelper(userAnswers: UserAnswers, draftId : String)(implicit messages: Messages) {
@@ -32,7 +32,7 @@ class AddOtherIndividualViewHelper(userAnswers: UserAnswers, draftId : String)(i
     name.getOrElse(defaultValue)
   }
 
-  private def parseIndividualOtherIndividual(individualOtherIndividual : (IndividualOtherIndividualViewModel, Int)) : AddRow = {
+  private def parseIndividualOtherIndividual(individualOtherIndividual : (OtherIndividualViewModel, Int)) : AddRow = {
 
     val vm = individualOtherIndividual._1
     val index = individualOtherIndividual._2

@@ -19,7 +19,7 @@ package models
 import base.SpecBase
 import models.Status._
 import models.register.pages.IndividualOrBusinessToAdd
-import viewmodels.addAnother.IndividualOtherIndividualViewModel
+import viewmodels.addAnother.OtherIndividualViewModel
 
 class OtherIndividualsSpec extends SpecBase {
 
@@ -27,7 +27,7 @@ class OtherIndividualsSpec extends SpecBase {
 
   val max: Int = 25
 
-  val individual: IndividualOtherIndividualViewModel = IndividualOtherIndividualViewModel(Some(name), Completed)
+  val individual: OtherIndividualViewModel = OtherIndividualViewModel(Some(name), Completed)
 
   val prefix: String = IndividualOrBusinessToAdd.prefix
 

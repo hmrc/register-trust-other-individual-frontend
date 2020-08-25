@@ -22,7 +22,6 @@ import controllers.register.{routes => rts}
 import javax.inject.Inject
 import models.ReadableUserAnswers
 import models.register.pages.AddOtherIndividual
-import models.register.pages.IndividualOrBusinessToAdd.{Business, Individual}
 import pages.Page
 import pages.register._
 import play.api.mvc.Call
@@ -36,7 +35,6 @@ class OtherIndividualNavigator @Inject()(config: FrontendAppConfig) extends Navi
     case AnswersPage => _ => rts.AddOtherIndividualController.onPageLoad(draftId)
     case AddOtherIndividualPage => addOtherIndividualRoute(draftId, config)
     case AddOtherIndividualYesNoPage => addOtherIndividualYesNoRoute(draftId, config)
-    case IndividualOrBusinessPage => individualOrBusinessRoute(draftId)
     case TrustHasOtherIndividualYesNoPage => trustHasOtherIndividualRoute(draftId)
   }
 
@@ -51,13 +49,6 @@ class OtherIndividualNavigator @Inject()(config: FrontendAppConfig) extends Navi
       case _ => controllers.routes.SessionExpiredController.onPageLoad()
     }
 
-  private def individualOrBusinessRoute(draftId: String)(userAnswers: ReadableUserAnswers) : Call =
-    userAnswers.get(IndividualOrBusinessPage) match {
-      case Some(Individual) => routeToIndividualOtherIndividualIndex(userAnswers, draftId)
-      case Some(Business) => routeToIndividualOtherIndividualIndex(userAnswers, draftId)
-      case _ => controllers.routes.SessionExpiredController.onPageLoad()
-    }
-
   private def routeToIndividualOtherIndividualIndex(userAnswers: ReadableUserAnswers, draftId: String): Call = {
     val individualOtherIndividuals = userAnswers.get(IndividualOtherIndividuals).getOrElse(List.empty)
     irts.NameController.onPageLoad(individualOtherIndividuals.size, draftId)
@@ -66,8 +57,7 @@ class OtherIndividualNavigator @Inject()(config: FrontendAppConfig) extends Navi
   private def addOtherIndividualRoute(draftId: String, config: FrontendAppConfig)(answers: ReadableUserAnswers): Call = {
     val addAnother = answers.get(AddOtherIndividualPage)
     addAnother match {
-      case Some(AddOtherIndividual.YesNow) =>
-        controllers.register.routes.IndividualOrBusinessController.onPageLoad(draftId)
+      case Some(AddOtherIndividual.YesNow) => routeToIndividualOtherIndividualIndex(answers, draftId)
       case Some(AddOtherIndividual.YesLater) => otherIndividualsCompletedRoute(draftId, config)
       case Some(AddOtherIndividual.NoComplete) => otherIndividualsCompletedRoute(draftId, config)
       case _ => controllers.routes.SessionExpiredController.onPageLoad()
@@ -78,8 +68,7 @@ class OtherIndividualNavigator @Inject()(config: FrontendAppConfig) extends Navi
     val add = answers.get(AddOtherIndividualYesNoPage)
 
     add match {
-      case Some(true) =>
-        controllers.register.routes.IndividualOrBusinessController.onPageLoad(draftId)
+      case Some(true) => routeToIndividualOtherIndividualIndex(answers, draftId)
       case Some(false) => otherIndividualsCompletedRoute(draftId, config)
       case _ => controllers.routes.SessionExpiredController.onPageLoad()
     }

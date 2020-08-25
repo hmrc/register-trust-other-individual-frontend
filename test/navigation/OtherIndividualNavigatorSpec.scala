@@ -50,15 +50,16 @@ class OtherIndividualNavigatorSpec extends SpecBase with ScalaCheckPropertyCheck
 
   "AddOtherIndividualYesNoPage" when {
 
-    "go to IndividualOrBusinessPage from AddOtherIndividualYesNoPage when selected yes" in {
+    "go to NamePage from AddOtherIndividualYesNoPage when selected yes" in {
 
       forAll(arbitrary[UserAnswers]) {
         userAnswers =>
 
+          val index = 0
           val answers = userAnswers.set(AddOtherIndividualYesNoPage, true).success.value
 
           navigator.nextPage(AddOtherIndividualYesNoPage, fakeDraftId, answers)
-            .mustBe(controllers.register.routes.IndividualOrBusinessController.onPageLoad(fakeDraftId))
+            .mustBe(controllers.register.individual.routes.NameController.onPageLoad(index, fakeDraftId))
       }
 
     }
@@ -75,14 +76,15 @@ class OtherIndividualNavigatorSpec extends SpecBase with ScalaCheckPropertyCheck
       }
     }
 
-    "go to IndividualOrBusinessPage from AddOtherIndividualPage when selected add them now" in {
+    "go to NamePage from AddOtherIndividualPage when selected add them now" in {
       forAll(arbitrary[UserAnswers]) {
         userAnswers =>
 
+          val index = 0
           val answers = userAnswers.set(AddOtherIndividualPage, AddOtherIndividual.YesNow).success.value
 
           navigator.nextPage(AddOtherIndividualPage, fakeDraftId, answers)
-            .mustBe(controllers.register.routes.IndividualOrBusinessController.onPageLoad(fakeDraftId))
+            .mustBe(controllers.register.individual.routes.NameController.onPageLoad(index, fakeDraftId))
       }
 
     }
@@ -117,20 +119,6 @@ class OtherIndividualNavigatorSpec extends SpecBase with ScalaCheckPropertyCheck
       }
     }
 
-  }
-
-
-  "IndividualOrBusinessPage" when {
-
-    "go to NamePage from IndividualOrBusinessPage when Individual option selected" in {
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
-          val answers = userAnswers.set(IndividualOrBusinessPage, value = IndividualOrBusinessToAdd.Individual).success.value
-
-          navigator.nextPage(IndividualOrBusinessPage, fakeDraftId, answers)
-            .mustBe(irts.NameController.onPageLoad(0, fakeDraftId))
-      }
-    }
   }
 
   "TrustHasOtherIndividualYesNoPage" when {

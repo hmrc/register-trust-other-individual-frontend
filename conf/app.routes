@@ -24,9 +24,6 @@ POST       /:draftId/add                                controllers.register.Add
 POST       /:draftId/add-another                        controllers.register.AddOtherIndividualController.submitAnother(draftId: String)
 POST       /complete                                    controllers.register.AddOtherIndividualController.submitComplete(draftId: String)
 
-GET        /:draftId/individual-or-business             controllers.register.IndividualOrBusinessController.onPageLoad(draftId: String)
-POST       /:draftId/individual-or-business             controllers.register.IndividualOrBusinessController.onSubmit(draftId: String)
-
 GET        /:draftId/information-you-need               controllers.register.InfoController.onPageLoad(draftId: String)
 
 GET        /:draftId/has-otherIndividuals               controllers.register.TrustHasOtherIndividualYesNoController.onPageLoad(draftId: String)
