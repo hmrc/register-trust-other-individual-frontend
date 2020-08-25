@@ -46,7 +46,7 @@ site.error = Error:
 site.inprogress = In Progress
 site.complete = Completed
 site.returnToRegistrationProgress = Return to registration progress
-
+site.sign_out = Sign out
 entities.no.name.added = No name added
 entities.otherIndividual = Other Individual
 
