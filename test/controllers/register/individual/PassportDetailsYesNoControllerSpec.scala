@@ -34,7 +34,7 @@ class PassportDetailsYesNoControllerSpec extends SpecBase {
   private val index: Int = 0
   private val name = FullName("first name", None, "Last name")
 
-  lazy val individualOtherIndividualPassportDetailsYesNoRoute = routes.PassportDetailsYesNoController.onPageLoad(index, draftId).url
+  lazy val otherIndividualPassportDetailsYesNoRoute = routes.PassportDetailsYesNoController.onPageLoad(index, draftId).url
 
   "PassportDetailsYesNo Controller" must {
 
@@ -45,7 +45,7 @@ class PassportDetailsYesNoControllerSpec extends SpecBase {
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
-      val request = FakeRequest(GET, individualOtherIndividualPassportDetailsYesNoRoute)
+      val request = FakeRequest(GET, otherIndividualPassportDetailsYesNoRoute)
 
       val result = route(application, request).value
 
@@ -66,7 +66,7 @@ class PassportDetailsYesNoControllerSpec extends SpecBase {
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
-      val request = FakeRequest(GET, individualOtherIndividualPassportDetailsYesNoRoute)
+      val request = FakeRequest(GET, otherIndividualPassportDetailsYesNoRoute)
 
       val view = application.injector.instanceOf[PassportDetailsYesNoView]
 
@@ -91,7 +91,7 @@ class PassportDetailsYesNoControllerSpec extends SpecBase {
         ).build()
 
       val request =
-        FakeRequest(POST, individualOtherIndividualPassportDetailsYesNoRoute)
+        FakeRequest(POST, otherIndividualPassportDetailsYesNoRoute)
           .withFormUrlEncodedBody(("value", "true"))
 
       val result = route(application, request).value
@@ -111,7 +111,7 @@ class PassportDetailsYesNoControllerSpec extends SpecBase {
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       val request =
-        FakeRequest(POST, individualOtherIndividualPassportDetailsYesNoRoute)
+        FakeRequest(POST, otherIndividualPassportDetailsYesNoRoute)
           .withFormUrlEncodedBody(("value", ""))
 
       val boundForm = form.bind(Map("value" -> ""))
@@ -132,7 +132,7 @@ class PassportDetailsYesNoControllerSpec extends SpecBase {
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val request = FakeRequest(GET, individualOtherIndividualPassportDetailsYesNoRoute)
+      val request = FakeRequest(GET, otherIndividualPassportDetailsYesNoRoute)
 
       val result = route(application, request).value
 
@@ -148,7 +148,7 @@ class PassportDetailsYesNoControllerSpec extends SpecBase {
       val application = applicationBuilder(userAnswers = None).build()
 
       val request =
-        FakeRequest(POST, individualOtherIndividualPassportDetailsYesNoRoute)
+        FakeRequest(POST, otherIndividualPassportDetailsYesNoRoute)
           .withFormUrlEncodedBody(("value", "true"))
 
       val result = route(application, request).value

@@ -21,16 +21,16 @@ import java.time.LocalDate
 import models.{FullName, InternationalAddress, PassportOrIdCardDetails, UkAddress}
 import play.api.libs.json.{Format, Json}
 
-final case class IndividualOtherIndividual(name: FullName,
-                                     dateOfBirth: Option[LocalDate],
-                                     nationalInsuranceNumber: Option[String],
-                                     ukAddress : Option[UkAddress],
-                                     internationalAddress : Option[InternationalAddress],
-                                     passportDetails: Option[PassportOrIdCardDetails],
-                                     idCardDetails: Option[PassportOrIdCardDetails]
+final case class OtherIndividualReads(name: FullName,
+                                      dateOfBirth: Option[LocalDate],
+                                      nationalInsuranceNumber: Option[String],
+                                      ukAddress : Option[UkAddress],
+                                      internationalAddress : Option[InternationalAddress],
+                                      passportDetails: Option[PassportOrIdCardDetails],
+                                      idCardDetails: Option[PassportOrIdCardDetails]
                                       ) {
 }
 
-object IndividualOtherIndividual {
-  implicit val classFormat: Format[IndividualOtherIndividual] = Json.format[IndividualOtherIndividual]
+object OtherIndividualReads {
+  implicit val classFormat: Format[OtherIndividualReads] = Json.format[OtherIndividualReads]
 }

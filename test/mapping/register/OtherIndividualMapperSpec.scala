@@ -36,7 +36,7 @@ class OtherIndividualMapperSpec extends SpecBase with MustMatchers
   private val dateOfBirth = LocalDate.of(2000,1,1)
   private val passportExpiry = LocalDate.of(2025,1,1)
 
-  "IndividualOtherIndividualMapper" when {
+  "OtherIndividualMapper" when {
 
     "when user answers is empty" must {
 
@@ -60,10 +60,10 @@ class OtherIndividualMapperSpec extends SpecBase with MustMatchers
               .set(NationalInsuranceYesNoPage(index0), true).success.value
               .set(NationalInsuranceNumberPage(index0), nino).success.value
 
-          val individualOtherIndividuals = mapper.build(userAnswers)
+          val otherIndividuals = mapper.build(userAnswers)
 
-          individualOtherIndividuals mustBe defined
-          individualOtherIndividuals.value.head mustBe OtherIndividual(
+          otherIndividuals mustBe defined
+          otherIndividuals.value.head mustBe OtherIndividual(
             name = NameType(firstName, None, lastName),
             dateOfBirth = None,
             identification = Some(IdentificationType(nino = Some(nino), address = None, passport = None))
@@ -82,10 +82,10 @@ class OtherIndividualMapperSpec extends SpecBase with MustMatchers
               .set(PassportDetailsYesNoPage(index0), false).success.value
               .set(IDCardDetailsYesNoPage(index0), false).success.value
 
-          val individualOtherIndividuals = mapper.build(userAnswers)
+          val otherIndividuals = mapper.build(userAnswers)
 
-          individualOtherIndividuals mustBe defined
-          individualOtherIndividuals.value.head mustBe OtherIndividual(
+          otherIndividuals mustBe defined
+          otherIndividuals.value.head mustBe OtherIndividual(
             name = NameType(firstName, None, lastName),
             identification = Some(IdentificationType(nino = None,
               address = Some(AddressType("Line1", "Line2", Some("Line3"), Some("Newcastle"), Some("NE62RT"), "GB")),
@@ -107,10 +107,10 @@ class OtherIndividualMapperSpec extends SpecBase with MustMatchers
               .set(PassportDetailsYesNoPage(index0), false).success.value
               .set(IDCardDetailsYesNoPage(index0), false).success.value
 
-          val individualOtherIndividuals = mapper.build(userAnswers)
+          val otherIndividuals = mapper.build(userAnswers)
 
-          individualOtherIndividuals mustBe defined
-          individualOtherIndividuals.value.head mustBe OtherIndividual(
+          otherIndividuals mustBe defined
+          otherIndividuals.value.head mustBe OtherIndividual(
             name = NameType(firstName, None, lastName),
             identification = Some(IdentificationType(
               nino = None,
@@ -135,10 +135,10 @@ class OtherIndividualMapperSpec extends SpecBase with MustMatchers
               .set(PassportDetailsPage(index0), PassportOrIdCardDetails("GB", "12345", passportExpiry)).success.value
               .set(IDCardDetailsYesNoPage(index0), false).success.value
 
-          val individualOtherIndividuals = mapper.build(userAnswers)
+          val otherIndividuals = mapper.build(userAnswers)
 
-          individualOtherIndividuals mustBe defined
-          individualOtherIndividuals.value.head mustBe OtherIndividual(
+          otherIndividuals mustBe defined
+          otherIndividuals.value.head mustBe OtherIndividual(
             name = NameType(firstName, None, lastName),
             identification = Some(IdentificationType(nino = None,
               address = Some(AddressType("Line1", "Line2", Some("Line3"), Some("Newcastle"), Some("NE62RT"), "GB")),
@@ -168,10 +168,10 @@ class OtherIndividualMapperSpec extends SpecBase with MustMatchers
             .set(IDCardDetailsYesNoPage(index1), false).success.value
 
 
-        val individualOtherIndividuals = mapper.build(userAnswers)
+        val otherIndividuals = mapper.build(userAnswers)
 
-        individualOtherIndividuals mustBe defined
-        individualOtherIndividuals.value mustBe
+        otherIndividuals mustBe defined
+        otherIndividuals.value mustBe
           List(
             OtherIndividual(
               name = NameType("Individual Name 1", None, lastName),

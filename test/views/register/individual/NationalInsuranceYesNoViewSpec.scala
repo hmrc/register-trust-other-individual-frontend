@@ -32,7 +32,7 @@ class NationalInsuranceYesNoViewSpec extends YesNoViewBehaviours {
 
   val form: Form[Boolean] = new YesNoFormProvider().withPrefix(messageKeyPrefix)
 
-  "IndividualOtherIndividualNationalInsuranceYesNo view" must {
+  "OtherIndividualNationalInsuranceYesNo view" must {
 
     val userAnswers = emptyUserAnswers
       .set(NamePage(index), name).success.value

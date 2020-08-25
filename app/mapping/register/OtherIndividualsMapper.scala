@@ -21,11 +21,11 @@ import mapping.Mapping
 import models.UserAnswers
 import play.api.Logger
 
-class OtherIndividualsMapper @Inject()(individualOtherIndividualMapper: OtherIndividualMapper) extends Mapping[OtherIndividualsType] {
+class OtherIndividualsMapper @Inject()(otherIndividualMapper: OtherIndividualMapper) extends Mapping[OtherIndividualsType] {
 
   override def build(userAnswers: UserAnswers): Option[OtherIndividualsType] = {
 
-    val individual = individualOtherIndividualMapper.build(userAnswers)
+    val individual = otherIndividualMapper.build(userAnswers)
     val all= Seq(individual).flatten.flatten
 
     if (all.nonEmpty) {

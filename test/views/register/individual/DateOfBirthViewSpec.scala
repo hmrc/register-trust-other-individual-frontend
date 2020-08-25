@@ -33,7 +33,7 @@ class DateOfBirthViewSpec extends QuestionViewBehaviours[LocalDate] {
 
   val form = new DateOfBirthFormProvider(frontendAppConfig).withPrefix("otherIndividual.dateOfBirth")
 
-  "IndividualOtherIndividualDateOfBirthView view" must {
+  "OtherIndividualDateOfBirthView view" must {
 
     val view = viewFor[DateOfBirthView](Some(emptyUserAnswers))
 

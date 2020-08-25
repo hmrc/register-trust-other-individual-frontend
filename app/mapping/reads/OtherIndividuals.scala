@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-package sections
+package mapping.reads
 
 import pages.QuestionPage
 import play.api.libs.json.JsPath
-import viewmodels.addAnother.OtherIndividualViewModel
+import sections.{OtherIndividualsView => section}
 
-case class OtherIndividual(index: Int) extends QuestionPage[OtherIndividualViewModel]{
-
-  override def path: JsPath = OtherIndividuals.path \ index
-
+case object OtherIndividuals extends QuestionPage[List[OtherIndividualReads]]{
+  override def path: JsPath = section.path
+  override def toString: String = section.toString
 }

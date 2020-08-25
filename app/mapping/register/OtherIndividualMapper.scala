@@ -18,15 +18,15 @@ package mapping.register
 
 import javax.inject.Inject
 import mapping.Mapping
-import mapping.reads.{IndividualOtherIndividual, IndividualOtherIndividuals}
+import mapping.reads.{OtherIndividualReads, OtherIndividuals}
 import models.{PassportOrIdCardDetails, UserAnswers}
 
 class OtherIndividualMapper @Inject()(nameMapper: NameMapper,
                                       addressMapper: AddressMapper) extends Mapping[List[OtherIndividual]] {
   override def build(userAnswers: UserAnswers): Option[List[OtherIndividual]] = {
 
-    val otherIndividuals: List[IndividualOtherIndividual] =
-      userAnswers.get(IndividualOtherIndividuals).getOrElse(List.empty)
+    val otherIndividuals: List[OtherIndividualReads] =
+      userAnswers.get(OtherIndividuals).getOrElse(List.empty)
 
     otherIndividuals match {
       case Nil => None
@@ -43,7 +43,7 @@ class OtherIndividualMapper @Inject()(nameMapper: NameMapper,
     }
   }
 
-  private def buildIdentification(otherIndividual: IndividualOtherIndividual): Option[IdentificationType] = {
+  private def buildIdentification(otherIndividual: OtherIndividualReads): Option[IdentificationType] = {
     val nino = otherIndividual.nationalInsuranceNumber
     val address = (otherIndividual.ukAddress, otherIndividual.internationalAddress) match {
       case (None, None) => None

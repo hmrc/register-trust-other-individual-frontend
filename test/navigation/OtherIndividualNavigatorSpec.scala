@@ -87,7 +87,7 @@ class OtherIndividualNavigatorSpec extends SpecBase with ScalaCheckPropertyCheck
 
       }
 
-      "ddOtherIndividualPage -> add them later -> RegistrationProgress" in {
+      "AddOtherIndividualPage -> add them later -> RegistrationProgress" in {
         forAll(arbitrary[UserAnswers]) {
           userAnswers =>
 
@@ -100,7 +100,7 @@ class OtherIndividualNavigatorSpec extends SpecBase with ScalaCheckPropertyCheck
         }
       }
 
-      "ddOtherIndividualPage -> added them all -> RegistrationProgress" in {
+      "AddOtherIndividualPage -> added them all -> RegistrationProgress" in {
         forAll(arbitrary[UserAnswers]) {
           userAnswers =>
 

@@ -32,7 +32,7 @@ class DateOfBirthYesNoViewSpec extends YesNoViewBehaviours {
 
   val form: Form[Boolean] = new YesNoFormProvider().withPrefix(messageKeyPrefix)
 
-  "IndividualOtherIndividualDateOfBirthYesNo view" must {
+  "OtherIndividualDateOfBirthYesNo view" must {
 
     val userAnswers = emptyUserAnswers
       .set(NamePage(index), name).success.value

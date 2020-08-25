@@ -28,7 +28,7 @@ import viewmodels.{AnswerRow, AnswerSection}
 
 class SubmissionSetFactory @Inject()(registrationProgress: RegistrationProgress,
                                      otherIndividualsMapper: OtherIndividualsMapper,
-                                     individualOtherIndividualAnswersHelper: OtherIndividualAnswersHelper) {
+                                     otherIndividualAnswersHelper: OtherIndividualAnswersHelper) {
 
   def createFrom(userAnswers: UserAnswers)(implicit messages: Messages): RegistrationSubmission.DataSet = {
     val status = registrationProgress.otherIndividualsStatus(userAnswers)
@@ -64,7 +64,7 @@ class SubmissionSetFactory @Inject()(registrationProgress: RegistrationProgress,
     if (status.contains(Status.Completed) && trustHasOtherIndividualYesNo) {
 
       val entitySections = List(
-        individualOtherIndividualAnswersHelper.individualOtherIndividuals(userAnswers, canEdit = false)
+        otherIndividualAnswersHelper.otherIndividuals(userAnswers, canEdit = false)
       ).flatten.flatten
 
       val updatedFirstSection = AnswerSection(

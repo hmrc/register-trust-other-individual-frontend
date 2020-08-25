@@ -19,7 +19,7 @@ package utils
 import controllers.register.individual.{routes => individualRts}
 import models.UserAnswers
 import play.api.i18n.Messages
-import sections.IndividualOtherIndividuals
+import sections.OtherIndividualsView
 import viewmodels.addAnother.OtherIndividualViewModel
 import viewmodels.{AddRow, AddToRows}
 
@@ -32,10 +32,10 @@ class AddOtherIndividualViewHelper(userAnswers: UserAnswers, draftId : String)(i
     name.getOrElse(defaultValue)
   }
 
-  private def parseIndividualOtherIndividual(individualOtherIndividual : (OtherIndividualViewModel, Int)) : AddRow = {
+  private def parseOtherIndividual(otherIndividual : (OtherIndividualViewModel, Int)) : AddRow = {
 
-    val vm = individualOtherIndividual._1
-    val index = individualOtherIndividual._2
+    val vm = otherIndividual._1
+    val index = otherIndividual._2
 
     AddRow(
       name = parseName(vm.name.map(_.toString)),
@@ -49,18 +49,18 @@ class AddOtherIndividualViewHelper(userAnswers: UserAnswers, draftId : String)(i
     )
   }
 
-  private def individualOtherIndividuals = {
-    val individualOtherIndividuals = userAnswers.get(IndividualOtherIndividuals).toList.flatten.zipWithIndex
-    val individualOtherIndividualsComplete = individualOtherIndividuals.filter(_._1.isComplete).map(parseIndividualOtherIndividual)
-    val individualOtherIndividualsInProgress = individualOtherIndividuals.filterNot(_._1.isComplete).map(parseIndividualOtherIndividual)
+  private def otherIndividuals = {
+    val otherIndividuals = userAnswers.get(OtherIndividualsView).toList.flatten.zipWithIndex
+    val otherIndividualsComplete = otherIndividuals.filter(_._1.isComplete).map(parseOtherIndividual)
+    val otherIndividualsInProgress = otherIndividuals.filterNot(_._1.isComplete).map(parseOtherIndividual)
 
-    InProgressComplete(inProgress = individualOtherIndividualsInProgress, complete = individualOtherIndividualsComplete)
+    InProgressComplete(inProgress = otherIndividualsInProgress, complete = otherIndividualsComplete)
   }
   
   def rows : AddToRows =
     AddToRows(
-      inProgress = individualOtherIndividuals.inProgress,
-      complete = individualOtherIndividuals.complete
+      inProgress = otherIndividuals.inProgress,
+      complete = otherIndividuals.complete
     )
 
 }

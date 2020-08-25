@@ -19,11 +19,11 @@ package pages.register.individual
 import models.InternationalAddress
 import pages.QuestionPage
 import play.api.libs.json.JsPath
-import sections.IndividualOtherIndividuals
+import sections.OtherIndividualsView
 
 case class NonUkAddressPage(index: Int) extends QuestionPage[InternationalAddress] {
 
-  override def path: JsPath = IndividualOtherIndividuals.path \ index \ toString
+  override def path: JsPath = OtherIndividualsView.path \ index \ toString
 
   override def toString: String = "internationalAddress"
 }

@@ -26,7 +26,7 @@ import pages.Page
 import pages.register.{AddOtherIndividualPage, AddOtherIndividualYesNoPage, AnswersPage, TrustHasOtherIndividualYesNoPage}
 import pages.register.individual._
 import play.api.mvc.Call
-import sections.IndividualOtherIndividuals
+import sections.OtherIndividualsView
 
 class OtherIndividualNavigator @Inject()(config: FrontendAppConfig) extends Navigator {
 
@@ -98,8 +98,8 @@ class OtherIndividualNavigator @Inject()(config: FrontendAppConfig) extends Navi
     }
 
   private def routeToOtherIndividualIndex(userAnswers: ReadableUserAnswers, draftId: String): Call = {
-    val individualOtherIndividuals = userAnswers.get(IndividualOtherIndividuals).getOrElse(List.empty)
-    irts.NameController.onPageLoad(individualOtherIndividuals.size, draftId)
+    val otherIndividuals = userAnswers.get(OtherIndividualsView).getOrElse(List.empty)
+    irts.NameController.onPageLoad(otherIndividuals.size, draftId)
   }
 
   private def addOtherIndividualRoute(draftId: String, config: FrontendAppConfig)(answers: ReadableUserAnswers): Call = {

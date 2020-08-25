@@ -20,6 +20,6 @@ import pages.QuestionPage
 import play.api.libs.json.JsPath
 import viewmodels.addAnother.OtherIndividualViewModel
 
-case class IndividualOtherIndividualView(index: Int) extends QuestionPage[OtherIndividualViewModel] {
-  override def path: JsPath = IndividualOtherIndividuals.path \ index
+case class OtherIndividualView(index: Int) extends QuestionPage[OtherIndividualViewModel] {
+  override def path: JsPath = OtherIndividualsView.path \ index
 }

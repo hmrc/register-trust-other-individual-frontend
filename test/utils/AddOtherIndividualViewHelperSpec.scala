@@ -28,9 +28,9 @@ import viewmodels.{AddRow, AddToRows}
 class AddOtherIndividualViewHelperSpec extends SpecBase {
 
 
-  private def changeInProgressIndividualOtherIndividualRoute(index: Int): String = irts.NameController.onPageLoad(index, draftId).url
-  private def changeCompleteIndividualOtherIndividualRoute(index: Int): String = irts.CheckDetailsController.onPageLoad(index, draftId).url
-  private def removeIndividualOtherIndividualRoute(index: Int): String = irts.RemoveOtherIndividualController.onPageLoad(index, draftId).url
+  private def changeInProgressOtherIndividualRoute(index: Int): String = irts.NameController.onPageLoad(index, draftId).url
+  private def changeCompleteOtherIndividualRoute(index: Int): String = irts.CheckDetailsController.onPageLoad(index, draftId).url
+  private def removeOtherIndividualRoute(index: Int): String = irts.RemoveOtherIndividualController.onPageLoad(index, draftId).url
   
   "Add otherIndividual view helper" when {
 
@@ -61,8 +61,8 @@ class AddOtherIndividualViewHelperSpec extends SpecBase {
             AddRow(
               name = name.toString,
               typeLabel = label,
-              changeUrl = changeCompleteIndividualOtherIndividualRoute(index),
-              removeUrl = removeIndividualOtherIndividualRoute(index)
+              changeUrl = changeCompleteOtherIndividualRoute(index),
+              removeUrl = removeOtherIndividualRoute(index)
             )
           )
         )
@@ -84,8 +84,8 @@ class AddOtherIndividualViewHelperSpec extends SpecBase {
               AddRow(
                 name = name.toString,
                 typeLabel = label,
-                changeUrl = changeInProgressIndividualOtherIndividualRoute(index),
-                removeUrl = removeIndividualOtherIndividualRoute(index)
+                changeUrl = changeInProgressOtherIndividualRoute(index),
+                removeUrl = removeOtherIndividualRoute(index)
               )
             ),
             complete = Nil
@@ -125,22 +125,22 @@ class AddOtherIndividualViewHelperSpec extends SpecBase {
             AddRow(
               name = name3.toString,
               typeLabel = label,
-              changeUrl = changeInProgressIndividualOtherIndividualRoute(2),
-              removeUrl = removeIndividualOtherIndividualRoute(2)
+              changeUrl = changeInProgressOtherIndividualRoute(2),
+              removeUrl = removeOtherIndividualRoute(2)
             )
           ),
           complete = List(
             AddRow(
               name = name1.toString,
               typeLabel = label,
-              changeUrl = changeCompleteIndividualOtherIndividualRoute(0),
-              removeUrl = removeIndividualOtherIndividualRoute(0)
+              changeUrl = changeCompleteOtherIndividualRoute(0),
+              removeUrl = removeOtherIndividualRoute(0)
             ),
             AddRow(
               name = name2.toString,
               typeLabel = label,
-              changeUrl = changeCompleteIndividualOtherIndividualRoute(1),
-              removeUrl = removeIndividualOtherIndividualRoute(1)
+              changeUrl = changeCompleteOtherIndividualRoute(1),
+              removeUrl = removeOtherIndividualRoute(1)
             )
           )
         )

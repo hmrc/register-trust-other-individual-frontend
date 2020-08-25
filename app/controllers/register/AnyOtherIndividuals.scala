@@ -17,11 +17,11 @@
 package controllers.register
 
 import models.{OtherIndividuals, ReadableUserAnswers}
-import sections.IndividualOtherIndividuals
+import sections.{OtherIndividualsView => OtherIndividualsSection}
 
 trait AnyOtherIndividuals {
 
-  def otherIndividuals(userAnswers: ReadableUserAnswers): OtherIndividuals = OtherIndividuals(userAnswers.get(IndividualOtherIndividuals).getOrElse(List.empty))
+  def otherIndividuals(userAnswers: ReadableUserAnswers): OtherIndividuals = OtherIndividuals(userAnswers.get(OtherIndividualsSection).getOrElse(List.empty))
 
   def isAnyOtherIndividualAdded(userAnswers: ReadableUserAnswers): Boolean = {
     val otherIndividualLists: OtherIndividuals = otherIndividuals(userAnswers)

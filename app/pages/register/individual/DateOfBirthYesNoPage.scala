@@ -19,13 +19,13 @@ package pages.register.individual
 import models.UserAnswers
 import pages.QuestionPage
 import play.api.libs.json.JsPath
-import sections.IndividualOtherIndividuals
+import sections.OtherIndividualsView
 
 import scala.util.Try
 
 final case class DateOfBirthYesNoPage(index : Int) extends QuestionPage[Boolean] {
 
-  override def path: JsPath = IndividualOtherIndividuals.path \ index \ toString
+  override def path: JsPath = OtherIndividualsView.path \ index \ toString
 
   override def toString: String = "dateOfBirthYesNo"
 

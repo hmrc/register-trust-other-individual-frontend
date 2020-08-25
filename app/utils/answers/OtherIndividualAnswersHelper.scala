@@ -19,20 +19,20 @@ package utils.answers
 import javax.inject.Inject
 import models.UserAnswers
 import play.api.i18n.Messages
-import sections.IndividualOtherIndividuals
+import sections.OtherIndividualsView
 import utils.print.OtherIndividualPrintHelper
 import viewmodels.AnswerSection
 
-class OtherIndividualAnswersHelper @Inject()(individualOtherIndividualPrintHelper: OtherIndividualPrintHelper) {
+class OtherIndividualAnswersHelper @Inject()(otherIndividualPrintHelper: OtherIndividualPrintHelper) {
 
-  def individualOtherIndividuals(userAnswers: UserAnswers,
-                           canEdit: Boolean)(implicit messages: Messages): Option[Seq[AnswerSection]] = {
+  def otherIndividuals(userAnswers: UserAnswers,
+                       canEdit: Boolean)(implicit messages: Messages): Option[Seq[AnswerSection]] = {
     for {
-      otherIndividuals <- userAnswers.get(IndividualOtherIndividuals)
+      otherIndividuals <- userAnswers.get(OtherIndividualsView)
       indexed = otherIndividuals.zipWithIndex
     } yield indexed.map {
       case (otherIndividualViewModel, index) =>
-        individualOtherIndividualPrintHelper.printSection(userAnswers, otherIndividualViewModel.name.map(_.toString).getOrElse(""), index, userAnswers.draftId)
+        otherIndividualPrintHelper.printSection(userAnswers, otherIndividualViewModel.name.map(_.toString).getOrElse(""), index, userAnswers.draftId)
     }
   }
 }

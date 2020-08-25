@@ -34,7 +34,7 @@ class NationalInsuranceYesNoControllerSpec extends SpecBase {
   private val index: Int = 0
   private val name = FullName("first name", None, "Last name")
 
-  lazy val individualOtherIndividualNationalInsuranceYesNoRoute = routes.NationalInsuranceYesNoController.onPageLoad(index, draftId).url
+  lazy val otherIndividualNationalInsuranceYesNoRoute = routes.NationalInsuranceYesNoController.onPageLoad(index, draftId).url
 
   "NationalInsuranceYesNo Controller" must {
 
@@ -45,7 +45,7 @@ class NationalInsuranceYesNoControllerSpec extends SpecBase {
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
-      val request = FakeRequest(GET, individualOtherIndividualNationalInsuranceYesNoRoute)
+      val request = FakeRequest(GET, otherIndividualNationalInsuranceYesNoRoute)
 
       val result = route(application, request).value
 
@@ -66,7 +66,7 @@ class NationalInsuranceYesNoControllerSpec extends SpecBase {
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
-      val request = FakeRequest(GET, individualOtherIndividualNationalInsuranceYesNoRoute)
+      val request = FakeRequest(GET, otherIndividualNationalInsuranceYesNoRoute)
 
       val view = application.injector.instanceOf[NationalInsuranceYesNoView]
 
@@ -91,7 +91,7 @@ class NationalInsuranceYesNoControllerSpec extends SpecBase {
         ).build()
 
       val request =
-        FakeRequest(POST, individualOtherIndividualNationalInsuranceYesNoRoute)
+        FakeRequest(POST, otherIndividualNationalInsuranceYesNoRoute)
           .withFormUrlEncodedBody(("value", "true"))
 
       val result = route(application, request).value
@@ -111,7 +111,7 @@ class NationalInsuranceYesNoControllerSpec extends SpecBase {
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       val request =
-        FakeRequest(POST, individualOtherIndividualNationalInsuranceYesNoRoute)
+        FakeRequest(POST, otherIndividualNationalInsuranceYesNoRoute)
           .withFormUrlEncodedBody(("value", ""))
 
       val boundForm = form.bind(Map("value" -> ""))
@@ -132,7 +132,7 @@ class NationalInsuranceYesNoControllerSpec extends SpecBase {
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val request = FakeRequest(GET, individualOtherIndividualNationalInsuranceYesNoRoute)
+      val request = FakeRequest(GET, otherIndividualNationalInsuranceYesNoRoute)
 
       val result = route(application, request).value
 
@@ -148,7 +148,7 @@ class NationalInsuranceYesNoControllerSpec extends SpecBase {
       val application = applicationBuilder(userAnswers = None).build()
 
       val request =
-        FakeRequest(POST, individualOtherIndividualNationalInsuranceYesNoRoute)
+        FakeRequest(POST, otherIndividualNationalInsuranceYesNoRoute)
           .withFormUrlEncodedBody(("value", "true"))
 
       val result = route(application, request).value

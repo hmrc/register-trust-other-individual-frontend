@@ -25,7 +25,7 @@ import pages.QuestionPage
 import play.api.i18n.MessagesApi
 import play.api.mvc.{Call, MessagesControllerComponents}
 import repositories.RegistrationsRepository
-import sections.IndividualOtherIndividualView
+import sections.OtherIndividualView
 import viewmodels.addAnother.OtherIndividualViewModel
 import views.html.RemoveIndexView
 
@@ -40,6 +40,6 @@ class RemoveOtherIndividualController @Inject()(
                                            val controllerComponents: MessagesControllerComponents,
                                            val view: RemoveIndexView
                                          )(implicit val ec: ExecutionContext) extends RemoveIndexController {
-  def otherIndividualAtIndex(index: Int): QuestionPage[OtherIndividualViewModel] = IndividualOtherIndividualView(index)
+  def otherIndividualAtIndex(index: Int): QuestionPage[OtherIndividualViewModel] = OtherIndividualView(index)
   def submitCall(index: Int, draftId: String): Call = routes.RemoveOtherIndividualController.onSubmit(index, draftId)
 }
