@@ -48,25 +48,15 @@ class IDCardDetailsViewSpec extends QuestionViewBehaviours[PassportOrIdCardDetai
 
     behave like pageWithBackLink(applyView(form))
 
-    "date fields" must {
-
-      behave like pageWithDateFields(form, applyViewF,
-        messageKeyPrefix,
-        "expiryDate",
-        name.toString
-      )
-    }
-
-    "text fields" must {
-
-      behave like pageWithTextFields(
-        form,
-        applyView,
-        messageKeyPrefix,
-        Seq(("number", None)),
-        name.toString
-      )
-    }
+    behave like pageWithPassportOrIDCardDetailsFields(
+      form,
+      applyView,
+      messageKeyPrefix,
+      controllers.register.individual.routes.IDCardDetailsController.onSubmit(0, "draftId").url,
+      Seq(("country", None), ("number", None)),
+      "expiryDate",
+      name.toString
+    )
 
     behave like pageWithASubmitButton(applyView(form))
 
