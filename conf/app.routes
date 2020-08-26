@@ -26,5 +26,5 @@ POST       /complete                                    controllers.register.Add
 
 GET        /:draftId/information-you-need               controllers.register.InfoController.onPageLoad(draftId: String)
 
-GET        /:draftId/has-otherIndividuals               controllers.register.TrustHasOtherIndividualYesNoController.onPageLoad(draftId: String)
-POST       /:draftId/has-otherIndividuals               controllers.register.TrustHasOtherIndividualYesNoController.onSubmit(draftId: String)
+GET        /:draftId/has-other-individuals               controllers.register.TrustHasOtherIndividualYesNoController.onPageLoad(draftId: String)
+POST       /:draftId/has-other-individuals               controllers.register.TrustHasOtherIndividualYesNoController.onSubmit(draftId: String)
