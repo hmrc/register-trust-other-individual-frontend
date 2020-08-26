@@ -43,9 +43,9 @@
     }
     @if(optionalHtmlContent.nonEmpty){@optionalHtmlContent}
     @if(hint.nonEmpty){
-    <div id="@{field.id}_hint">
-        <span class="form-hint form-field" @if(readerHint.nonEmpty){aria-label="@readerHint"}>@hint</span>
-    </div>
+        <div id="@{field.id}_hint">
+            <span class="form-hint form-field" @if(readerHint.nonEmpty){aria-label="@readerHint"}>@hint</span>
+        </div>
     }
     @field.errors.map { error =>
     <span class="error-message" id="error-message-@{field.id}-input">
@@ -54,23 +54,23 @@
     }
     <div class="form-control-wrapper" @if(symbol.isDefined){data-type="@{symbol}"}>
         <input
-                class="form-control @inputClass @if(field.hasErrors){field-error}"
-                type="text"
-                id="@{field.id}"
-                name="@{field.name}"
-                value="@{field.value}"
-                @if(autocomplete.nonEmpty){
-                autocomplete="@{autocomplete.get}"
-                }
+        class="form-control @inputClass @if(field.hasErrors){field-error}"
+        type="text"
+        id="@{field.id}"
+        name="@{field.name}"
+        value="@{field.value}"
+        @if(autocomplete.nonEmpty){
+        autocomplete="@{autocomplete.get}"
+        }
 
-                @if(inputMode.nonEmpty) {
-                inputmode="@{inputMode.get}"
-                }
-                @if(symbolText.nonEmpty) {
-                aria-label='@{label} @{symbolText.get}'
-                }
-                @if(hint.nonEmpty | field.hasErrors) {
-                aria-describedby="@{if(hint.nonEmpty){s"${field.id}_hint"}} @{if(field.hasErrors){s"error-message-${field.id}-input"}}"
+        @if(inputMode.nonEmpty) {
+            inputmode="@{inputMode.get}"
+        }
+        @if(symbolText.nonEmpty) {
+            aria-label='@{label} @{symbolText.get}'
+        }
+        @if(hint.nonEmpty || field.hasErrors) {
+            aria-describedby="@if(field.hasErrors){error-message-@{field.id}-input}@if(field.hasErrors && hint.nonEmpty){ }@if(hint.nonEmpty){@{field.id}_hint}"
         }
         />
     </div>
