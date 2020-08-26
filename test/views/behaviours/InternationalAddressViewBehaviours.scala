@@ -16,31 +16,34 @@
 
 package views.behaviours
 
-import models.UkAddress
+import models.InternationalAddress
 import play.api.data.{Form, FormError}
 import play.twirl.api.HtmlFormat
 
-trait UkAddressViewBehaviours extends ViewBehaviours {
+
+trait InternationalAddressViewBehaviours extends ViewBehaviours {
+
 
   val errorKey = "value"
   val errorMessage = "error.number"
   val error = FormError(errorKey, errorMessage)
 
-  val form: Form[UkAddress]
+  val form: Form[InternationalAddress]
 
-  def ukAddressPage(createView: Form[UkAddress] => HtmlFormat.Appendable,
-                    messageKeyPrefix: Option[String],
-                         args : String*) = {
+  def internationalAddress(createView: Form[InternationalAddress] => HtmlFormat.Appendable,
+                           titleMessagePrefix: Option[String],
+                           expectedFormAction: String,
+                           args: String*) = {
 
-    val prefix = messageKeyPrefix.getOrElse("site.address.uk")
+    val titlePrefix = titleMessagePrefix.getOrElse("site.address.international")
 
-    val fields =  Seq(("line1",None),
-                              ("line2",None),
-                              ("line3", None),
-                              ("line4", None),
-                              ("postcode", Some("site.address.uk.postcode.hint")))
+    val fields = Seq(("line1", None),
+      ("line2", None),
+      ("line3", None),
+      ("country", None)
+    )
 
-    "behave like a ukAddressPage" when {
+    "behave like a internationalAddressPage" when {
 
       "rendered" must {
 
@@ -64,7 +67,10 @@ trait UkAddressViewBehaviours extends ViewBehaviours {
         "show an error prefix in the browser title" in {
 
           val doc = asDocument(createView(form.withError(error)))
-          assertEqualsValue(doc, "title", s"""${messages("error.browser.title.prefix")} ${messages(s"$prefix.title", args: _*)}""")
+          assertEqualsValue(
+            doc,
+            "title",
+            s"""${messages("error.browser.title.prefix")} ${messages(s"$titlePrefix.title", args: _*)}""")
         }
       }
 
@@ -91,8 +97,7 @@ trait UkAddressViewBehaviours extends ViewBehaviours {
         s"contains a label and optional hint text for the field '$field'" in {
           val doc = asDocument(createView(form))
           val fieldName = field._1
-          val fieldHint = field._2 map (k => messages(k))
-          assertContainsLabel(doc, fieldName, messages(s"site.address.uk.$fieldName"), fieldHint)
+          assertContainsLabel(doc, fieldName, messages(s"site.address.international.$fieldName"))
         }
       }
     }
