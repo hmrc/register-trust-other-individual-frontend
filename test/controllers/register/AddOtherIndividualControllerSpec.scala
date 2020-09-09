@@ -142,7 +142,7 @@ class AddOtherIndividualControllerSpec extends SpecBase {
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(form, fakeDraftId)(fakeRequest, messages).toString
+          view(form, fakeDraftId)(request, messages).toString
 
         application.stop()
       }
@@ -182,7 +182,7 @@ class AddOtherIndividualControllerSpec extends SpecBase {
         status(result) mustEqual BAD_REQUEST
 
         contentAsString(result) mustEqual
-          view(boundForm, fakeDraftId)(fakeRequest, messages).toString
+          view(boundForm, fakeDraftId)(request, messages).toString
 
         application.stop()
       }
@@ -204,7 +204,7 @@ class AddOtherIndividualControllerSpec extends SpecBase {
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(form, fakeDraftId, Nil, otherIndividualsComplete, "You have added 3 other individuals", false)(fakeRequest, messages).toString
+          view(form, fakeDraftId, Nil, otherIndividualsComplete, "You have added 3 other individuals", false)(request, messages).toString
 
         application.stop()
       }
@@ -225,7 +225,7 @@ class AddOtherIndividualControllerSpec extends SpecBase {
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(form, fakeDraftId, Nil, otherIndividualsComplete, "You have added 3 other individuals", false)(fakeRequest, messages).toString
+          view(form, fakeDraftId, Nil, otherIndividualsComplete, "You have added 3 other individuals", false)(request, messages).toString
 
         application.stop()
       }
@@ -266,7 +266,7 @@ class AddOtherIndividualControllerSpec extends SpecBase {
         status(result) mustEqual BAD_REQUEST
 
         contentAsString(result) mustEqual
-          view(boundForm, fakeDraftId, Nil, Nil, "Add other individual", false)(fakeRequest, messages).toString
+          view(boundForm, fakeDraftId, Nil, Nil, "Add other individual", false)(request, messages).toString
 
         application.stop()
       }

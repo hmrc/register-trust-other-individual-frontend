@@ -62,7 +62,7 @@ class PassportDetailsControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, countryOptions, name.toString, index, draftId)(fakeRequest, messages).toString
+        view(form, countryOptions, name.toString, index, draftId)(request, messages).toString
 
       application.stop()
     }
@@ -84,7 +84,7 @@ class PassportDetailsControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(passportDetails), countryOptions, name.toString, index, draftId)(fakeRequest, messages).toString
+        view(form.fill(passportDetails), countryOptions, name.toString, index, draftId)(request, messages).toString
 
       application.stop()
     }
@@ -143,7 +143,7 @@ class PassportDetailsControllerSpec extends SpecBase {
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, countryOptions, name.toString, index, draftId)(fakeRequest, messages).toString
+        view(boundForm, countryOptions, name.toString, index, draftId)(request, messages).toString
 
       application.stop()
     }

@@ -69,7 +69,7 @@ class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation 
             fakeDraftId,
             index,
             defaultOtherIndividualName,
-            routes.RemoveOtherIndividualController.onSubmit(index, draftId))(fakeRequest, messages).toString
+            routes.RemoveOtherIndividualController.onSubmit(index, draftId))(request, messages).toString
 
         application.stop()
       }
@@ -95,7 +95,7 @@ class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation 
             fakeDraftId,
             index,
             testName.toString,
-            routes.RemoveOtherIndividualController.onSubmit(index, draftId))(fakeRequest, messages).toString
+            routes.RemoveOtherIndividualController.onSubmit(index, draftId))(request, messages).toString
 
         application.stop()
       }
@@ -184,7 +184,7 @@ class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation 
           fakeDraftId,
           index,
           defaultOtherIndividualName,
-          routes.RemoveOtherIndividualController.onSubmit(index, draftId))(fakeRequest, messages).toString
+          routes.RemoveOtherIndividualController.onSubmit(index, draftId))(request, messages).toString
 
       application.stop()
     }

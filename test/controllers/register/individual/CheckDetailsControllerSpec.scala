@@ -53,7 +53,7 @@ class CheckDetailsControllerSpec extends SpecBase with MockitoSugar with ScalaFu
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(answerSection, index, fakeDraftId)(fakeRequest, messages).toString
+        view(answerSection, index, fakeDraftId)(request, messages).toString
     }
 
   }
