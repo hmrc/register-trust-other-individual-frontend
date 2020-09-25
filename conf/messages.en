@@ -225,9 +225,10 @@ addOtherIndividualYesNo.title = Do you want to add an other individual?
 addOtherIndividualYesNo.heading = Do you want to add an other individual?
 addOtherIndividualYesNo.error.required = Select yes if you want to add an other individual
 
-otherIndividualsInfo.title = Other individuals: information you’ll need to provide
-otherIndividualsInfo.heading = Other individuals: information you’ll need to provide
+otherIndividualsInfo.title = Information you’ll need to provide
+otherIndividualsInfo.heading = Information you’ll need to provide
 otherIndividualsInfo.caption = Other individuals
+otherIndividualsInfo.caption.hidden = This section is
 otherIndividualsInfo.paragraph1 = For any other individuals who are involved in the trust, like family members, friends or third parties, tell us their name. You also need to tell us one of the following:
 otherIndividualsInfo.bulletpoint1 = National Insurance number
 otherIndividualsInfo.bulletpoint2 = passport or ID card details
