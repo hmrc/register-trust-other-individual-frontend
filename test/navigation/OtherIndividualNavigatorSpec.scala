@@ -18,15 +18,15 @@ package navigation
 
 import base.SpecBase
 import config.FrontendAppConfig
-import controllers.register.{routes => rts}
 import controllers.register.individual.{routes => irts}
+import controllers.register.{routes => rts}
 import generators.Generators
 import models._
 import models.register.pages.AddOtherIndividual
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
-import pages.register.{AddOtherIndividualPage, AddOtherIndividualYesNoPage, AnswersPage, TrustHasOtherIndividualYesNoPage}
 import pages.register.individual._
+import pages.register.{AddOtherIndividualPage, AddOtherIndividualYesNoPage, AnswersPage, TrustHasOtherIndividualYesNoPage}
 import play.api.mvc.Call
 
 class OtherIndividualNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Generators {

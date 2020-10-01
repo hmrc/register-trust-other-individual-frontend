@@ -21,7 +21,6 @@ import forms.YesNoFormProvider
 import org.scalatestplus.mockito.MockitoSugar
 import pages.register.TrustHasOtherIndividualYesNoPage
 import play.api.data.Form
-import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import views.html.register.TrustHasOtherIndividualYesNoView
@@ -30,7 +29,6 @@ class TrustHasOtherIndividualYesNoControllerSpec extends SpecBase with MockitoSu
 
   private val form: Form[Boolean] = new YesNoFormProvider().withPrefix("trustHasOtherIndividualYesNo")
   lazy val trustHasOtherIndividualYesNoRoute = routes.TrustHasOtherIndividualYesNoController.onPageLoad(draftId).url
-  private val onwardRoute = Call("GET", "/foo")
 
   private val baseAnswers = emptyUserAnswers.set(TrustHasOtherIndividualYesNoPage, true).success.value
 

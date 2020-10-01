@@ -50,7 +50,6 @@ class SubmissionDraftConnectorSpec extends SpecBase with MustMatchers with Optio
   private val submissionsUrl = s"/trusts/register/submission-drafts"
   private val submissionUrl = s"$submissionsUrl/$testDraftId/$testSection"
   private val setSubmissionUrl = s"$submissionsUrl/$testDraftId/set/$testSection"
-  private val mainUrl = s"$submissionsUrl/$testDraftId/main"
 
   "SubmissionDraftConnector" when {
 
