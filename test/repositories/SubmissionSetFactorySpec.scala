@@ -18,7 +18,7 @@ package repositories
 
 import base.SpecBase
 import models.RegistrationSubmission.AnswerSection
-import models.Status.{Completed, InProgress}
+import models.Status.Completed
 import models.{RegistrationSubmission, Status, UserAnswers}
 import pages.entitystatus.OtherIndividualStatus
 import pages.register.TrustHasOtherIndividualYesNoPage

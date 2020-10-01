@@ -42,8 +42,6 @@ class IDCardDetailsViewSpec extends QuestionViewBehaviours[PassportOrIdCardDetai
     def applyView(form: Form[_]): HtmlFormat.Appendable =
       view.apply(form, countryOptions, name.toString, index, draftId)(fakeRequest, messages)
 
-    val applyViewF = (form : Form[_]) => applyView(form)
-
     behave like dynamicTitlePage(applyView(form), messageKeyPrefix, name.toString)
 
     behave like pageWithBackLink(applyView(form))

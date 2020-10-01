@@ -17,6 +17,7 @@
 package controllers.register
 
 import base.SpecBase
+import controllers.register.individual.{routes => irts}
 import forms.{AddOtherIndividualFormProvider, YesNoFormProvider}
 import models.Status.Completed
 import models.register.pages.AddOtherIndividual
@@ -24,16 +25,12 @@ import models.{FullName, UserAnswers}
 import pages.entitystatus.OtherIndividualStatus
 import pages.register.individual._
 import pages.register.{AddOtherIndividualPage, TrustHasOtherIndividualYesNoPage}
-import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import viewmodels.AddRow
 import views.html.register.{AddOtherIndividualView, TrustHasOtherIndividualYesNoView}
-import controllers.register.individual.{routes => irts}
 
 class AddOtherIndividualControllerSpec extends SpecBase {
-
-  private def onwardRoute: Call = Call("GET", "/foo")
 
   private val index: Int = 0
   private val max: Int = 25
@@ -45,8 +42,6 @@ class AddOtherIndividualControllerSpec extends SpecBase {
     controllers.register.individual.routes.CheckDetailsController.onPageLoad(index, fakeDraftId).url
 
   private lazy val addOtherIndividualRoute = routes.AddOtherIndividualController.onPageLoad(fakeDraftId).url
-
-  private lazy val trustHasOtherIndividualRoute = routes.TrustHasOtherIndividualYesNoController.onPageLoad(fakeDraftId).url
 
   private lazy val nameRoute = irts.NameController.onPageLoad(index, fakeDraftId).url
 
