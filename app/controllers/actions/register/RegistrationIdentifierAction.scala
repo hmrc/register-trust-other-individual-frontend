@@ -20,7 +20,7 @@ import com.google.inject.Inject
 import config.FrontendAppConfig
 import controllers.actions.{AffinityGroupIdentifierAction, TrustsAuthorisedFunctions}
 import models.requests.IdentifierRequest
-import org.slf4j.LoggerFactory
+import play.api.Logger
 import play.api.mvc.{Request, Result, _}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -30,7 +30,7 @@ class RegistrationIdentifierAction @Inject()(val parser: BodyParsers.Default,
                                              trustsAuth: TrustsAuthorisedFunctions,
                                              config: FrontendAppConfig)
                                             (override implicit val executionContext: ExecutionContext) extends ActionBuilder[IdentifierRequest, AnyContent] {
-  private val logger = LoggerFactory.getLogger(s"application" + classOf[RegistrationIdentifierAction].getCanonicalName)
+  private val logger: Logger = Logger(getClass)
 
   override def invokeBlock[A](request: Request[A], block: IdentifierRequest[A] => Future[Result]): Future[Result] = {
 
