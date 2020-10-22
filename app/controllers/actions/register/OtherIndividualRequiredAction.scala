@@ -30,13 +30,15 @@ import scala.concurrent.{ExecutionContext, Future}
 class OtherIndividualRequiredAction(page: QuestionPage[OtherIndividualViewModel], draftId: String)(implicit val executionContext: ExecutionContext)
   extends ActionRefiner[RegistrationDataRequest, OtherIndividualRequiredRequest] {
 
+  private val logger: Logger = Logger(getClass)
+
   override protected def refine[A](request: RegistrationDataRequest[A]): Future[Either[Result, OtherIndividualRequiredRequest[A]]] = {
     Future.successful(
       request.userAnswers.get(page) match {
         case Some(otherIndividual) =>
           Right(register.OtherIndividualRequiredRequest(request, otherIndividual))
         case _ =>
-          Logger.info(s"[OtherIndividualRequiredAction] Did not find otherIndividual")
+          logger.info(s"[Session ID: ${request.sessionId}] Did not find otherIndividual")
           Left(Redirect(controllers.register.routes.AddOtherIndividualController.onPageLoad(draftId)))
       }
     )

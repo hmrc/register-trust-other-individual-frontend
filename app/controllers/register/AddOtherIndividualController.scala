@@ -52,6 +52,8 @@ class AddOtherIndividualController @Inject()(
 
   with I18nSupport with Enumerable.Implicits with AnyOtherIndividuals {
 
+  private val logger: Logger = Logger(getClass)
+
   private val addAnotherForm = addAnotherFormProvider()
   private val yesNoForm = yesNoFormProvider.withPrefix("trustHasOtherIndividualYesNo")
 
@@ -76,13 +78,13 @@ class AddOtherIndividualController @Inject()(
 
       allOtherIndividuals.size match {
         case 0 =>
-          Logger.info(s"[AddOtherIndividualController] ${request.internalId} has added no other individuals")
+          logger.info(s"[Session ID: ${request.sessionId}] ${request.internalId} has added no other individuals")
           Ok(yesNoView(yesNoForm, draftId))
         case _ =>
           if (allOtherIndividuals.isMaxedOut) {
-            Logger.info(s"[AddOtherIndividualController] ${request.internalId} has maxed out otherIndividuals")
+            logger.info(s"[Session ID: ${request.sessionId}] ${request.internalId} has maxed out otherIndividuals")
           } else {
-            Logger.info(s"[AddOtherIndividualController] ${request.internalId} has not maxed out otherIndividuals")
+            logger.info(s"[Session ID: ${request.sessionId}] ${request.internalId} has not maxed out otherIndividuals")
           }
           Ok(addAnotherView(
             addAnotherForm,
