@@ -64,7 +64,7 @@ class OtherIndividualMapperSpec extends SpecBase with MustMatchers
 
           otherIndividuals mustBe defined
           otherIndividuals.value.head mustBe OtherIndividual(
-            name = NameType(firstName, None, lastName),
+            name = FullName(firstName, None, lastName),
             dateOfBirth = None,
             identification = Some(IdentificationType(nino = Some(nino), address = None, passport = None))
           )
@@ -86,7 +86,7 @@ class OtherIndividualMapperSpec extends SpecBase with MustMatchers
 
           otherIndividuals mustBe defined
           otherIndividuals.value.head mustBe OtherIndividual(
-            name = NameType(firstName, None, lastName),
+            name = FullName(firstName, None, lastName),
             identification = Some(IdentificationType(nino = None,
               address = Some(AddressType("Line1", "Line2", Some("Line3"), Some("Newcastle"), Some("NE62RT"), "GB")),
               passport = None
@@ -111,7 +111,7 @@ class OtherIndividualMapperSpec extends SpecBase with MustMatchers
 
           otherIndividuals mustBe defined
           otherIndividuals.value.head mustBe OtherIndividual(
-            name = NameType(firstName, None, lastName),
+            name = FullName(firstName, None, lastName),
             identification = Some(IdentificationType(
               nino = None,
               address = Some(AddressType("Line1", "Line2", Some("Line3"), None, None, "US")),
@@ -139,7 +139,7 @@ class OtherIndividualMapperSpec extends SpecBase with MustMatchers
 
           otherIndividuals mustBe defined
           otherIndividuals.value.head mustBe OtherIndividual(
-            name = NameType(firstName, None, lastName),
+            name = FullName(firstName, None, lastName),
             identification = Some(IdentificationType(nino = None,
               address = Some(AddressType("Line1", "Line2", Some("Line3"), Some("Newcastle"), Some("NE62RT"), "GB")),
               passport = Some(PassportType("12345", passportExpiry, "GB"))
@@ -174,12 +174,12 @@ class OtherIndividualMapperSpec extends SpecBase with MustMatchers
         otherIndividuals.value mustBe
           List(
             OtherIndividual(
-              name = NameType("Individual Name 1", None, lastName),
+              name = FullName("Individual Name 1", None, lastName),
               dateOfBirth = None,
               identification = Some(IdentificationType(nino = Some(nino), address = None, passport = None))),
 
             OtherIndividual(
-              name = NameType("Individual Name 2", None, lastName),
+              name = FullName("Individual Name 2", None, lastName),
               dateOfBirth = None,
               identification = Some(
                 IdentificationType(

@@ -21,8 +21,7 @@ import mapping.Mapping
 import mapping.reads.{OtherIndividualReads, OtherIndividuals}
 import models.{PassportOrIdCardDetails, UserAnswers}
 
-class OtherIndividualMapper @Inject()(nameMapper: NameMapper,
-                                      addressMapper: AddressMapper) extends Mapping[List[OtherIndividual]] {
+class OtherIndividualMapper @Inject()(addressMapper: AddressMapper) extends Mapping[List[OtherIndividual]] {
   override def build(userAnswers: UserAnswers): Option[List[OtherIndividual]] = {
 
     val otherIndividuals: List[OtherIndividualReads] =
@@ -34,7 +33,7 @@ class OtherIndividualMapper @Inject()(nameMapper: NameMapper,
         Some(
           list.map { otherIndividual =>
             OtherIndividual(
-              name = nameMapper.build(otherIndividual.name),
+              name = otherIndividual.name,
               dateOfBirth = otherIndividual.dateOfBirth,
               identification = buildIdentification(otherIndividual)
             )

@@ -25,8 +25,7 @@ import viewmodels.AnswerSection
 
 class OtherIndividualAnswersHelper @Inject()(otherIndividualPrintHelper: OtherIndividualPrintHelper) {
 
-  def otherIndividuals(userAnswers: UserAnswers,
-                       canEdit: Boolean)(implicit messages: Messages): Option[Seq[AnswerSection]] = {
+  def otherIndividuals(userAnswers: UserAnswers)(implicit messages: Messages): Option[Seq[AnswerSection]] = {
     for {
       otherIndividuals <- userAnswers.get(OtherIndividualsView)
       indexed = otherIndividuals.zipWithIndex
