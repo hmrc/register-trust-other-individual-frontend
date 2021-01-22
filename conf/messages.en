@@ -47,6 +47,7 @@ site.inprogress = In Progress
 site.complete = Completed
 site.returnToRegistrationProgress = Return to registration progress
 site.sign_out = Sign out
+site.sign_in = Sign in
 entities.no.name.added = No name added
 entities.otherIndividual = Other Individual
 
