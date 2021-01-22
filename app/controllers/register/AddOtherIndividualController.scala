@@ -25,12 +25,12 @@ import models.Enumerable
 import models.register.pages.AddOtherIndividual.NoComplete
 import navigation.Navigator
 import pages.register.{AddOtherIndividualPage, AddOtherIndividualYesNoPage, TrustHasOtherIndividualYesNoPage}
-import play.api.Logger
+import play.api.Logging
 import play.api.data.Form
 import play.api.i18n.{I18nSupport, Messages, MessagesApi, MessagesProvider}
 import play.api.mvc.{Action, AnyContent, Call, MessagesControllerComponents}
 import repositories.RegistrationsRepository
-import uk.gov.hmrc.play.bootstrap.controller.FrontendBaseController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import utils.AddOtherIndividualViewHelper
 import views.html.register.{AddOtherIndividualView, TrustHasOtherIndividualYesNoView}
 
@@ -48,11 +48,9 @@ class AddOtherIndividualController @Inject()(
                                            addAnotherView: AddOtherIndividualView,
                                            yesNoView: TrustHasOtherIndividualYesNoView,
                                            config: FrontendAppConfig
-                                     )(implicit ec: ExecutionContext) extends FrontendBaseController
+                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with Logging
 
   with I18nSupport with Enumerable.Implicits with AnyOtherIndividuals {
-
-  private val logger: Logger = Logger(getClass)
 
   private val addAnotherForm = addAnotherFormProvider()
   private val yesNoForm = yesNoFormProvider.withPrefix("trustHasOtherIndividualYesNo")
