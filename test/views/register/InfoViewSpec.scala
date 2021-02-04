@@ -1,4 +1,4 @@
-@*
+/*
  * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,21 +12,29 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *@
+ */
 
-@(errors: Seq[FormError])(implicit messages: Messages)
-@if(errors.nonEmpty) {
-    <div id="errors" class="error-summary error-summary--show" role="alert" tabindex="-1">
+package views.register
 
-        <h2 class="heading-medium error-summary-heading" id="error-summary-heading">
-        @messages("error.summary.title")
-        </h2>
+import views.behaviours.ViewBehaviours
+import views.html.register.InfoView
 
-        <ul role="list" class="error-summary-list">
-            @for(error <- errors) {
-                <li><a href="#@{errorHref(error)}">@messages(error.message, error.args:_*)</a></li>
-            }
-        </ul>
+class InfoViewSpec extends ViewBehaviours {
 
-    </div>
+  "Info view" must {
+
+    val view = viewFor[InfoView](Some(emptyUserAnswers))
+
+    val applyView = view.apply(fakeDraftId)(fakeRequest, messages)
+
+    behave like normalPageTitleWithCaption(applyView, "otherIndividualsInfo",
+      "caption",
+      "paragraph1",
+      "bulletpoint1",
+      "bulletpoint2",
+      "bulletpoint3"
+    )
+
+    behave like pageWithBackLink(applyView)
+  }
 }

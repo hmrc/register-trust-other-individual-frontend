@@ -42,3 +42,24 @@ POST       /:draftId/:index/check-details              controllers.register.indi
 
 GET        /:draftId/:index/remove                     controllers.register.individual.RemoveOtherIndividualController.onPageLoad(index: Int, draftId: String)
 POST       /:draftId/:index/remove                     controllers.register.individual.RemoveOtherIndividualController.onSubmit(index: Int, draftId: String)
+
+GET        /:draftId/:index/has-country-of-residence          controllers.register.individual.mld5.CountryOfResidenceYesNoController.onPageLoad(index: Int, draftId: String)
+POST       /:draftId/:index/has-country-of-residence          controllers.register.individual.mld5.CountryOfResidenceYesNoController.onSubmit(index: Int, draftId: String)
+
+GET        /:draftId/:index/uk-residence                      controllers.register.individual.mld5.CountryOfResidenceInTheUkYesNoController.onPageLoad(index: Int, draftId: String)
+POST       /:draftId/:index/uk-residence                      controllers.register.individual.mld5.CountryOfResidenceInTheUkYesNoController.onSubmit(index: Int, draftId: String)
+
+GET        /:draftId/:index/country-of-residence              controllers.register.individual.mld5.CountryOfResidenceController.onPageLoad(index: Int, draftId: String)
+POST       /:draftId/:index/country-of-residence              controllers.register.individual.mld5.CountryOfResidenceController.onSubmit(index: Int, draftId: String)
+
+GET        /:draftId/:index/has-country-of-nationality        controllers.register.individual.mld5.CountryOfNationalityYesNoController.onPageLoad(index: Int, draftId: String)
+POST       /:draftId/:index/has-country-of-nationality        controllers.register.individual.mld5.CountryOfNationalityYesNoController.onSubmit(index: Int, draftId: String)
+
+GET        /:draftId/:index/uk-nationality                    controllers.register.individual.mld5.CountryOfNationalityInTheUkYesNoController.onPageLoad(index: Int, draftId: String)
+POST       /:draftId/:index/uk-nationality                    controllers.register.individual.mld5.CountryOfNationalityInTheUkYesNoController.onSubmit(index: Int, draftId: String)
+
+GET        /:draftId/:index/country-of-nationality            controllers.register.individual.mld5.CountryOfNationalityController.onPageLoad(index: Int, draftId: String)
+POST       /:draftId/:index/country-of-nationality            controllers.register.individual.mld5.CountryOfNationalityController.onSubmit(index: Int, draftId: String)
+
+GET        /:draftId/:index/legally-capable                   controllers.register.individual.mld5.MentalCapacityYesNoController.onPageLoad(index: Int, draftId: String)
+POST       /:draftId/:index/legally-capable                   controllers.register.individual.mld5.MentalCapacityYesNoController.onSubmit(index: Int, draftId: String)
