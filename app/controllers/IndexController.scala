@@ -40,10 +40,12 @@ class IndexController @Inject()(
   def onPageLoad(draftId: String): Action[AnyContent] = identify.async { implicit request =>
 
     def redirect(userAnswers: UserAnswers, draftId: String): Future[Result] = {
-      if (isAnyOtherIndividualAdded(userAnswers)) {
-        Future(Redirect(rts.AddOtherIndividualController.onPageLoad(draftId)))
-      } else {
-        Future(Redirect(rts.TrustHasOtherIndividualYesNoController.onPageLoad(draftId)))
+      repository.set(userAnswers) map { _ =>
+        if (isAnyOtherIndividualAdded(userAnswers)) {
+          Redirect(rts.AddOtherIndividualController.onPageLoad(draftId))
+        } else {
+          Redirect(rts.TrustHasOtherIndividualYesNoController.onPageLoad(draftId))
+        }
       }
     }
 
