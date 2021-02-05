@@ -17,24 +17,161 @@
 package controllers
 
 import base.SpecBase
+import models.{FullName, UserAnswers}
+import org.mockito.ArgumentCaptor
+import pages.register.individual.NamePage
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import services.FeatureFlagService
+import play.api.inject.bind
+import org.mockito.Mockito.{reset, verify, when}
+import org.mockito.Matchers.any
+
+import scala.concurrent.Future
 
 class IndexControllerSpec extends SpecBase {
 
+  private val name: FullName = FullName("Joe", None, "Bloggs")
+  private val featureFlagService: FeatureFlagService = mock[FeatureFlagService]
+
   "Index Controller" must {
 
-    "return OK and the correct view for a GET" in {
+    "pre-existing user answers" must {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      "redirect to add-to page if there is at least one in-progress or completed other individual" in {
 
-      val request = FakeRequest(GET, routes.IndexController.onPageLoad("DRAFTID").url)
+        val userAnswers: UserAnswers = emptyUserAnswers
+          .set(NamePage(0), name).success.value
 
-      val result = route(application, request).value
+        val application = applicationBuilder(userAnswers = Some(userAnswers))
+          .overrides(bind[FeatureFlagService].toInstance(featureFlagService))
+          .build()
 
-      status(result) mustEqual SEE_OTHER
+        when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(Some(userAnswers)))
+        when(featureFlagService.is5mldEnabled()(any(), any())).thenReturn(Future.successful(false))
 
-      application.stop()
+        val request = FakeRequest(GET, routes.IndexController.onPageLoad(fakeDraftId).url)
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+
+        redirectLocation(result).get mustBe controllers.register.routes.AddOtherIndividualController.onPageLoad(fakeDraftId).url
+
+        application.stop()
+      }
+
+      "redirect to trust has other individuals yes no page if there are no in-progress or completed other individuals" in {
+
+        val userAnswers: UserAnswers = emptyUserAnswers
+
+        val application = applicationBuilder(userAnswers = Some(userAnswers))
+          .overrides(bind[FeatureFlagService].toInstance(featureFlagService))
+          .build()
+
+        when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(Some(userAnswers)))
+        when(featureFlagService.is5mldEnabled()(any(), any())).thenReturn(Future.successful(false))
+
+        val request = FakeRequest(GET, routes.IndexController.onPageLoad(fakeDraftId).url)
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+
+        redirectLocation(result).get mustBe controllers.register.routes.TrustHasOtherIndividualYesNoController.onPageLoad(fakeDraftId).url
+
+        application.stop()
+      }
+
+      "update value of is5mldEnabled in user answers" in {
+
+        reset(registrationsRepository)
+
+        val userAnswers = emptyUserAnswers.copy(is5mldEnabled = false)
+
+        val application = applicationBuilder(userAnswers = Some(userAnswers))
+          .overrides(bind[FeatureFlagService].toInstance(featureFlagService))
+          .build()
+
+        when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(Some(userAnswers)))
+        when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
+        when(featureFlagService.is5mldEnabled()(any(), any())).thenReturn(Future.successful(true))
+
+        val request = FakeRequest(GET, routes.IndexController.onPageLoad(fakeDraftId).url)
+
+        route(application, request).value.map { _ =>
+          val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
+          verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
+
+          uaCaptor.getValue.is5mldEnabled mustBe true
+
+          application.stop()
+        }
+      }
+
     }
+
+
+    "no pre-existing user answers" must {
+
+      "instantiate new set of user answers" when {
+
+        "5mld enabled" in {
+
+          reset(registrationsRepository)
+
+          val application = applicationBuilder(userAnswers = None)
+            .overrides(bind[FeatureFlagService].toInstance(featureFlagService))
+            .build()
+
+          when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(None))
+          when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
+          when(featureFlagService.is5mldEnabled()(any(), any())).thenReturn(Future.successful(true))
+
+          val request = FakeRequest(GET, routes.IndexController.onPageLoad(fakeDraftId).url)
+
+          route(application, request).value.map { _ =>
+            val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
+            verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
+
+            uaCaptor.getValue.is5mldEnabled mustBe true
+            uaCaptor.getValue.draftId mustBe fakeDraftId
+            uaCaptor.getValue.internalAuthId mustBe "id"
+
+            application.stop()
+          }
+
+        }
+
+        "5mld not enabled" in {
+
+          reset(registrationsRepository)
+
+          val application = applicationBuilder(userAnswers = None)
+            .overrides(bind[FeatureFlagService].toInstance(featureFlagService))
+            .build()
+
+          when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(None))
+          when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
+          when(featureFlagService.is5mldEnabled()(any(), any())).thenReturn(Future.successful(false))
+
+          val request = FakeRequest(GET, routes.IndexController.onPageLoad(fakeDraftId).url)
+
+          route(application, request).value.map { _ =>
+            val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
+            verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
+
+            uaCaptor.getValue.is5mldEnabled mustBe false
+            uaCaptor.getValue.draftId mustBe fakeDraftId
+            uaCaptor.getValue.internalAuthId mustBe "id"
+
+            application.stop()
+          }
+
+        }
+      }
+
+    }
+
   }
 }

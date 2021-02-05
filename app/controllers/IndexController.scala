@@ -22,40 +22,41 @@ import javax.inject.Inject
 import models.UserAnswers
 import play.api.i18n.I18nSupport
 import play.api.libs.json.Json
-import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
 import repositories.RegistrationsRepository
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import controllers.register.{routes => rts}
+import services.FeatureFlagService
 
 import scala.concurrent.{ExecutionContext, Future}
 
 class IndexController @Inject()(
                                  val controllerComponents: MessagesControllerComponents,
                                  repository: RegistrationsRepository,
-                                 identify: RegistrationIdentifierAction
-                               ) extends FrontendBaseController with I18nSupport with AnyOtherIndividuals {
-
-  implicit val executionContext: ExecutionContext =
-    scala.concurrent.ExecutionContext.Implicits.global
+                                 identify: RegistrationIdentifierAction,
+                                 featureFlagService: FeatureFlagService
+                               )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with AnyOtherIndividuals {
 
   def onPageLoad(draftId: String): Action[AnyContent] = identify.async { implicit request =>
 
-    repository.get(draftId) flatMap {
-      case Some(userAnswers) =>
-        Future.successful(redirect(userAnswers, draftId))
-      case _ =>
-        val userAnswers = UserAnswers(draftId, Json.obj(), request.identifier)
-        repository.set(userAnswers) map {
-          _ => redirect(userAnswers, draftId)
+    def redirect(userAnswers: UserAnswers, draftId: String): Future[Result] = {
+      if (isAnyOtherIndividualAdded(userAnswers)) {
+        Future(Redirect(rts.AddOtherIndividualController.onPageLoad(draftId)))
+      } else {
+        Future(Redirect(rts.TrustHasOtherIndividualYesNoController.onPageLoad(draftId)))
+      }
+    }
+
+    featureFlagService.is5mldEnabled() flatMap {
+      is5mldEnabled =>
+        repository.get(draftId) flatMap {
+          case Some(userAnswers) =>
+            redirect(userAnswers.copy(is5mldEnabled = is5mldEnabled), draftId)
+          case _ =>
+            val userAnswers = UserAnswers(draftId, Json.obj(), request.identifier, is5mldEnabled)
+            redirect(userAnswers, draftId)
         }
     }
   }
 
-  private def redirect(userAnswers: UserAnswers, draftId: String) = {
-    if (isAnyOtherIndividualAdded(userAnswers)) {
-      Redirect(rts.AddOtherIndividualController.onPageLoad(draftId))
-    } else {
-      Redirect(rts.TrustHasOtherIndividualYesNoController.onPageLoad(draftId))
-    }
-  }
 }
