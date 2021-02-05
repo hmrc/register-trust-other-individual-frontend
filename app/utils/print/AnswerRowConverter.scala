@@ -24,11 +24,11 @@ import play.api.i18n.Messages
 import play.api.libs.json.Reads
 import play.twirl.api.HtmlFormat
 import queries.Gettable
-import utils.answers.CheckAnswersFormatters._
+import utils.answers.CheckAnswersFormatters
 import utils.countryOptions.CountryOptions
 import viewmodels.AnswerRow
 
-class AnswerRowConverter @Inject()() {
+class AnswerRowConverter @Inject()(checkAnswersFormatters: CheckAnswersFormatters) {
 
   def bind(userAnswers: UserAnswers, name: String, countryOptions: CountryOptions)
           (implicit messages: Messages): Bound = new Bound(userAnswers, name, countryOptions)
@@ -66,7 +66,7 @@ class AnswerRowConverter @Inject()() {
       userAnswers.get(query) map {x =>
         AnswerRow(
           s"$labelKey.checkYourAnswersLabel",
-          yesOrNo(x),
+          checkAnswersFormatters.yesOrNo(x),
           Some(changeUrl),
           name
         )
@@ -79,7 +79,7 @@ class AnswerRowConverter @Inject()() {
       userAnswers.get(query) map {x =>
         AnswerRow(
           s"$labelKey.checkYourAnswersLabel",
-          HtmlFormat.escape(x.format(dateFormatter)),
+          HtmlFormat.escape(checkAnswersFormatters.formatDate(x)),
           Some(changeUrl),
           name
         )
@@ -92,7 +92,7 @@ class AnswerRowConverter @Inject()() {
       userAnswers.get(query) map { x =>
         AnswerRow(
           s"$labelKey.checkYourAnswersLabel",
-          addressFormatter(x, countryOptions),
+          checkAnswersFormatters.addressFormatter(x, countryOptions),
           Some(changeUrl),
           name
         )
@@ -105,7 +105,7 @@ class AnswerRowConverter @Inject()() {
       userAnswers.get(query) map {x =>
         AnswerRow(
           s"$labelKey.checkYourAnswersLabel",
-          passportOrIDCard(x, countryOptions),
+          checkAnswersFormatters.passportOrIDCard(x, countryOptions),
           Some(changeUrl),
           name
         )

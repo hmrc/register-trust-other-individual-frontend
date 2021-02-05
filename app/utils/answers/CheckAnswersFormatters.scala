@@ -16,16 +16,22 @@
 
 package utils.answers
 
-import java.time.format.DateTimeFormatter
+import java.time.{LocalDate => JavaDate}
 
+import javax.inject.Inject
 import models.{Address, InternationalAddress, PassportOrIdCardDetails, UkAddress}
+import org.joda.time.{LocalDate => JodaDate}
 import play.api.i18n.Messages
 import play.twirl.api.{Html, HtmlFormat}
+import uk.gov.hmrc.play.language.LanguageUtils
 import utils.countryOptions.CountryOptions
 
-object CheckAnswersFormatters {
+class CheckAnswersFormatters @Inject()(languageUtils: LanguageUtils) {
 
-  val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
+  def formatDate(date: JavaDate)(implicit messages: Messages): String = {
+    val convertedDate: JodaDate = new JodaDate(date.getYear, date.getMonthValue, date.getDayOfMonth)
+    languageUtils.Dates.formatDate(convertedDate)
+  }
 
   def utr(answer: String): Html = {
     HtmlFormat.escape(answer)
@@ -84,7 +90,7 @@ object CheckAnswersFormatters {
       Seq(
         Some(country(passportOrIdCard.country, countryOptions)),
         Some(HtmlFormat.escape(passportOrIdCard.cardNumber)),
-        Some(HtmlFormat.escape(passportOrIdCard.expiryDate.format(dateFormatter)))
+        Some(HtmlFormat.escape(formatDate(passportOrIdCard.expiryDate)))
       ).flatten
 
     Html(lines.mkString("<br />"))
