@@ -1,4 +1,4 @@
-@*
+/*
  * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,21 +12,24 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *@
+ */
 
-@(errors: Seq[FormError])(implicit messages: Messages)
-@if(errors.nonEmpty) {
-    <div id="errors" class="error-summary error-summary--show" role="alert" tabindex="-1">
+package forms
 
-        <h2 class="heading-medium error-summary-heading" id="error-summary-heading">
-        @messages("error.summary.title")
-        </h2>
+import forms.mappings.Mappings
+import javax.inject.Inject
+import play.api.data.Form
 
-        <ul role="list" class="error-summary-list">
-            @for(error <- errors) {
-                <li><a href="#@{errorHref(error)}">@messages(error.message, error.args:_*)</a></li>
-            }
-        </ul>
+class CountryFormProvider @Inject() extends Mappings {
 
-    </div>
+  def withPrefix(prefix: String): Form[String] =
+    Form(
+      "value" -> text(s"$prefix.error.required")
+        .verifying(
+          firstError(
+            maxLength(100, s"$prefix.error.length"),
+            regexp(Validation.countryRegex, s"$prefix.error.invalidCharacters"),
+            nonEmptyString("value", s"$prefix.error.required")
+          ))
+        )
 }

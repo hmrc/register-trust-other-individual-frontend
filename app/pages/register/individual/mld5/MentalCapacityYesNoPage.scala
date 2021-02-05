@@ -1,4 +1,4 @@
-@*
+/*
  * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,21 +12,18 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *@
+ */
 
-@(errors: Seq[FormError])(implicit messages: Messages)
-@if(errors.nonEmpty) {
-    <div id="errors" class="error-summary error-summary--show" role="alert" tabindex="-1">
+package pages.register.individual.mld5
 
-        <h2 class="heading-medium error-summary-heading" id="error-summary-heading">
-        @messages("error.summary.title")
-        </h2>
+import pages.QuestionPage
+import play.api.libs.json.JsPath
+import sections.OtherIndividualsView
 
-        <ul role="list" class="error-summary-list">
-            @for(error <- errors) {
-                <li><a href="#@{errorHref(error)}">@messages(error.message, error.args:_*)</a></li>
-            }
-        </ul>
+final case class MentalCapacityYesNoPage(index : Int) extends QuestionPage[Boolean] {
 
-    </div>
+  override def path: JsPath = OtherIndividualsView.path \ index \ toString
+
+  override def toString: String = "mentalCapacityYesNo"
+
 }
