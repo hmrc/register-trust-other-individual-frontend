@@ -1,4 +1,4 @@
-@*
+/*
  * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,23 +12,24 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *@
+ */
 
-@import utils.DateErrorFormatter._
+package connectors
 
-@(errors: Seq[FormError])(implicit messages: Messages)
-@if(errors.nonEmpty) {
-    <div id="errors" class="error-summary error-summary--show" role="alert" tabindex="-1">
+import config.FrontendAppConfig
+import javax.inject.Inject
+import models.FeatureResponse
+import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 
-        <h2 class="heading-medium error-summary-heading" id="error-summary-heading">
-        @messages("error.summary.title")
-        </h2>
+import scala.concurrent.{ExecutionContext, Future}
 
-        <ul role="list" class="error-summary-list">
-            @for(error <- errors) {
-                <li><a href="#@{errorHref(error)}">@messages(error.message, formatArgs(error.args):_*)</a></li>
-            }
-        </ul>
+class TrustsStoreConnector @Inject()(http: HttpClient, config : FrontendAppConfig) {
 
-    </div>
+  private def featureUrl(feature: String): String = s"${config.trustsStoreUrl}/trusts-store/features/$feature"
+
+  def getFeature(feature: String)(implicit hc : HeaderCarrier, ec : ExecutionContext): Future[FeatureResponse] = {
+    http.GET[FeatureResponse](featureUrl(feature))
+  }
+
 }
+

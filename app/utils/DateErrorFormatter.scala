@@ -1,4 +1,4 @@
-@*
+/*
  * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,23 +12,16 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *@
+ */
 
-@import utils.DateErrorFormatter._
+package utils
 
-@(errors: Seq[FormError])(implicit messages: Messages)
-@if(errors.nonEmpty) {
-    <div id="errors" class="error-summary error-summary--show" role="alert" tabindex="-1">
+import play.api.i18n.Messages
 
-        <h2 class="heading-medium error-summary-heading" id="error-summary-heading">
-        @messages("error.summary.title")
-        </h2>
+object DateErrorFormatter {
 
-        <ul role="list" class="error-summary-list">
-            @for(error <- errors) {
-                <li><a href="#@{errorHref(error)}">@messages(error.message, formatArgs(error.args):_*)</a></li>
-            }
-        </ul>
+  def formatArgs(args: Seq[Any])(implicit messages: Messages): Seq[String] = {
+    args.map(arg => messages(s"date.$arg").toLowerCase)
+  }
 
-    </div>
 }
