@@ -18,8 +18,10 @@ package utils.print
 
 import com.google.inject.Inject
 import controllers.register.individual.{routes => irts}
+import controllers.register.individual.mld5.{routes => mld5irts}
 import models.UserAnswers
 import pages.register.individual._
+import pages.register.individual.mld5._
 import play.api.i18n.Messages
 import utils.countryOptions.CountryOptions
 import viewmodels.{AnswerRow, AnswerSection}
@@ -50,8 +52,14 @@ class OtherIndividualPrintHelper @Inject()(answerRowConverter: AnswerRowConverte
       bound.nameQuestion(NamePage(index), "otherIndividual.name", irts.NameController.onPageLoad(index, draftId).url),
       bound.yesNoQuestion(DateOfBirthYesNoPage(index), "otherIndividual.dateOfBirthYesNo", irts.DateOfBirthYesNoController.onPageLoad(index, draftId).url),
       bound.dateQuestion(DateOfBirthPage(index), "otherIndividual.dateOfBirth", irts.DateOfBirthController.onPageLoad(index, draftId).url),
+      bound.yesNoQuestion(CountryOfNationalityYesNoPage(index), "otherIndividual.5mld.countryOfNationalityYesNo", mld5irts.CountryOfNationalityYesNoController.onPageLoad(index, draftId).url),
+      bound.yesNoQuestion(CountryOfNationalityInTheUkYesNoPage(index), "otherIndividual.5mld.countryOfNationalityInTheUkYesNo", mld5irts.CountryOfNationalityInTheUkYesNoController.onPageLoad(index, draftId).url),
+      bound.countryQuestion(CountryOfNationalityPage(index), CountryOfNationalityInTheUkYesNoPage(index), "otherIndividual.5mld.countryOfNationality",  mld5irts.CountryOfNationalityController.onPageLoad(index, draftId).url),
       bound.yesNoQuestion(NationalInsuranceYesNoPage(index), "otherIndividual.nationalInsuranceYesNo", irts.NationalInsuranceYesNoController.onPageLoad(index, draftId).url),
       bound.stringQuestion(NationalInsuranceNumberPage(index), "otherIndividual.nationalInsuranceNumber", irts.NationalInsuranceNumberController.onPageLoad(index, draftId).url),
+      bound.yesNoQuestion(CountryOfResidenceYesNoPage(index), "otherIndividual.5mld.countryOfResidenceYesNo", mld5irts.CountryOfResidenceYesNoController.onPageLoad(index, draftId).url),
+      bound.yesNoQuestion(CountryOfResidenceInTheUkYesNoPage(index), "otherIndividual.5mld.countryOfResidenceInTheUkYesNo", mld5irts.CountryOfResidenceInTheUkYesNoController.onPageLoad(index, draftId).url),
+      bound.countryQuestion(CountryOfResidencePage(index), CountryOfResidenceInTheUkYesNoPage(index), "otherIndividual.5mld.countryOfResidence",  mld5irts.CountryOfResidenceController.onPageLoad(index, draftId).url),
       bound.yesNoQuestion(AddressYesNoPage(index), "otherIndividual.addressYesNo", irts.AddressYesNoController.onPageLoad(index, draftId).url),
       bound.yesNoQuestion(AddressUkYesNoPage(index), "otherIndividual.addressUkYesNo", irts.AddressUkYesNoController.onPageLoad(index, draftId).url),
       bound.addressQuestion(UkAddressPage(index), "site.address.uk", irts.UkAddressController.onPageLoad(index, draftId).url),
@@ -59,7 +67,8 @@ class OtherIndividualPrintHelper @Inject()(answerRowConverter: AnswerRowConverte
       bound.yesNoQuestion(PassportDetailsYesNoPage(index), "otherIndividual.passportDetailsYesNo", irts.PassportDetailsYesNoController.onPageLoad(index, draftId).url),
       bound.passportDetailsQuestion(PassportDetailsPage(index), "otherIndividual.passportDetails", irts.PassportDetailsController.onPageLoad(index, draftId).url),
       bound.yesNoQuestion(IDCardDetailsYesNoPage(index), "otherIndividual.idCardDetailsYesNo", irts.IDCardDetailsYesNoController.onPageLoad(index, draftId).url),
-      bound.passportDetailsQuestion(IDCardDetailsPage(index), "otherIndividual.idCardDetails", irts.IDCardDetailsController.onPageLoad(index, draftId).url)
+      bound.passportDetailsQuestion(IDCardDetailsPage(index), "otherIndividual.idCardDetails", irts.IDCardDetailsController.onPageLoad(index, draftId).url),
+      bound.yesNoQuestion(MentalCapacityYesNoPage(index), "otherIndividual.5mld.mentalCapacityYesNo", mld5irts.MentalCapacityYesNoController.onPageLoad(index, draftId).url),
     ).flatten
   }
 }

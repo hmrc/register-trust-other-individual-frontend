@@ -99,6 +99,26 @@ class AnswerRowConverter @Inject()(checkAnswersFormatters: CheckAnswersFormatter
       }
     }
 
+    def countryQuestion(query: Gettable[String],
+                                yesNoQuery: Gettable[Boolean],
+                                labelKey: String,
+                                changeUrl: String
+                                ): Option[AnswerRow] = {
+      userAnswers.get(yesNoQuery) flatMap {
+        case false =>
+          userAnswers.get(query) map { x =>
+            AnswerRow(
+              label = s"$labelKey.checkYourAnswersLabel",
+              answer = HtmlFormat.escape(checkAnswersFormatters.country(x, countryOptions)),
+              changeUrl = Some(changeUrl),
+              name
+            )
+          }
+        case true =>
+          None
+      }
+    }
+
     def passportDetailsQuestion(query: Gettable[PassportOrIdCardDetails],
                                 labelKey: String,
                                 changeUrl: String): Option[AnswerRow] = {
