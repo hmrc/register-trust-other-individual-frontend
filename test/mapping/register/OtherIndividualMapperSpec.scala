@@ -23,6 +23,8 @@ import generators.Generators
 import models.{FullName, InternationalAddress, PassportOrIdCardDetails, UkAddress}
 import org.scalatest.{MustMatchers, OptionValues}
 import pages.register.individual._
+import pages.register.individual.mld5._
+import utils.Constants._
 
 class OtherIndividualMapperSpec extends SpecBase with MustMatchers
   with OptionValues with Generators {
@@ -66,7 +68,10 @@ class OtherIndividualMapperSpec extends SpecBase with MustMatchers
           otherIndividuals.value.head mustBe OtherIndividual(
             name = FullName(firstName, None, lastName),
             dateOfBirth = None,
-            identification = Some(IdentificationType(nino = Some(nino), address = None, passport = None))
+            identification = Some(IdentificationType(nino = Some(nino), address = None, passport = None)),
+            countryOfResidence = None,
+            nationality = None,
+            legallyIncapable = None
           )
         }
 
@@ -91,7 +96,10 @@ class OtherIndividualMapperSpec extends SpecBase with MustMatchers
               address = Some(AddressType("Line1", "Line2", Some("Line3"), Some("Newcastle"), Some("NE62RT"), "GB")),
               passport = None
             )),
-            dateOfBirth = None
+            dateOfBirth = None,
+            countryOfResidence = None,
+            nationality = None,
+            legallyIncapable = None
           )
         }
 
@@ -117,7 +125,10 @@ class OtherIndividualMapperSpec extends SpecBase with MustMatchers
               address = Some(AddressType("Line1", "Line2", Some("Line3"), None, None, "US")),
               passport = None
             )),
-            dateOfBirth = None
+            dateOfBirth = None,
+            countryOfResidence = None,
+            nationality = None,
+            legallyIncapable = None
           )
         }
 
@@ -144,7 +155,10 @@ class OtherIndividualMapperSpec extends SpecBase with MustMatchers
               address = Some(AddressType("Line1", "Line2", Some("Line3"), Some("Newcastle"), Some("NE62RT"), "GB")),
               passport = Some(PassportType("12345", passportExpiry, "GB"))
             )),
-            dateOfBirth = Some(dateOfBirth)
+            dateOfBirth = Some(dateOfBirth),
+            countryOfResidence = None,
+            nationality = None,
+            legallyIncapable = None
           )
         }
       }
@@ -176,7 +190,11 @@ class OtherIndividualMapperSpec extends SpecBase with MustMatchers
             OtherIndividual(
               name = FullName("Individual Name 1", None, lastName),
               dateOfBirth = None,
-              identification = Some(IdentificationType(nino = Some(nino), address = None, passport = None))),
+              identification = Some(IdentificationType(nino = Some(nino), address = None, passport = None)),
+              countryOfResidence = None,
+              nationality = None,
+              legallyIncapable = None
+            ),
 
             OtherIndividual(
               name = FullName("Individual Name 2", None, lastName),
@@ -187,8 +205,81 @@ class OtherIndividualMapperSpec extends SpecBase with MustMatchers
                   address = Some(AddressType("Line1", "Line2", Some("Line3"), Some("Newcastle"), Some("NE62RT"), "GB")),
                   passport = None
                 )
-              ))
+              ),
+              countryOfResidence = None,
+              nationality = None,
+              legallyIncapable = None
+            )
           )
+      }
+
+
+      "must not be able to create OtherIndividualType when incomplete data " in {
+        val userAnswers =
+          emptyUserAnswers
+            .set(DateOfBirthYesNoPage(index0), false).success.value
+
+        mapper.build(userAnswers) mustNot be(defined)
+      }
+
+      "In 5mld mode with UK country of residence, UK country of nationality and Mental Capacity" in {
+
+        val userAnswers =
+          emptyUserAnswers
+            .set(NamePage(index0), FullName(firstName, None, lastName)).success.value
+            .set(DateOfBirthYesNoPage(index0), true).success.value
+            .set(DateOfBirthPage(index0), dateOfBirth).success.value
+            .set(CountryOfNationalityYesNoPage(index0), true).success.value
+            .set(CountryOfNationalityInTheUkYesNoPage(index0), true).success.value
+            .set(NationalInsuranceYesNoPage(index0), true).success.value
+            .set(NationalInsuranceNumberPage(index0), nino).success.value
+            .set(CountryOfResidenceYesNoPage(index0), true).success.value
+            .set(CountryOfResidenceInTheUkYesNoPage(index0), true).success.value
+            .set(MentalCapacityYesNoPage(index0), true).success.value
+
+        val otherIndividuals = mapper.build(userAnswers)
+
+        otherIndividuals mustBe defined
+        otherIndividuals.value.head mustBe OtherIndividual(
+          name = FullName(firstName, None, lastName),
+          dateOfBirth = Some(dateOfBirth),
+          identification = Some(IdentificationType(nino = Some(nino), address = None, passport = None)),
+          countryOfResidence = Some(GB),
+          nationality = Some(GB),
+          legallyIncapable = Some(false)
+        )
+
+      }
+
+      "In 5mld mode with Non UK country of residence, Non UK country of nationality and No Mental Capacity" in {
+
+        val userAnswers =
+          emptyUserAnswers
+            .set(NamePage(index0), FullName(firstName, None, lastName)).success.value
+            .set(DateOfBirthYesNoPage(index0), true).success.value
+            .set(DateOfBirthPage(index0), dateOfBirth).success.value
+            .set(CountryOfNationalityYesNoPage(index0), true).success.value
+            .set(CountryOfNationalityInTheUkYesNoPage(index0), false).success.value
+            .set(CountryOfNationalityPage(index0), ES).success.value
+            .set(NationalInsuranceYesNoPage(index0), true).success.value
+            .set(NationalInsuranceNumberPage(index0), nino).success.value
+            .set(CountryOfResidenceYesNoPage(index0), true).success.value
+            .set(CountryOfResidenceInTheUkYesNoPage(index0), false).success.value
+            .set(CountryOfResidencePage(index0), ES).success.value
+            .set(MentalCapacityYesNoPage(index0), false).success.value
+
+        val otherIndividuals = mapper.build(userAnswers)
+
+        otherIndividuals mustBe defined
+        otherIndividuals.value.head mustBe OtherIndividual(
+          name = FullName(firstName, None, lastName),
+          dateOfBirth = Some(dateOfBirth),
+          identification = Some(IdentificationType(nino = Some(nino), address = None, passport = None)),
+          countryOfResidence = Some(ES),
+          nationality = Some(ES),
+          legallyIncapable = Some(true)
+        )
+
       }
 
     }

@@ -35,7 +35,10 @@ class OtherIndividualMapper @Inject()(addressMapper: AddressMapper) extends Mapp
             OtherIndividual(
               name = otherIndividual.name,
               dateOfBirth = otherIndividual.dateOfBirth,
-              identification = buildIdentification(otherIndividual)
+              identification = buildIdentification(otherIndividual),
+              countryOfResidence = otherIndividual.countryOfResidence,
+              nationality = otherIndividual.countryOfNationality,
+              legallyIncapable = otherIndividual.mentalCapacityYesNo.map(!_)
             )
           }
         )

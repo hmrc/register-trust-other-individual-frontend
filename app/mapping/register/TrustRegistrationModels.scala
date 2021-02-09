@@ -34,7 +34,10 @@ object OtherIndividualsType {
 
 case class OtherIndividual(name: FullName,
                            dateOfBirth: Option[LocalDate],
-                           identification: Option[IdentificationType])
+                           identification: Option[IdentificationType],
+                           countryOfResidence: Option[String],
+                           nationality: Option[String],
+                           legallyIncapable: Option[Boolean])
 
 object OtherIndividual {
   implicit val otherIndividualFormat: Format[OtherIndividual] = Json.format[OtherIndividual]
