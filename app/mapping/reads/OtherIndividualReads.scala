@@ -27,7 +27,10 @@ final case class OtherIndividualReads(name: FullName,
                                       ukAddress : Option[UkAddress],
                                       internationalAddress : Option[InternationalAddress],
                                       passportDetails: Option[PassportOrIdCardDetails],
-                                      idCardDetails: Option[PassportOrIdCardDetails]
+                                      idCardDetails: Option[PassportOrIdCardDetails],
+                                      countryOfResidence: Option[String],
+                                      countryOfNationality: Option[String],
+                                      mentalCapacityYesNo: Option[Boolean]
                                       ) {
 }
 

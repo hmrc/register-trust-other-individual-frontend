@@ -15,12 +15,10 @@
  *@
 
 @import controllers.register.individual.routes._
-@import config.FrontendAppConfig
 
 @this(
     main_template: MainTemplate,
-    formHelper: FormWithCSRF,
-    appConfig: FrontendAppConfig
+    formHelper: FormWithCSRF
 )
 
 @(form: Form[_], index: Int, draftId: String)(implicit request: Request[_], messages: Messages)
@@ -62,6 +60,5 @@
 
         @components.submit_button()
 
-        <p><a href="@{appConfig.registrationProgressUrl(draftId)}">@messages("site.returnToRegistrationProgress")</a></p>
     }
 }
