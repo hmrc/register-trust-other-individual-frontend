@@ -15,11 +15,9 @@
  *@
 
 @import controllers.register.individual.routes._
-@import config.FrontendAppConfig
 
 @this(
-    main_template: MainTemplate,
-    appConfig: FrontendAppConfig
+    main_template: MainTemplate
 )
 
 
@@ -68,7 +66,5 @@
     </details>
 
     @components.button_link(messages("site.continue"), NameController.onPageLoad(0, draftId).url)
-
-    <p><a href="@{appConfig.registrationProgressUrl(draftId)}">@messages("site.returnToRegistrationProgress")</a></p>
 
 }
