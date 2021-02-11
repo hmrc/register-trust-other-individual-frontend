@@ -35,7 +35,7 @@ class InfoController @Inject()(
     implicit request =>
       val ua = request.userAnswers
       if (ua.is5mldEnabled) {
-        Ok(view5MLD(draftId))
+        Ok(view5MLD(draftId, ua.isTaxable))
       } else {
         Ok(view(draftId))
       }

@@ -21,28 +21,49 @@ import views.html.register.Mld5InfoView
 
 class Mld5InfoViewSpec extends ViewBehaviours {
 
-  "Mld5Info view" must {
+  "Mld5Info view" when {
 
     val view = viewFor[Mld5InfoView](Some(emptyUserAnswers))
 
-    val applyView = view.apply(fakeDraftId)(fakeRequest, messages)
+    "taxable" must {
 
-    behave like normalPageTitleWithCaption(applyView, "otherIndividualsInfo.5mld",
-      "caption",
-      "paragraph1",
-      "bulletpoint1",
-      "bulletpoint2",
-      "bulletpoint3",
-      "paragraph2",
-      "bulletpoint4",
-      "bulletpoint5",
-      "bulletpoint6",
-      "bulletpoint7",
-      "paragraph3",
-      "details",
-      "details.paragraph1"
-    )
+      val applyView = view.apply(fakeDraftId, isTaxable = true)(fakeRequest, messages)
 
-    behave like pageWithBackLink(applyView)
+      behave like normalPageTitleWithCaption(applyView, "otherIndividualsInfo.5mld",
+        "caption",
+        "paragraph1",
+        "bulletpoint1",
+        "bulletpoint2",
+        "bulletpoint3",
+        "paragraph2",
+        "bulletpoint4",
+        "bulletpoint5",
+        "bulletpoint6",
+        "bulletpoint7",
+        "paragraph3",
+        "details",
+        "details.paragraph1"
+      )
+
+      behave like pageWithBackLink(applyView)
+    }
+
+    "non-taxable" must {
+
+      val applyView = view.apply(fakeDraftId, isTaxable = false)(fakeRequest, messages)
+
+      behave like normalPageTitleWithCaption(applyView, "otherIndividualsInfo.5mld",
+        "caption",
+        "paragraph1",
+        "bulletpoint1",
+        "bulletpoint2",
+        "bulletpoint3",
+        "paragraph3",
+        "details",
+        "details.paragraph1"
+      )
+
+      behave like pageWithBackLink(applyView)
+    }
   }
 }
