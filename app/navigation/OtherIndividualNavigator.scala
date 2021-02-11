@@ -50,7 +50,7 @@ class OtherIndividualNavigator @Inject()(config: FrontendAppConfig) extends Navi
   private def simpleNavigation(draftId: String): PartialFunction[Page, ReadableUserAnswers => Call] = {
     case NamePage(index) => _ => DateOfBirthYesNoController.onPageLoad(index, draftId)
     case DateOfBirthPage(index) => ua => navigateAwayFromDateOfBirthQuestions(draftId, index, ua.is5mldEnabled)
-    case CountryOfNationalityPage(index) => _ => NationalInsuranceYesNoController.onPageLoad(index, draftId)
+    case CountryOfNationalityPage(index) => ua => navigateAwayFromCountryOfNationalityQuestions(draftId, index, ua.isTaxable)
     case NationalInsuranceNumberPage(index) => ua => navigateAwayFromNinoQuestion(draftId, index, ua.is5mldEnabled)
     case CountryOfResidencePage(index) => ua => navigateAwayFromCountryOfResidencyQuestions(draftId, index, ua)
     case UkAddressPage(index) => _ => PassportDetailsYesNoController.onPageLoad(index, draftId)
@@ -74,13 +74,13 @@ class OtherIndividualNavigator @Inject()(config: FrontendAppConfig) extends Navi
         ua = ua,
         fromPage = page,
         yesCall = CountryOfNationalityInTheUkYesNoController.onPageLoad(index, draftId),
-        noCall = NationalInsuranceYesNoController.onPageLoad(index, draftId)
+        noCall = navigateAwayFromCountryOfNationalityQuestions(draftId, index, ua.isTaxable)
       )
     case page @ CountryOfNationalityInTheUkYesNoPage(index) => ua =>
       yesNoNav(
         ua = ua,
         fromPage = page,
-        yesCall = NationalInsuranceYesNoController.onPageLoad(index, draftId),
+        yesCall = navigateAwayFromCountryOfNationalityQuestions(draftId, index, ua.isTaxable),
         noCall = CountryOfNationalityController.onPageLoad(index, draftId)
       )
     case page @ NationalInsuranceYesNoPage(index) => ua =>
@@ -158,9 +158,20 @@ class OtherIndividualNavigator @Inject()(config: FrontendAppConfig) extends Navi
     }
   }
 
+  private def navigateAwayFromCountryOfNationalityQuestions(draftId: String, index: Int, isTaxable: Boolean): Call = {
+    if (isTaxable) {
+      NationalInsuranceYesNoController.onPageLoad(index, draftId)
+    } else {
+      CountryOfResidenceYesNoController.onPageLoad(index, draftId)
+    }
+  }
+
   private def navigateAwayFromCountryOfResidencyQuestions(draftId: String, index: Int, ua: ReadableUserAnswers): Call = {
-    ua.get(NationalInsuranceYesNoPage(index)) match {
-      case Some(true) => MentalCapacityYesNoController.onPageLoad(index, draftId)
+    val isNinoDefined = ua.get(NationalInsuranceNumberPage(index)).isDefined
+    val isNonTaxable = !ua.isTaxable
+
+    (isNinoDefined, isNonTaxable) match {
+      case (true, _) | (_, true) => MentalCapacityYesNoController.onPageLoad(index, draftId)
       case _ => AddressYesNoController.onPageLoad(index, draftId)
     }
   }
@@ -206,4 +217,3 @@ class OtherIndividualNavigator @Inject()(config: FrontendAppConfig) extends Navi
   }
 
 }
-

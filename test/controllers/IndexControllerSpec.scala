@@ -115,7 +115,6 @@ class IndexControllerSpec extends SpecBase {
 
     }
 
-
     "no pre-existing user answers" must {
 
       "instantiate new set of user answers" when {
