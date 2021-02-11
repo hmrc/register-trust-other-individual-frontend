@@ -18,8 +18,8 @@ package navigation
 
 import base.SpecBase
 import config.FrontendAppConfig
-import controllers.register.individual.{routes => irts}
 import controllers.register.individual.mld5.{routes => mld5irts}
+import controllers.register.individual.{routes => irts}
 import controllers.register.{routes => rts}
 import generators.Generators
 import models._
@@ -28,7 +28,7 @@ import org.scalacheck.Arbitrary.arbitrary
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import pages.register.individual._
 import pages.register.individual.mld5._
-import pages.register.{AddOtherIndividualPage, AddOtherIndividualYesNoPage, AnswersPage, TrustHasOtherIndividualYesNoPage}
+import pages.register.{AddOtherIndividualPage, AddOtherIndividualYesNoPage, TrustHasOtherIndividualYesNoPage}
 import play.api.mvc.Call
 import utils.Constants.ES
 
@@ -44,14 +44,6 @@ class OtherIndividualNavigatorSpec extends SpecBase with ScalaCheckPropertyCheck
   "OtherIndividual navigator" must {
 
     "a 4mld trust" must {
-
-      "AnswersPage -> AddOtherIndividualPage" in {
-        forAll(arbitrary[UserAnswers]) {
-          userAnswers =>
-            navigator.nextPage(AnswersPage, fakeDraftId, userAnswers)
-              .mustBe(controllers.register.routes.AddOtherIndividualController.onPageLoad(fakeDraftId))
-        }
-      }
 
       "AddOtherIndividualYesNoPage -> Yes -> NamePage from AddOtherIndividualYesNoPage" in {
 

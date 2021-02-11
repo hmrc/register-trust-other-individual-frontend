@@ -17,10 +17,11 @@
 package connectors
 
 import config.FrontendAppConfig
-import javax.inject.Inject
 import models.FeatureResponse
+import uk.gov.hmrc.http.HttpReads.Implicits._
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 
+import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 class TrustsStoreConnector @Inject()(http: HttpClient, config : FrontendAppConfig) {
