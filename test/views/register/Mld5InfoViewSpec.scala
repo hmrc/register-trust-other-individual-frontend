@@ -41,6 +41,11 @@ class Mld5InfoViewSpec extends ViewBehaviours {
         "bulletpoint6",
         "bulletpoint7",
         "paragraph3",
+        "paragraph4",
+        "bulletpoint8",
+        "bulletpoint9",
+        "bulletpoint10",
+        "bulletpoint11",
         "details",
         "details.paragraph1"
       )
@@ -59,6 +64,11 @@ class Mld5InfoViewSpec extends ViewBehaviours {
         "bulletpoint2",
         "bulletpoint3",
         "paragraph3",
+        "paragraph4",
+        "bulletpoint8",
+        "bulletpoint9",
+        "bulletpoint10",
+        "bulletpoint11",
         "details",
         "details.paragraph1"
       )
