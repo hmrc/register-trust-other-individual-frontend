@@ -170,7 +170,7 @@ class OtherIndividualAnswersHelperSpec extends SpecBase {
                 AnswerRow(label = "otherIndividual.dateOfBirthYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.DateOfBirthYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
                 AnswerRow(label = "otherIndividual.5mld.countryOfNationalityYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(mld5rts.CountryOfNationalityYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
                 AnswerRow(label = "otherIndividual.nationalInsuranceYesNo.checkYourAnswersLabel", answer = Html("Yes"), changeUrl = Some(rts.NationalInsuranceYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
-                AnswerRow(label = "otherIndividual.nationalInsuranceNumber.checkYourAnswersLabel", answer = Html("AA000000A"), changeUrl = Some(rts.NationalInsuranceNumberController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
+                AnswerRow(label = "otherIndividual.nationalInsuranceNumber.checkYourAnswersLabel", answer = Html("AA 00 00 00 A"), changeUrl = Some(rts.NationalInsuranceNumberController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
                 AnswerRow(label = "otherIndividual.5mld.countryOfResidenceYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(mld5rts.CountryOfResidenceYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString)
               ),
               sectionKey = None

@@ -17,27 +17,26 @@
 package utils.print
 
 import com.google.inject.Inject
-import controllers.register.individual.{routes => irts}
 import controllers.register.individual.mld5.{routes => mld5irts}
+import controllers.register.individual.{routes => irts}
 import models.UserAnswers
 import pages.register.individual._
 import pages.register.individual.mld5._
 import play.api.i18n.Messages
-import utils.countryOptions.CountryOptions
 import viewmodels.{AnswerRow, AnswerSection}
 
-class OtherIndividualPrintHelper @Inject()(answerRowConverter: AnswerRowConverter,
-                                           countryOptions: CountryOptions
-                                          ) {
+class OtherIndividualPrintHelper @Inject()(answerRowConverter: AnswerRowConverter) {
 
-  def printSection(userAnswers: UserAnswers, name: String, index: Int, draftId: String)(implicit messages: Messages): AnswerSection = {
+  def printSection(userAnswers: UserAnswers, name: String, index: Int, draftId: String)
+                  (implicit messages: Messages): AnswerSection = {
     AnswerSection(
       Some(Messages("answerPage.section.otherIndividual.subheading", index + 1)),
       answers(userAnswers, name, index, draftId)
     )
   }
 
-  def checkDetailsSection(userAnswers: UserAnswers, name: String, index: Int, draftId: String)(implicit messages: Messages): AnswerSection = {
+  def checkDetailsSection(userAnswers: UserAnswers, name: String, index: Int, draftId: String)
+                         (implicit messages: Messages): AnswerSection = {
     AnswerSection(
       None,
       answers(userAnswers, name, index, draftId)
@@ -46,7 +45,7 @@ class OtherIndividualPrintHelper @Inject()(answerRowConverter: AnswerRowConverte
 
   def answers(userAnswers: UserAnswers, name: String, index: Int, draftId: String)
              (implicit messages: Messages): Seq[AnswerRow] = {
-    val bound: answerRowConverter.Bound = answerRowConverter.bind(userAnswers, name, countryOptions)
+    val bound: answerRowConverter.Bound = answerRowConverter.bind(userAnswers, name)
 
     Seq(
       bound.nameQuestion(NamePage(index), "otherIndividual.name", irts.NameController.onPageLoad(index, draftId).url),
@@ -56,7 +55,7 @@ class OtherIndividualPrintHelper @Inject()(answerRowConverter: AnswerRowConverte
       bound.yesNoQuestion(CountryOfNationalityInTheUkYesNoPage(index), "otherIndividual.5mld.countryOfNationalityInTheUkYesNo", mld5irts.CountryOfNationalityInTheUkYesNoController.onPageLoad(index, draftId).url),
       bound.countryQuestion(CountryOfNationalityPage(index), CountryOfNationalityInTheUkYesNoPage(index), "otherIndividual.5mld.countryOfNationality",  mld5irts.CountryOfNationalityController.onPageLoad(index, draftId).url),
       bound.yesNoQuestion(NationalInsuranceYesNoPage(index), "otherIndividual.nationalInsuranceYesNo", irts.NationalInsuranceYesNoController.onPageLoad(index, draftId).url),
-      bound.stringQuestion(NationalInsuranceNumberPage(index), "otherIndividual.nationalInsuranceNumber", irts.NationalInsuranceNumberController.onPageLoad(index, draftId).url),
+      bound.ninoQuestion(NationalInsuranceNumberPage(index), "otherIndividual.nationalInsuranceNumber", irts.NationalInsuranceNumberController.onPageLoad(index, draftId).url),
       bound.yesNoQuestion(CountryOfResidenceYesNoPage(index), "otherIndividual.5mld.countryOfResidenceYesNo", mld5irts.CountryOfResidenceYesNoController.onPageLoad(index, draftId).url),
       bound.yesNoQuestion(CountryOfResidenceInTheUkYesNoPage(index), "otherIndividual.5mld.countryOfResidenceInTheUkYesNo", mld5irts.CountryOfResidenceInTheUkYesNoController.onPageLoad(index, draftId).url),
       bound.countryQuestion(CountryOfResidencePage(index), CountryOfResidenceInTheUkYesNoPage(index), "otherIndividual.5mld.countryOfResidence",  mld5irts.CountryOfResidenceController.onPageLoad(index, draftId).url),

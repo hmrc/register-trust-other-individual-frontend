@@ -16,104 +16,75 @@
 
 package utils.print
 
-import java.time.LocalDate
-
 import com.google.inject.Inject
 import models.{Address, FullName, PassportOrIdCardDetails, UserAnswers}
 import play.api.i18n.Messages
 import play.api.libs.json.Reads
-import play.twirl.api.HtmlFormat
+import play.twirl.api.{Html, HtmlFormat}
 import queries.Gettable
 import utils.answers.CheckAnswersFormatters
-import utils.countryOptions.CountryOptions
 import viewmodels.AnswerRow
+
+import java.time.LocalDate
 
 class AnswerRowConverter @Inject()(checkAnswersFormatters: CheckAnswersFormatters) {
 
-  def bind(userAnswers: UserAnswers, name: String, countryOptions: CountryOptions)
-          (implicit messages: Messages): Bound = new Bound(userAnswers, name, countryOptions)
+  def bind(userAnswers: UserAnswers, name: String)
+          (implicit messages: Messages): Bound = new Bound(userAnswers, name)
 
-  class Bound(userAnswers: UserAnswers, name: String, countryOptions: CountryOptions)(implicit messages: Messages) {
+  class Bound(userAnswers: UserAnswers, name: String)(implicit messages: Messages) {
 
     def nameQuestion(query: Gettable[FullName],
                      labelKey: String,
                      changeUrl: String): Option[AnswerRow] = {
-      userAnswers.get(query) map {x =>
-        AnswerRow(
-          s"$labelKey.checkYourAnswersLabel",
-          HtmlFormat.escape(x.displayFullName),
-          Some(changeUrl)
-        )
-      }
+      val format = (x: FullName) => HtmlFormat.escape(x.displayFullName)
+      question(query, labelKey, format, changeUrl)
     }
 
     def stringQuestion(query: Gettable[String],
                        labelKey: String,
                        changeUrl: String): Option[AnswerRow] = {
-      userAnswers.get(query) map {x =>
-        AnswerRow(
-          s"$labelKey.checkYourAnswersLabel",
-          HtmlFormat.escape(x),
-          Some(changeUrl),
-          name
-        )
-      }
+      val format = (x: String) => HtmlFormat.escape(x)
+      question(query, labelKey, format, changeUrl, name)
     }
 
     def yesNoQuestion(query: Gettable[Boolean],
                       labelKey: String,
                       changeUrl: String): Option[AnswerRow] = {
-      userAnswers.get(query) map {x =>
-        AnswerRow(
-          s"$labelKey.checkYourAnswersLabel",
-          checkAnswersFormatters.yesOrNo(x),
-          Some(changeUrl),
-          name
-        )
-      }
+      val format = (x: Boolean) => checkAnswersFormatters.yesOrNo(x)
+      question(query, labelKey, format, changeUrl, name)
+    }
+
+    def ninoQuestion(query: Gettable[String],
+                     labelKey: String,
+                     changeUrl: String): Option[AnswerRow] = {
+      val format = (x: String) => checkAnswersFormatters.formatNino(x)
+      question(query, labelKey, format, changeUrl, name)
     }
 
     def dateQuestion(query: Gettable[LocalDate],
                      labelKey: String,
                      changeUrl: String): Option[AnswerRow] = {
-      userAnswers.get(query) map {x =>
-        AnswerRow(
-          s"$labelKey.checkYourAnswersLabel",
-          HtmlFormat.escape(checkAnswersFormatters.formatDate(x)),
-          Some(changeUrl),
-          name
-        )
-      }
+      val format = (x: LocalDate) => checkAnswersFormatters.formatDate(x)
+      question(query, labelKey, format, changeUrl, name)
     }
     def addressQuestion[T <: Address](query: Gettable[T],
                                       labelKey: String,
                                       changeUrl: String)
                                      (implicit reads: Reads[T]): Option[AnswerRow] = {
-      userAnswers.get(query) map { x =>
-        AnswerRow(
-          s"$labelKey.checkYourAnswersLabel",
-          checkAnswersFormatters.addressFormatter(x, countryOptions),
-          Some(changeUrl),
-          name
-        )
-      }
+      val format = (x: T) => checkAnswersFormatters.addressFormatter(x)
+      question(query, labelKey, format, changeUrl, name)
     }
 
     def countryQuestion(query: Gettable[String],
-                                yesNoQuery: Gettable[Boolean],
-                                labelKey: String,
-                                changeUrl: String
-                                ): Option[AnswerRow] = {
+                        yesNoQuery: Gettable[Boolean],
+                        labelKey: String,
+                        changeUrl: String
+                       ): Option[AnswerRow] = {
       userAnswers.get(yesNoQuery) flatMap {
         case false =>
-          userAnswers.get(query) map { x =>
-            AnswerRow(
-              label = s"$labelKey.checkYourAnswersLabel",
-              answer = HtmlFormat.escape(checkAnswersFormatters.country(x, countryOptions)),
-              changeUrl = Some(changeUrl),
-              name
-            )
-          }
+          val format = (x: String) => HtmlFormat.escape(checkAnswersFormatters.country(x))
+          question(query, labelKey, format, changeUrl, name)
         case true =>
           None
       }
@@ -122,12 +93,22 @@ class AnswerRowConverter @Inject()(checkAnswersFormatters: CheckAnswersFormatter
     def passportDetailsQuestion(query: Gettable[PassportOrIdCardDetails],
                                 labelKey: String,
                                 changeUrl: String): Option[AnswerRow] = {
-      userAnswers.get(query) map {x =>
+      val format = (x: PassportOrIdCardDetails) => checkAnswersFormatters.passportOrIDCard(x)
+      question(query, labelKey, format, changeUrl, name)
+    }
+
+    private def question[T](query: Gettable[T],
+                            labelKey: String,
+                            format: T => Html,
+                            changeUrl: String,
+                            labelArg: String = "")
+                           (implicit rds: Reads[T]): Option[AnswerRow] = {
+      userAnswers.get(query) map { x =>
         AnswerRow(
-          s"$labelKey.checkYourAnswersLabel",
-          checkAnswersFormatters.passportOrIDCard(x, countryOptions),
-          Some(changeUrl),
-          name
+          label = s"$labelKey.checkYourAnswersLabel",
+          answer = format(x),
+          changeUrl = Some(changeUrl),
+          labelArg = labelArg
         )
       }
     }
