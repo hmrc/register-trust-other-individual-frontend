@@ -21,8 +21,10 @@ GET        /feature-not-available                       controllers.FeatureNotAv
 
 GET        /:draftId/add                                controllers.register.AddOtherIndividualController.onPageLoad(draftId: String)
 POST       /:draftId/add                                controllers.register.AddOtherIndividualController.submitOne(draftId: String)
+GET        /:draftId/add-another                        controllers.register.AddOtherIndividualController.onPageLoad(draftId: String)
 POST       /:draftId/add-another                        controllers.register.AddOtherIndividualController.submitAnother(draftId: String)
-POST       /complete                                    controllers.register.AddOtherIndividualController.submitComplete(draftId: String)
+GET        /:draftId/complete                           controllers.register.AddOtherIndividualController.onPageLoad(draftId: String)
+POST       /:draftId/complete                           controllers.register.AddOtherIndividualController.submitComplete(draftId: String)
 
 GET        /:draftId/information-you-need               controllers.register.InfoController.onPageLoad(draftId: String)
 
