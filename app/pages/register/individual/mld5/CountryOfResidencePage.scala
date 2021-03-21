@@ -18,11 +18,11 @@ package pages.register.individual.mld5
 
 import pages.QuestionPage
 import play.api.libs.json.JsPath
-import sections.OtherIndividualsView
+import sections.OtherIndividuals
 
 final case class CountryOfResidencePage(index : Int) extends QuestionPage[String] {
 
-  override def path: JsPath = OtherIndividualsView.path \ index \ toString
+  override def path: JsPath = OtherIndividuals.path \ index \ toString
 
   override def toString: String = "countryOfResidence"
 

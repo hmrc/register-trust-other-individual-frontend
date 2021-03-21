@@ -27,7 +27,7 @@ import pages.register.individual._
 import pages.register.individual.mld5._
 import pages.register.{AddOtherIndividualPage, AddOtherIndividualYesNoPage, TrustHasOtherIndividualYesNoPage}
 import play.api.mvc.Call
-import sections.OtherIndividualsView
+import sections.OtherIndividuals
 import uk.gov.hmrc.http.HttpVerbs.GET
 
 import javax.inject.Inject
@@ -189,7 +189,7 @@ class OtherIndividualNavigator @Inject()(config: FrontendAppConfig) extends Navi
   }
 
   private def routeToOtherIndividualIndex(userAnswers: ReadableUserAnswers, draftId: String): Call = {
-    val otherIndividuals = userAnswers.get(OtherIndividualsView).getOrElse(List.empty)
+    val otherIndividuals = userAnswers.get(OtherIndividuals).getOrElse(List.empty)
     NameController.onPageLoad(otherIndividuals.size, draftId)
   }
 

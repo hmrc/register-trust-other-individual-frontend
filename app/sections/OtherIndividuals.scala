@@ -18,11 +18,12 @@ package sections
 
 import pages.QuestionPage
 import play.api.libs.json.JsPath
+import viewmodels.addAnother.OtherIndividualViewModel
 
-case object OtherIndividuals extends QuestionPage[List[Nothing]]{
+case object OtherIndividuals extends QuestionPage[List[OtherIndividualViewModel]] {
 
-  override def path: JsPath = JsPath \ toString
+  override def path: JsPath = OtherIndividualsBase.path \ toString
 
-  override def toString: String = "otherIndividuals"
+  override def toString: String = "otherIndividualsView"
 
 }

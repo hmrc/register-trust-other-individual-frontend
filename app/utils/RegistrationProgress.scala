@@ -22,7 +22,7 @@ import models.{ReadableUserAnswers, Status}
 import pages.QuestionPage
 import pages.register.{AddOtherIndividualPage, TrustHasOtherIndividualYesNoPage}
 import play.api.libs.json.Reads
-import sections.OtherIndividualsView
+import sections.OtherIndividuals
 import viewmodels.addAnother._
 
 class RegistrationProgress extends AnyOtherIndividuals {
@@ -77,5 +77,5 @@ class RegistrationProgress extends AnyOtherIndividuals {
       userAnswers.get(AddOtherIndividualPage).contains(AddOtherIndividual.NoComplete)
   }
 
-  private object OtherIndividualsAreComplete extends ListIsComplete(OtherIndividualsView)
+  private object OtherIndividualsAreComplete extends ListIsComplete(OtherIndividuals)
 }

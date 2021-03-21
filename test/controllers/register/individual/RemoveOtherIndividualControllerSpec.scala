@@ -28,7 +28,7 @@ import pages.register.individual.NamePage
 import play.api.data.Form
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{route, _}
-import sections.OtherIndividualView
+import sections.OtherIndividual
 import views.html.RemoveIndexView
 
 import scala.concurrent.Future
@@ -129,7 +129,7 @@ class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation 
 
         val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
         verify(registrationsRepository, times(1)).set(uaCaptor.capture)(any(), any())
-        uaCaptor.getValue.get(OtherIndividualView(index)) mustNot be(defined)
+        uaCaptor.getValue.get(OtherIndividual(index)) mustNot be(defined)
 
         application.stop()
       }

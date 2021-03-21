@@ -18,11 +18,11 @@ package pages.register
 
 import pages.QuestionPage
 import play.api.libs.json.JsPath
-import sections.OtherIndividuals
+import sections.OtherIndividualsBase
 
 case object AddOtherIndividualYesNoPage extends QuestionPage[Boolean] {
 
-  override def path: JsPath = JsPath \ OtherIndividuals \ toString
+  override def path: JsPath = JsPath \ OtherIndividualsBase \ toString
 
   override def toString: String = "addOtherIndividualYesNo"
 }

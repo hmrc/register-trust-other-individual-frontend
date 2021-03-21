@@ -16,64 +16,27 @@
 
 package mapping.register
 
-import javax.inject.Inject
-import mapping.Mapping
-import mapping.reads.{OtherIndividualReads, OtherIndividuals}
-import models.{PassportOrIdCardDetails, UserAnswers}
+import mapping.reads.OtherIndividuals
+import models.{OtherIndividualType, UserAnswers}
 
-class OtherIndividualMapper @Inject()(addressMapper: AddressMapper) extends Mapping[List[OtherIndividual]] {
-  override def build(userAnswers: UserAnswers): Option[List[OtherIndividual]] = {
+class OtherIndividualMapper {
 
-    val otherIndividuals: List[OtherIndividualReads] =
-      userAnswers.get(OtherIndividuals).getOrElse(List.empty)
+  def build(userAnswers: UserAnswers): Option[List[OtherIndividualType]] = {
 
-    otherIndividuals match {
-      case Nil => None
-      case list =>
-        Some(
-          list.map { otherIndividual =>
-            OtherIndividual(
-              name = otherIndividual.name,
-              dateOfBirth = otherIndividual.dateOfBirth,
-              identification = buildIdentification(otherIndividual),
-              countryOfResidence = otherIndividual.countryOfResidence,
-              nationality = otherIndividual.countryOfNationality,
-              legallyIncapable = otherIndividual.mentalCapacityYesNo.map(!_)
-            )
-          }
-        )
+    userAnswers.get(OtherIndividuals) match {
+      case None => None
+      case Some(list) => Some(
+        list.map { otherIndividual =>
+          OtherIndividualType(
+            name = otherIndividual.name,
+            dateOfBirth = otherIndividual.dateOfBirth,
+            identification = otherIndividual.identification,
+            countryOfResidence = otherIndividual.countryOfResidence,
+            nationality = otherIndividual.countryOfNationality,
+            legallyIncapable = otherIndividual.mentalCapacityYesNo.map(!_)
+          )
+        }
+      )
     }
   }
-
-  private def buildIdentification(otherIndividual: OtherIndividualReads): Option[IdentificationType] = {
-    val nino = otherIndividual.nationalInsuranceNumber
-    val address = (otherIndividual.ukAddress, otherIndividual.internationalAddress) match {
-      case (None, None) => None
-      case (Some(address), _) => addressMapper.build(address)
-      case (_, Some(address)) => addressMapper.build(address)
-    }
-    val passport = otherIndividual.passportDetails
-    val idCard = otherIndividual.idCardDetails
-    (nino, address, passport, idCard) match {
-      case (None, None, None, None) => None
-      case (Some(_), _, _, _) => Some(IdentificationType(nino, None, None))
-      case (_, _, _, _) =>
-        Some(IdentificationType(
-          nino = None,
-          passport = buildPassportOrIdCard(otherIndividual.passportDetails, otherIndividual.idCardDetails),
-          address = address
-        )
-        )
-    }
-  }
-
-  private def buildPassportOrIdCard(passport: Option[PassportOrIdCardDetails], idCardDetails: Option[PassportOrIdCardDetails]) =
-    (passport, idCardDetails) match {
-      case (Some(passport), _) => buildPassport(passport)
-      case (_, Some(idCard)) => buildPassport(idCard)
-      case (None, None) => None
-    }
-
-  private def buildPassport(details: PassportOrIdCardDetails) =
-    Some(PassportType(details.cardNumber, details.expiryDate, details.country))
 }

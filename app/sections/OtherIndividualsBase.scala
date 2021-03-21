@@ -14,12 +14,15 @@
  * limitations under the License.
  */
 
-package mapping
+package sections
 
-import models.UserAnswers
+import pages.QuestionPage
+import play.api.libs.json.JsPath
 
-trait Mapping[T] {
+case object OtherIndividualsBase extends QuestionPage[List[Nothing]] {
 
-  def build(userAnswers: UserAnswers) : Option[T]
+  override def path: JsPath = JsPath \ toString
+
+  override def toString: String = "otherIndividuals"
 
 }

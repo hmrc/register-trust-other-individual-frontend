@@ -17,10 +17,9 @@
 package mapping.register
 
 import java.time.LocalDate
-
 import base.SpecBase
 import generators.Generators
-import models.{FullName, InternationalAddress, PassportOrIdCardDetails, UkAddress}
+import models.{AddressType, FullName, IdentificationType, InternationalAddress, OtherIndividualType, PassportOrIdCardDetails, PassportType, UkAddress}
 import org.scalatest.{MustMatchers, OptionValues}
 import pages.register.individual._
 import pages.register.individual.mld5._
@@ -65,7 +64,7 @@ class OtherIndividualMapperSpec extends SpecBase with MustMatchers
           val otherIndividuals = mapper.build(userAnswers)
 
           otherIndividuals mustBe defined
-          otherIndividuals.value.head mustBe OtherIndividual(
+          otherIndividuals.value.head mustBe OtherIndividualType(
             name = FullName(firstName, None, lastName),
             dateOfBirth = None,
             identification = Some(IdentificationType(nino = Some(nino), address = None, passport = None)),
@@ -90,7 +89,7 @@ class OtherIndividualMapperSpec extends SpecBase with MustMatchers
           val otherIndividuals = mapper.build(userAnswers)
 
           otherIndividuals mustBe defined
-          otherIndividuals.value.head mustBe OtherIndividual(
+          otherIndividuals.value.head mustBe OtherIndividualType(
             name = FullName(firstName, None, lastName),
             identification = Some(IdentificationType(nino = None,
               address = Some(AddressType("Line1", "Line2", Some("Line3"), Some("Newcastle"), Some("NE62RT"), "GB")),
@@ -118,7 +117,7 @@ class OtherIndividualMapperSpec extends SpecBase with MustMatchers
           val otherIndividuals = mapper.build(userAnswers)
 
           otherIndividuals mustBe defined
-          otherIndividuals.value.head mustBe OtherIndividual(
+          otherIndividuals.value.head mustBe OtherIndividualType(
             name = FullName(firstName, None, lastName),
             identification = Some(IdentificationType(
               nino = None,
@@ -149,7 +148,7 @@ class OtherIndividualMapperSpec extends SpecBase with MustMatchers
           val otherIndividuals = mapper.build(userAnswers)
 
           otherIndividuals mustBe defined
-          otherIndividuals.value.head mustBe OtherIndividual(
+          otherIndividuals.value.head mustBe OtherIndividualType(
             name = FullName(firstName, None, lastName),
             identification = Some(IdentificationType(nino = None,
               address = Some(AddressType("Line1", "Line2", Some("Line3"), Some("Newcastle"), Some("NE62RT"), "GB")),
@@ -187,7 +186,7 @@ class OtherIndividualMapperSpec extends SpecBase with MustMatchers
         otherIndividuals mustBe defined
         otherIndividuals.value mustBe
           List(
-            OtherIndividual(
+            OtherIndividualType(
               name = FullName("Individual Name 1", None, lastName),
               dateOfBirth = None,
               identification = Some(IdentificationType(nino = Some(nino), address = None, passport = None)),
@@ -196,7 +195,7 @@ class OtherIndividualMapperSpec extends SpecBase with MustMatchers
               legallyIncapable = None
             ),
 
-            OtherIndividual(
+            OtherIndividualType(
               name = FullName("Individual Name 2", None, lastName),
               dateOfBirth = None,
               identification = Some(
@@ -240,7 +239,7 @@ class OtherIndividualMapperSpec extends SpecBase with MustMatchers
         val otherIndividuals = mapper.build(userAnswers)
 
         otherIndividuals mustBe defined
-        otherIndividuals.value.head mustBe OtherIndividual(
+        otherIndividuals.value.head mustBe OtherIndividualType(
           name = FullName(firstName, None, lastName),
           dateOfBirth = Some(dateOfBirth),
           identification = Some(IdentificationType(nino = Some(nino), address = None, passport = None)),
@@ -271,7 +270,7 @@ class OtherIndividualMapperSpec extends SpecBase with MustMatchers
         val otherIndividuals = mapper.build(userAnswers)
 
         otherIndividuals mustBe defined
-        otherIndividuals.value.head mustBe OtherIndividual(
+        otherIndividuals.value.head mustBe OtherIndividualType(
           name = FullName(firstName, None, lastName),
           dateOfBirth = Some(dateOfBirth),
           identification = Some(IdentificationType(nino = Some(nino), address = None, passport = None)),
