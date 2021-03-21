@@ -19,13 +19,13 @@ package pages.register.individual
 import models.UserAnswers
 import pages.QuestionPage
 import play.api.libs.json.JsPath
-import sections.OtherIndividualsView
+import sections.OtherIndividuals
 
 import scala.util.Try
 
 final case class NationalInsuranceYesNoPage(index : Int) extends QuestionPage[Boolean] {
 
-  override def path: JsPath = OtherIndividualsView.path \ index \ toString
+  override def path: JsPath = OtherIndividuals.path \ index \ toString
 
   override def toString: String = "nationalInsuranceNumberYesNo"
 

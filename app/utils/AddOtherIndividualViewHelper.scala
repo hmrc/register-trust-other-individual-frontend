@@ -19,7 +19,7 @@ package utils
 import controllers.register.individual.{routes => individualRts}
 import models.UserAnswers
 import play.api.i18n.Messages
-import sections.OtherIndividualsView
+import sections.OtherIndividuals
 import viewmodels.addAnother.OtherIndividualViewModel
 import viewmodels.{AddRow, AddToRows}
 
@@ -49,8 +49,8 @@ class AddOtherIndividualViewHelper(userAnswers: UserAnswers, draftId : String)(i
     )
   }
 
-  private def otherIndividuals = {
-    val otherIndividuals = userAnswers.get(OtherIndividualsView).toList.flatten.zipWithIndex
+  private def otherIndividuals: InProgressComplete = {
+    val otherIndividuals = userAnswers.get(OtherIndividuals).toList.flatten.zipWithIndex
     val otherIndividualsComplete = otherIndividuals.filter(_._1.isComplete).map(parseOtherIndividual)
     val otherIndividualsInProgress = otherIndividuals.filterNot(_._1.isComplete).map(parseOtherIndividual)
 

@@ -14,40 +14,25 @@
  * limitations under the License.
  */
 
-package mapping.register
+package models
+
+import play.api.libs.json._
 
 import java.time.LocalDate
 
-import models.FullName
-import play.api.libs.json._
-
 /**
-  * Trust Registration API Schema - definitions models below
-  */
+ * Trust Registration API Schema - definitions models below
+ */
 
-case class OtherIndividualsType(otherIndividual: Option[List[OtherIndividual]],
-                          otherIndividualCompany: Option[List[OtherIndividualCompany]])
+case class OtherIndividualType(name: FullName,
+                               dateOfBirth: Option[LocalDate],
+                               identification: Option[IdentificationType],
+                               countryOfResidence: Option[String],
+                               nationality: Option[String],
+                               legallyIncapable: Option[Boolean])
 
-object OtherIndividualsType {
-  implicit val otherIndividualsTypeFormat: Format[OtherIndividualsType] = Json.format[OtherIndividualsType]
-}
-
-case class OtherIndividual(name: FullName,
-                           dateOfBirth: Option[LocalDate],
-                           identification: Option[IdentificationType],
-                           countryOfResidence: Option[String],
-                           nationality: Option[String],
-                           legallyIncapable: Option[Boolean])
-
-object OtherIndividual {
-  implicit val otherIndividualFormat: Format[OtherIndividual] = Json.format[OtherIndividual]
-}
-
-case class OtherIndividualCompany(name: String,
-                            identification: Option[IdentificationOrgType])
-
-object OtherIndividualCompany {
-  implicit val otherIndividualCompanyFormat: Format[OtherIndividualCompany] = Json.format[OtherIndividualCompany]
+object OtherIndividualType {
+  implicit val otherIndividualFormat: Format[OtherIndividualType] = Json.format[OtherIndividualType]
 }
 
 case class IdentificationType(nino: Option[String],
@@ -83,6 +68,3 @@ case class AddressType(line1: String,
 object AddressType {
   implicit val addressTypeFormat: Format[AddressType] = Json.format[AddressType]
 }
-
-
-

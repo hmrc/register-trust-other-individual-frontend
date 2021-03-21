@@ -25,21 +25,21 @@ import pages.QuestionPage
 import play.api.i18n.MessagesApi
 import play.api.mvc.{Call, MessagesControllerComponents}
 import repositories.RegistrationsRepository
-import sections.OtherIndividualView
+import sections.OtherIndividual
 import viewmodels.addAnother.OtherIndividualViewModel
 import views.html.RemoveIndexView
 
 import scala.concurrent.ExecutionContext
 
 class RemoveOtherIndividualController @Inject()(
-                                           override val messagesApi: MessagesApi,
-                                           val registrationsRepository: RegistrationsRepository,
-                                           val standardActionSets: StandardActionSets,
-                                           val otherIndividualAction: OtherIndividualRequiredActionImpl,
-                                           val formProvider: RemoveIndexFormProvider,
-                                           val controllerComponents: MessagesControllerComponents,
-                                           val view: RemoveIndexView
-                                         )(implicit val ec: ExecutionContext) extends RemoveIndexController {
-  def otherIndividualAtIndex(index: Int): QuestionPage[OtherIndividualViewModel] = OtherIndividualView(index)
+                                                 override val messagesApi: MessagesApi,
+                                                 val registrationsRepository: RegistrationsRepository,
+                                                 val standardActionSets: StandardActionSets,
+                                                 val otherIndividualAction: OtherIndividualRequiredActionImpl,
+                                                 val formProvider: RemoveIndexFormProvider,
+                                                 val controllerComponents: MessagesControllerComponents,
+                                                 val view: RemoveIndexView
+                                               )(implicit val ec: ExecutionContext) extends RemoveIndexController {
+  def otherIndividualAtIndex(index: Int): QuestionPage[OtherIndividualViewModel] = OtherIndividual(index)
   def submitCall(index: Int, draftId: String): Call = routes.RemoveOtherIndividualController.onSubmit(index, draftId)
 }

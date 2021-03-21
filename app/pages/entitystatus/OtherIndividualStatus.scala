@@ -19,11 +19,11 @@ package pages.entitystatus
 import models.Status
 import pages.QuestionPage
 import play.api.libs.json.JsPath
-import sections.OtherIndividualsView
+import sections.OtherIndividuals
 
 final case class OtherIndividualStatus(index : Int) extends QuestionPage[Status] {
 
-  override def path: JsPath = OtherIndividualsView.path \ index \ toString
+  override def path: JsPath = OtherIndividuals.path \ index \ toString
 
   override def toString: String = "status"
 }

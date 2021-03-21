@@ -16,22 +16,28 @@
 
 package utils.answers
 
-import javax.inject.Inject
 import models.UserAnswers
 import play.api.i18n.Messages
-import sections.OtherIndividualsView
+import sections.OtherIndividuals
 import utils.print.OtherIndividualPrintHelper
 import viewmodels.AnswerSection
+
+import javax.inject.Inject
 
 class OtherIndividualAnswersHelper @Inject()(otherIndividualPrintHelper: OtherIndividualPrintHelper) {
 
   def otherIndividuals(userAnswers: UserAnswers)(implicit messages: Messages): Option[Seq[AnswerSection]] = {
     for {
-      otherIndividuals <- userAnswers.get(OtherIndividualsView)
+      otherIndividuals <- userAnswers.get(OtherIndividuals)
       indexed = otherIndividuals.zipWithIndex
     } yield indexed.map {
-      case (otherIndividualViewModel, index) =>
-        otherIndividualPrintHelper.printSection(userAnswers, otherIndividualViewModel.name.map(_.toString).getOrElse(""), index, userAnswers.draftId)
+      case (otherIndividual, index) =>
+        otherIndividualPrintHelper.printSection(
+          userAnswers = userAnswers,
+          name = otherIndividual.name.map(_.toString).getOrElse(""),
+          index = index,
+          draftId = userAnswers.draftId
+        )
     }
   }
 }
