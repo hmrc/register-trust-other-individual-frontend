@@ -255,6 +255,12 @@ otherIndividual.5mld.mentalCapacityYesNo.heading = Does {0} have mental capacity
 otherIndividual.5mld.mentalCapacityYesNo.checkYourAnswersLabel = Does {0} have mental capacity at the time of registration?
 otherIndividual.5mld.mentalCapacityYesNo.error.required = Select yes if you know the other individual has mental capacity at the time of registration
 otherIndividual.5mld.mentalCapacityYesNo.hint = An other individual does not have mental capacity if they cannot understand information and make decisions about the trust due to a mental illness, learning disability, dementia or related condition, or they cannot communicate.
+otherIndividual.5mld.mentalCapacityYesNo.p1 = You need to tell HMRC if any of the other individuals involved in the trust lack mental capacity at the time of registration.
+otherIndividual.5mld.mentalCapacityYesNo.p2 = An individual does not have mental capacity if they cannot understand information about the trust due to any of the following:
+otherIndividual.5mld.mentalCapacityYesNo.bulletpoint1 = mental illness
+otherIndividual.5mld.mentalCapacityYesNo.bulletpoint2 = learning disability
+otherIndividual.5mld.mentalCapacityYesNo.bulletpoint3 = dementia or a related condition
+otherIndividual.5mld.mentalCapacityYesNo.bulletpoint4 = being unable to communicate
 
 addOtherIndividual.heading = Add other individual
 addOtherIndividual.title = Add other individual
