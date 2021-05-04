@@ -48,5 +48,4 @@ otherIndividual.5mld.countryOfNationality.error.required = Nodwch wlad
 otherIndividual.5mld.mentalCapacityYesNo.heading = A oes gan {0} alluedd meddyliol ar adeg y cofrestriad?
 otherIndividual.5mld.mentalCapacityYesNo.checkYourAnswersLabel = A oes gan {0} alluedd meddyliol ar adeg y cofrestriad?
 #otherIndividual.5mld.mentalCapacityYesNo.error.required =
-#otherIndividual.5mld.mentalCapacityYesNo.hint =
 
