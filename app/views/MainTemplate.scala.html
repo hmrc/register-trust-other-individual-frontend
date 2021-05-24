@@ -16,16 +16,14 @@
 
 @import uk.gov.hmrc.hmrcfrontend.views.html.helpers.{HmrcStandardFooter, HmrcStandardHeader, HmrcHead, HmrcScripts}
 @import config.FrontendAppConfig
-@import uk.gov.hmrc.hmrcfrontend.views.config.StandardBetaBanner
 
 @this(
         appConfig: FrontendAppConfig,
         govukLayout: GovukLayout,
         hmrcHead: HmrcHead,
-        hmrcStandardHeader: HmrcStandardHeader,
+        header: Header,
         hmrcLanguageSelectHelper: HmrcLanguageSelectHelper,
         hmrcTimeoutDialogHelper: HmrcTimeoutDialogHelper,
-        standardBetaBanner: StandardBetaBanner,
         hmrcStandardFooter: HmrcStandardFooter,
         hmrcScripts: HmrcScripts,
         stylesheets: Stylesheets
@@ -60,11 +58,7 @@
     headBlock = Some(hmrcHead(
         headBlock = Some(scripts)
     )),
-    headerBlock = Some(hmrcStandardHeader(
-        serviceUrl = Some(appConfig.trustsUrl),
-        signOutUrl = Some(controllers.register.routes.LogoutController.logout().url),
-        phaseBanner = Some(standardBetaBanner(url = appConfig.betaFeedbackUrl)),
-    )),
+    headerBlock = Some(header(canSignOut)),
     beforeContentBlock = Some(hmrcLanguageSelectHelper()),
     scriptsBlock = Some(hmrcScripts()),
     footerBlock = Some(hmrcStandardFooter())

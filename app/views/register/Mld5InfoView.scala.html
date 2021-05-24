@@ -14,10 +14,14 @@
  * limitations under the License.
  *@
 
-@import controllers.register.individual.routes._
+@import controllers.register.routes._
+@import views.html.components.{BackLink, SubmitButton}
 
 @this(
-    main_template: MainTemplate
+    main_template: MainTemplate,
+        formHelper: FormWithCSRF,
+        back_link: BackLink,
+        submit_button: SubmitButton
 )
 
 
@@ -27,11 +31,11 @@
     title = messages("otherIndividualsInfo.5mld.title")
 ) {
 
-    @components.back_link()
+    @back_link()
 
     @components.heading_with_caption("otherIndividualsInfo.5mld")
 
-    <p>@messages("otherIndividualsInfo.5mld.paragraph1")</p>
+    <p class="govuk-body">@messages("otherIndividualsInfo.5mld.paragraph1")</p>
 
     @components.bullet_list(
         "otherIndividualsInfo.5mld",
@@ -44,7 +48,7 @@
 
     @if(isTaxable){
 
-        <p>@messages("otherIndividualsInfo.5mld.paragraph2")</p>
+        <p class="govuk-body">@messages("otherIndividualsInfo.5mld.paragraph2")</p>
 
         @components.bullet_list(
             "otherIndividualsInfo.5mld",
@@ -57,9 +61,9 @@
         )
     }
 
-    <p>@messages("otherIndividualsInfo.5mld.paragraph3")</p>
+    <p class="govuk-body">@messages("otherIndividualsInfo.5mld.paragraph3")</p>
 
-    <p>@messages("otherIndividualsInfo.5mld.paragraph4")</p>
+    <p class="govuk-body">@messages("otherIndividualsInfo.5mld.paragraph4")</p>
 
     @components.bullet_list(
         "otherIndividualsInfo.5mld",
@@ -82,6 +86,7 @@
         </div>
     </details>
 
-    @components.button_link(messages("site.continue"), NameController.onPageLoad(0, draftId).url)
-
+    @formHelper(action = InfoController.onSubmit(draftId), 'autoComplete -> "off") {
+        @submit_button(Some(messages("site.continue")))
+    }
 }

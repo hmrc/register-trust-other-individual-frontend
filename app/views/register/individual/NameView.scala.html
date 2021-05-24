@@ -15,10 +15,11 @@
  *@
 
 @import controllers.register.individual.routes._
-
+@import views.html.components.BackLink
 @this(
     main_template: MainTemplate,
-    formHelper: FormWithCSRF
+    formHelper: FormWithCSRF,
+        back_link: BackLink
 )
 
 @(form: Form[_], index: Int, draftId: String)(implicit request: Request[_], messages: Messages)
@@ -29,7 +30,7 @@
 
     @formHelper(action = NameController.onSubmit(index, draftId), 'autoComplete -> "on") {
 
-        @components.back_link()
+        @back_link()
 
         @components.error_summary(form.errors)
 

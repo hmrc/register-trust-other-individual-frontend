@@ -17,10 +17,12 @@
 @import controllers.register.routes._
 @import models.register.pages.AddOtherIndividual
 @import viewmodels.AddRow
+@import views.html.components.BackLink
 
 @this(
     main_template: MainTemplate,
-    formHelper: FormWithCSRF
+    formHelper: FormWithCSRF,
+        back_link: BackLink
 )
 
 @(form: Form[_],
@@ -37,7 +39,7 @@
 
         @formHelper(action = if(maxedOut) {AddOtherIndividualController.submitComplete(draftId)} else {AddOtherIndividualController.submitAnother(draftId)}, 'autoComplete -> "off") {
 
-        @components.back_link()
+        @back_link()
 
         @components.error_summary(form.errors)
 

@@ -15,9 +15,11 @@
  *@
 
 @import controllers.register.individual.routes._
+@import views.html.components.BackLink
 
 @this(
-    main_template: MainTemplate
+    main_template: MainTemplate,
+        back_link: BackLink
 )
 
 
@@ -27,11 +29,11 @@
     title = messages("otherIndividualsInfo.title")
     ) {
 
-    @components.back_link()
+    @back_link()
 
     @components.heading_with_caption("otherIndividualsInfo")
 
-    <p>@messages("otherIndividualsInfo.paragraph1")</p>
+    <p class="govuk-body">@messages("otherIndividualsInfo.paragraph1")</p>
 
     @components.bullet_list("otherIndividualsInfo",
         List(

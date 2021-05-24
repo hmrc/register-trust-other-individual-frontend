@@ -19,7 +19,7 @@
  keys : Seq[String]
 )(implicit messages: Messages)
 
-<ul class="list list-bullet">
+<ul class="govuk-list govuk-list--bullet">
  @keys.map { key =>
  <li>@messages(s"$prefix.$key")</li>
  }

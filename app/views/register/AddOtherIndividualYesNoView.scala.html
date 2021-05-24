@@ -15,13 +15,14 @@
  *@
 
 @import controllers.register.routes._
-@import views.html.components.{InputYesNo, SubmitButton}
+@import views.html.components.{InputYesNo, SubmitButton, BackLink}
 
 @this(
 main_template: MainTemplate,
 formHelper: FormWithCSRF,
 input_yes_no: InputYesNo,
-        submit_button: SubmitButton
+        submit_button: SubmitButton,
+        back_link: BackLink
 )
 
 @(form: Form[_], draftId: String)(implicit request: Request[_], messages: Messages)
@@ -32,7 +33,7 @@ input_yes_no: InputYesNo,
 
     @formHelper(action = AddOtherIndividualController.submitOne(draftId), 'autoComplete -> "off") {
 
-        @components.back_link()
+        @back_link()
 
         @components.error_summary(form.errors)
 
