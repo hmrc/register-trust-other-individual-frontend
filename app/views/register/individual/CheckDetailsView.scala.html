@@ -16,10 +16,12 @@
 
 @import viewmodels.AnswerSection
 @import controllers.register.individual.routes._
+@import views.html.components.BackLink
 
 @this(
     main_template: MainTemplate,
-    formHelper: FormWithCSRF
+    formHelper: FormWithCSRF,
+        back_link: BackLink
 )
 
 @(answerSection: AnswerSection, index: Int, draftId: String)(implicit request: Request[_], messages: Messages)
@@ -30,7 +32,7 @@
 
     @formHelper(action = CheckDetailsController.onSubmit(index, draftId), 'autoComplete -> "off") {
 
-        @components.back_link()
+        @back_link()
 
         @components.heading("otherIndividual.checkDetails.heading")
 

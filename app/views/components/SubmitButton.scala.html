@@ -14,21 +14,17 @@
  * limitations under the License.
  *@
 
-@import config.FrontendAppConfig
-
 @this(
-    appConfig: FrontendAppConfig,
-    main_template: MainTemplate
+        button: GovukButton,
 )
 
-@(pageTitle: String, heading: String, message: String)(implicit request: Request[_], messages: Messages)
+@(overrideMessage : Option[String] = None, submitClass: Option[String] = None)(implicit messages: Messages)
 
-@contentHeader = {
-  @components.heading(heading)
-}
-
-@mainContent = {
-  <p>@message</p>
-}
-
-@main_template(title = pageTitle, contentHeader = Some(contentHeader))(mainContent = mainContent)
+@button(Button(
+    attributes = Map("id"->"submit", "class"->s"button ${if(submitClass.nonEmpty){submitClass.get}}"),
+    content = if(overrideMessage.isEmpty) {
+        Text(messages("site.save.continue"))
+    } else {
+        Text(messages(overrideMessage.get))
+    }
+))

@@ -15,10 +15,13 @@
  *@
 
 @import controllers.register.routes._
+@import views.html.components.{InputYesNo, SubmitButton}
 
 @this(
-    main_template: MainTemplate,
-    formHelper: FormWithCSRF
+main_template: MainTemplate,
+formHelper: FormWithCSRF,
+input_yes_no: InputYesNo,
+        submit_button: SubmitButton
 )
 
 @(form: Form[_], draftId: String)(implicit request: Request[_], messages: Messages)
@@ -33,13 +36,12 @@
 
         @components.error_summary(form.errors)
 
-        @components.input_yes_no(
+        @input_yes_no(
             field = form("value"),
             label = messages("addOtherIndividualYesNo.heading"),
-            legendClass = Some("heading-large"),
             legendAsHeading = true
         )
 
-        @components.submit_button()
+        @submit_button()
     }
 }

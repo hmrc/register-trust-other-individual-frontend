@@ -14,21 +14,14 @@
  * limitations under the License.
  *@
 
-@import config.FrontendAppConfig
+@import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 
 @this(
-    appConfig: FrontendAppConfig,
-    main_template: MainTemplate
+        govUkErrorSummary: GovukErrorSummary,
 )
 
-@(pageTitle: String, heading: String, message: String)(implicit request: Request[_], messages: Messages)
+@(errors: Seq[FormError])(implicit messages: Messages)
 
-@contentHeader = {
-  @components.heading(heading)
+@if(errors.nonEmpty) {
+    @govUkErrorSummary(ErrorSummary(errorList = errors.asTextErrorLinks, title = Text(messages("error.summary.title"))))
 }
-
-@mainContent = {
-  <p>@message</p>
-}
-
-@main_template(title = pageTitle, contentHeader = Some(contentHeader))(mainContent = mainContent)
