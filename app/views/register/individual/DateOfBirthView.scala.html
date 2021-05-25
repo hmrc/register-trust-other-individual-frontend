@@ -15,12 +15,14 @@
  *@
 
 @import controllers.register.individual.routes._
-@import views.html.components.{BackLink, SubmitButton}
+@import views.html.components.{BackLink, ErrorSummary, InputDate, SubmitButton}
 
 @this(
         main_template: MainTemplate,
         formHelper: FormWithCSRF,
         back_link: BackLink,
+        error_summary: ErrorSummary,
+        input_date: InputDate,
         submit_button: SubmitButton
 )
 
@@ -34,12 +36,11 @@
 
         @back_link()
 
-        @components.error_summary(form.errors)
+        @error_summary(form.errors)
 
-        @components.input_date(
+        @input_date(
             field = form("value"),
             legend = messages("otherIndividual.dateOfBirth.heading", name),
-            legendClass = "heading-large",
             legendAsHeading = true,
             hint = Some(messages(s"otherIndividual.dateOfBirth.hint"))
         )
