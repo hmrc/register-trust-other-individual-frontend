@@ -16,19 +16,20 @@
 
 @import uk.gov.hmrc.hmrcfrontend.views.html.helpers.{HmrcStandardFooter, HmrcStandardHeader, HmrcHead, HmrcScripts}
 @import config.FrontendAppConfig
+@import uk.gov.hmrc.hmrcfrontend.views.config.StandardBetaBanner
 
 @this(
         appConfig: FrontendAppConfig,
         govukLayout: GovukLayout,
         hmrcHead: HmrcHead,
-        header: Header,
         hmrcLanguageSelectHelper: HmrcLanguageSelectHelper,
         hmrcTimeoutDialogHelper: HmrcTimeoutDialogHelper,
         hmrcStandardFooter: HmrcStandardFooter,
+        hmrcStandardHeader: HmrcStandardHeader,
+        standardBetaBanner: StandardBetaBanner,
         hmrcScripts: HmrcScripts,
         stylesheets: Stylesheets
 )
-
 
 @(title: String,
   sidebarLinks: Option[Html] = None,
@@ -41,24 +42,31 @@
 )(mainContent: Html)(implicit request: RequestHeader, messages: Messages)
 
 @scripts = {
+@if(timeoutEnabled) {
     @hmrcTimeoutDialogHelper(
-    signOutUrl = controllers.routes.SessionTimeoutController.timeout.url,
-    keepAliveUrl = Some(controllers.routes.SessionTimeoutController.keepAlive.url),
-    timeout = Some(appConfig.timeoutLength),
-    countdown = Some(appConfig.countdownLength),
-    title = Some(messages("timeout.title")),
-    message = Some(messages("timeout.message")),
-    keepAliveButtonText = Some(messages("timeout.keep-alive-button"))
+        signOutUrl = controllers.routes.SessionTimeoutController.timeout.url,
+        keepAliveUrl = Some(controllers.routes.SessionTimeoutController.keepAlive.url),
+        timeout = Some(appConfig.timeoutLength),
+        countdown = Some(appConfig.countdownLength),
+        title = Some(messages("timeout.title")),
+        message = Some(messages("timeout.message")),
+        keepAliveButtonText = Some(messages("timeout.keep-alive-button"))
     )
-
-    @stylesheets()
 }
+
+@stylesheets()
+}
+
 @govukLayout(
     pageTitle = Some(title),
     headBlock = Some(hmrcHead(
         headBlock = Some(scripts)
     )),
-    headerBlock = Some(header(canSignOut)),
+    headerBlock = Some(hmrcStandardHeader(
+        serviceUrl = Some(appConfig.trustsUrl),
+        signOutUrl = if(canSignOut) Some(controllers.register.routes.LogoutController.logout().url) else None,
+        phaseBanner = Some(standardBetaBanner(url = appConfig.betaFeedbackUrl))
+    )),
     beforeContentBlock = Some(hmrcLanguageSelectHelper()),
     scriptsBlock = Some(hmrcScripts()),
     footerBlock = Some(hmrcStandardFooter())

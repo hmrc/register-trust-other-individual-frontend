@@ -16,12 +16,13 @@
 
 @import viewmodels.AnswerSection
 @import controllers.register.individual.routes._
-@import views.html.components.BackLink
+@import views.html.components.{BackLink, SubmitButton}
 
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
-        back_link: BackLink
+        back_link: BackLink,
+        submit_button: SubmitButton
 )
 
 @(answerSection: AnswerSection, index: Int, draftId: String)(implicit request: Request[_], messages: Messages)
@@ -38,6 +39,6 @@
 
         @components.answer_section(answerSection)
 
-        @components.submit_button()
+        @submit_button()
     }
 }

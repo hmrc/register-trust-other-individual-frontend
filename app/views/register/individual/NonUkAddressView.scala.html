@@ -15,13 +15,14 @@
  *@
 
 @import controllers.register.individual.routes._
-@import views.html.components.BackLink
+@import views.html.components.{BackLink, SubmitButton}
 @import utils.InputOption
 
 @this(
         main_template: MainTemplate,
         formHelper: FormWithCSRF,
-        back_link: BackLink
+        back_link: BackLink,
+        submit_button: SubmitButton
 )
 
 @(form: Form[_], countryOptions: Seq[InputOption], name: String, index : Int, draftId: String)(implicit request: Request[_], messages: Messages)
@@ -40,7 +41,7 @@
 
         @components.international_address(form, countryOptions)
 
-        @components.submit_button()
+        @submit_button()
 
     }
 }

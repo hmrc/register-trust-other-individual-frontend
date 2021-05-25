@@ -17,12 +17,13 @@
 @import controllers.register.routes._
 @import models.register.pages.AddOtherIndividual
 @import viewmodels.AddRow
-@import views.html.components.BackLink
+@import views.html.components.{BackLink, SubmitButton}
 
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
-        back_link: BackLink
+        back_link: BackLink,
+        submit_button: SubmitButton
 )
 
 @(form: Form[_],
@@ -64,6 +65,6 @@
             )
         }
 
-        @components.submit_button()
+        @submit_button()
     }
 }

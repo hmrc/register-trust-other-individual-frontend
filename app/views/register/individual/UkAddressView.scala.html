@@ -15,12 +15,15 @@
  *@
 
 @import controllers.register.individual.routes._
-@import views.html.components.BackLink
+@import views.html.components.{BackLink, UkAddress, SubmitButton, ErrorSummary}
 
 @this(
         main_template: MainTemplate,
         formHelper: FormWithCSRF,
-        back_link: BackLink
+        back_link: BackLink,
+        error_summary: ErrorSummary,
+        uk_address: UkAddress,
+        submit_button: SubmitButton
 )
 
 @(form: Form[_], name: String, index : Int, draftId: String)(implicit request: Request[_], messages: Messages)
@@ -33,13 +36,13 @@
 
     @back_link()
 
-    @components.error_summary(form.errors)
+    @error_summary(form.errors)
 
     @components.heading("site.address.uk.heading", Some(name))
 
-    @components.uk_address(form)
+    @uk_address(form)
 
-    @components.submit_button()
+    @submit_button()
 
   }
 }

@@ -15,11 +15,14 @@
  *@
 
 @import controllers.register.individual.routes._
-@import views.html.components.BackLink
+@import views.html.components.{BackLink, InputText, ErrorSummary, SubmitButton}
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
-        back_link: BackLink
+        back_link: BackLink,
+        input_text: InputText,
+        error_summary: ErrorSummary,
+        submit_button: SubmitButton
 )
 
 @(form: Form[_], index: Int, draftId: String)(implicit request: Request[_], messages: Messages)
@@ -32,34 +35,34 @@
 
         @back_link()
 
-        @components.error_summary(form.errors)
+        @error_summary(form.errors)
 
-        <fieldset>
+        <fieldset class="govuk-fieldset">
 
-            <legend>
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                 @components.heading("otherIndividual.name.heading")
             </legend>
 
-            @components.input_text(
+            @input_text(
                 field = form("firstName"),
                 label = messages("otherIndividual.name.firstName"),
                 autocomplete = Some("given-name")
             )
 
-            @components.input_text(
+            @input_text(
                 field = form("middleName"),
                 label = messages("otherIndividual.name.middleName"),
                 autocomplete = Some("additional-name")
             )
 
-            @components.input_text(
+            @input_text(
                 field = form("lastName"),
                 label = messages("otherIndividual.name.lastName"),
                 autocomplete = Some("family-name")
             )
         </fieldset>
 
-        @components.submit_button()
+        @submit_button()
 
     }
 }

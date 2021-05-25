@@ -16,12 +16,13 @@
 
 @import controllers.register.individual.routes._
 @import models.FullName
-@import views.html.components.BackLink
+@import views.html.components.{BackLink, SubmitButton}
 
 @this(
         main_template: MainTemplate,
         formHelper: FormWithCSRF,
-        back_link: BackLink
+        back_link: BackLink,
+        submit_button: SubmitButton
 )
 
 @(form: Form[_], name: String, index: Int, draftId: String)(implicit request: Request[_], messages: Messages)
@@ -45,7 +46,7 @@
             readerHint = Some(messages("otherIndividual.nationalInsuranceNumber.hint.reader"))
         )
 
-        @components.submit_button()
+        @submit_button()
 
     }
 }
