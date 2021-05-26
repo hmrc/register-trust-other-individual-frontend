@@ -15,12 +15,11 @@
  *@
 
 @import controllers.register.routes._
-@import views.html.components.{BackLink, SubmitButton}
+@import views.html.components.SubmitButton
 
 @this(
     main_template: MainTemplate,
         formHelper: FormWithCSRF,
-        back_link: BackLink,
         submit_button: SubmitButton
 )
 
@@ -28,10 +27,10 @@
 @(draftId: String, isTaxable: Boolean)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = messages("otherIndividualsInfo.5mld.title")
+    title = messages("otherIndividualsInfo.5mld.title"),
+    showBackLink = true
 ) {
 
-    @back_link()
 
     @components.heading_with_caption("otherIndividualsInfo.5mld")
 

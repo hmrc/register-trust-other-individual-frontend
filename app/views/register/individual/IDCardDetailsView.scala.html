@@ -15,27 +15,25 @@
  *@
 
 @import controllers.register.individual.routes._
-@import views.html.components.{BackLink, ErrorSummary, SubmitButton}
+@import views.html.components.{ErrorSummary, SubmitButton}
 @import utils.InputOption
 @import models.FullName
 
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
-        back_link: BackLink,
-        error_summary: ErrorSummary,
-        submit_button: SubmitButton
+    error_summary: ErrorSummary,
+    submit_button: SubmitButton
 )
 
 @(form: Form[_], countryOptions:Seq[InputOption], name: String, index: Int, draftId: String)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = s"${errorPrefix(form)}${messages("otherIndividual.idCardDetails.title")}"
+    title = s"${errorPrefix(form)}${messages("otherIndividual.idCardDetails.title")}",
+    showBackLink = true
     ) {
 
     @formHelper(action = IDCardDetailsController.onSubmit(index, draftId), 'autoComplete -> "off") {
-
-        @back_link()
 
         @error_summary(form.errors)
 

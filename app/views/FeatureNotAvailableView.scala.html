@@ -15,21 +15,18 @@
  *@
 
 @import config.FrontendAppConfig
-@import views.html.components.BackLink
 
 @this(
     main_template: MainTemplate,
     config: FrontendAppConfig,
-        back_link: BackLink
 )
 
 @()(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = messages("featureNotAvailable.title")
+    title = messages("featureNotAvailable.title"),
+    showBackLink = true
     ) {
-
-    @back_link()
 
     @components.heading("featureNotAvailable.heading")
 

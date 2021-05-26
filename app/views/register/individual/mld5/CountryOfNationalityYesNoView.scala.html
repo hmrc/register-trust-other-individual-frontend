@@ -15,26 +15,24 @@
  *@
 
 @import controllers.register.individual.mld5.routes._
-@import views.html.components.{InputYesNo, ErrorSummary, SubmitButton, BackLink}
+@import views.html.components.{InputYesNo, ErrorSummary, SubmitButton}
 
 @this(
 main_template: MainTemplate,
 formHelper: FormWithCSRF,
 input_yes_no: InputYesNo,
         error_summary: ErrorSummary,
-        back_link: BackLink,
         submit_button: SubmitButton
 )
 
 @(form: Form[_], draftId: String, index: Int, name: String)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = s"${errorPrefix(form)}${messages("otherIndividual.5mld.countryOfNationalityYesNo.title")}"
+    title = s"${errorPrefix(form)}${messages("otherIndividual.5mld.countryOfNationalityYesNo.title")}",
+    showBackLink = true
 ) {
 
         @formHelper(action = CountryOfNationalityYesNoController.onSubmit(index, draftId), 'autoComplete -> "off") {
-
-        @back_link()
 
         @error_summary(form.errors)
 

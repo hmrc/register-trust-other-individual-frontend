@@ -16,24 +16,22 @@
 
 @import viewmodels.AnswerSection
 @import controllers.register.individual.routes._
-@import views.html.components.{BackLink, SubmitButton}
+@import views.html.components.SubmitButton
 
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
-        back_link: BackLink,
-        submit_button: SubmitButton
+    submit_button: SubmitButton
 )
 
 @(answerSection: AnswerSection, index: Int, draftId: String)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = messages("otherIndividual.checkDetails.title")
+    title = messages("otherIndividual.checkDetails.title"),
+    showBackLink = true
     ) {
 
     @formHelper(action = CheckDetailsController.onSubmit(index, draftId), 'autoComplete -> "off") {
-
-        @back_link()
 
         @components.heading("otherIndividual.checkDetails.heading")
 

@@ -15,12 +15,11 @@
  *@
 
 @import controllers.register.individual.mld5.routes._
-@import views.html.components.{SubmitButton, BackLink, InputYesNo, ErrorSummary}
+@import views.html.components.{SubmitButton, InputYesNo, ErrorSummary}
 
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
-    backLink: BackLink,
     input_yes_no: InputYesNo,
     errorSummary: ErrorSummary,
     submit_button: SubmitButton
@@ -42,12 +41,11 @@
 }
 
 @main_template(
-    title = s"${errorPrefix(form)}${messages("otherIndividual.5mld.mentalCapacityYesNo.title")}"
+    title = s"${errorPrefix(form)}${messages("otherIndividual.5mld.mentalCapacityYesNo.title")}",
+    showBackLink = true
 ) {
 
         @formHelper(action = MentalCapacityYesNoController.onSubmit(index, draftId), 'autoComplete -> "off") {
-
-        @backLink()
 
         @errorSummary(form.errors)
 
