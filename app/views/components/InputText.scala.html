@@ -42,7 +42,7 @@
         autocomplete = autocomplete,
         hint = hint.map(hint => Hint(content = Text(hint))),
         errorMessage = field.error match {
-            case Some(e) => Some(ErrorMessage(content = Text(messages(e.message, e.args:_*))))
+            case Some(e) => Some(ErrorMessage(content = Text(messages(e.message, e.args: _*))))
             case None => None
         },
         prefix = prefix.map(prefix => PrefixOrSuffix(content = Text(prefix))),
