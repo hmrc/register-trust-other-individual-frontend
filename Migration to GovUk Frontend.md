@@ -70,4 +70,4 @@ and in the view change to
 
 ####Update components
 
-We have
+Have made changes to ViewUtils.errorHref and DateErrorFormatter.formatArgs for use in DateInput and ErrorSummary
