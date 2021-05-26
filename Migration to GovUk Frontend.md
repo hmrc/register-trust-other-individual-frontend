@@ -6,6 +6,7 @@
    1. [Continue buttons as links](#information-pages-with-continue-buttons-as-links)
    1. [Position of components](#position-of-components)
    1. [Update components](#update-components)
+1. [Tests](#tests)
 
 ###Resources
 
@@ -88,7 +89,7 @@ and in the view change to
 
 Have made changes to ViewUtils.errorHref and DateErrorFormatter.formatArgs for use in DateInput and ErrorSummary
 
-We have
+We havefor error summary
 
 ```html
 @import utils.DateErrorFormatter._
@@ -142,3 +143,7 @@ and in view changed to
 
 @error_summary(form.errors)
 ```
+
+###Tests
+
+####Unit tests
