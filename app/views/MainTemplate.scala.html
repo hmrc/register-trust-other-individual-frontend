@@ -67,7 +67,7 @@ href="javascript:history.back()",content = HtmlContent(messages("site.back"))
 }
 
 @govukLayout(
-    pageTitle = Some(title),
+    pageTitle = Some(breadcrumbTitle(title)),
     headBlock = Some(hmrcHead(
         headBlock = Some(scripts)
     )),
