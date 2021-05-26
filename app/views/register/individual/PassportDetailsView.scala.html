@@ -15,26 +15,24 @@
  *@
 
 @import controllers.register.individual.routes._
-@import views.html.components.{BackLink, SubmitButton}
+@import views.html.components.SubmitButton
 @import utils.InputOption
 @import models.FullName
 
 @this(
         main_template: MainTemplate,
         formHelper: FormWithCSRF,
-        back_link: BackLink,
         submit_button: SubmitButton
 )
 
 @(form: Form[_], countryOptions:Seq[InputOption], name: String, index: Int, draftId: String)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = s"${errorPrefix(form)}${messages("otherIndividual.passportDetails.title")}"
+    title = s"${errorPrefix(form)}${messages("otherIndividual.passportDetails.title")}",
+    showBackLink = true
     ) {
 
     @formHelper(action = PassportDetailsController.onSubmit(index, draftId), 'autoComplete -> "off") {
-
-        @back_link()
 
         @components.error_summary(form.errors)
 

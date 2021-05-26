@@ -28,7 +28,8 @@
         hmrcStandardHeader: HmrcStandardHeader,
         standardBetaBanner: StandardBetaBanner,
         hmrcScripts: HmrcScripts,
-        stylesheets: Stylesheets
+        stylesheets: Stylesheets,
+        govukBackLink: GovukBackLink
 )
 
 @(title: String,
@@ -38,7 +39,8 @@
   mainClass: Option[String] = None,
   scriptElem: Option[Html] = None,
   timeoutEnabled: Boolean = true,
-  canSignOut: Boolean = true
+  canSignOut: Boolean = true,
+  showBackLink: Boolean = false,
 )(mainContent: Html)(implicit request: RequestHeader, messages: Messages)
 
 @scripts = {
@@ -57,6 +59,13 @@
 @stylesheets()
 }
 
+@beforeContentBlock = {
+@hmrcLanguageSelectHelper()
+@if(showBackLink) {@govukBackLink(BackLink(
+href="javascript:history.back()",content = HtmlContent(messages("site.back"))
+))}
+}
+
 @govukLayout(
     pageTitle = Some(title),
     headBlock = Some(hmrcHead(
@@ -67,7 +76,7 @@
         signOutUrl = if(canSignOut) Some(controllers.register.routes.LogoutController.logout().url) else None,
         phaseBanner = Some(standardBetaBanner(url = appConfig.betaFeedbackUrl))
     )),
-    beforeContentBlock = Some(hmrcLanguageSelectHelper()),
+    beforeContentBlock = Some(beforeContentBlock),
     scriptsBlock = Some(hmrcScripts()),
     footerBlock = Some(hmrcStandardFooter())
 )(mainContent)

@@ -15,25 +15,23 @@
  *@
 
 @import controllers.register.individual.routes._
-@import views.html.components.{InputYesNo, SubmitButton, BackLink}
+@import views.html.components.{InputYesNo, SubmitButton}
 
 @this(
 main_template: MainTemplate,
 formHelper: FormWithCSRF,
 input_yes_no: InputYesNo,
-        submit_button: SubmitButton,
-        back_link: BackLink
+submit_button: SubmitButton,
 )
 
 @(form: Form[_], name: String, index: Int, draftId: String)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = s"${errorPrefix(form)}${messages("otherIndividual.passportDetailsYesNo.title")}"
+    title = s"${errorPrefix(form)}${messages("otherIndividual.passportDetailsYesNo.title")}",
+    showBackLink = true
     ) {
 
     @formHelper(action = PassportDetailsYesNoController.onSubmit(index, draftId), 'autoComplete -> "off") {
-
-        @back_link()
 
         @components.error_summary(form.errors)
 

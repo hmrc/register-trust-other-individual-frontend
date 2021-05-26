@@ -15,25 +15,23 @@
  *@
 
 @import controllers.register.individual.routes._
-@import views.html.components.{BackLink, SubmitButton}
+@import views.html.components.SubmitButton
 @import utils.InputOption
 
 @this(
         main_template: MainTemplate,
         formHelper: FormWithCSRF,
-        back_link: BackLink,
         submit_button: SubmitButton
 )
 
 @(form: Form[_], countryOptions: Seq[InputOption], name: String, index : Int, draftId: String)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = s"${errorPrefix(form)}${messages("site.address.international.title")}"
+    title = s"${errorPrefix(form)}${messages("site.address.international.title")}",
+    showBackLink = true
 ) {
 
     @formHelper(action = NonUkAddressController.onSubmit(index, draftId), 'autoComplete -> "off") {
-
-        @back_link()
 
         @components.error_summary(form.errors)
 

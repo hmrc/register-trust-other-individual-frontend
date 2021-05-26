@@ -15,12 +15,11 @@
  *@
 
 @import controllers.register.routes._
-@import views.html.components.{SubmitButton, BackLink, InputYesNo}
+@import views.html.components.{SubmitButton, InputYesNo}
 
 @this(
         main_template: MainTemplate,
         formHelper: FormWithCSRF,
-        backLink: BackLink,
         submitButton: SubmitButton,
         input_yes_no: InputYesNo
 )
@@ -28,12 +27,11 @@
 @(form: Form[_], draftId: String)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = s"${errorPrefix(form)}${messages("trustHasOtherIndividualYesNo.title")}"
+    title = s"${errorPrefix(form)}${messages("trustHasOtherIndividualYesNo.title")}",
+    showBackLink = true
 ) {
 
     @formHelper(action = TrustHasOtherIndividualYesNoController.onSubmit(draftId), 'autoComplete -> "off") {
-
-        @backLink()
 
         @components.error_summary(form.errors)
 

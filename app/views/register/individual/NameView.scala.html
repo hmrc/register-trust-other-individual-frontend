@@ -15,11 +15,10 @@
  *@
 
 @import controllers.register.individual.routes._
-@import views.html.components.{BackLink, InputText, ErrorSummary, SubmitButton}
+@import views.html.components.{InputText, ErrorSummary, SubmitButton}
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
-        back_link: BackLink,
         input_text: InputText,
         error_summary: ErrorSummary,
         submit_button: SubmitButton
@@ -28,12 +27,11 @@
 @(form: Form[_], index: Int, draftId: String)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = s"${errorPrefix(form)}${messages("otherIndividual.name.title")}"
+    title = s"${errorPrefix(form)}${messages("otherIndividual.name.title")}",
+    showBackLink = true
     ) {
 
     @formHelper(action = NameController.onSubmit(index, draftId), 'autoComplete -> "on") {
-
-        @back_link()
 
         @error_summary(form.errors)
 

@@ -15,21 +15,19 @@
  *@
 
 @import controllers.register.individual.routes._
-@import views.html.components.BackLink
 
 @this(
     main_template: MainTemplate,
-        back_link: BackLink
 )
 
 
 @(draftId: String)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = messages("otherIndividualsInfo.title")
+    title = messages("otherIndividualsInfo.title"),
+    showBackLink = true
     ) {
 
-    @back_link()
 
     @components.heading_with_caption("otherIndividualsInfo")
 
