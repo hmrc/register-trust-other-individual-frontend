@@ -15,13 +15,17 @@
  *@
 
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+@import utils.DateErrorFormatter._
 
 @this(
-        govUkErrorSummary: GovukErrorSummary,
+    govUkErrorSummary: GovukErrorSummary,
 )
 
 @(errors: Seq[FormError])(implicit messages: Messages)
 
 @if(errors.nonEmpty) {
-    @govUkErrorSummary(ErrorSummary(errorList = errors.asTextErrorLinks, title = Text(messages("error.summary.title"))))
+    @govUkErrorSummary(ErrorSummary(
+        errorList = errors.map(err => err.copy(args = formatArgs(err.args))).asTextErrorLinks,
+        title = Text(messages("error.summary.title"))
+    ))
 }
