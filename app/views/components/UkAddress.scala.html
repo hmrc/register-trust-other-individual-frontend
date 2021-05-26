@@ -17,26 +17,26 @@
 @import views.html.components.InputText
 
 @this(
-input_text: InputText,
-govukFieldset: GovukFieldset
+    input_text: InputText,
+    govukFieldset: GovukFieldset
 )
 
 @(
-form:Form[_],
-legend: String,
-legendAsHeading: Boolean = true
+    form:Form[_],
+    legend: String,
+    legendAsHeading: Boolean = true
 )(implicit messages: Messages)
 
-    @govukFieldset(Fieldset(
-        legend = Some(Legend(
-            content = Text(legend),
-            classes = "govuk-fieldset__legend--l",
-            isPageHeading = legendAsHeading
-        )),
-        html = html
-    ))
+@govukFieldset(Fieldset(
+    legend = Some(Legend(
+        content = Text(legend),
+        classes = "govuk-fieldset__legend--l",
+        isPageHeading = legendAsHeading
+    )),
+    html = html
+))
 
-    @html = {
+@html = {
     @input_text(
         field = form("line1"),
         label = messages("site.address.uk.line1")
@@ -65,4 +65,4 @@ legendAsHeading: Boolean = true
         hint = Some(messages(s"site.address.uk.postcode.hint")),
         inputClass = Some("govuk-input--width-10")
     )
-    }
+}

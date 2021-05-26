@@ -41,12 +41,13 @@
     ),
     hint = if(hint.isDefined) Some(Hint(content = Text(hint.get))) else None,
     items = Seq(SelectItem(value = Some(""), text = placeholder.getOrElse(""))) ++
-            options.map(valueOption =>
-                SelectItem(
-                    value = Some(valueOption.value),
-                    text = valueOption.label,
-                    selected = field.value.contains(valueOption.value))
-            ),
+        options.map(valueOption =>
+            SelectItem(
+                value = Some(valueOption.value),
+                text = valueOption.label,
+                selected = field.value.contains(valueOption.value)
+            )
+        ),
     formGroupClasses = formGroupClasses.mkString(" "),
     classes = selectAttribute.mkString(" "),
     errorMessage = field.error.map(err => ErrorMessage(content = Text(messages(err.message, err.args: _*))))
