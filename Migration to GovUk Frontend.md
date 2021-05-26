@@ -65,10 +65,12 @@ showBackLink: Boolean = false
 )
 
 @beforeContentBlock = {
-@hmrcLanguageSelectHelper()
-@if(showBackLink) {@govukBackLink(BackLink(
-href="javascript:history.back()",content = HtmlContent(messages("site.back"))
-))}
+   @hmrcLanguageSelectHelper()
+   @if(showBackLink) {
+      @govukBackLink(BackLink(
+         attributes = Map("id" -> "back-link"), classes="js-visible", href="javascript:history.back()", content = HtmlContent(messages("site.back"))
+      ))
+   }
 }
 
 @govukLayout( ...
