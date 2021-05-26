@@ -17,11 +17,11 @@
 @this(govukRadios: GovukRadios)
 
 @(
-        field: Field,
-        label: String,
-        hint: Option[String] = None,
-        legendClass: Option[String] = None,
-        legendAsHeading: Boolean = true
+    field: Field,
+    label: String,
+    hint: Option[String] = None,
+    legendClass: Option[String] = None,
+    legendAsHeading: Boolean = true
 )(implicit messages: Messages)
 
 @govukRadios(Radios(
@@ -41,18 +41,17 @@
         ))
     )),
     items = Seq(
-    RadioItem(
-        id = Some(field.id),
-        value = Some("true"),
-        checked = field.value.contains("true"),
-        content = Text(messages("site.yes"))
-    ),
-    RadioItem(
-        id = Some(field.id + "-no"),
-        value = Some("false"),
-        checked = field.value.contains("false"),
-        content = Text(messages("site.no"))
+        RadioItem(
+            id = Some(field.id),
+            value = Some("true"),
+            checked = field.value.contains("true"),
+            content = Text(messages("site.yes"))
+        ),
+        RadioItem(
+            id = Some(field.id + "-no"),
+            value = Some("false"),
+            checked = field.value.contains("false"),
+            content = Text(messages("site.no"))
+        )
     )
-)
 ))
-
