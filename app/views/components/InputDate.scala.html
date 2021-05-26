@@ -27,17 +27,13 @@
     legendClass: String = "govuk-fieldset__legend--l",
     hint: Option[String] = None,
     readerHint: Option[String] = None,
-    link : Option[Link] = None,
+    link: Option[Link] = None,
     legendAsHeading: Boolean = false,
     extraText: Option[String] = None
  )(implicit messages: Messages)
 
 @idOfError = @{
-    field.errors.headOption.fold(
-        field.id
-    )(
-        _.key
-    )
+    field.errors.headOption.fold(field.id)(_.key)
 }
 
 @govukDateInput(DateInput(
@@ -54,11 +50,11 @@
     items = Seq(
         InputItem(
             classes = s"govuk-input--width-2",
-            name  =  s"${field.id}.day",
+            name = s"${field.id}.day",
             autocomplete = Some("date.day"),
             label = Some(messages("date.day")),
             value = field("day").value,
-            id    = s"${field.id}.day"
+            id = s"${field.id}.day"
         ),
         InputItem(
             classes = s"govuk-input--width-2",
@@ -66,7 +62,7 @@
             autocomplete = Some("date.month"),
             label = Some(messages("date.month")),
             value = field("month").value,
-            id    = s"${field.id}.month"
+            id = s"${field.id}.month"
         ),
         InputItem(
             classes = s"govuk-input--width-4",
@@ -74,7 +70,7 @@
             autocomplete = Some("date.year"),
             label = Some(messages("date.year")),
             value = field("year").value,
-            id    = s"${field.id}.year"
+            id = s"${field.id}.year"
         )
     ),
     hint = hint.map(hint => Hint(content = Text(messages(hint)))),

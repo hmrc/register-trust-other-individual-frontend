@@ -15,10 +15,10 @@
  *@
 
 @this(
-        button: GovukButton,
+    button: GovukButton,
 )
 
-@(overrideMessage : Option[String] = None, submitClass: Option[String] = None)(implicit messages: Messages)
+@(overrideMessage: Option[String] = None, submitClass: Option[String] = None)(implicit messages: Messages)
 
 @button(Button(
     attributes = Map("id"->"submit", "class"->s"button ${if(submitClass.nonEmpty){submitClass.get}}"),

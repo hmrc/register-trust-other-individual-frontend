@@ -17,36 +17,39 @@
 @import utils.InputOption
 
 @this(
-    govukSelect: GovukSelect
+        govukSelect: GovukSelect
 )
 
 @(
-    field: Field,
-    label: String,
-    labelAsHeading: Boolean = true,
-    hint: Option[String] = None,
-    placeholder: Option[String] = None,
-    options: Seq[InputOption],
-    formGroupClasses: Set[String] = Set.empty,
-    labelClasses: Set[String] = Set("govuk-fieldset__legend--l"),
-    selectClasses: Set[String] = Set.empty,
-    selectAttribute: Set[String] = Set.empty
+        field: Field,
+        label: String,
+        labelAsHeading: Boolean = false,
+        hint: Option[String] = None,
+        placeholder: Option[String] = None,
+        options: Seq[InputOption],
+        formGroupClasses: Set[String] = Set.empty,
+        labelClasses: Set[String] = Set("govuk-label--l"),
+        selectAttribute: Set[String] = Set.empty
 )(implicit messages: Messages)
-
 
 @govukSelect(Select(
     id = field.id,
     name = field.name,
-    label = Label(content = Text(label), isPageHeading = labelAsHeading, classes = labelClasses.mkString(" ")),
+    label = Label(isPageHeading = labelAsHeading,
+        classes = labelClasses.mkString(" "),
+        content = Text(label)
+    ),
     hint = if(hint.isDefined) Some(Hint(content = Text(hint.get))) else None,
     items = Seq(SelectItem(value = Some(""), text = placeholder.getOrElse(""))) ++
         options.map(valueOption =>
             SelectItem(
                 value = Some(valueOption.value),
                 text = valueOption.label,
-                selected = field.value.contains(valueOption.value))
+                selected = field.value.contains(valueOption.value)
+            )
         ),
     formGroupClasses = formGroupClasses.mkString(" "),
     classes = selectAttribute.mkString(" "),
-    errorMessage = field.error.map(err => ErrorMessage(content = Text(messages(err.message, err.args:_*))))
+    errorMessage = field.error.map(err => ErrorMessage(content = Text(messages(err.message, err.args: _*))))
 ))
+

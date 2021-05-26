@@ -17,18 +17,17 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 
 @this(
-    govukInput: GovukInput
+        govukInput: GovukInput
 )
 
 @(
     field: Field,
     label: String,
     labelAsHeading: Boolean = false,
-    labelClass: Option[String] = None,
     inputClass: Option[String] = None,
     hint: Option[String] = None,
-    prefix: Option[String] = None,
-    suffix: Option[String] = None,
+    readerHint: Option[String] = None,
+    labelClass: Option[String] = None,
     autocomplete: Option[String] = None
 )(implicit messages: Messages)
 
@@ -40,13 +39,14 @@
             content = Text(label)
         ),
         autocomplete = autocomplete,
+        inputType = "text",
         hint = hint.map(hint => Hint(content = Text(hint))),
+        describedBy = readerHint,
         errorMessage = field.error match {
-            case Some(e) => Some(ErrorMessage(content = Text(messages(e.message, e.args: _*))))
+            case Some(e) => Some(ErrorMessage(content = Text(messages(e.message, e.args:_*))))
             case None => None
         },
-        prefix = prefix.map(prefix => PrefixOrSuffix(content = Text(prefix))),
-        suffix = suffix.map(suffix => PrefixOrSuffix(content = Text(suffix))),
+        spellcheck = Some(false),
         classes = if(inputClass.isDefined) inputClass.get else ""
     ).withFormField(field)
 )

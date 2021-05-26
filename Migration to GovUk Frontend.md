@@ -1,12 +1,11 @@
-
 # Migration to play-frontend-hmrc
 
 ## Contents:
 1. [Resources](#resources)
 1. [Things to watch out for](#things-to-watch-out-for)
-    1. [Continue buttons as links](#information-pages-with-continue-buttons-as-links)
-    1. [Position of components](#position-of-components)
-    1. [Update components](#update-components)
+   1. [Continue buttons as links](#information-pages-with-continue-buttons-as-links)
+   1. [Position of components](#position-of-components)
+   1. [Update components](#update-components)
 
 ###Resources
 
@@ -87,6 +86,8 @@ and in the view change to
 
 ####Update components
 
+Have made changes to ViewUtils.errorHref and DateErrorFormatter.formatArgs for use in DateInput and ErrorSummary
+
 We have
 
 ```html
@@ -111,7 +112,7 @@ We have
 
 ```
 
-changed to 
+changed to
 
 ```scala
 

@@ -32,11 +32,11 @@ object ViewUtils {
   def errorHref(error: FormError): String = {
     val suffix = error.args match {
       case x if x.contains("day") || x.contains("month") || x.contains("year") =>
-        s"_${error.args.head}"
+        s".${error.args.head}"
       case _ =>
         val isSingleDateField = error.message.toLowerCase.contains("date") && !error.message.toLowerCase.contains("yesno")
         if (error.key.toLowerCase.contains("date") || isSingleDateField) {
-          "_day"
+          ".day"
         } else {
           ""
         }

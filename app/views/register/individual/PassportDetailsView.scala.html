@@ -15,7 +15,7 @@
  *@
 
 @import controllers.register.individual.routes._
-@import views.html.components.{ErrorSummary, SubmitButton}
+@import views.html.components.{ErrorSummary, InputSelect, InputText, InputDate, SubmitButton}
 @import utils.InputOption
 @import models.FullName
 
@@ -23,6 +23,9 @@
         main_template: MainTemplate,
         formHelper: FormWithCSRF,
         error_summary: ErrorSummary,
+        select: InputSelect,
+        input_text: InputText,
+        input_date: InputDate,
         submit_button: SubmitButton
 )
 
@@ -39,7 +42,7 @@
 
         @components.heading("otherIndividual.passportDetails.heading", Some(name))
 
-        @components.select(field = form("country"),
+        @select(field = form("country"),
             label = messages("otherIndividual.passportDetails.country"),
             labelClasses = Set("form-control-1-2 bold"),
             options = countryOptions,
@@ -48,13 +51,13 @@
             selectAttribute = Set("data-non-uk-countries")
         )
 
-        @components.input_text(
+        @input_text(
             field = form("number"),
             label = messages("otherIndividual.passportDetails.number"),
             hint = Some(messages("otherIndividual.passportDetails.number.hint"))
         )
 
-        @components.input_date(
+        @input_date(
             field = form("expiryDate"),
             legend = messages("otherIndividual.passportDetails.expiryDate.title"),
             legendClass = "bold",
