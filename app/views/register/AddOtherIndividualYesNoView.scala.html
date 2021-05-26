@@ -15,12 +15,13 @@
  *@
 
 @import controllers.register.routes._
-@import views.html.components.{InputYesNo, SubmitButton, BackLink}
+@import views.html.components.{InputYesNo, ErrorSummary, SubmitButton, BackLink}
 
 @this(
 main_template: MainTemplate,
 formHelper: FormWithCSRF,
 input_yes_no: InputYesNo,
+        error_summary: ErrorSummary,
         submit_button: SubmitButton,
         back_link: BackLink
 )
@@ -35,7 +36,7 @@ input_yes_no: InputYesNo,
 
         @back_link()
 
-        @components.error_summary(form.errors)
+        @error_summary(form.errors)
 
         @input_yes_no(
             field = form("value"),

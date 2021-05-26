@@ -15,7 +15,7 @@
  *@
 
 @import controllers.register.individual.routes._
-@import views.html.components.{BackLink, SubmitButton}
+@import views.html.components.{BackLink, ErrorSummary, SubmitButton}
 @import utils.InputOption
 @import models.FullName
 
@@ -23,6 +23,7 @@
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
         back_link: BackLink,
+        error_summary: ErrorSummary,
         submit_button: SubmitButton
 )
 
@@ -36,7 +37,7 @@
 
         @back_link()
 
-        @components.error_summary(form.errors)
+        @error_summary(form.errors)
 
         @components.heading("otherIndividual.idCardDetails.heading", Some(name))
 

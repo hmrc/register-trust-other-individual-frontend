@@ -15,13 +15,14 @@
  *@
 
 @import controllers.register.individual.mld5.routes._
-@import views.html.components.{BackLink, SubmitButton}
+@import views.html.components.{BackLink, ErrorSummary, SubmitButton}
 @import utils.InputOption
 
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
         back_link: BackLink,
+        error_summary: ErrorSummary,
         submit_button: SubmitButton
 )
 
@@ -35,7 +36,7 @@
 
         @back_link()
 
-        @components.error_summary(form.errors)
+        @error_summary(form.errors)
 
         @components.select(field = form("value"),
             label = messages("otherIndividual.5mld.countryOfResidence.heading", name),

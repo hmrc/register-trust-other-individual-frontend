@@ -15,7 +15,7 @@
  *@
 
 @import controllers.register.individual.mld5.routes._
-@import views.html.components.{InputYesNo, SubmitButton, BackLink}
+@import views.html.components.{InputYesNo, ErrorSummary, SubmitButton, BackLink}
 
 
 @this(
@@ -23,6 +23,7 @@
     formHelper: FormWithCSRF,
     input_yes_no: InputYesNo,
         back_link: BackLink,
+        error_summary: ErrorSummary,
         submit_button: SubmitButton
 )
 
@@ -36,7 +37,7 @@
 
         @back_link()
 
-        @components.error_summary(form.errors)
+        @error_summary(form.errors)
 
         @input_yes_no(
             field = form("value"),
