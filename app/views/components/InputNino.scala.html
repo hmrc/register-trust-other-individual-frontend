@@ -40,8 +40,8 @@
         ),
         autocomplete = autocomplete,
         inputType = "text",
-        hint = if(hint.isDefined) Some(Hint(content = Text(hint.get))) else None,
-        describedBy = if(readerHint.isDefined) Some(readerHint.get) else None,
+        hint = hint.map(hint => Hint(content = Text(hint))),
+        describedBy = readerHint,
         errorMessage = field.error match {
             case Some(e) => Some(ErrorMessage(content = Text(messages(e.message, e.args:_*))))
             case None => None

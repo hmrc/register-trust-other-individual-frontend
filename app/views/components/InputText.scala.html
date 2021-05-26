@@ -23,20 +23,30 @@
 @(
     field: Field,
     label: String,
+    labelAsHeading: Boolean = false,
+    labelClass: Option[String] = None,
     inputClass: Option[String] = None,
     hint: Option[String] = None,
+    prefix: Option[String] = None,
+    suffix: Option[String] = None,
     autocomplete: Option[String] = None
 )(implicit messages: Messages)
 
 @govukInput(
     Input(
-        label = Label(content = Text(label)),
+        label = Label(
+            isPageHeading = labelAsHeading,
+            classes = if(labelClass.isDefined) labelClass.get else "",
+            content = Text(label)
+        ),
         autocomplete = autocomplete,
-        hint = if(hint.isDefined) Some(Hint(content = Text(hint.get))) else None,
+        hint = hint.map(hint => Hint(content = Text(hint))),
         errorMessage = field.error match {
             case Some(e) => Some(ErrorMessage(content = Text(messages(e.message, e.args:_*))))
             case None => None
         },
+        prefix = prefix.map(prefix => PrefixOrSuffix(content = Text(prefix))),
+        suffix = suffix.map(suffix => PrefixOrSuffix(content = Text(suffix))),
         classes = if(inputClass.isDefined) inputClass.get else ""
     ).withFormField(field)
 )
