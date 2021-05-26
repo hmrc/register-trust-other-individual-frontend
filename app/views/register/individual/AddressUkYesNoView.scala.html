@@ -15,13 +15,14 @@
  *@
 
 @import controllers.register.individual.routes._
-@import views.html.components.{InputYesNo, SubmitButton}
+@import views.html.components.{InputYesNo, ErrorSummary, SubmitButton}
 
 @this(
 main_template: MainTemplate,
 formHelper: FormWithCSRF,
 input_yes_no: InputYesNo,
-submit_button: SubmitButton,
+        error_summary: ErrorSummary,
+        submit_button: SubmitButton
 )
 
 @(form: Form[_], name: String, index : Int, draftId: String)(implicit request: Request[_], messages: Messages)
@@ -33,7 +34,7 @@ submit_button: SubmitButton,
 
     @formHelper(action = AddressUkYesNoController.onSubmit(index, draftId), 'autoComplete -> "off") {
 
-        @components.error_summary(form.errors)
+        @error_summary(form.errors)
 
         @input_yes_no(
             field = form("value"),

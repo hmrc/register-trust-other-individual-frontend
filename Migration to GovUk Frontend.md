@@ -1,9 +1,19 @@
 
 # Migration to GovUk Frontend
 
-Things to watch out for:
+## Contents:
+1. [Resources](#resources)
+1. [Things to watch out for](#things-to-watch-out-for)
+    1. [Continue buttons as links](#information-pages-with-continue-buttons-as-links)
+    1. [Position of components](#position-of-components)
+    1. [Update components](#update-components)
 
-**Information pages with continue buttons as links**
+###Resources
+
+
+###Things to watch out for:
+
+####Information pages with continue buttons as links
 
 We have
 ```aidl
@@ -23,15 +33,21 @@ and changed to
   }
 ```
 
-**Update components**
+####Position of components
 
-We have
+We have a back link component imported into a view
 ```aidl
 @()(implicit messages: Messages)
 
 <div class="js-visible">
   <p><a id="back-link" class="link-back" href="#">@messages("site.back")</a></p>
 </div>
+
+[Imported and used in a view]
+
+@this (back_link: back_link)
+
+@component.back_link
 ```
 
 and changed to
@@ -50,3 +66,7 @@ and in the view change to
 
 @backLink()
 ```
+
+####Update components
+
+We have

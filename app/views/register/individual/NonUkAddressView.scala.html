@@ -15,12 +15,13 @@
  *@
 
 @import controllers.register.individual.routes._
-@import views.html.components.SubmitButton
+@import views.html.components.{ErrorSummary, SubmitButton}
 @import utils.InputOption
 
 @this(
         main_template: MainTemplate,
         formHelper: FormWithCSRF,
+        error_summary: ErrorSummary,
         submit_button: SubmitButton
 )
 
@@ -33,7 +34,7 @@
 
     @formHelper(action = NonUkAddressController.onSubmit(index, draftId), 'autoComplete -> "off") {
 
-        @components.error_summary(form.errors)
+        @error_summary(form.errors)
 
         @components.heading("site.address.international.heading", Some(name))
 

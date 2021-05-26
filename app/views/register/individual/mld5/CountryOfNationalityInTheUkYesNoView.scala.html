@@ -15,13 +15,14 @@
  *@
 
 @import controllers.register.individual.mld5.routes._
-@import views.html.components.{InputYesNo, SubmitButton}
+@import views.html.components.{InputYesNo, ErrorSummary, SubmitButton}
 
 
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
     input_yes_no: InputYesNo,
+    error_summary: ErrorSummary,
     submit_button: SubmitButton
 )
 
@@ -34,7 +35,7 @@
 
     @formHelper(action = CountryOfNationalityInTheUkYesNoController.onSubmit(index, draftId), 'autoComplete -> "off") {
 
-        @components.error_summary(form.errors)
+        @error_summary(form.errors)
 
         @input_yes_no(
             field = form("value"),

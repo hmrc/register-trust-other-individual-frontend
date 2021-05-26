@@ -17,11 +17,12 @@
 @import controllers.register.routes._
 @import models.register.pages.AddOtherIndividual
 @import viewmodels.AddRow
-@import views.html.components.SubmitButton
+@import views.html.components.{ErrorSummary, SubmitButton}
 
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
+    error_summary: ErrorSummary,
     submit_button: SubmitButton
 )
 
@@ -40,8 +41,7 @@
 
         @formHelper(action = if(maxedOut) {AddOtherIndividualController.submitComplete(draftId)} else {AddOtherIndividualController.submitAnother(draftId)}, 'autoComplete -> "off") {
 
-
-        @components.error_summary(form.errors)
+        @error_summary(form.errors)
 
         @components.heading(heading)
 

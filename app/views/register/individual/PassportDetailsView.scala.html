@@ -15,13 +15,14 @@
  *@
 
 @import controllers.register.individual.routes._
-@import views.html.components.SubmitButton
+@import views.html.components.{ErrorSummary, SubmitButton}
 @import utils.InputOption
 @import models.FullName
 
 @this(
         main_template: MainTemplate,
         formHelper: FormWithCSRF,
+        error_summary: ErrorSummary,
         submit_button: SubmitButton
 )
 
@@ -34,7 +35,7 @@
 
     @formHelper(action = PassportDetailsController.onSubmit(index, draftId), 'autoComplete -> "off") {
 
-        @components.error_summary(form.errors)
+        @error_summary(form.errors)
 
         @components.heading("otherIndividual.passportDetails.heading", Some(name))
 

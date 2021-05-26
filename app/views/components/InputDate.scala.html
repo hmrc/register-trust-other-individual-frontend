@@ -23,7 +23,7 @@
 @(
     field: Field,
     legend: String,
-    legendClass: String = "govuk-fieldset__legend--xl",
+    legendClass: String = "govuk-fieldset__legend--l",
     hint: Option[String] = None,
     readerHint: Option[String] = None,
     link : Option[Link] = None,
@@ -54,6 +54,7 @@
         InputItem(
             classes = s"govuk-input--width-2",
             name  =  s"${field.id}.day",
+            autocomplete = Some("date.day"),
             label = Some(messages("date.day")),
             value = field("day").value,
             id    = s"${field.id}.day"
@@ -61,6 +62,7 @@
         InputItem(
             classes = s"govuk-input--width-2",
             name = s"${field.id}.month",
+            autocomplete = Some("date.month"),
             label = Some(messages("date.month")),
             value = field("month").value,
             id    = s"${field.id}.month"
@@ -68,6 +70,7 @@
         InputItem(
             classes = s"govuk-input--width-4",
             name = s"${field.id}.year",
+            autocomplete = Some("date.year"),
             label = Some(messages("date.year")),
             value = field("year").value,
             id    = s"${field.id}.year"
