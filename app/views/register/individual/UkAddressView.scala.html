@@ -38,9 +38,7 @@
 
     @error_summary(form.errors)
 
-    @components.heading("site.address.uk.heading", Some(name))
-
-    @uk_address(form)
+    @uk_address(form, messages("site.address.uk.heading", name))
 
     @submit_button()
 
