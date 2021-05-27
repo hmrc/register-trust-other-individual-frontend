@@ -196,6 +196,7 @@ https://design-system.service.gov.uk/styles/typography/
 ####Unit tests
 
 Where possible, try adding an id to components and have them match previous components so that tests don't need to be changed.
+- `id="error-summary-heading"` in our code is `id="error-summary-title"` by default in the new component - so this will need to be updated in tests
 
 ### General tips
 

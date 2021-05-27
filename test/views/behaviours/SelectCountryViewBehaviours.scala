@@ -61,7 +61,7 @@ trait SelectCountryViewBehaviours extends QuestionViewBehaviours[String] {
         "show an error summary" in {
 
           val doc = asDocument(createView(form.withError(error)))
-          assertRenderedById(doc, "error-summary-heading")
+          assertRenderedById(doc, "error-summary-title")
         }
 
         "show an error in the value field's label" in {
