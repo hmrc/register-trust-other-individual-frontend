@@ -103,6 +103,8 @@ and in the view change to
 
 ####Update components
 
+> If the same new component is used multiple times to ‘copy’ old components, consider how easy it is simplify and use less components. We should aim for fewer components, but will decide on a case by case basis.
+
 Have made changes to ViewUtils.errorHref and DateErrorFormatter.formatArgs for use in DateInput and ErrorSummary
 
 We have for error summary

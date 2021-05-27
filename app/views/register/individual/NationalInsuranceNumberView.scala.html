@@ -16,13 +16,13 @@
 
 @import controllers.register.individual.routes._
 @import models.FullName
-@import views.html.components.{ErrorSummary, InputNino, SubmitButton}
+@import views.html.components.{ErrorSummary, InputText, SubmitButton}
 
 @this(
         main_template: MainTemplate,
         formHelper: FormWithCSRF,
         error_summary: ErrorSummary,
-        input_nino: InputNino,
+        input_nino: InputText,
         submit_button: SubmitButton
 )
 
@@ -41,6 +41,7 @@
             field = form("value"),
             label = messages("otherIndividual.nationalInsuranceNumber.heading", name),
             labelClass = Some("govuk-label--l"),
+            inputClass = Some("govuk-input govuk-input--width-10"),
             labelAsHeading = true,
             hint = Some(messages("otherIndividual.nationalInsuranceNumber.hint")),
             readerHint = Some(messages("otherIndividual.nationalInsuranceNumber.hint.reader"))

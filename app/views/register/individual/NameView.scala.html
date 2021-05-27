@@ -19,9 +19,9 @@
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
-        input_text: InputText,
-        error_summary: ErrorSummary,
-        submit_button: SubmitButton
+    input_text: InputText,
+    error_summary: ErrorSummary,
+    submit_button: SubmitButton
 )
 
 @(form: Form[_], index: Int, draftId: String)(implicit request: Request[_], messages: Messages)
