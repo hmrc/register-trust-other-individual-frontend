@@ -6,6 +6,7 @@
    1. [Continue buttons as links](#information-pages-with-continue-buttons-as-links)
    1. [Position of components](#position-of-components)
    1. [Update components](#update-components)
+   1. [Classes for components](#classes-for-components)
 1. [Tests](#tests)
 1. [General tips](#general-tips)
 
@@ -158,6 +159,35 @@ and in view changed to
 
 @error_summary(form.errors)
 ```
+
+#### Classes for components
+
+When using the new components, the default look may not match our design but we can add classes to get a close match. The easiest way to check is to have it side by side with staging, as the old mark up won't always translate across.
+
+[Check the component in the Design System](https://design-system.service.gov.uk/components/) first, classes found under the HTML tab.
+
+Some generic styles
+https://design-system.service.gov.uk/styles/typography/
+
+```
+ // gov-uk default input
+      @input_text(
+          field = form("middleName"),
+          label = messages("otherIndividual.name.middleName"),
+          autocomplete = Some("additional-name")
+      )
+    
+ // adding classes from https://design-system.service.gov.uk/components/text-input/
+      @input_text(
+          field = form("firstName"),
+          label = messages("otherIndividual.name.firstName"),
+          labelClass = Some("govuk-label--s"),
+          inputClass = Some("govuk-!-width-one-half"),
+          autocomplete = Some("given-name")
+      )
+
+     
+ ```
 
 ###Tests
 
