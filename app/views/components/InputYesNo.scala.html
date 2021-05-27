@@ -42,7 +42,7 @@
     )),
     items = Seq(
         RadioItem(
-            id = Some(field.id),
+            id = Some(field.id + "-yes"),
             value = Some("true"),
             checked = field.value.contains("true"),
             content = Text(messages("site.yes"))
