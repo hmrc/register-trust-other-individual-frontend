@@ -196,7 +196,13 @@ https://design-system.service.gov.uk/styles/typography/
 ####Unit tests
 
 Where possible, try adding an id to components and have them match previous components so that tests don't need to be changed.
-- `id="error-summary-heading"` in our code is `id="error-summary-title"` by default in the new component - so this will need to be updated in tests
+
+Will need to update (due to default in a new component):
+- `id="error-summary-heading"` is now `id="error-summary-title"` 
+- For label errors `class="error-message"` has changed to `class="govuk-error-message"`
+- `class="visually-hidden"` has changed to `class="govuk-visually-hidden"`
+- `class="form-label"` has changed to `class="govuk-label"`
+- <legend> now has `class="govuk-fieldset__legend` where there was no class before
 
 ### General tips
 
