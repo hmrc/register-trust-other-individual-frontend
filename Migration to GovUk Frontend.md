@@ -7,10 +7,23 @@
    1. [Position of components](#position-of-components)
    1. [Update components](#update-components)
 1. [Tests](#tests)
+1. [General tips](#general-tips)
 
 ###Resources
 
+To see twirl examples of gov uk design system
 https://github.com/hmrc/play-frontend-govuk-extension
+
+Look at twirl components to get an idea what markup it will generate
+https://github.com/hmrc/play-frontend-govuk/tree/master/src/main/twirl/uk/gov/hmrc/govukfrontend/views/components
+
+Look at the scala view models to easily tell what keys and data types are required
+https://github.com/hmrc/play-frontend-govuk/tree/master/src/main/scala/uk/gov/hmrc/govukfrontend/views/viewmodels
+
+The folder pattern is the same between `play-frontend-govuk` and `play-frontend-hmrc`
+
+Most standard components are gov-uk, but language select, timeout dialog and the add to list pattern are HMRC specific
+https://github.com/hmrc/play-frontend-hmrc
 
 ###Things to watch out for:
 
@@ -91,7 +104,7 @@ and in the view change to
 
 Have made changes to ViewUtils.errorHref and DateErrorFormatter.formatArgs for use in DateInput and ErrorSummary
 
-We havefor error summary
+We have for error summary
 
 ```html
 @import utils.DateErrorFormatter._
@@ -149,3 +162,12 @@ and in view changed to
 ###Tests
 
 ####Unit tests
+
+Where possible, try adding an id to components and have them match previous components so that tests don't need to be changed.
+
+### General tips
+
+If a component doesn't autogenerate an id or have a specific key, you can typically add one via `attributes`
+```scala
+attributes = Map("id" -> "test-id")
+```
