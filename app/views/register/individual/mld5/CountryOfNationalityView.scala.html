@@ -37,7 +37,8 @@
 
         @error_summary(form.errors)
 
-        @select(field = form("value"),
+        @select(
+            field = form("value"),
             label = messages("otherIndividual.5mld.countryOfNationality.heading", name),
             labelAsHeading = true,
             options = countryOptions,

@@ -42,7 +42,8 @@
 
         @components.heading("otherIndividual.passportDetails.heading", Some(name))
 
-        @select(field = form("country"),
+        @select(
+            field = form("country"),
             label = messages("otherIndividual.passportDetails.country"),
             labelClasses = Set("form-control-1-2 bold"),
             options = countryOptions,
