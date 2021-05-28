@@ -177,7 +177,7 @@ trait QuestionViewBehaviours[A] extends ViewBehaviours {
                                             dateKey : String,
                                             args: String*) = {
 
-    val dateFields = Seq(s"${dateKey}_day", s"${dateKey}_month", s"${dateKey}_year")
+    val dateFields = Seq(s"${dateKey}.day", s"${dateKey}.month", s"${dateKey}.year")
 
     "behave like a passportOrIDCard page" when {
 
