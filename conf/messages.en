@@ -263,8 +263,6 @@ otherIndividual.5mld.mentalCapacityYesNo.bulletpoint4 = being unable to communic
 
 addOtherIndividual.heading = Add other individual
 addOtherIndividual.title = Add other individual
-addOtherIndividual.singular.heading = Add other individual
-addOtherIndividual.singular.title = Add other individual
 addOtherIndividual.count.heading = You have added {0} other individuals
 addOtherIndividual.count.title = You have added {0} other individuals
 addOtherIndividual.additional-content = Do you need to add another other individual?
