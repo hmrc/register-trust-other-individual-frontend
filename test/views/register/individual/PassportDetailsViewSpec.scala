@@ -50,7 +50,6 @@ class PassportDetailsViewSpec extends QuestionViewBehaviours[PassportOrIdCardDet
       form,
       applyView,
       messageKeyPrefix,
-      controllers.register.individual.routes.PassportDetailsController.onSubmit(0, "draftId").url,
       Seq(("country", None), ("number", None)),
       "expiryDate",
       name.toString

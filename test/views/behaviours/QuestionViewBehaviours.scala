@@ -25,7 +25,7 @@ trait QuestionViewBehaviours[A] extends ViewBehaviours {
   val errorKey = "value"
   val errorPrefix = "site.error"
   val errorMessage = "error.number"
-  val error = FormError(errorKey, errorMessage)
+  val error: FormError = FormError(errorKey, errorMessage)
 
   val form: Form[A]
 
@@ -33,7 +33,7 @@ trait QuestionViewBehaviours[A] extends ViewBehaviours {
                          createView: Form[A] => HtmlFormat.Appendable,
                          messageKeyPrefix: String,
                          fields: Seq[(String, Option[String])],
-                         args: String*) = {
+                         args: String*): Unit = {
 
     "behave like a question page" when {
 
@@ -120,9 +120,9 @@ trait QuestionViewBehaviours[A] extends ViewBehaviours {
                          createView: Form[A] => HtmlFormat.Appendable,
                          messageKeyPrefix: String,
                          key: String,
-                         args: String*) = {
+                         args: String*): Unit = {
 
-    val fields = Seq(s"${key}.day", s"${key}.month", s"${key}.year")
+    val fields = Seq(s"$key.day", s"$key.month", s"$key.year")
 
     "behave like a question page" when {
 
@@ -172,12 +172,11 @@ trait QuestionViewBehaviours[A] extends ViewBehaviours {
   def pageWithPassportOrIDCardDetailsFields(form: Form[A],
                                             createView: Form[A] => HtmlFormat.Appendable,
                                             messageKeyPrefix: String,
-                                            expectedFormAction: String,
                                             textFields: Seq[(String, Option[String])],
                                             dateKey : String,
-                                            args: String*) = {
+                                            args: String*): Unit = {
 
-    val dateFields = Seq(s"${dateKey}_day", s"${dateKey}_month", s"${dateKey}_year")
+    val dateFields = Seq(s"$dateKey.day", s"$dateKey.month", s"$dateKey.year")
 
     "behave like a passportOrIDCard page" when {
 
