@@ -10,8 +10,6 @@ addOtherIndividual.maxedOut.all = Ni allwch nodi unigolyn arall gan eich bod wed
 addOtherIndividual.maxedOut.all.paragraph = Gwiriwch yr unigolion eraill rydych wedi’u hychwanegu. Os oes gennych ragor o unigolion eraill i’w hychwanegu
 addOtherIndividual.maxedOut.paragraph = Gwiriwch yr unigolion eraill rydych wedi’u hychwanegu. Os oes gennych ragor o unigolion eraill i’w hychwanegu
 addOtherIndividual.no-complete = Na
-addOtherIndividual.singular.heading = Ychwanegu unigolyn arall
-addOtherIndividual.singular.title = Ychwanegu unigolyn arall
 addOtherIndividual.title = Ychwanegu unigolyn arall
 
 addOtherIndividualYesNo.error.required = Dewiswch ‘Iawn’ os ydych am ychwanegu unigolyn arall

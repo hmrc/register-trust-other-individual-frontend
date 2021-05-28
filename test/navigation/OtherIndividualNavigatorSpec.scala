@@ -22,9 +22,11 @@ import controllers.register.individual.mld5.routes._
 import controllers.register.individual.routes._
 import controllers.register.routes._
 import generators.Generators
+import models.Status.Completed
 import models._
 import models.register.pages.AddOtherIndividual
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
+import pages.entitystatus.OtherIndividualStatus
 import pages.register.individual._
 import pages.register.individual.mld5._
 import pages.register.{AddOtherIndividualPage, AddOtherIndividualYesNoPage, TrustHasOtherIndividualYesNoPage}
@@ -61,11 +63,38 @@ class OtherIndividualNavigatorSpec extends SpecBase with ScalaCheckPropertyCheck
           .mustBe(otherIndividualsCompletedRoute(fakeDraftId, frontendAppConfig))
       }
 
-      "AddOtherIndividualPage -> add them now -> NamePage" in {
-        val answers = baseAnswers.set(AddOtherIndividualPage, AddOtherIndividual.YesNow).success.value
+      "AddOtherIndividualPage -> add them now" when {
+        "no individuals" must {
+          "-> NamePage at index 0" in {
+            val answers = baseAnswers.set(AddOtherIndividualPage, AddOtherIndividual.YesNow).success.value
 
-        navigator.nextPage(AddOtherIndividualPage, fakeDraftId, answers)
-          .mustBe(NameController.onPageLoad(index, fakeDraftId))
+            navigator.nextPage(AddOtherIndividualPage, fakeDraftId, answers)
+              .mustBe(NameController.onPageLoad(0, fakeDraftId))
+          }
+        }
+
+        "last individual is in progress" must {
+          "-> NamePage at index of in-progress individual" in {
+            val answers = baseAnswers
+              .set(AddOtherIndividualPage, AddOtherIndividual.YesNow).success.value
+              .set(NamePage(0), FullName("First", None, "Last")).success.value
+
+            navigator.nextPage(AddOtherIndividualPage, fakeDraftId, answers)
+              .mustBe(NameController.onPageLoad(0, fakeDraftId))
+          }
+        }
+
+        "last individual is complete" must {
+          "-> NamePage at index of next individual" in {
+            val answers = baseAnswers
+              .set(AddOtherIndividualPage, AddOtherIndividual.YesNow).success.value
+              .set(NamePage(0), FullName("First", None, "Last")).success.value
+              .set(OtherIndividualStatus(0), Completed).success.value
+
+            navigator.nextPage(AddOtherIndividualPage, fakeDraftId, answers)
+              .mustBe(NameController.onPageLoad(1, fakeDraftId))
+          }
+        }
       }
 
       "AddOtherIndividualPage -> add them later -> RegistrationProgress" in {
