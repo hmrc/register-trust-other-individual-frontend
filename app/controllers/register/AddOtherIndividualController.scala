@@ -18,8 +18,9 @@ package controllers.register
 
 import config.FrontendAppConfig
 import config.annotations.OtherIndividual
-import controllers.actions.{RequiredAnswer, RequiredAnswerActionProvider, StandardActionSets}
+import controllers.actions.{RequiredAnswer, RequiredAnswerAction, RequiredAnswerActionProvider, StandardActionSets}
 import forms.{AddOtherIndividualFormProvider, YesNoFormProvider}
+
 import javax.inject.Inject
 import models.Enumerable
 import models.register.pages.AddOtherIndividual.NoComplete
@@ -37,33 +38,30 @@ import views.html.register.{AddOtherIndividualView, TrustHasOtherIndividualYesNo
 import scala.concurrent.{ExecutionContext, Future}
 
 class AddOtherIndividualController @Inject()(
-                                           override val messagesApi: MessagesApi,
-                                           registrationsRepository: RegistrationsRepository,
-                                           @OtherIndividual navigator: Navigator,
-                                           standardActionSets: StandardActionSets,
-                                           requiredAnswer: RequiredAnswerActionProvider,
-                                           addAnotherFormProvider: AddOtherIndividualFormProvider,
-                                           yesNoFormProvider: YesNoFormProvider,
-                                           val controllerComponents: MessagesControllerComponents,
-                                           addAnotherView: AddOtherIndividualView,
-                                           yesNoView: TrustHasOtherIndividualYesNoView,
-                                           config: FrontendAppConfig
-                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with Logging
-
+                                              override val messagesApi: MessagesApi,
+                                              registrationsRepository: RegistrationsRepository,
+                                              @OtherIndividual navigator: Navigator,
+                                              standardActionSets: StandardActionSets,
+                                              requiredAnswer: RequiredAnswerActionProvider,
+                                              addAnotherFormProvider: AddOtherIndividualFormProvider,
+                                              yesNoFormProvider: YesNoFormProvider,
+                                              val controllerComponents: MessagesControllerComponents,
+                                              addAnotherView: AddOtherIndividualView,
+                                              yesNoView: TrustHasOtherIndividualYesNoView,
+                                              config: FrontendAppConfig
+                                            )(implicit ec: ExecutionContext) extends FrontendBaseController with Logging
   with I18nSupport with Enumerable.Implicits with AnyOtherIndividuals {
 
   private val addAnotherForm = addAnotherFormProvider()
   private val yesNoForm = yesNoFormProvider.withPrefix("trustHasOtherIndividualYesNo")
 
-  def trustHasOtherIndividualAnswer(draftId: String) =
+  private def trustHasOtherIndividualAnswer(draftId: String): RequiredAnswerAction[Boolean] =
     requiredAnswer(RequiredAnswer(TrustHasOtherIndividualYesNoPage, routes.TrustHasOtherIndividualYesNoController.onPageLoad(draftId)))
 
-
-  private def heading(count: Int)(implicit mp : MessagesProvider) = {
+  private def heading(count: Int)(implicit mp : MessagesProvider): String = {
     count match {
-      case 0 => Messages("addOtherIndividual.heading")
-      case 1 => Messages("addOtherIndividual.singular.heading")
-      case size => Messages("addOtherIndividual.count.heading", size)
+      case x if x <= 1 => Messages("addOtherIndividual.heading")
+      case _ => Messages("addOtherIndividual.count.heading", count)
     }
   }
 

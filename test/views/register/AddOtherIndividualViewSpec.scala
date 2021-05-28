@@ -26,16 +26,16 @@ import views.html.register.AddOtherIndividualView
 
 class AddOtherIndividualViewSpec extends OptionsViewBehaviours with TabularDataViewBehaviours {
 
-  val featureUnavalible = "/trusts-registration/feature-not-available"
+  val featureUnavailable = "/trusts-registration/feature-not-available"
 
   val completeOtherIndividuals = Seq(
-    AddRow("Business 1", "Business otherIndividual", featureUnavalible, featureUnavalible),
-    AddRow("Business 2", "Business otherIndividual", featureUnavalible, featureUnavalible)
+    AddRow("Business 1", "Business otherIndividual", featureUnavailable, featureUnavailable),
+    AddRow("Business 2", "Business otherIndividual", featureUnavailable, featureUnavailable)
   )
 
   val inProgressOtherIndividuals = Seq(
-    AddRow("Business 3", "Business otherIndividual", featureUnavalible, featureUnavalible),
-    AddRow("Business 4", "Business otherIndividual", featureUnavalible, featureUnavalible)
+    AddRow("Business 3", "Business otherIndividual", featureUnavailable, featureUnavailable),
+    AddRow("Business 4", "Business otherIndividual", featureUnavailable, featureUnavailable)
   )
   val messageKeyPrefix = "addOtherIndividual"
 
@@ -46,9 +46,9 @@ class AddOtherIndividualViewSpec extends OptionsViewBehaviours with TabularDataV
   def applyView(form: Form[_]): HtmlFormat.Appendable =
     view.apply(form, fakeDraftId, Nil, Nil, "Add other individual", false)(fakeRequest, messages)
 
-  def applyView(form: Form[_], inProgressProtectros: Seq[AddRow], completeProtectros: Seq[AddRow], count : Int, maxedOut: Boolean): HtmlFormat.Appendable = {
+  def applyView(form: Form[_], inProgressProtectors: Seq[AddRow], completeProtectors: Seq[AddRow], count : Int, maxedOut: Boolean): HtmlFormat.Appendable = {
     val title = if (count > 1) s"You have added $count other individuals" else "You have added 1 otherIndividual"
-    view.apply(form, fakeDraftId, inProgressProtectros, completeProtectros, title, maxedOut)(fakeRequest, messages)
+    view.apply(form, fakeDraftId, inProgressProtectors, completeProtectors, title, maxedOut)(fakeRequest, messages)
   }
 
   "AddOtherIndividualView" when {

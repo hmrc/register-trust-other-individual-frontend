@@ -190,7 +190,12 @@ class OtherIndividualNavigator @Inject()(config: FrontendAppConfig) extends Navi
 
   private def routeToOtherIndividualIndex(userAnswers: ReadableUserAnswers, draftId: String): Call = {
     val otherIndividuals = userAnswers.get(OtherIndividuals).getOrElse(List.empty)
-    NameController.onPageLoad(otherIndividuals.size, draftId)
+    val index = otherIndividuals match {
+      case Nil => 0
+      case x if !x.last.isComplete => x.size - 1
+      case x => x.size
+    }
+    NameController.onPageLoad(index, draftId)
   }
 
   private def addOtherIndividualRoute(draftId: String, config: FrontendAppConfig)(answers: ReadableUserAnswers): Call = {
