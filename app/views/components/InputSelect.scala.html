@@ -17,19 +17,19 @@
 @import utils.InputOption
 
 @this(
-        govukSelect: GovukSelect
+    govukSelect: GovukSelect
 )
 
 @(
-        field: Field,
-        label: String,
-        labelAsHeading: Boolean = false,
-        hint: Option[String] = None,
-        placeholder: Option[String] = None,
-        options: Seq[InputOption],
-        formGroupClasses: Set[String] = Set.empty,
-        labelClasses: Set[String] = Set("govuk-label--l"),
-        selectAttribute: Set[String] = Set.empty
+    field: Field,
+    label: String,
+    labelAsHeading: Boolean = false,
+    hint: Option[String] = None,
+    placeholder: Option[String] = None,
+    options: Seq[InputOption],
+    formGroupClasses: Set[String] = Set.empty,
+    labelClasses: Set[String] = Set("govuk-label--l"),
+    selectAttribute: Set[String] = Set.empty
 )(implicit messages: Messages)
 
 @govukSelect(Select(
