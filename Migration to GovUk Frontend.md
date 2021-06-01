@@ -191,6 +191,29 @@ https://design-system.service.gov.uk/styles/typography/
      
  ```
 
+### Autocomplete component (Country lookup)
+
+Referring to the documentation at https://github.com/alphagov/accessible-autocomplete.
+
+I took the latest CSS styling from https://github.com/alphagov/accessible-autocomplete/blob/master/dist/accessible-autocomplete.min.css and included them in the project at `app/assets/stylesheets/location-autocomplete.scss`. Imported the styles into application.scss:
+```css
+@import location-autocomplete.mind
+```
+
+Enabled the sbt-sassify plugin in `build.sbt`:
+```scala
+.enablePlugins(PlayScala, SbtAutoBuildPlugin, SbtDistributablesPlugin, SbtArtifactory, SbtSassify)
+```
+
+Allowed `code.query.com` through the content security policy:
+```
+play.filters.headers.contentSecurityPolicy = "default-src 'self' 'unsafe-inline' localhost:8841 localhost:9032 localhost:9250 localhost:12345 www.google-analytics.com www.googletagmanager.com tagmanager.google.com 'self' data: ssl.gstatic.com www.gstatic.com fonts.gstatic.com fonts.googleapis.com code.jquery.com;"
+```
+
+This **will** need updated in `app-config-base`.
+
+The full extent of changes can be found at https://github.com/hmrc/register-trust-other-individual-frontend/commit/ecd03b41b7e4913aac684f1671b238b7fd2f9863
+
 ###Tests
 
 ####Unit tests
