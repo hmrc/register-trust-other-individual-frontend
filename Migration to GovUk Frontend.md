@@ -11,7 +11,7 @@
 1. [Tests](#tests)
 1. [General tips](#general-tips)
 
-###Resources
+### Resources
 
 To see twirl examples of gov uk design system
 https://github.com/hmrc/play-frontend-govuk-extension
