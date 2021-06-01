@@ -29,7 +29,7 @@
     options: Seq[InputOption],
     formGroupClasses: Set[String] = Set.empty,
     labelClasses: Set[String] = Set("govuk-label--l"),
-    selectAttribute: Set[String] = Set.empty
+    selectAttribute: Map[String, String] = Map.empty
 )(implicit messages: Messages)
 
 @govukSelect(Select(
@@ -49,7 +49,7 @@
             )
         ),
     formGroupClasses = formGroupClasses.mkString(" "),
-    classes = selectAttribute.mkString(" "),
+    attributes = selectAttribute,
     errorMessage = field.error.map(err => ErrorMessage(content = Text(messages(err.message, err.args: _*))))
 ))
 
