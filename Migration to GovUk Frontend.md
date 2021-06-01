@@ -7,6 +7,7 @@
    1. [Position of components](#position-of-components)
    1. [Update components](#update-components)
    1. [Classes for components](#classes-for-components)
+   1. [Accessible autocomplete](#accessible-autocomplete)
 1. [Tests](#tests)
 1. [General tips](#general-tips)
 
@@ -26,9 +27,9 @@ The folder pattern is the same between `play-frontend-govuk` and `play-frontend-
 Most standard components are gov-uk, but language select, timeout dialog and the add to list pattern are HMRC specific
 https://github.com/hmrc/play-frontend-hmrc
 
-###Things to watch out for:
+### Things to watch out for:
 
-####Information pages with continue buttons as links
+#### Information pages with continue buttons as links
 
 We have
 ```scala
@@ -48,7 +49,7 @@ and changed to
   }
 ```
 
-####Position of components
+#### Position of components
 
 We have a back link component imported into a view
 ```scala
@@ -101,7 +102,7 @@ and in the view change to
 
 ```
 
-####Update components
+#### Update components
 
 > If the same new component is used multiple times to ‘copy’ old components, consider how easy it is simplify and use less components. We should aim for fewer components, but will decide on a case by case basis.
 
@@ -191,7 +192,7 @@ https://design-system.service.gov.uk/styles/typography/
      
  ```
 
-### Autocomplete component (Country lookup)
+#### Accessible autocomplete
 
 Referring to the documentation at https://github.com/alphagov/accessible-autocomplete.
 
@@ -214,9 +215,9 @@ This **will** need updated in `app-config-base`.
 
 The full extent of changes can be found at https://github.com/hmrc/register-trust-other-individual-frontend/commit/ecd03b41b7e4913aac684f1671b238b7fd2f9863
 
-###Tests
+### Tests
 
-####Unit tests
+#### Unit tests
 
 Where possible, try adding an id to components and have them match previous components so that tests don't need to be changed.
 
