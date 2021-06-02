@@ -42,20 +42,18 @@
 @html = {
     @input_text(
         field = form("line1"),
-        label = messages("site.address.international.line1"),
-        inputClass = Some("form-control-3-4")
+        label = messages("site.address.international.line1")
     )
 
     @input_text(
         field = form("line2"),
-        label = messages("site.address.international.line2"),
-        inputClass = Some("form-control-3-4")
+        label = messages("site.address.international.line2")
     )
 
     @input_text(
         field = form("line3"),
         label = messages("site.address.international.line3"),
-        inputClass = Some("form-control-1-2")
+        inputClass = Some("govuk-!-width-two-thirds")
     )
 
     @select(
@@ -64,7 +62,7 @@
         labelClasses = Set("bold"),
         options = countryOptions,
         placeholder = Some(messages("site.address.country.select")),
-        formGroupClasses = Set("autocomplete-wrapper  form-control-3-4"),
+        formGroupClasses = Set("autocomplete-wrapper govuk-!-width-two-thirds"),
         selectAttribute = Map("data-non-uk-countries" -> "")
     )
 }
