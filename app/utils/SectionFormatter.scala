@@ -38,7 +38,7 @@ object SectionFormatter {
           value = Value(HtmlContent(row.answer)),
           actions = Option(Actions(items = Seq(ActionItem(href=row.changeUrl.getOrElse(""),
             classes = s"change-link-${i}",
-            visuallyHiddenText = Some(messages(row.label)),
+            visuallyHiddenText = Some(messages(row.label, row.labelArg)),
             content = Text(messages("site.edit")))))
           )
         )
