@@ -215,6 +215,54 @@ This **will** need updated in `app-config-base`.
 
 The full extent of changes can be found at https://github.com/hmrc/register-trust-other-individual-frontend/commit/ecd03b41b7e4913aac684f1671b238b7fd2f9863
 
+#### Check Your Answers
+
+Add app/utils/SectionFormatter.scala
+
+Add GovukSummaryList component to Check Your Answers view:
+
+```scala
+ @this(
+     main_template: MainTemplate,
+     formHelper: FormWithCSRF,
+     submit_button: SubmitButton
+ )
+
+@(answerSection: AnswerSection, index: Int, draftId: String)(implicit request: Request[_], messages: Messages)
+
+@components.answer_section(answerSection)
+
+``` 
+
+Change to:
+
+```scala
+ @this(
+     main_template: MainTemplate,
+     formHelper: FormWithCSRF,
+     govukSummaryList: GovukSummaryList,
+     submit_button: SubmitButton
+ )
+ 
+@(answerSection: Seq[Section], index: Int, draftId: String)(implicit request: Request[_], messages: Messages)
+
+@govukSummaryList(SummaryList(rows = formatSections(answerSection)))
+
+``` 
+
+Update Check Your Answers controller:
+
+```scala
+Ok(view(section, index, draftId))
+``` 
+Change to:
+
+```scala
+Ok(view(Seq(section), index, draftId))
+``` 
+
+
+
 ### Tests
 
 #### Unit tests

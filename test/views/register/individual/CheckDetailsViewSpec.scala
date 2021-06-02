@@ -29,7 +29,7 @@ class CheckDetailsViewSpec extends ViewBehaviours {
 
     val view = viewFor[CheckDetailsView](Some(emptyUserAnswers))
 
-    val applyView = view.apply(AnswerSection(None, Seq()), index, fakeDraftId)(fakeRequest, messages)
+    val applyView = view.apply(Seq(AnswerSection(None, Seq())), index, fakeDraftId)(fakeRequest, messages)
 
     behave like normalPage(applyView, messageKeyPrefix)
 
