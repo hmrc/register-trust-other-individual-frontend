@@ -16,13 +16,15 @@
 
 @import controllers.register.individual.mld5.routes._
 @import views.html.components.{SubmitButton, InputYesNo, ErrorSummary}
+@import views.html.components.Heading
 
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
     input_yes_no: InputYesNo,
     errorSummary: ErrorSummary,
-    submit_button: SubmitButton
+    submit_button: SubmitButton,
+    heading: Heading
 )
 
 @(form: Form[_], draftId: String, index: Int, name: String)(implicit request: Request[_], messages: Messages)
@@ -49,9 +51,9 @@
 
         @errorSummary(form.errors)
 
-            <h1 class="govuk-heading-xl">@messages("otherIndividual.5mld.mentalCapacityYesNo.heading", name)</h1>
+        @heading(messages("otherIndividual.5mld.mentalCapacityYesNo.heading", name))
 
-            @content
+        @content
 
         @input_yes_no(
             field = form("value"),

@@ -16,12 +16,15 @@
 
 @import controllers.register.individual.routes._
 @import views.html.components.{InputText, ErrorSummary, SubmitButton}
+@import views.html.components.Heading
+
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
     input_text: InputText,
     error_summary: ErrorSummary,
-    submit_button: SubmitButton
+    submit_button: SubmitButton,
+    heading: Heading
 )
 
 @(form: Form[_], index: Int, draftId: String)(implicit request: Request[_], messages: Messages)
@@ -38,7 +41,7 @@
         <fieldset class="govuk-fieldset">
 
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                @components.heading("otherIndividual.name.heading")
+                @heading("otherIndividual.name.heading")
             </legend>
 
             @input_text(

@@ -18,6 +18,7 @@
 @import views.html.components.{ErrorSummary, InputSelect, InputText, InputDate, SubmitButton}
 @import utils.InputOption
 @import models.FullName
+@import views.html.components.Heading
 
 @this(
     main_template: MainTemplate,
@@ -26,7 +27,8 @@
     select: InputSelect,
     input_text: InputText,
     input_date: InputDate,
-    submit_button: SubmitButton
+    submit_button: SubmitButton,
+    heading: Heading
 )
 
 @(form: Form[_], countryOptions:Seq[InputOption], name: String, index: Int, draftId: String)(implicit request: Request[_], messages: Messages)
@@ -40,7 +42,7 @@
 
         @error_summary(form.errors)
 
-        @components.heading("otherIndividual.idCardDetails.heading", Some(name))
+        @heading("otherIndividual.idCardDetails.heading", Some(name))
 
         @select(
             field = form("country"),

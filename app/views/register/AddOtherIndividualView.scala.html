@@ -18,12 +18,14 @@
 @import models.register.pages.AddOtherIndividual
 @import viewmodels.AddRow
 @import views.html.components.{ErrorSummary, SubmitButton}
+@import views.html.components.Heading
 
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
     error_summary: ErrorSummary,
-    submit_button: SubmitButton
+    submit_button: SubmitButton,
+    headingI: Heading
 )
 
 @(form: Form[_],
@@ -43,7 +45,7 @@
 
         @error_summary(form.errors)
 
-        @components.heading(heading)
+        @headingI(heading)
 
         @components.data_list(inProgress, "inprogress", "otherIndividual")
 

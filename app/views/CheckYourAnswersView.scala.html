@@ -15,9 +15,11 @@
  *@
 
 @import viewmodels.{AnswerSection, RepeaterAnswerSection, Section}
+@import views.html.components.Heading
 
 @this(
-    main_template: MainTemplate
+    main_template: MainTemplate,
+    heading: Heading
 )
 
 @(answerSections: Seq[Section])(implicit request: Request[_], messages: Messages)
@@ -26,7 +28,7 @@
     title = messages("checkYourAnswers.title")
     ) {
 
-    @components.heading("checkYourAnswers.heading")</h1>
+    @heading("checkYourAnswers.heading")
 
     <p>@messages("checkYourAnswers.guidance")</p>
 

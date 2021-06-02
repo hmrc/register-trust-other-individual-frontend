@@ -17,5 +17,5 @@
 @(messagePrefix: String, optionalParam: Option[String] = None, captionParam: Option[String] = None)(implicit messages: Messages)
 
 <header class="hmrc-page-heading">
- <h1 class="govuk-heading-xl">@components.sub_heading(s"$messagePrefix.caption", if(captionParam.isDefined) {captionParam.get} else "")@messages(s"$messagePrefix.heading", if(optionalParam.isDefined) {optionalParam.get} else "")</h1>
+ <h1 class="govuk-heading-l">@components.sub_heading(s"$messagePrefix.caption", if(captionParam.isDefined) {captionParam.get} else "")@messages(s"$messagePrefix.heading", if(optionalParam.isDefined) {optionalParam.get} else "")</h1>
 </header>

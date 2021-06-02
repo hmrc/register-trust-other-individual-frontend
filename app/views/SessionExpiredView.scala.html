@@ -16,12 +16,14 @@
 
 @import config.FrontendAppConfig
 @import views.html.components.SubmitButton
+@import views.html.components.Heading
 
 @this(
     main_template: MainTemplate,
     appConfig: FrontendAppConfig,
     submit_button: SubmitButton,
-    formHelper: FormWithCSRF
+    formHelper: FormWithCSRF,
+    heading: Heading
 )
 
 @()(implicit request: Request[_], messages: Messages)
@@ -32,7 +34,7 @@
     timeoutEnabled = false
     ) {
 
-    @components.heading("session_expired.heading")
+    @heading("session_expired.heading")
 
     <p class="govuk-body">@messages("session_expired.guidance")</p>
     <p class="govuk-body">@messages("session_expired.guidance.2")</p>

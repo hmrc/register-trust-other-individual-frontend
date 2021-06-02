@@ -34,7 +34,6 @@
 
   @formHelper(action = UkAddressController.onSubmit(index, draftId), 'autoComplete -> "off") {
 
-
     @error_summary(form.errors)
 
     @uk_address(form, messages("site.address.uk.heading", name))
