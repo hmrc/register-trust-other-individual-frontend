@@ -16,11 +16,13 @@
 
 @import controllers.register.routes._
 @import views.html.components.SubmitButton
+@import views.html.components.HeadingWithCaption
 
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
-    submit_button: SubmitButton
+    submit_button: SubmitButton,
+    headingWithCaption: HeadingWithCaption
 )
 
 
@@ -32,7 +34,7 @@
 ) {
 
 
-    @components.heading_with_caption("otherIndividualsInfo.5mld")
+    @headingWithCaption("otherIndividualsInfo.5mld")
 
     <p class="govuk-body">@messages("otherIndividualsInfo.5mld.paragraph1")</p>
 

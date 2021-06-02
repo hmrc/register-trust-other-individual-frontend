@@ -14,6 +14,13 @@
  * limitations under the License.
  *@
 
-@(key: String, param: String)(implicit messages: Messages)
+@this(
+ subHeading: SubHeading
+)
 
-<span class="govuk-caption-xl">@messages(key, param)</span>
+@(messagePrefix: String, optionalParam: Option[String] = None, captionParam: Option[String] = None)(implicit messages: Messages)
+
+<h1 class="govuk-heading-l">
+ @subHeading(s"$messagePrefix.caption", captionParam.getOrElse(""))
+ @messages(s"$messagePrefix.heading", optionalParam.getOrElse(""))
+</h1>

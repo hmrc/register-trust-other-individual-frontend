@@ -15,9 +15,11 @@
  *@
 
 @import controllers.register.individual.routes._
+@import views.html.components.HeadingWithCaption
 
 @this(
     main_template: MainTemplate,
+    headingWithCaption: HeadingWithCaption
 )
 
 
@@ -29,7 +31,7 @@
     ) {
 
 
-    @components.heading_with_caption("otherIndividualsInfo")
+    @headingWithCaption("otherIndividualsInfo")
 
     <p class="govuk-body">@messages("otherIndividualsInfo.paragraph1")</p>
 
