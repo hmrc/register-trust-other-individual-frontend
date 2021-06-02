@@ -14,7 +14,7 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.hmrcfrontend.views.html.helpers.{HmrcStandardFooter, HmrcStandardHeader, HmrcHead, HmrcScripts}
+@import uk.gov.hmrc.hmrcfrontend.views.html.helpers._
 @import config.FrontendAppConfig
 @import uk.gov.hmrc.hmrcfrontend.views.config.StandardBetaBanner
 @import resources._
@@ -30,7 +30,8 @@
     standardBetaBanner: StandardBetaBanner,
     hmrcScripts: HmrcScripts,
     stylesheets: Stylesheets,
-    govukBackLink: GovukBackLink
+    govukBackLink: GovukBackLink,
+    hmrcReportTechnicalIssueHelper: HmrcReportTechnicalIssueHelper
 )
 
 @(title: String,
@@ -69,6 +70,11 @@
     }
 }
 
+@mainContentWithGetHelp = {
+    @mainContent
+    @hmrcReportTechnicalIssueHelper()
+}
+
 @govukLayout(
     pageTitle = Some(breadcrumbTitle(title)),
     headBlock = Some(hmrcHead(
@@ -84,4 +90,4 @@
     footerBlock = Some(hmrcStandardFooter(
         accessibilityStatementUrl = Some(appConfig.accessibilityLinkUrl)
     ))
-)(mainContent)
+)(mainContentWithGetHelp)
