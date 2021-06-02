@@ -51,6 +51,7 @@ and changed to
 
 #### Position of components
 
+#### Back Link
 We have a back link component imported into a view
 ```scala
 // Component
@@ -92,6 +93,7 @@ showBackLink: Boolean = false
     beforeContentBlock = Some(beforeContentBlock),
 )
 
+
 ```
 and in the view change to
 ```scala
@@ -101,6 +103,30 @@ and in the view change to
 ) {
 
 ```
+
+#### Visibility of the back link
+
+A CSS rule has been added 
+```css
+// ----------------
+// Hide the back link when body does not have .js-enabled
+//
+// ----------------
+
+body:not(.js-enabled) {
+    .govuk-back-link {
+        display: none;
+        visibility: hidden;
+        width: 0;
+        height: 0;
+    }
+}
+```
+
+which hides the back link if the body does not have a css class .js-enabled (set by govuk-frontend).
+
+This is supported by all major browsers back to IE9.
+https://developer.mozilla.org/en-US/docs/Web/CSS/:not
 
 #### Update components
 
