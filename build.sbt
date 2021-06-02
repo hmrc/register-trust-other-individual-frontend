@@ -7,7 +7,7 @@ import uk.gov.hmrc.versioning.SbtGitVersioning.autoImport.majorVersion
 lazy val appName: String = "register-trust-other-individual-frontend"
 
 lazy val root = (project in file("."))
-  .enablePlugins(PlayScala, SbtAutoBuildPlugin, SbtDistributablesPlugin, SbtArtifactory)
+  .enablePlugins(PlayScala, SbtAutoBuildPlugin, SbtDistributablesPlugin, SbtArtifactory, SbtSassify)
   .disablePlugins(JUnitXmlReportPlugin) //Required to prevent https://github.com/scalatest/scalatest/issues/1427
   .settings(
     DefaultBuildSettings.scalaSettings,
@@ -49,7 +49,6 @@ lazy val root = (project in file("."))
     Concat.groups := Seq(
       "javascripts/registertrustotherindividualfrontend-app.js" ->
         group(Seq(
-          "javascripts/show-hide-content.js",
           "javascripts/registertrustotherindividualfrontend.js",
           "javascripts/autocomplete.js",
           "javascripts/libraries/location-autocomplete.min.js"

@@ -7,10 +7,11 @@
    1. [Position of components](#position-of-components)
    1. [Update components](#update-components)
    1. [Classes for components](#classes-for-components)
+   1. [Accessible autocomplete](#accessible-autocomplete)
 1. [Tests](#tests)
 1. [General tips](#general-tips)
 
-###Resources
+### Resources
 
 To see twirl examples of gov uk design system
 https://github.com/hmrc/play-frontend-govuk-extension
@@ -26,9 +27,9 @@ The folder pattern is the same between `play-frontend-govuk` and `play-frontend-
 Most standard components are gov-uk, but language select, timeout dialog and the add to list pattern are HMRC specific
 https://github.com/hmrc/play-frontend-hmrc
 
-###Things to watch out for:
+### Things to watch out for:
 
-####Information pages with continue buttons as links
+#### Information pages with continue buttons as links
 
 We have
 ```scala
@@ -48,7 +49,7 @@ and changed to
   }
 ```
 
-####Position of components
+#### Position of components
 
 We have a back link component imported into a view
 ```scala
@@ -101,7 +102,7 @@ and in the view change to
 
 ```
 
-####Update components
+#### Update components
 
 > If the same new component is used multiple times to ‘copy’ old components, consider how easy it is simplify and use less components. We should aim for fewer components, but will decide on a case by case basis.
 
@@ -191,9 +192,32 @@ https://design-system.service.gov.uk/styles/typography/
      
  ```
 
-###Tests
+#### Accessible autocomplete
 
-####Unit tests
+Referring to the documentation at https://github.com/alphagov/accessible-autocomplete.
+
+I took the latest CSS styling from https://github.com/alphagov/accessible-autocomplete/blob/master/dist/accessible-autocomplete.min.css and included them in the project at `app/assets/stylesheets/location-autocomplete.scss`. Imported the styles into application.scss:
+```css
+@import location-autocomplete.mind
+```
+
+Enabled the sbt-sassify plugin in `build.sbt`:
+```scala
+.enablePlugins(PlayScala, SbtAutoBuildPlugin, SbtDistributablesPlugin, SbtArtifactory, SbtSassify)
+```
+
+Allowed `code.query.com` through the content security policy:
+```
+play.filters.headers.contentSecurityPolicy = "default-src 'self' 'unsafe-inline' localhost:8841 localhost:9032 localhost:9250 localhost:12345 www.google-analytics.com www.googletagmanager.com tagmanager.google.com 'self' data: ssl.gstatic.com www.gstatic.com fonts.gstatic.com fonts.googleapis.com code.jquery.com;"
+```
+
+This **will** need updated in `app-config-base`.
+
+The full extent of changes can be found at https://github.com/hmrc/register-trust-other-individual-frontend/commit/ecd03b41b7e4913aac684f1671b238b7fd2f9863
+
+### Tests
+
+#### Unit tests
 
 Where possible, try adding an id to components and have them match previous components so that tests don't need to be changed.
 
