@@ -46,19 +46,19 @@ $(document).ready(function() {
     //======================================================
 
     // Override autocomplete styles to apply correct error component design pattern
-    if ($(".autocomplete-wrapper .govuk-form-group--error").length) {
-        $(".autocomplete__wrapper input").addClass('govuk-select-error');
-    }
+//    if ($(".autocomplete-wrapper .govuk-form-group--error").length) {
+//        $(".autocomplete__wrapper input").addClass('govuk-select-error');
+//    }
 
     // Set the border colour to black with orange border when clicking into the input field
     $('.autocomplete__wrapper input').focus(function(e){
-        if ($(".autocomplete-wrapper .govuk-error-message").length) $(".autocomplete__wrapper input").css({"border" : "4px solid #0b0c0c", "-webkit-box-shadow" : "none", "box-shadow" : "none"});
+        if ($(".govuk-form-group--error .autocomplete__wrapper").length > 0) $(".autocomplete__wrapper input").css({"border" : "2px solid #0b0c0c", "-webkit-box-shadow" : "none", "box-shadow" : "none"});
     })
 
     // Set the border colour back to red when clicking out of the input field
     // Set the gov.uk error colour https://design-system.service.gov.uk/styles/colour/
     $('.autocomplete__wrapper input').focusout(function(e){
-        if ($(".autocomplete-wrapper .govuk-error-message").length) $(".autocomplete__wrapper input").css("border", "4px solid #d4351c");
+        if ($(".govuk-form-group--error .autocomplete__wrapper").length > 0) $(".autocomplete__wrapper input").css("border", "2px solid #d4351c");
     })
 
 
