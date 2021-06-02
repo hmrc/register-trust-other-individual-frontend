@@ -32,10 +32,6 @@
     extraText: Option[String] = None
  )(implicit messages: Messages)
 
-@idOfError = @{
-    field.errors.headOption.fold(field.id)(_.key)
-}
-
 @govukDateInput(DateInput(
     fieldset = Some(Fieldset(
         legend = Some(
@@ -49,7 +45,7 @@
     id = field.id,
     items = Seq(
         InputItem(
-            classes = s"govuk-input--width-2",
+            classes = s"govuk-input--width-2 ${addErrorClass(field.error, "day")}",
             name = s"${field.id}.day",
             autocomplete = Some("date.day"),
             label = Some(messages("date.day")),
@@ -57,7 +53,7 @@
             id = s"${field.id}.day"
         ),
         InputItem(
-            classes = s"govuk-input--width-2",
+            classes = s"govuk-input--width-2 ${addErrorClass(field.error, "month")}",
             name = s"${field.id}.month",
             autocomplete = Some("date.month"),
             label = Some(messages("date.month")),
@@ -65,7 +61,7 @@
             id = s"${field.id}.month"
         ),
         InputItem(
-            classes = s"govuk-input--width-4",
+            classes = s"govuk-input--width-4 ${addErrorClass(field.error, "year")}",
             name = s"${field.id}.year",
             autocomplete = Some("date.year"),
             label = Some(messages("date.year")),
