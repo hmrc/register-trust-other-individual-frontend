@@ -241,6 +241,29 @@ This **will** need updated in `app-config-base`.
 
 The full extent of changes can be found at https://github.com/hmrc/register-trust-other-individual-frontend/commit/ecd03b41b7e4913aac684f1671b238b7fd2f9863
 
+#### Get help with this page (Deskpro)
+
+The implementation for 'get help with this page' has been updated.
+
+Commit for change can be seen at https://github.com/hmrc/register-trust-other-individual-frontend/commit/c3a43a213ec5673f1aec13cc25728961011b5f48
+
+The main changes are:
+- Include `@hmrcReportTechnicalIssueHelper()` in `MainTemplate.scala.html`
+- Remove old config for contact-frontend from application.conf and replace with `contact-frontend.serviceId = "trusts"`
+- Remove the following from `FrontendAppConfig.scala`:
+```scala
+private val contactHost = configuration.get[String]("contact-frontend.host")
+private val contactFormServiceIdentifier = "trusts"
+```
+
+- Add `contactFrontendConfig: ContactFrontendConfig` as a injected dependency to `FrontendAppConfig.scala`.
+- Remove values `reportAProblemPartialUrl` and `reportAProblemNonJSUrl` as play-frontend-govuk not takes care of the configuration
+- Replace feedback urls with:
+```scala
+  val betaFeedbackUrl = s"${contactFrontendConfig.baseUrl}/contact/beta-feedback?service=${contactFrontendConfig.serviceId}"
+  val betaFeedbackUnauthenticatedUrl = s"${contactFrontendConfig.baseUrl}/contact/beta-feedback-unauthenticated?service=${contactFrontendConfig.serviceId}"
+```
+
 #### Check Your Answers
 
 Add app/utils/SectionFormatter.scala
