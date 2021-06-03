@@ -14,21 +14,13 @@
  * limitations under the License.
  *@
 
-@import utils.DateErrorFormatter._
+@import uk.gov.hmrc.govukfrontend.views.html.components._
 
-@(errors: Seq[FormError])(implicit messages: Messages)
-@if(errors.nonEmpty) {
-    <div id="errors" class="error-summary error-summary--show" role="alert" tabindex="-1">
+@this(govukInsetText : GovukInsetText)
 
-        <h2 class="heading-medium error-summary-heading" id="error-summary-heading">
-        @messages("error.summary.title")
-        </h2>
+@(messageKey: String, id: String)(implicit messages: Messages)
 
-        <ul role="list" class="error-summary-list">
-            @for(error <- errors) {
-                <li><a href="#@{errorHref(error)}">@messages(error.message, formatArgs(error.args):_*)</a></li>
-            }
-        </ul>
-
-    </div>
-}
+@govukInsetText(InsetText(
+ id = Some(s"inset-text--$id"),
+ content = Text(messages(messageKey))
+))

@@ -14,12 +14,15 @@
  * limitations under the License.
  *@
 
-@import controllers.register.individual.routes._
+@import controllers.register.routes._
+@import views.html.components.SubmitButton
 @import views.html.components.HeadingWithCaption
 
 @this(
     main_template: MainTemplate,
-    headingWithCaption: HeadingWithCaption
+    headingWithCaption: HeadingWithCaption,
+    formHelper: FormWithCSRF,
+    submit_button: SubmitButton
 )
 
 
@@ -43,6 +46,8 @@
         )
     )
 
-    @components.button_link(messages("site.continue"), NameController.onPageLoad(0, draftId).url)
+    @formHelper(action = InfoController.onSubmit(draftId), 'autoComplete -> "off") {
+        @submit_button(Some(messages("site.continue")))
+    }
 
 }
