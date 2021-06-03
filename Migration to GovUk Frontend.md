@@ -107,20 +107,21 @@ and in the view change to
 #### Visibility of the back link
 
 A CSS rule has been added 
-```css
-// ----------------
-// Hide the back link when body does not have .js-enabled
-//
-// ----------------
-
-body:not(.js-enabled) {
-    .govuk-back-link {
-        display: none;
-        visibility: hidden;
-        width: 0;
-        height: 0;
-    }
-}
+`app/assets/stylesheets/application.scss`
+```diff
++ // ----------------
++ // Hide the back link when body does not have .js-enabled
++ //
++ // ----------------
++ 
++ body:not(.js-enabled) {
++     .govuk-back-link {
++         display: none;
++         visibility: hidden;
++         width: 0;
++         height: 0;
++     }
++ }
 ```
 
 which hides the back link if the body does not have a css class .js-enabled (set by govuk-frontend).
@@ -222,19 +223,21 @@ https://design-system.service.gov.uk/styles/typography/
 
 Referring to the documentation at https://github.com/alphagov/accessible-autocomplete.
 
-I took the latest CSS styling from https://github.com/alphagov/accessible-autocomplete/blob/master/dist/accessible-autocomplete.min.css and included them in the project at `app/assets/stylesheets/location-autocomplete.scss`. Imported the styles into application.scss:
-```css
-@import location-autocomplete.mind
+I took the latest CSS styling from https://github.com/alphagov/accessible-autocomplete/blob/master/dist/accessible-autocomplete.min.css and included them in the project at `app/assets/stylesheets/location-autocomplete.scss`. 
+
+Imported the styles into `application.scss`:
+```diff
++ @import location-autocomplete.mind
 ```
 
 Enabled the sbt-sassify plugin in `build.sbt`:
-```scala
-.enablePlugins(PlayScala, SbtAutoBuildPlugin, SbtDistributablesPlugin, SbtArtifactory, SbtSassify)
+```diff
++ .enablePlugins(PlayScala, SbtAutoBuildPlugin, SbtDistributablesPlugin, SbtArtifactory, SbtSassify)
 ```
 
 Allowed `code.query.com` through the content security policy:
-```
-play.filters.headers.contentSecurityPolicy = "default-src 'self' 'unsafe-inline' localhost:8841 localhost:9032 localhost:9250 localhost:12345 www.google-analytics.com www.googletagmanager.com tagmanager.google.com 'self' data: ssl.gstatic.com www.gstatic.com fonts.gstatic.com fonts.googleapis.com code.jquery.com;"
+```diff
++ play.filters.headers.contentSecurityPolicy = "default-src 'self' 'unsafe-inline' localhost:8841 localhost:9032 localhost:9250 localhost:12345 www.google-analytics.com www.googletagmanager.com tagmanager.google.com 'self' data: ssl.gstatic.com www.gstatic.com fonts.gstatic.com fonts.googleapis.com code.jquery.com;"
 ```
 
 This **will** need updated in `app-config-base`.
@@ -251,17 +254,17 @@ The main changes are:
 - Include `@hmrcReportTechnicalIssueHelper()` in `MainTemplate.scala.html`
 - Remove old config for contact-frontend from application.conf and replace with `contact-frontend.serviceId = "trusts"`
 - Remove the following from `FrontendAppConfig.scala`:
-```scala
-private val contactHost = configuration.get[String]("contact-frontend.host")
-private val contactFormServiceIdentifier = "trusts"
+```diff
+- private val contactHost = configuration.get[String]("contact-frontend.host")
+- private val contactFormServiceIdentifier = "trusts"
 ```
 
 - Add `contactFrontendConfig: ContactFrontendConfig` as a injected dependency to `FrontendAppConfig.scala`.
 - Remove values `reportAProblemPartialUrl` and `reportAProblemNonJSUrl` as play-frontend-govuk not takes care of the configuration
 - Replace feedback urls with:
-```scala
-  val betaFeedbackUrl = s"${contactFrontendConfig.baseUrl}/contact/beta-feedback?service=${contactFrontendConfig.serviceId}"
-  val betaFeedbackUnauthenticatedUrl = s"${contactFrontendConfig.baseUrl}/contact/beta-feedback-unauthenticated?service=${contactFrontendConfig.serviceId}"
+```diff
++ val betaFeedbackUrl = s"${contactFrontendConfig.baseUrl}/contact/beta-feedback?service=${contactFrontendConfig.serviceId}"
++  val betaFeedbackUnauthenticatedUrl = s"${contactFrontendConfig.baseUrl}/contact/beta-feedback-unauthenticated?service=${contactFrontendConfig.serviceId}"
 ```
 
 #### Check Your Answers
@@ -270,26 +273,25 @@ Add app/utils/SectionFormatter.scala
 
 Add GovukSummaryList component to Check Your Answers view:
 
-```scala
+```diff
  @this(
-     main_template: MainTemplate,
-     formHelper: FormWithCSRF,
-     submit_button: SubmitButton
- )
-
-@(answerSection: AnswerSection, index: Int, draftId: String)(implicit request: Request[_], messages: Messages)
-
-@components.answer_section(answerSection)
-
+      main_template: MainTemplate,
+      formHelper: FormWithCSRF,
+      submit_button: SubmitButton
+  )
+ 
+ @(answerSection: AnswerSection, index: Int, draftId: String)(implicit request: Request[_], messages: Messages)
+ 
+ @components.answer_section(answerSection)
 ``` 
 
 Change to:
 
-```scala
+```diff
  @this(
      main_template: MainTemplate,
      formHelper: FormWithCSRF,
-     govukSummaryList: GovukSummaryList,
++     govukSummaryList: GovukSummaryList,
      submit_button: SubmitButton
  )
  
@@ -306,8 +308,8 @@ Ok(view(section, index, draftId))
 ``` 
 Change to:
 
-```scala
-Ok(view(Seq(section), index, draftId))
+```diff
++ Ok(view(Seq(section), index, draftId))
 ``` 
 
 #### Unused configuration in application.conf
