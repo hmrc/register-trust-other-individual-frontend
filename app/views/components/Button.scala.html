@@ -14,9 +14,16 @@
  * limitations under the License.
  *@
 
-@(messageKey: String, id: String)(implicit messages: Messages)
+@import uk.gov.hmrc.govukfrontend.views.html.components._
 
-<div id="inset-text--@id" class="indent">
-    @messages(messageKey)
-</div>
+@this(govukButton : GovukButton)
 
+@(
+messageKey: String = "site.continue",
+isStartButton:Boolean = false,
+)(implicit messages: Messages)
+
+@govukButton(Button(
+ isStartButton = isStartButton,
+ content = Text(messages(messageKey))
+))
