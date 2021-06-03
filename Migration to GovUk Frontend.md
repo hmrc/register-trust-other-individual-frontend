@@ -360,6 +360,23 @@ Remove:
         ))
     ),
 ```
+#### Add to list maximum state
+
+The maximum state for Add-to-pge needs to be updated in the markup as the panel-indent + p spacing is off using govuk-frontend.
+
+```diff
+-        <ul>
+-            <li class="panel-indent"><p>@messages("addOtherIndividual.maxedOut")</p></li>
+-            <li class="panel-indent"><p>@messages("addOtherIndividual.maxedOut.paragraph")</p></li>
+-        </ul>
++        <div class="govuk-inset-text">
++            <ul class="govuk-list">
++                <li>@messages("addOtherIndividual.maxedOut")</li>
++                <li>@messages("addOtherIndividual.maxedOut.paragraph")</li>
++            </ul>
++        </div>
+```
+
 
 #### Removing govuk-template
 
