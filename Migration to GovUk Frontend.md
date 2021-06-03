@@ -310,7 +310,19 @@ Change to:
 Ok(view(Seq(section), index, draftId))
 ``` 
 
+#### Unused configuration in application.conf
 
+Remove:
+
+`conf/application.conf`
+```diff
+- #Needed by play-ui to disable google analytics as we use gtm via HeadWithTrackConsent
+- google-analytics.token = "N/A"
+```
+`app/config/FrontendAppConfig.scala`
+```diff
+- val analyticsToken: String = configuration.get[String](s"google-analytics.token")
+```
 
 ### Tests
 
