@@ -19,6 +19,7 @@
 @import viewmodels.AddRow
 @import views.html.components.{ErrorSummary, SubmitButton, InputRadio}
 @import views.html.components.Heading
+@import views.html.components.AddToList
 @import views.ViewUtils.mapRadioOptionsToRadioItems
 
 @this(
@@ -27,7 +28,8 @@
     error_summary: ErrorSummary,
     submit_button: SubmitButton,
     headingI: Heading,
-    input_radio: InputRadio
+    input_radio: InputRadio,
+    addToList: AddToList
 )
 
 @(form: Form[_],
@@ -49,9 +51,9 @@
 
         @headingI(heading)
 
-        @components.data_list(inProgress, "inprogress", "otherIndividual")
+        @addToList(inProgress, "inprogress", "otherIndividual")
 
-        @components.data_list(complete, "complete", "otherIndividual")
+        @addToList(complete, "complete", "otherIndividual")
 
         @if(maxedOut) {
         <ul>
