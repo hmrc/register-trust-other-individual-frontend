@@ -36,14 +36,14 @@ We have
 @components.button_link(messages("site.continue"), NameController.onPageLoad(0, draftId).url)
 ```
 and changed to
-```scala
-    @formHelper(action = InfoController.onSubmit(draftId), 'autoComplete -> "off") {
+```diff
++    @formHelper(action = InfoController.onSubmit(draftId), 'autoComplete -> "off") {
         @submit_button(Some(messages("site.continue")))
     }
     
-++  POST       /:draftId/information-you-need               controllers.register.InfoController.onSubmit(draftId: String)
++  POST       /:draftId/information-you-need               controllers.register.InfoController.onSubmit(draftId: String)
 
-++  def onSubmit(draftId: String) = standardActionSets.identifiedUserWithData(draftId) {
++  def onSubmit(draftId: String) = standardActionSets.identifiedUserWithData(draftId) {
     implicit request =>
       Redirect(controllers.register.individual.routes.NameController.onPageLoad(0, draftId))
   }
@@ -70,28 +70,28 @@ We have a back link component imported into a view
 ```
 We can't just replace this component as it will render it in the `<main>` tag and won't be skipped by the skip link.
 So now has been moved into the `MainTemplate.scala.html` in a `@beforeContentBlock` after the language toggle
-```scala
-@this( ...
-hmrcLanguageSelectHelper: HmrcLanguageSelectHelper,
-govukBackLink: GovukBackLink
-)
+```diff
++ @this( ...
++ hmrcLanguageSelectHelper: HmrcLanguageSelectHelper,
++ govukBackLink: GovukBackLink
++ )
 
-@( ...
-showBackLink: Boolean = false
-)
++ @( ...
++ showBackLink: Boolean = false
++ )
 
-@beforeContentBlock = {
-   @hmrcLanguageSelectHelper()
-   @if(showBackLink) {
-      @govukBackLink(BackLink(
-         attributes = Map("id" -> "back-link"), classes="js-visible", href="javascript:history.back()", content = HtmlContent(messages("site.back"))
-      ))
-   }
-}
++ @beforeContentBlock = {
++   @hmrcLanguageSelectHelper()
++   @if(showBackLink) {
++      @govukBackLink(BackLink(
++         attributes = Map("id" -> "back-link"), classes="js-visible", href="javascript:history.back()", content = HtmlContent(messages("site.back"))
++      ))
++   }
++ }
 
-@govukLayout( ...
-    beforeContentBlock = Some(beforeContentBlock),
-)
++ @govukLayout( ...
++    beforeContentBlock = Some(beforeContentBlock),
++ )
 
 
 ```
