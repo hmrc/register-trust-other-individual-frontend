@@ -14,33 +14,34 @@
  * limitations under the License.
  *@
 
-@this(govukRadios: GovukRadios)
+@import uk.gov.hmrc.govukfrontend.views.html.components._
+
+@this(govukCheckboxes : GovukCheckboxes)
 
 @(
-    field: Field,
-    legend: String,
-    legendClass: Option[String] = None,
-    hint: Option[String] = None,
-    headingIsLegend: Boolean = false,
-    inputs: Seq[RadioItem],
-    inline: Boolean = true
+        field: Field,
+        legend: String,
+        legendClass: Option[String] = None,
+        hint: Option[String] = None,
+        trackGa: Boolean = false,
+        headingIsLegend: Boolean = false,
+        inputs: Seq[CheckboxItem]
 )(implicit messages: Messages)
 
-@govukRadios(Radios(
+@govukCheckboxes(Checkboxes(
     idPrefix = Some(field.id),
     name = field.name,
-    classes = if(inline) "govuk-radios--inline" else "",
     errorMessage = field.error match {
         case Some(e) => Some(ErrorMessage(content = Text(messages(e.message, e.args:_*))))
         case None => None
     },
-    hint = if(hint.isDefined) Some(Hint(content = Text(hint.get))) else None,
     fieldset = Some(Fieldset(
         legend = Some(Legend(
             content = Text(legend),
-            isPageHeading = headingIsLegend,
-            classes = legendClass.getOrElse("govuk-fieldset__legend--l")
+            classes = legendClass.getOrElse("govuk-fieldset__legend--l"),
+            isPageHeading = headingIsLegend
         ))
     )),
+    hint = if(hint.isDefined) Some(Hint(content = Text(hint.get))) else None,
     items = inputs
 ))

@@ -54,7 +54,7 @@ object ViewUtils {
       a => RadioItem(
         id = Some(a.id),
         value = Some(a.value),
-        checked = field.value.getOrElse("") == a.value,
+        checked = field.value.contains(a.value),
         content = Text(messages(a.messageKey)),
         attributes = if(trackGa) Map[String, String]("data-journey-click" -> s"trusts-frontend:click:${a.id}") else Map.empty
       )
