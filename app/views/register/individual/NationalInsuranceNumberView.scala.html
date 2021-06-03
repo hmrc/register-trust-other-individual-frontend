@@ -18,25 +18,25 @@
 @import views.html.components.{ErrorSummary, InputText, SubmitButton}
 
 @this(
-        main_template: MainTemplate,
+        mainTemplate: MainTemplate,
         formHelper: FormWithCSRF,
-        error_summary: ErrorSummary,
-        input_nino: InputText,
-        submit_button: SubmitButton
+        errorSummary: ErrorSummary,
+        inputText: InputText,
+        submitButton: SubmitButton
 )
 
 @(form: Form[_], name: String, index: Int, draftId: String)(implicit request: Request[_], messages: Messages)
 
-@main_template(
+@mainTemplate(
     title = s"${errorPrefix(form)}${messages("otherIndividual.nationalInsuranceNumber.title")}",
     showBackLink = true
     ) {
 
     @formHelper(action = NationalInsuranceNumberController.onSubmit(index, draftId), 'autoComplete -> "off") {
 
-        @error_summary(form.errors)
+        @errorSummary(form.errors)
 
-        @input_nino(
+        @inputText(
             field = form("value"),
             label = messages("otherIndividual.nationalInsuranceNumber.heading", name),
             labelClass = Some("govuk-label--l"),
@@ -46,7 +46,7 @@
             readerHint = Some(messages("otherIndividual.nationalInsuranceNumber.hint.reader"))
         )
 
-        @submit_button()
+        @submitButton()
 
     }
 }

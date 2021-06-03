@@ -15,20 +15,20 @@
  *@
 
 @import controllers.register.routes._
-@import views.html.components.SubmitButton
-@import views.html.components.HeadingWithCaption
+@import views.html.components.{HeadingWithCaption, BulletList, SubmitButton}
 
 @this(
-    main_template: MainTemplate,
+    mainTemplate: MainTemplate,
     formHelper: FormWithCSRF,
-    submit_button: SubmitButton,
+    submitButton: SubmitButton,
+    bulletList: BulletList,
     headingWithCaption: HeadingWithCaption
 )
 
 
 @(draftId: String, isTaxable: Boolean)(implicit request: Request[_], messages: Messages)
 
-@main_template(
+@mainTemplate(
     title = messages("otherIndividualsInfo.5mld.title"),
     showBackLink = true
 ) {
@@ -38,7 +38,7 @@
 
     <p class="govuk-body">@messages("otherIndividualsInfo.5mld.paragraph1")</p>
 
-    @components.bullet_list(
+    @bulletList(
         "otherIndividualsInfo.5mld",
         List(
             "bulletpoint1",
@@ -51,7 +51,7 @@
 
         <p class="govuk-body">@messages("otherIndividualsInfo.5mld.paragraph2")</p>
 
-        @components.bullet_list(
+        @bulletList(
             "otherIndividualsInfo.5mld",
             List(
                 "bulletpoint4",
@@ -66,7 +66,7 @@
 
     <p class="govuk-body">@messages("otherIndividualsInfo.5mld.paragraph4")</p>
 
-    @components.bullet_list(
+    @bulletList(
         "otherIndividualsInfo.5mld",
         List(
             "bulletpoint8",
@@ -88,6 +88,6 @@
     </details>
 
     @formHelper(action = InfoController.onSubmit(draftId), 'autoComplete -> "off") {
-        @submit_button(Some(messages("site.continue")))
+        @submitButton(Some(messages("site.continue")))
     }
 }

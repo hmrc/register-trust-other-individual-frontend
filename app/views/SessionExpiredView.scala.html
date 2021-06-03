@@ -19,16 +19,16 @@
 @import views.html.components.Heading
 
 @this(
-    main_template: MainTemplate,
+    mainTemplate: MainTemplate,
     appConfig: FrontendAppConfig,
-    submit_button: SubmitButton,
+    submitButton: SubmitButton,
     formHelper: FormWithCSRF,
     heading: Heading
 )
 
 @()(implicit request: Request[_], messages: Messages)
 
-@main_template(
+@mainTemplate(
     title = messages("session_expired.title"),
     canSignOut = false,
     timeoutEnabled = false
@@ -40,6 +40,6 @@
     <p class="govuk-body">@messages("session_expired.guidance.2")</p>
 
     @formHelper(action = SessionExpiredController.onSubmit, 'autoComplete -> "off") {
-        @submit_button(Some(messages("site.sign_in")))
+        @submitButton(Some(messages("site.sign_in")))
     }
 }

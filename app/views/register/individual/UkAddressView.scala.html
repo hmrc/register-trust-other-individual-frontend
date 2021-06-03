@@ -18,27 +18,27 @@
 @import views.html.components.{UkAddress, SubmitButton, ErrorSummary}
 
 @this(
-        main_template: MainTemplate,
+        mainTemplate: MainTemplate,
         formHelper: FormWithCSRF,
-        error_summary: ErrorSummary,
-        uk_address: UkAddress,
-        submit_button: SubmitButton
+        errorSummary: ErrorSummary,
+        ukAddress: UkAddress,
+        submitButton: SubmitButton
 )
 
 @(form: Form[_], name: String, index : Int, draftId: String)(implicit request: Request[_], messages: Messages)
 
-@main_template(
+@mainTemplate(
   title = s"${errorPrefix(form)}${messages("site.address.uk.title")}",
   showBackLink = true
 ) {
 
   @formHelper(action = UkAddressController.onSubmit(index, draftId), 'autoComplete -> "off") {
 
-    @error_summary(form.errors)
+    @errorSummary(form.errors)
 
-    @uk_address(form, messages("site.address.uk.heading", name))
+    @ukAddress(form, messages("site.address.uk.heading", name))
 
-    @submit_button()
+    @submitButton()
 
   }
 }

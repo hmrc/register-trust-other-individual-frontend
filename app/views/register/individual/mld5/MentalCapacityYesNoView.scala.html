@@ -19,11 +19,11 @@
 @import views.html.components.Heading
 
 @this(
-    main_template: MainTemplate,
+    mainTemplate: MainTemplate,
     formHelper: FormWithCSRF,
-    input_yes_no: InputYesNo,
+    inputYesNo: InputYesNo,
     errorSummary: ErrorSummary,
-    submit_button: SubmitButton,
+    submitButton: SubmitButton,
     heading: Heading
 )
 
@@ -42,7 +42,7 @@
 </ul>
 }
 
-@main_template(
+@mainTemplate(
     title = s"${errorPrefix(form)}${messages("otherIndividual.5mld.mentalCapacityYesNo.title")}",
     showBackLink = true
 ) {
@@ -55,14 +55,14 @@
 
         @content
 
-        @input_yes_no(
+        @inputYesNo(
             field = form("value"),
             label = messages("otherIndividual.5mld.mentalCapacityYesNo.heading", name),
             legendAsHeading = false,
             legendClass = Some("govuk-visually-hidden")
         )
 
-        @submit_button()
+        @submitButton()
 
     }
 }

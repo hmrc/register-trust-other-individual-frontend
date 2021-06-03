@@ -14,18 +14,15 @@
  * limitations under the License.
  *@
 
-@import viewmodels.Link
+@this()
 
 @(
-hint: Option[String] = None,
-readerHint: Option[String] = None,
-link: Option[Link] = None
+ prefix : String,
+ keys : Seq[String]
 )(implicit messages: Messages)
 
-@if(hint.nonEmpty) {
-  <span id="form-hint" class="form-hint form-field" @if(readerHint.nonEmpty){aria-label="@readerHint"}>@hint
-  @link.map { l =>
-    <a id="link" href="@l.url" target="_blank">@l.text</a>
-  }
-  </span>
-}
+<ul class="govuk-list govuk-list--bullet">
+ @keys.map { key =>
+ <li>@messages(s"$prefix.$key")</li>
+ }
+</ul>

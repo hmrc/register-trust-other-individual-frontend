@@ -19,7 +19,7 @@
 
 @this(
     appConfig: FrontendAppConfig,
-    main_template: MainTemplate,
+    mainTemplate: MainTemplate,
     headingI: Heading
 )
 
@@ -33,4 +33,4 @@
   <p>@message</p>
 }
 
-@main_template(title = pageTitle, contentHeader = Some(contentHeader))(mainContent = mainContent)
+@mainTemplate(title = pageTitle, contentHeader = Some(contentHeader))(mainContent = mainContent)

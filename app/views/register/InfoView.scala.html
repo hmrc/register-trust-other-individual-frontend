@@ -15,20 +15,20 @@
  *@
 
 @import controllers.register.routes._
-@import views.html.components.SubmitButton
-@import views.html.components.HeadingWithCaption
+@import views.html.components.{HeadingWithCaption, BulletList, SubmitButton}
 
 @this(
-    main_template: MainTemplate,
+    mainTemplate: MainTemplate,
     headingWithCaption: HeadingWithCaption,
+    bulletList: BulletList,
     formHelper: FormWithCSRF,
-    submit_button: SubmitButton
+    submitButton: SubmitButton
 )
 
 
 @(draftId: String)(implicit request: Request[_], messages: Messages)
 
-@main_template(
+@mainTemplate(
     title = messages("otherIndividualsInfo.title"),
     showBackLink = true
     ) {
@@ -38,7 +38,7 @@
 
     <p class="govuk-body">@messages("otherIndividualsInfo.paragraph1")</p>
 
-    @components.bullet_list("otherIndividualsInfo",
+    @bulletList("otherIndividualsInfo",
         List(
             "bulletpoint1",
             "bulletpoint2",
@@ -47,7 +47,7 @@
     )
 
     @formHelper(action = InfoController.onSubmit(draftId), 'autoComplete -> "off") {
-        @submit_button(Some(messages("site.continue")))
+        @submitButton(Some(messages("site.continue")))
     }
 
 }

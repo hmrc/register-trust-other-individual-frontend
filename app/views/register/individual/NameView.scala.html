@@ -19,24 +19,24 @@
 @import views.html.components.Heading
 
 @this(
-    main_template: MainTemplate,
+    mainTemplate: MainTemplate,
     formHelper: FormWithCSRF,
-    input_text: InputText,
-    error_summary: ErrorSummary,
-    submit_button: SubmitButton,
+    inputText: InputText,
+    errorSummary: ErrorSummary,
+    submitButton: SubmitButton,
     heading: Heading
 )
 
 @(form: Form[_], index: Int, draftId: String)(implicit request: Request[_], messages: Messages)
 
-@main_template(
+@mainTemplate(
     title = s"${errorPrefix(form)}${messages("otherIndividual.name.title")}",
     showBackLink = true
     ) {
 
     @formHelper(action = NameController.onSubmit(index, draftId), 'autoComplete -> "on") {
 
-        @error_summary(form.errors)
+        @errorSummary(form.errors)
 
         <fieldset class="govuk-fieldset">
 
@@ -44,7 +44,7 @@
                 @heading("otherIndividual.name.heading")
             </legend>
 
-            @input_text(
+            @inputText(
                 field = form("firstName"),
                 label = messages("otherIndividual.name.firstName"),
                 labelClass = Some("govuk-label--s"),
@@ -52,7 +52,7 @@
                 autocomplete = Some("given-name")
             )
 
-            @input_text(
+            @inputText(
                 field = form("middleName"),
                 label = messages("otherIndividual.name.middleName"),
                 labelClass = Some("govuk-label--s"),
@@ -60,7 +60,7 @@
                 autocomplete = Some("additional-name")
             )
 
-            @input_text(
+            @inputText(
                 field = form("lastName"),
                 label = messages("otherIndividual.name.lastName"),
                 labelClass = Some("govuk-label--s"),
@@ -69,7 +69,7 @@
             )
         </fieldset>
 
-        @submit_button()
+        @submitButton()
 
     }
 }

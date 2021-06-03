@@ -23,12 +23,12 @@
 @import views.ViewUtils.mapRadioOptionsToRadioItems
 
 @this(
-    main_template: MainTemplate,
+    mainTemplate: MainTemplate,
     formHelper: FormWithCSRF,
-    error_summary: ErrorSummary,
-    submit_button: SubmitButton,
+    errorSummary: ErrorSummary,
+    submitButton: SubmitButton,
     headingI: Heading,
-    input_radio: InputRadio,
+    inputRadio: InputRadio,
     addToList: AddToList
 )
 
@@ -40,14 +40,14 @@
     maxedOut: Boolean
 )(implicit request: Request[_], messages: Messages)
 
-@main_template(
+@mainTemplate(
     title = s"${errorPrefix(form)}$heading",
     showBackLink = true
     ) {
 
         @formHelper(action = if(maxedOut) {AddOtherIndividualController.submitComplete(draftId)} else {AddOtherIndividualController.submitAnother(draftId)}, 'autoComplete -> "off") {
 
-        @error_summary(form.errors)
+        @errorSummary(form.errors)
 
         @headingI(heading)
 
@@ -61,7 +61,7 @@
             <li class="panel-indent"><p>@messages("addOtherIndividual.maxedOut.paragraph")</p></li>
         </ul>
         } else {
-            @input_radio(
+            @inputRadio(
                 field = form("value"),
                 legend = messages("addOtherIndividual.additional-content"),
                 headingIsLegend = false,
@@ -70,6 +70,6 @@
             )
         }
 
-        @submit_button()
+        @submitButton()
     }
 }

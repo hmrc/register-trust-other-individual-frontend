@@ -18,32 +18,32 @@
 @import views.html.components.{ErrorSummary, InputDate, SubmitButton}
 
 @this(
-        main_template: MainTemplate,
+        mainTemplate: MainTemplate,
         formHelper: FormWithCSRF,
-        error_summary: ErrorSummary,
-        input_date: InputDate,
-        submit_button: SubmitButton
+        errorSummary: ErrorSummary,
+        inputDate: InputDate,
+        submitButton: SubmitButton
 )
 
 @(form: Form[_], name: String, index: Int, draftId: String)(implicit request: Request[_], messages: Messages)
 
-@main_template(
+@mainTemplate(
     title = s"${errorPrefix(form)}${messages("otherIndividual.dateOfBirth.title")}",
     showBackLink = true
 ) {
 
     @formHelper(action = DateOfBirthController.onSubmit(index, draftId), 'autoComplete -> "off") {
 
-        @error_summary(form.errors)
+        @errorSummary(form.errors)
 
-        @input_date(
+        @inputDate(
             field = form("value"),
             legend = messages("otherIndividual.dateOfBirth.heading", name),
             legendAsHeading = true,
             hint = Some(messages(s"otherIndividual.dateOfBirth.hint"))
         )
 
-        @submit_button()
+        @submitButton()
 
     }
 }
