@@ -361,6 +361,20 @@ Remove:
     ),
 ```
 
+#### Removing govuk-template
+
+The old govuk-template https://github.com/hmrc/govuk-template is no longer required as a GovUkLayout is now provided by play-frontend-govuk.
+
+`conf/prod.routes`
+```diff
+- ->                /template                  template.Routes
+```
+
+`project/AppDependencies/scala`
+```diff
+-    "uk.gov.hmrc"       %% "govuk-template"                 % "5.63.0-play-27"
+```
+
 ### Tests
 
 #### Unit tests
