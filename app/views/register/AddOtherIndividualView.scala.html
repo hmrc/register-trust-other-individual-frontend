@@ -17,15 +17,17 @@
 @import controllers.register.routes._
 @import models.register.pages.AddOtherIndividual
 @import viewmodels.AddRow
-@import views.html.components.{ErrorSummary, SubmitButton}
+@import views.html.components.{ErrorSummary, SubmitButton, InputRadio}
 @import views.html.components.Heading
+@import views.ViewUtils.mapRadioOptionsToRadioItems
 
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
     error_summary: ErrorSummary,
     submit_button: SubmitButton,
-    headingI: Heading
+    headingI: Heading,
+    input_radio: InputRadio
 )
 
 @(form: Form[_],
@@ -57,12 +59,12 @@
             <li class="panel-indent"><p>@messages("addOtherIndividual.maxedOut.paragraph")</p></li>
         </ul>
         } else {
-            @components.input_radio(
+            @input_radio(
                 field = form("value"),
                 legend = messages("addOtherIndividual.additional-content"),
-                legendClass = Some("heading-medium"),
-                inputs = AddOtherIndividual.options,
-                legendAsH2Heading = true
+                headingIsLegend = false,
+                inputs = mapRadioOptionsToRadioItems(form("value"), false, AddOtherIndividual.options),
+                legendClass = Some("govuk-fieldset__legend--m")
             )
         }
 

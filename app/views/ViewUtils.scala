@@ -16,8 +16,10 @@
 
 package views
 
-import play.api.data.{Form, FormError}
+import play.api.data.{Field, Form, FormError}
 import play.api.i18n.Messages
+import uk.gov.hmrc.govukfrontend.views.html.components.{RadioItem, Text}
+import viewmodels.RadioOption
 
 object ViewUtils {
 
@@ -45,5 +47,17 @@ object ViewUtils {
     }
     s"${error.key}$suffix"
   }
+
+  def mapRadioOptionsToRadioItems(field: Field, trackGa: Boolean,
+                                  inputs: Seq[RadioOption])(implicit messages: Messages): Seq[RadioItem] =
+    inputs.map(
+      a => RadioItem(
+        id = Some(a.id),
+        value = Some(a.value),
+        checked = field.value.getOrElse("") == a.value,
+        content = Text(messages(a.messageKey)),
+        attributes = if(trackGa) Map[String, String]("data-journey-click" -> s"trusts-frontend:click:${a.id}") else Map.empty
+      )
+    )
 
 }
