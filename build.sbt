@@ -52,6 +52,7 @@ lazy val root = (project in file("."))
           "javascripts/registertrustotherindividualfrontend.js",
           "javascripts/autocomplete.js",
           "javascripts/iebacklink.js",
+          "javascripts/print.js",
           "javascripts/libraries/location-autocomplete.min.js"
         ))
     ),
