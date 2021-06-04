@@ -34,7 +34,7 @@ $(document).ready(function() {
             var fe = document.activeElement;
             // store scroll position
             var scrollPos = window.pageYOffset;
-            $('details.print--open').each(function(){
+            $('details').each(function(){
                 $(this).find('summary').trigger('click');
             });
             // blur focus off current element in case original cannot take focus back
@@ -44,7 +44,7 @@ $(document).ready(function() {
             // return to scroll pos
             window.scrollTo(0,scrollPos);
         } else {
-            $('details.print--open').removeAttr("open");
+            $('details').removeAttr("open");
         }
     }
 
