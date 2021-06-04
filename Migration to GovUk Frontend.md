@@ -170,11 +170,11 @@ changed to
     govUkErrorSummary: GovukErrorSummary,
 )
 
-@(errors: Seq[FormError])(implicit messages: Messages)
+@(errors: Seq[FormError], radioOptions: Seq[RadioOption] = Nil)(implicit messages: Messages)
 
 @if(errors.nonEmpty) {
     @govUkErrorSummary(ErrorSummary(
-        errorList = errors.map(err => err.copy(args = formatArgs(err.args))).asTextErrorLinks,
+        errorList = errors.map(err => err.copy(key = errorHref(err, radioOptions), args = formatArgs(err.args))).asTextErrorLinks,
         title = Text(messages("error.summary.title"))
     ))
 }
@@ -189,6 +189,49 @@ and in view changed to
 
 @error_summary(form.errors)
 ```
+
+
+Changes to ViewUitls:
+
+Updated errorHref:
+
+```scala
+  def errorHref(error: FormError, radioOptions: Seq[RadioOption] = Nil): String = {
+    error.args match {
+      case x if x.contains("day") || x.contains("month") || x.contains("year") =>
+        s"${error.key}.${error.args.head}"
+      case _ if error.message.toLowerCase.contains("yesno") =>
+        s"${error.key}-yes"
+      case _ if radioOptions.size != 0 =>
+        radioOptions.head.id
+      case _ =>
+        val isSingleDateField = error.message.toLowerCase.contains("date") && !error.message.toLowerCase.contains("yesno")
+        if (error.key.toLowerCase.contains("date") || isSingleDateField) {
+          s"${error.key}.day"
+        } else {
+          s"${error.key}"
+        }
+    }
+  }
+```
+Added mapRadioOptionsToRadioItems:
+
+```scala
+  def mapRadioOptionsToRadioItems(field: Field, trackGa: Boolean,
+                                  inputs: Seq[RadioOption])(implicit messages: Messages): Seq[RadioItem] =
+    inputs.map(
+      a => {
+        RadioItem(
+          id = Some(a.id),
+          value = Some(a.value),
+          checked = field.value.contains(a.value),
+          content = Text(messages(a.messageKey)),
+          attributes = if (trackGa) Map[String, String]("data-journey-click" -> s"trusts-frontend:click:${a.id}") else Map.empty
+        )
+      }
+    )
+```
+
 
 #### Classes for components
 
@@ -377,6 +420,46 @@ The maximum state for Add-to-pge needs to be updated in the markup as the panel-
 +        </div>
 ```
 
+#### Add to list radio options
+
+Add app/views/components/InputRadio.scala.html
+
+Changes to 'Add to' view:
+
+```diff
+- @error_summary(form.errors)
++ @errorSummary(form.errors, AddOtherIndividual.options)
+
+-  @components.input_radio(
+-     field = form("value"),
+-     legend = messages("addOtherIndividual.additional-content"),
+-     legendClass = Some("heading-medium"),
+-     inputs = AddOtherIndividual.options,
+-     legendAsH2Heading = true
+-  )
++  @input_radio(
++     field = form("value"),
++     legend = messages("addOtherIndividual.additional-content"),
++     headingIsLegend = false,
++     inputs = mapRadioOptionsToRadioItems(form("value"), false, AddOtherIndividual.options),
++     legendClass = Some("govuk-fieldset__legend--m")
++   )
+```
+Note: See update to ViewUtils above to add mapRadioOptionsToRadioItems method.
+
+Changes to ViewSpecBase.assertContainsRadioButton:
+
+```diff
+-    if (isChecked) {
+-      assert(radio.attr("checked") == "checked", s"\n\nElement $id is not checked")
+-    } else {
+-      assert(!radio.hasAttr("checked") && radio.attr("checked") != "checked", s"\n\nElement $id is checked")
+-    }
++    isChecked match {
++      case true => assert(radio.hasAttr("checked"), s"\n\nElement $id is not checked")
++      case _ => assert(!radio.hasAttr("checked"), s"\n\nElement $id is checked")
++    }
+```
 
 #### Removing govuk-template
 
