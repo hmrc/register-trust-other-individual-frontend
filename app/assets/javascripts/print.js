@@ -1,13 +1,5 @@
 $(document).ready(function() {
 
-    function supportsPrint() {
-        return (typeof window.print === 'function');
-    }
-
-    if(supportsPrint()) {
-        window.print();
-    }
-
     function beforePrintCall(){
         if($('.no-details').length > 0){
             // store current focussed element to return focus to later
