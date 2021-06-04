@@ -36,8 +36,6 @@ class FrontendAppConfig @Inject() (val configuration: Configuration,
 
   val repositoryKey: String = "otherIndividuals"
 
-  val analyticsToken: String = configuration.get[String](s"google-analytics.token")
-
   val betaFeedbackUrl = s"${contactFrontendConfig.baseUrl}/contact/beta-feedback?service=${contactFrontendConfig.serviceId}"
   val betaFeedbackUnauthenticatedUrl = s"${contactFrontendConfig.baseUrl}/contact/beta-feedback-unauthenticated?service=${contactFrontendConfig.serviceId}"
 

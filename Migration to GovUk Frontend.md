@@ -36,14 +36,14 @@ We have
 @components.button_link(messages("site.continue"), NameController.onPageLoad(0, draftId).url)
 ```
 and changed to
-```scala
-    @formHelper(action = InfoController.onSubmit(draftId), 'autoComplete -> "off") {
+```diff
++    @formHelper(action = InfoController.onSubmit(draftId), 'autoComplete -> "off") {
         @submit_button(Some(messages("site.continue")))
     }
     
-++  POST       /:draftId/information-you-need               controllers.register.InfoController.onSubmit(draftId: String)
++  POST       /:draftId/information-you-need               controllers.register.InfoController.onSubmit(draftId: String)
 
-++  def onSubmit(draftId: String) = standardActionSets.identifiedUserWithData(draftId) {
++  def onSubmit(draftId: String) = standardActionSets.identifiedUserWithData(draftId) {
     implicit request =>
       Redirect(controllers.register.individual.routes.NameController.onPageLoad(0, draftId))
   }
@@ -70,28 +70,28 @@ We have a back link component imported into a view
 ```
 We can't just replace this component as it will render it in the `<main>` tag and won't be skipped by the skip link.
 So now has been moved into the `MainTemplate.scala.html` in a `@beforeContentBlock` after the language toggle
-```scala
-@this( ...
-hmrcLanguageSelectHelper: HmrcLanguageSelectHelper,
-govukBackLink: GovukBackLink
-)
+```diff
++ @this( ...
++ hmrcLanguageSelectHelper: HmrcLanguageSelectHelper,
++ govukBackLink: GovukBackLink
++ )
 
-@( ...
-showBackLink: Boolean = false
-)
++ @( ...
++ showBackLink: Boolean = false
++ )
 
-@beforeContentBlock = {
-   @hmrcLanguageSelectHelper()
-   @if(showBackLink) {
-      @govukBackLink(BackLink(
-         attributes = Map("id" -> "back-link"), classes="js-visible", href="javascript:history.back()", content = HtmlContent(messages("site.back"))
-      ))
-   }
-}
++ @beforeContentBlock = {
++   @hmrcLanguageSelectHelper()
++   @if(showBackLink) {
++      @govukBackLink(BackLink(
++         attributes = Map("id" -> "back-link"), classes="js-visible", href="javascript:history.back()", content = HtmlContent(messages("site.back"))
++      ))
++   }
++ }
 
-@govukLayout( ...
-    beforeContentBlock = Some(beforeContentBlock),
-)
++ @govukLayout( ...
++    beforeContentBlock = Some(beforeContentBlock),
++ )
 
 
 ```
@@ -107,20 +107,21 @@ and in the view change to
 #### Visibility of the back link
 
 A CSS rule has been added 
-```css
-// ----------------
-// Hide the back link when body does not have .js-enabled
-//
-// ----------------
-
-body:not(.js-enabled) {
-    .govuk-back-link {
-        display: none;
-        visibility: hidden;
-        width: 0;
-        height: 0;
-    }
-}
+`app/assets/stylesheets/application.scss`
+```diff
++ // ----------------
++ // Hide the back link when body does not have .js-enabled
++ //
++ // ----------------
++ 
++ body:not(.js-enabled) {
++     .govuk-back-link {
++         display: none;
++         visibility: hidden;
++         width: 0;
++         height: 0;
++     }
++ }
 ```
 
 which hides the back link if the body does not have a css class .js-enabled (set by govuk-frontend).
@@ -222,19 +223,21 @@ https://design-system.service.gov.uk/styles/typography/
 
 Referring to the documentation at https://github.com/alphagov/accessible-autocomplete.
 
-I took the latest CSS styling from https://github.com/alphagov/accessible-autocomplete/blob/master/dist/accessible-autocomplete.min.css and included them in the project at `app/assets/stylesheets/location-autocomplete.scss`. Imported the styles into application.scss:
-```css
-@import location-autocomplete.mind
+I took the latest CSS styling from https://github.com/alphagov/accessible-autocomplete/blob/master/dist/accessible-autocomplete.min.css and included them in the project at `app/assets/stylesheets/location-autocomplete.scss`. 
+
+Imported the styles into `application.scss`:
+```diff
++ @import location-autocomplete.mind
 ```
 
 Enabled the sbt-sassify plugin in `build.sbt`:
-```scala
-.enablePlugins(PlayScala, SbtAutoBuildPlugin, SbtDistributablesPlugin, SbtArtifactory, SbtSassify)
+```diff
++ .enablePlugins(PlayScala, SbtAutoBuildPlugin, SbtDistributablesPlugin, SbtArtifactory, SbtSassify)
 ```
 
 Allowed `code.query.com` through the content security policy:
-```
-play.filters.headers.contentSecurityPolicy = "default-src 'self' 'unsafe-inline' localhost:8841 localhost:9032 localhost:9250 localhost:12345 www.google-analytics.com www.googletagmanager.com tagmanager.google.com 'self' data: ssl.gstatic.com www.gstatic.com fonts.gstatic.com fonts.googleapis.com code.jquery.com;"
+```diff
++ play.filters.headers.contentSecurityPolicy = "default-src 'self' 'unsafe-inline' localhost:8841 localhost:9032 localhost:9250 localhost:12345 www.google-analytics.com www.googletagmanager.com tagmanager.google.com 'self' data: ssl.gstatic.com www.gstatic.com fonts.gstatic.com fonts.googleapis.com code.jquery.com;"
 ```
 
 This **will** need updated in `app-config-base`.
@@ -251,17 +254,17 @@ The main changes are:
 - Include `@hmrcReportTechnicalIssueHelper()` in `MainTemplate.scala.html`
 - Remove old config for contact-frontend from application.conf and replace with `contact-frontend.serviceId = "trusts"`
 - Remove the following from `FrontendAppConfig.scala`:
-```scala
-private val contactHost = configuration.get[String]("contact-frontend.host")
-private val contactFormServiceIdentifier = "trusts"
+```diff
+- private val contactHost = configuration.get[String]("contact-frontend.host")
+- private val contactFormServiceIdentifier = "trusts"
 ```
 
 - Add `contactFrontendConfig: ContactFrontendConfig` as a injected dependency to `FrontendAppConfig.scala`.
 - Remove values `reportAProblemPartialUrl` and `reportAProblemNonJSUrl` as play-frontend-govuk not takes care of the configuration
 - Replace feedback urls with:
-```scala
-  val betaFeedbackUrl = s"${contactFrontendConfig.baseUrl}/contact/beta-feedback?service=${contactFrontendConfig.serviceId}"
-  val betaFeedbackUnauthenticatedUrl = s"${contactFrontendConfig.baseUrl}/contact/beta-feedback-unauthenticated?service=${contactFrontendConfig.serviceId}"
+```diff
++ val betaFeedbackUrl = s"${contactFrontendConfig.baseUrl}/contact/beta-feedback?service=${contactFrontendConfig.serviceId}"
++  val betaFeedbackUnauthenticatedUrl = s"${contactFrontendConfig.baseUrl}/contact/beta-feedback-unauthenticated?service=${contactFrontendConfig.serviceId}"
 ```
 
 #### Check Your Answers
@@ -270,26 +273,25 @@ Add app/utils/SectionFormatter.scala
 
 Add GovukSummaryList component to Check Your Answers view:
 
-```scala
+```diff
  @this(
-     main_template: MainTemplate,
-     formHelper: FormWithCSRF,
-     submit_button: SubmitButton
- )
-
-@(answerSection: AnswerSection, index: Int, draftId: String)(implicit request: Request[_], messages: Messages)
-
-@components.answer_section(answerSection)
-
+      main_template: MainTemplate,
+      formHelper: FormWithCSRF,
+      submit_button: SubmitButton
+  )
+ 
+ @(answerSection: AnswerSection, index: Int, draftId: String)(implicit request: Request[_], messages: Messages)
+ 
+ @components.answer_section(answerSection)
 ``` 
 
 Change to:
 
-```scala
+```diff
  @this(
      main_template: MainTemplate,
      formHelper: FormWithCSRF,
-     govukSummaryList: GovukSummaryList,
++     govukSummaryList: GovukSummaryList,
      submit_button: SubmitButton
  )
  
@@ -306,11 +308,89 @@ Ok(view(section, index, draftId))
 ``` 
 Change to:
 
-```scala
-Ok(view(Seq(section), index, draftId))
+```diff
++ Ok(view(Seq(section), index, draftId))
 ``` 
 
+#### Unused configuration in application.conf
 
+Remove:
+
+`conf/application.conf`
+```diff
+- #Needed by play-ui to disable google analytics as we use gtm via HeadWithTrackConsent
+- google-analytics.token = "N/A"
+```
+`app/config/FrontendAppConfig.scala`
+```diff
+- val analyticsToken: String = configuration.get[String](s"google-analytics.token")
+```
+
+#### Back link support in Internal Explorer (experimental) 
+`app/assets/javascripts/iebacklink.js`
+```diff
++ $(document).ready(function() {
++     // =====================================================
++     // Back link mimics browser back functionality
++     // =====================================================
++     // store referrer value to cater for IE - https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/10474810/  */
++     var docReferrer = document.referrer
++     // prevent resubmit warning
++     if (window.history && window.history.replaceState && typeof window.history.replaceState === 'function') {
++         window.history.replaceState(null, null, window.location.href);
++     }
++     $('#back-link').on('click', function(e){
++         e.preventDefault();
++         window.history.back();
++     });
++ });
+
+```
+
+`build.sbt`
+```diff
+    // concatenate js
+    Concat.groups := Seq(
+      "javascripts/registertrustotherindividualfrontend-app.js" ->
+        group(Seq(
+          "javascripts/registertrustotherindividualfrontend.js",
+          "javascripts/autocomplete.js",
++         "javascripts/iebacklink.js",
+          "javascripts/libraries/location-autocomplete.min.js"
+        ))
+    ),
+```
+#### Add to list maximum state
+
+The maximum state for Add-to-pge needs to be updated in the markup as the panel-indent + p spacing is off using govuk-frontend.
+
+```diff
+-        <ul>
+-            <li class="panel-indent"><p>@messages("addOtherIndividual.maxedOut")</p></li>
+-            <li class="panel-indent"><p>@messages("addOtherIndividual.maxedOut.paragraph")</p></li>
+-        </ul>
++        <div class="govuk-inset-text">
++            <ul class="govuk-list">
++                <li>@messages("addOtherIndividual.maxedOut")</li>
++                <li>@messages("addOtherIndividual.maxedOut.paragraph")</li>
++            </ul>
++        </div>
+```
+
+
+#### Removing govuk-template
+
+The old govuk-template https://github.com/hmrc/govuk-template is no longer required as a GovUkLayout is now provided by play-frontend-govuk.
+
+`conf/prod.routes`
+```diff
+- ->                /template                  template.Routes
+```
+
+`project/AppDependencies/scala`
+```diff
+-    "uk.gov.hmrc"       %% "govuk-template"                 % "5.63.0-play-27"
+```
 
 ### Tests
 

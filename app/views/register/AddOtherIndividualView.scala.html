@@ -56,10 +56,12 @@
         @addToList(complete, "complete", "otherIndividual")
 
         @if(maxedOut) {
-        <ul>
-            <li class="panel-indent"><p>@messages("addOtherIndividual.maxedOut")</p></li>
-            <li class="panel-indent"><p>@messages("addOtherIndividual.maxedOut.paragraph")</p></li>
-        </ul>
+        <div class="govuk-inset-text">
+            <ul class="govuk-list">
+                <li>@messages("addOtherIndividual.maxedOut")</li>
+                <li>@messages("addOtherIndividual.maxedOut.paragraph")</li>
+            </ul>
+        </div>
         } else {
             @inputRadio(
                 field = form("value"),

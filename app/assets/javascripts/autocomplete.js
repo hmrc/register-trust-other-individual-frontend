@@ -45,11 +45,6 @@ $(document).ready(function() {
     // Fix CSS styling of errors (red outline) around the country input dropdown
     //======================================================
 
-    // Override autocomplete styles to apply correct error component design pattern
-//    if ($(".autocomplete-wrapper .govuk-form-group--error").length) {
-//        $(".autocomplete__wrapper input").addClass('govuk-select-error');
-//    }
-
     // Set the border colour to black with orange border when clicking into the input field
     $('.autocomplete__wrapper input').focus(function(e){
         if ($(".govuk-form-group--error .autocomplete__wrapper").length > 0) $(".autocomplete__wrapper input").css({"border" : "2px solid #0b0c0c", "-webkit-box-shadow" : "none", "box-shadow" : "none"});
