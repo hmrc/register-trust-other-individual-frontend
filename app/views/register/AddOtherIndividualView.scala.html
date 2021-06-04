@@ -47,7 +47,7 @@
 
         @formHelper(action = if(maxedOut) {AddOtherIndividualController.submitComplete(draftId)} else {AddOtherIndividualController.submitAnother(draftId)}, 'autoComplete -> "off") {
 
-        @errorSummary(form.errors)
+        @errorSummary(form.errors, AddOtherIndividual.options)
 
         @headingI(heading)
 
