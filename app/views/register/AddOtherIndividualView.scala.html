@@ -17,10 +17,19 @@
 @import controllers.register.routes._
 @import models.register.pages.AddOtherIndividual
 @import viewmodels.AddRow
+@import views.html.components.{ErrorSummary, SubmitButton, InputRadio}
+@import views.html.components.Heading
+@import views.html.components.AddToList
+@import views.ViewUtils.mapRadioOptionsToRadioItems
 
 @this(
-    main_template: MainTemplate,
-    formHelper: FormWithCSRF
+    mainTemplate: MainTemplate,
+    formHelper: FormWithCSRF,
+    errorSummary: ErrorSummary,
+    submitButton: SubmitButton,
+    headingI: Heading,
+    inputRadio: InputRadio,
+    addToList: AddToList
 )
 
 @(form: Form[_],
@@ -31,37 +40,38 @@
     maxedOut: Boolean
 )(implicit request: Request[_], messages: Messages)
 
-@main_template(
-    title = s"${errorPrefix(form)}$heading"
+@mainTemplate(
+    title = s"${errorPrefix(form)}$heading",
+    showBackLink = true
     ) {
 
         @formHelper(action = if(maxedOut) {AddOtherIndividualController.submitComplete(draftId)} else {AddOtherIndividualController.submitAnother(draftId)}, 'autoComplete -> "off") {
 
-        @components.back_link()
+        @errorSummary(form.errors, AddOtherIndividual.options)
 
-        @components.error_summary(form.errors)
+        @headingI(heading)
 
-        @components.heading(heading)
+        @addToList(inProgress, "inprogress", "otherIndividual")
 
-        @components.data_list(inProgress, "inprogress", "otherIndividual")
-
-        @components.data_list(complete, "complete", "otherIndividual")
+        @addToList(complete, "complete", "otherIndividual")
 
         @if(maxedOut) {
-        <ul>
-            <li class="panel-indent"><p>@messages("addOtherIndividual.maxedOut")</p></li>
-            <li class="panel-indent"><p>@messages("addOtherIndividual.maxedOut.paragraph")</p></li>
-        </ul>
+        <div class="govuk-inset-text">
+            <ul class="govuk-list">
+                <li>@messages("addOtherIndividual.maxedOut")</li>
+                <li>@messages("addOtherIndividual.maxedOut.paragraph")</li>
+            </ul>
+        </div>
         } else {
-            @components.input_radio(
+            @inputRadio(
                 field = form("value"),
                 legend = messages("addOtherIndividual.additional-content"),
-                legendClass = Some("heading-medium"),
-                inputs = AddOtherIndividual.options,
-                legendAsH2Heading = true
+                headingIsLegend = false,
+                inputs = mapRadioOptionsToRadioItems(form("value"), false, AddOtherIndividual.options),
+                legendClass = Some("govuk-fieldset__legend--m")
             )
         }
 
-        @components.submit_button()
+        @submitButton()
     }
 }

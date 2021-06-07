@@ -15,50 +15,61 @@
  *@
 
 @import controllers.register.individual.routes._
+@import views.html.components.{InputText, ErrorSummary, SubmitButton}
+@import views.html.components.Heading
 
 @this(
-    main_template: MainTemplate,
-    formHelper: FormWithCSRF
+    mainTemplate: MainTemplate,
+    formHelper: FormWithCSRF,
+    inputText: InputText,
+    errorSummary: ErrorSummary,
+    submitButton: SubmitButton,
+    heading: Heading
 )
 
 @(form: Form[_], index: Int, draftId: String)(implicit request: Request[_], messages: Messages)
 
-@main_template(
-    title = s"${errorPrefix(form)}${messages("otherIndividual.name.title")}"
+@mainTemplate(
+    title = s"${errorPrefix(form)}${messages("otherIndividual.name.title")}",
+    showBackLink = true
     ) {
 
     @formHelper(action = NameController.onSubmit(index, draftId), 'autoComplete -> "on") {
 
-        @components.back_link()
+        @errorSummary(form.errors)
 
-        @components.error_summary(form.errors)
+        <fieldset class="govuk-fieldset">
 
-        <fieldset>
-
-            <legend>
-                @components.heading("otherIndividual.name.heading")
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                @heading("otherIndividual.name.heading")
             </legend>
 
-            @components.input_text(
+            @inputText(
                 field = form("firstName"),
                 label = messages("otherIndividual.name.firstName"),
+                labelClass = Some("govuk-label--s"),
+                inputClass = Some("govuk-!-width-one-half"),
                 autocomplete = Some("given-name")
             )
 
-            @components.input_text(
+            @inputText(
                 field = form("middleName"),
                 label = messages("otherIndividual.name.middleName"),
+                labelClass = Some("govuk-label--s"),
+                inputClass = Some("govuk-!-width-one-half"),
                 autocomplete = Some("additional-name")
             )
 
-            @components.input_text(
+            @inputText(
                 field = form("lastName"),
                 label = messages("otherIndividual.name.lastName"),
+                labelClass = Some("govuk-label--s"),
+                inputClass = Some("govuk-!-width-one-half"),
                 autocomplete = Some("family-name")
             )
         </fieldset>
 
-        @components.submit_button()
+        @submitButton()
 
     }
 }

@@ -15,36 +15,39 @@
  *@
 
 @import controllers.register.individual.mld5.routes._
+@import views.html.components.{ErrorSummary, InputSelect, SubmitButton}
 @import utils.InputOption
 
 @this(
-    main_template: MainTemplate,
-    formHelper: FormWithCSRF
+    mainTemplate: MainTemplate,
+    formHelper: FormWithCSRF,
+    errorSummary: ErrorSummary,
+    select: InputSelect,
+    submitButton: SubmitButton
 )
 
 @(form: Form[_], countryOptions: Seq[InputOption], draftId: String, index: Int, name: String)(implicit request: Request[_], messages: Messages)
 
-@main_template(
-    title = s"${errorPrefix(form)}${messages("otherIndividual.5mld.countryOfNationality.title")}"
+@mainTemplate(
+    title = s"${errorPrefix(form)}${messages("otherIndividual.5mld.countryOfNationality.title")}",
+    showBackLink = true
 ) {
 
     @formHelper(action = CountryOfNationalityController.onSubmit(index, draftId), 'autoComplete -> "off") {
 
-        @components.back_link()
+        @errorSummary(form.errors)
 
-        @components.error_summary(form.errors)
-
-        @components.select(field = form("value"),
+        @select(
+            field = form("value"),
             label = messages("otherIndividual.5mld.countryOfNationality.heading", name),
-            labelClasses = Set("heading-large"),
             labelAsHeading = true,
             options = countryOptions,
             placeholder = Some(messages("site.address.country.select")),
-            formGroupClasses = Set("autocomplete-wrapper form-control-3-4"),
-            selectAttribute = Set("data-non-uk-countries")
+            formGroupClasses = Set("autocomplete-wrapper"),
+            selectAttribute = Map("data-non-uk-countries" -> "")
         )
 
-        @components.submit_button()
+        @submitButton()
 
     }
 }

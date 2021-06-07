@@ -15,30 +15,36 @@
  *@
 
 @import controllers.register.individual.routes._
+@import views.html.components.{ErrorSummary, InternationalAddress, SubmitButton}
 @import utils.InputOption
 
 @this(
-        main_template: MainTemplate,
-        formHelper: FormWithCSRF
+        mainTemplate: MainTemplate,
+        formHelper: FormWithCSRF,
+        errorSummary: ErrorSummary,
+        internationalAddress: InternationalAddress,
+        submitButton: SubmitButton
 )
 
 @(form: Form[_], countryOptions: Seq[InputOption], name: String, index : Int, draftId: String)(implicit request: Request[_], messages: Messages)
 
-@main_template(
-    title = s"${errorPrefix(form)}${messages("site.address.international.title")}"
+@mainTemplate(
+    title = s"${errorPrefix(form)}${messages("site.address.international.title")}",
+    showBackLink = true
 ) {
 
     @formHelper(action = NonUkAddressController.onSubmit(index, draftId), 'autoComplete -> "off") {
 
-        @components.back_link()
+        @errorSummary(form.errors)
 
-        @components.error_summary(form.errors)
+        @internationalAddress(
+            form = form,
+            legend = messages("site.address.international.heading", name),
+            legendAsHeading = true,
+            countryOptions = countryOptions
+        )
 
-        @components.heading("site.address.international.heading", Some(name))
-
-        @components.international_address(form, countryOptions)
-
-        @components.submit_button()
+        @submitButton()
 
     }
 }

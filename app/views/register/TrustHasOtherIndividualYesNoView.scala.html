@@ -15,32 +15,35 @@
  *@
 
 @import controllers.register.routes._
+@import views.html.components.{SubmitButton, ErrorSummary, InputYesNo}
 
 @this(
-        main_template: MainTemplate,
-        formHelper: FormWithCSRF
+        mainTemplate: MainTemplate,
+        formHelper: FormWithCSRF,
+        errorSummary: ErrorSummary,
+        submitButton: SubmitButton,
+        inputYesNo: InputYesNo
 )
 
 @(form: Form[_], draftId: String)(implicit request: Request[_], messages: Messages)
 
-@main_template(
-    title = s"${errorPrefix(form)}${messages("trustHasOtherIndividualYesNo.title")}"
+@mainTemplate(
+    title = s"${errorPrefix(form)}${messages("trustHasOtherIndividualYesNo.title")}",
+    showBackLink = true
 ) {
 
     @formHelper(action = TrustHasOtherIndividualYesNoController.onSubmit(draftId), 'autoComplete -> "off") {
 
-        @components.back_link()
+        @errorSummary(form.errors)
 
-        @components.error_summary(form.errors)
-
-        @components.input_yes_no(
+        @inputYesNo(
             field = form("value"),
             label = messages("trustHasOtherIndividualYesNo.heading"),
             legendAsHeading = true,
             hint = Some(messages("trustHasOtherIndividualYesNo.hint"))
         )
 
-        @components.submit_button()
+        @submitButton()
 
     }
 }

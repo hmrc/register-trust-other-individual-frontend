@@ -15,20 +15,26 @@
  *@
 
 @import controllers.register.individual.mld5.routes._
+@import views.html.components.{SubmitButton, InputYesNo, ErrorSummary}
+@import views.html.components.Heading
 
 @this(
-    main_template: MainTemplate,
-    formHelper: FormWithCSRF
+    mainTemplate: MainTemplate,
+    formHelper: FormWithCSRF,
+    inputYesNo: InputYesNo,
+    errorSummary: ErrorSummary,
+    submitButton: SubmitButton,
+    heading: Heading
 )
 
 @(form: Form[_], draftId: String, index: Int, name: String)(implicit request: Request[_], messages: Messages)
 
 @content = {
-<p>@messages("otherIndividual.5mld.mentalCapacityYesNo.p1")</p>
+<p class="govuk-body">@messages("otherIndividual.5mld.mentalCapacityYesNo.p1")</p>
 
-<p>@messages("otherIndividual.5mld.mentalCapacityYesNo.p2")</p>
+<p class="govuk-body">@messages("otherIndividual.5mld.mentalCapacityYesNo.p2")</p>
 
-<ul class="govuk-list trust-list--bullet">
+<ul class="govuk-list govuk-list--bullet">
     <li class="inside">@messages("otherIndividual.5mld.mentalCapacityYesNo.bulletpoint1")</li>
     <li class="inside">@messages("otherIndividual.5mld.mentalCapacityYesNo.bulletpoint2")</li>
     <li class="inside">@messages("otherIndividual.5mld.mentalCapacityYesNo.bulletpoint3")</li>
@@ -36,25 +42,27 @@
 </ul>
 }
 
-@main_template(
-    title = s"${errorPrefix(form)}${messages("otherIndividual.5mld.mentalCapacityYesNo.title")}"
+@mainTemplate(
+    title = s"${errorPrefix(form)}${messages("otherIndividual.5mld.mentalCapacityYesNo.title")}",
+    showBackLink = true
 ) {
 
         @formHelper(action = MentalCapacityYesNoController.onSubmit(index, draftId), 'autoComplete -> "off") {
 
-        @components.back_link()
+        @errorSummary(form.errors)
 
-        @components.error_summary(form.errors)
+        @heading(messages("otherIndividual.5mld.mentalCapacityYesNo.heading", name))
 
-        @components.input_yes_no(
+        @content
+
+        @inputYesNo(
             field = form("value"),
             label = messages("otherIndividual.5mld.mentalCapacityYesNo.heading", name),
-            legendClass = Some("heading-large"),
-            legendAsHeading = true,
-            additionalContent = Some(content)
+            legendAsHeading = false,
+            legendClass = Some("govuk-visually-hidden")
         )
 
-        @components.submit_button()
+        @submitButton()
 
     }
 }

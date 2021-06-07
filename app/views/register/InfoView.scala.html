@@ -14,26 +14,31 @@
  * limitations under the License.
  *@
 
-@import controllers.register.individual.routes._
+@import controllers.register.routes._
+@import views.html.components.{HeadingWithCaption, BulletList, SubmitButton}
 
 @this(
-    main_template: MainTemplate
+    mainTemplate: MainTemplate,
+    headingWithCaption: HeadingWithCaption,
+    bulletList: BulletList,
+    formHelper: FormWithCSRF,
+    submitButton: SubmitButton
 )
 
 
 @(draftId: String)(implicit request: Request[_], messages: Messages)
 
-@main_template(
-    title = messages("otherIndividualsInfo.title")
+@mainTemplate(
+    title = messages("otherIndividualsInfo.title"),
+    showBackLink = true
     ) {
 
-    @components.back_link()
 
-    @components.heading_with_caption("otherIndividualsInfo")
+    @headingWithCaption("otherIndividualsInfo")
 
-    <p>@messages("otherIndividualsInfo.paragraph1")</p>
+    <p class="govuk-body">@messages("otherIndividualsInfo.paragraph1")</p>
 
-    @components.bullet_list("otherIndividualsInfo",
+    @bulletList("otherIndividualsInfo",
         List(
             "bulletpoint1",
             "bulletpoint2",
@@ -41,6 +46,8 @@
         )
     )
 
-    @components.button_link(messages("site.continue"), NameController.onPageLoad(0, draftId).url)
+    @formHelper(action = InfoController.onSubmit(draftId), 'autoComplete -> "off") {
+        @submitButton(Some(messages("site.continue")))
+    }
 
 }

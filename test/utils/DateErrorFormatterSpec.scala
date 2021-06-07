@@ -21,28 +21,54 @@ import play.api.i18n.{Lang, MessagesImpl}
 
 class DateErrorFormatterSpec extends SpecBase {
 
-  private val args: Seq[String] = Seq("day", "month", "year")
-
   "Date Error Formatter" must {
 
     "format error args" when {
 
-      "language set to English" in {
+      "date args" when {
 
-        val messages: MessagesImpl = MessagesImpl(Lang("en"), messagesApi)
+        val args: Seq[String] = Seq("day", "month", "year")
 
-        val result = DateErrorFormatter.formatArgs(args)(messages)
+        "language set to English" in {
 
-        result mustEqual Seq("day", "month", "year")
+          val messages: MessagesImpl = MessagesImpl(Lang("en"), messagesApi)
+
+          val result = DateErrorFormatter.formatArgs(args)(messages)
+
+          result mustEqual Seq("day", "month", "year")
+        }
+
+        "language set to Welsh" in {
+
+          val messages: MessagesImpl = MessagesImpl(Lang("cy"), messagesApi)
+
+          val result = DateErrorFormatter.formatArgs(args)(messages)
+
+          result mustEqual Seq("diwrnod", "mis", "blwyddyn")
+        }
       }
 
-      "language set to Welsh" in {
+      "not date args" when {
 
-        val messages: MessagesImpl = MessagesImpl(Lang("cy"), messagesApi)
+        val args: Seq[String] = Seq("arg1", "arg2", "arg3")
 
-        val result = DateErrorFormatter.formatArgs(args)(messages)
+        "language set to English" in {
 
-        result mustEqual Seq("diwrnod", "mis", "blwyddyn")
+          val messages: MessagesImpl = MessagesImpl(Lang("en"), messagesApi)
+
+          val result = DateErrorFormatter.formatArgs(args)(messages)
+
+          result mustEqual Seq("arg1", "arg2", "arg3")
+        }
+
+        "language set to Welsh" in {
+
+          val messages: MessagesImpl = MessagesImpl(Lang("cy"), messagesApi)
+
+          val result = DateErrorFormatter.formatArgs(args)(messages)
+
+          result mustEqual Seq("arg1", "arg2", "arg3")
+        }
       }
     }
   }

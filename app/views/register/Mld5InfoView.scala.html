@@ -14,26 +14,31 @@
  * limitations under the License.
  *@
 
-@import controllers.register.individual.routes._
+@import controllers.register.routes._
+@import views.html.components.{HeadingWithCaption, BulletList, SubmitButton}
 
 @this(
-    main_template: MainTemplate
+    mainTemplate: MainTemplate,
+    formHelper: FormWithCSRF,
+    submitButton: SubmitButton,
+    bulletList: BulletList,
+    headingWithCaption: HeadingWithCaption
 )
 
 
 @(draftId: String, isTaxable: Boolean)(implicit request: Request[_], messages: Messages)
 
-@main_template(
-    title = messages("otherIndividualsInfo.5mld.title")
+@mainTemplate(
+    title = messages("otherIndividualsInfo.5mld.title"),
+    showBackLink = true
 ) {
 
-    @components.back_link()
 
-    @components.heading_with_caption("otherIndividualsInfo.5mld")
+    @headingWithCaption("otherIndividualsInfo.5mld")
 
-    <p>@messages("otherIndividualsInfo.5mld.paragraph1")</p>
+    <p class="govuk-body">@messages("otherIndividualsInfo.5mld.paragraph1")</p>
 
-    @components.bullet_list(
+    @bulletList(
         "otherIndividualsInfo.5mld",
         List(
             "bulletpoint1",
@@ -44,9 +49,9 @@
 
     @if(isTaxable){
 
-        <p>@messages("otherIndividualsInfo.5mld.paragraph2")</p>
+        <p class="govuk-body">@messages("otherIndividualsInfo.5mld.paragraph2")</p>
 
-        @components.bullet_list(
+        @bulletList(
             "otherIndividualsInfo.5mld",
             List(
                 "bulletpoint4",
@@ -57,11 +62,11 @@
         )
     }
 
-    <p>@messages("otherIndividualsInfo.5mld.paragraph3")</p>
+    <p class="govuk-body">@messages("otherIndividualsInfo.5mld.paragraph3")</p>
 
-    <p>@messages("otherIndividualsInfo.5mld.paragraph4")</p>
+    <p class="govuk-body">@messages("otherIndividualsInfo.5mld.paragraph4")</p>
 
-    @components.bullet_list(
+    @bulletList(
         "otherIndividualsInfo.5mld",
         List(
             "bulletpoint8",
@@ -82,6 +87,7 @@
         </div>
     </details>
 
-    @components.button_link(messages("site.continue"), NameController.onPageLoad(0, draftId).url)
-
+    @formHelper(action = InfoController.onSubmit(draftId), 'autoComplete -> "off") {
+        @submitButton(Some(messages("site.continue")))
+    }
 }
