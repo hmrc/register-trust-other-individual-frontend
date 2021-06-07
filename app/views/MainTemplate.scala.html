@@ -45,7 +45,7 @@
     showBackLink: Boolean = false
 )(mainContent: Html)(implicit request: Request[_], messages: Messages)
 
-@scripts = {
+@headScripts = {
     @if(timeoutEnabled) {
         @hmrcTimeoutDialogHelper(
             signOutUrl = controllers.routes.SessionTimeoutController.timeout.url,
@@ -78,7 +78,7 @@
 @govukLayout(
     pageTitle = Some(breadcrumbTitle(title)),
     headBlock = Some(hmrcHead(
-        headBlock = Some(scripts)
+        headBlock = Some(headScripts)
     )),
     headerBlock = Some(hmrcStandardHeader(
         serviceUrl = Some(appConfig.trustsUrl),
