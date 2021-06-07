@@ -14,18 +14,34 @@
  * limitations under the License.
  *@
 
-@import views.html.components.Heading
+@import views.html.components.{Heading, Link, BulletList}
+@import config.FrontendAppConfig
 
 @this(
     mainTemplate: MainTemplate,
-    heading: Heading
+    heading: Heading,
+    link: Link,
+    bulletList: BulletList,
+    config: FrontendAppConfig
 )
 
 @()(implicit request: Request[_], messages: Messages)
 
 @mainTemplate(
-    title = messages("unauthorised.title")
-    ) {
+ title = messages("unauthorised.title"),
+ canSignOut = false
+) {
 
-    @heading("unauthorised.heading")
+ @heading("unauthorised.heading")
+
+ <p>@messages("unauthorised.p1")</p>
+
+ <p>@messages("unauthorised.p2") @link(config.registerTrustAsTrusteeUrl, "help-link", messages("unauthorised.link"), openInNewWindow = true)</p>
+
+ <p>@messages("unauthorised.p3")</p>
+
+ @bulletList("unauthorised", Seq(
+  "bullet1",
+  "bullet2"
+ ))
 }
