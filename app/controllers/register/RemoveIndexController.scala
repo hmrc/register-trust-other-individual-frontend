@@ -39,7 +39,7 @@ trait RemoveIndexController extends FrontendBaseController with I18nSupport {
   val view: RemoveIndexView
   implicit val ec: ExecutionContext
 
-  private val prefix = "removeOtherIndividual"
+  private val prefix = "removeOtherIndividualYesNo"
 
   def otherIndividualAtIndex(index: Int): QuestionPage[OtherIndividualViewModel]
 

@@ -28,7 +28,7 @@ submitButton: SubmitButton
 @(form: Form[_], draftId: String, index: Int, name: String, action: Call)(implicit request: Request[_], messages: Messages)
 
 @mainTemplate(
-    title = s"${errorPrefix(form)}${messages("removeOtherIndividual.title")}",
+    title = s"${errorPrefix(form)}${messages("removeOtherIndividualYesNo.title")}",
     showBackLink = true
 ) {
 
@@ -38,7 +38,7 @@ submitButton: SubmitButton
 
         @inputYesNo(
             field = form("value"),
-            label = messages("removeOtherIndividual.heading", name),
+            label = messages("removeOtherIndividualYesNo.heading", name),
             legendAsHeading = true
         )
 
