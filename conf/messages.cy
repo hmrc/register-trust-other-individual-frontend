@@ -240,10 +240,10 @@ otherIndividualsInfo.heading = Yr wybodaeth y bydd angen i chi ei rhoi
 otherIndividualsInfo.paragraph1 = Ar gyfer unrhyw unigolion eraill sy’n ymwneud â’r ymddiriedolaeth
 otherIndividualsInfo.title = Yr wybodaeth y bydd angen i chi ei rhoi
 
-removeOtherIndividual.default = yr unigolyn arall
-removeOtherIndividual.error.required = Dewiswch ‘Iawn’ os ydych am dynnu’r unigolyn arall
-removeOtherIndividual.heading = A ydych yn siŵr eich bod am dynnu {0}?
-removeOtherIndividual.title = A ydych yn siŵr eich bod am dynnu’r unigolyn arall?
+removeOtherIndividualYesNo.default = yr unigolyn arall
+removeOtherIndividualYesNo.error.required = Dewiswch ‘Iawn’ os ydych am dynnu’r unigolyn arall
+removeOtherIndividualYesNo.heading = A ydych yn siŵr eich bod am dynnu {0}?
+removeOtherIndividualYesNo.title = A ydych yn siŵr eich bod am dynnu’r unigolyn arall?
 
 session_expired.guidance = Mae hyn oherwydd eich bod wedi bod yn segur ar y gwasanaeth ers 15 munud.
 session_expired.guidance.2 = Bydd angen i chi fewngofnodi er mwyn mynd yn eich blaen i gofrestru’r ymddiriedolaeth.
