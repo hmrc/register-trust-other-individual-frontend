@@ -27,7 +27,6 @@
     labelClass: Option[String] = None,
     inputClass: Option[String] = None,
     hint: Option[String] = None,
-    readerHint: Option[String] = None,
     prefix: Option[String] = None,
     suffix: Option[String] = None,
     autocomplete: Option[String] = None,
@@ -43,7 +42,6 @@
         ),
         autocomplete = autocomplete,
         hint = hint.map(hint => Hint(content = Text(hint))),
-        describedBy = if(readerHint.isDefined) Some(readerHint.get) else Some(""),
         errorMessage = field.error match {
             case Some(e) => Some(ErrorMessage(content = Text(messages(e.message, e.args: _*))))
             case None => None
