@@ -47,7 +47,6 @@
         InputItem(
             classes = s"govuk-input--width-2 ${addErrorClass(field.error, "day")}",
             name = s"${field.id}.day",
-            autocomplete = Some("date.day"),
             label = Some(messages("date.day")),
             value = field("day").value,
             id = s"${field.id}.day"
@@ -55,7 +54,6 @@
         InputItem(
             classes = s"govuk-input--width-2 ${addErrorClass(field.error, "month")}",
             name = s"${field.id}.month",
-            autocomplete = Some("date.month"),
             label = Some(messages("date.month")),
             value = field("month").value,
             id = s"${field.id}.month"
@@ -63,7 +61,6 @@
         InputItem(
             classes = s"govuk-input--width-4 ${addErrorClass(field.error, "year")}",
             name = s"${field.id}.year",
-            autocomplete = Some("date.year"),
             label = Some(messages("date.year")),
             value = field("year").value,
             id = s"${field.id}.year"
