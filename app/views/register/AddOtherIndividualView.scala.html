@@ -43,7 +43,7 @@
 @mainTemplate(
     title = s"${errorPrefix(form)}$heading",
     showBackLink = true
-    ) {
+) {
 
         @formHelper(action = if(maxedOut) {AddOtherIndividualController.submitComplete(draftId)} else {AddOtherIndividualController.submitAnother(draftId)}, 'autoComplete -> "off") {
 
@@ -68,7 +68,8 @@
                 legend = messages("addOtherIndividual.additional-content"),
                 headingIsLegend = false,
                 inputs = mapRadioOptionsToRadioItems(form("value"), false, AddOtherIndividual.options),
-                legendClass = Some("govuk-fieldset__legend--m")
+                legendClass = Some("govuk-fieldset__legend--m"),
+                inline = false
             )
         }
 
