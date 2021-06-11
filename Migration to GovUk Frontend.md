@@ -129,11 +129,24 @@ which hides the back link if the body does not have a css class .js-enabled (set
 This is supported by all major browsers back to IE9.
 https://developer.mozilla.org/en-US/docs/Web/CSS/:not
 
+#### Application.scss
+`app/assets/stylesheets/application.scss` can be copied over from this service to include the relevant fixes. If doing this manually you will need the following code in order to apply the "govuk-body" class to all paragraphs automatically:
+```diff
+@import "lib/govuk-frontend/govuk/base";
+@import "lib/govuk-frontend/govuk/core/typography";
+
+p {
+  @extend .govuk-body;
+}
+```
+
 #### Update components
 
 > If the same new component is used multiple times to ‘copy’ old components, consider how easy it is simplify and use less components. We should aim for fewer components, but will decide on a case by case basis.
 
-Have made changes to ViewUtils.errorHref and DateErrorFormatter.formatArgs for use in DateInput and ErrorSummary
+Have made changes to ViewUtils.errorHref and DateErrorFormatter.formatArgs for use in DateInput and ErrorSummary.
+
+**Note:** The changes to errorHref make error highlighting work for Yes/No Radio buttons only if the message keys used on these pages have "YesNo" in the message Key so any that don't use this format will need to be changed. 
 
 We have for error summary
 
