@@ -97,10 +97,16 @@ otherIndividual.5mld.countryOfResidenceYesNo.heading = A ydych yn gwybod gwlad b
 otherIndividual.5mld.countryOfResidenceYesNo.hint = Fel arfer, y wlad breswyl yw lle mae’r unigolyn yn byw ac yn gweithio’r rhan fwyaf o’r amser yn ystod y flwyddyn dreth.
 otherIndividual.5mld.countryOfResidenceYesNo.title = A ydych yn gwybod gwlad breswyl yr unigolyn arall?
 
+otherIndividual.5mld.mentalCapacityYesNo.bulletpoint1 = salwch meddwl
+otherIndividual.5mld.mentalCapacityYesNo.bulletpoint2 = anabledd dysgu
+otherIndividual.5mld.mentalCapacityYesNo.bulletpoint3 = dementia neu gyflwr cysylltiedig
+otherIndividual.5mld.mentalCapacityYesNo.bulletpoint4 = methu â chyfathrebu
 otherIndividual.5mld.mentalCapacityYesNo.checkYourAnswersLabel = A oes gan {0} alluedd meddyliol ar adeg y cofrestru?
 otherIndividual.5mld.mentalCapacityYesNo.error.required = Dewiswch ‘Iawn’ os ydych yn gwybod bod gan yr unigolyn arall alluedd meddyliol ar adeg y cofrestru
 otherIndividual.5mld.mentalCapacityYesNo.heading = A oes gan {0} alluedd meddyliol ar adeg y cofrestru?
 otherIndividual.5mld.mentalCapacityYesNo.hint = Nid oes gan unigolyn arall alluedd meddyliol os nad yw’n gallu deall gwybodaeth na gwneud penderfyniadau am yr ymddiriedolaeth oherwydd salwch meddwl
+otherIndividual.5mld.mentalCapacityYesNo.p1 = 
+otherIndividual.5mld.mentalCapacityYesNo.p2 = Nid oes gan unigolyn alluedd meddyliol os nad yw’n gallu deall gwybodaeth am yr ymddiriedolaeth oherwydd unrhyw un o’r canlynol:
 otherIndividual.5mld.mentalCapacityYesNo.title = A oes gan yr unigolyn arall alluedd meddyliol ar adeg y cofrestru?
 
 otherIndividual.addressUkYesNo.checkYourAnswersLabel = A yw cyfeiriad {0} yn y DU?
