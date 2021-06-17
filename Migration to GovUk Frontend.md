@@ -499,6 +499,7 @@ Will need to update (due to default in a new component):
 - For label errors `class="error-message"` has changed to `class="govuk-error-message"`
 - `class="visually-hidden"` has changed to `class="govuk-visually-hidden"`
 - `class="form-label"` has changed to `class="govuk-label"`
+- `"form-hint"` has changed to `"govuk-hint"`
 - <legend> now has `class="govuk-fieldset__legend` where there was no class before
 
 ### General tips
