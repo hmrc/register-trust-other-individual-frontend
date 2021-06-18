@@ -22,6 +22,7 @@
 
 Start with this README.md:
 https://github.com/hmrc/play-frontend-hmrc
+
 For the layout, you can copy and paste the MainTemplate from this repo.
 
 To see twirl examples of gov uk design system
@@ -376,6 +377,8 @@ Changes to 'Add to' view:
 ```
 Note: See update to ViewUtils above to add mapRadioOptionsToRadioItems method.
 
+**[Back to top](#contents)**
+
 ### Extra classes for components
 
 When using the new components, the default look may not match our design but we can add classes to get a close match. This affects the Name View The easiest way to check is to have it side by side with staging, as the old mark up won't always translate across.
@@ -432,6 +435,8 @@ Allowed `code.query.com` through the content security policy:
 This **will** need updated in `app-config-base`.
 
 The full extent of changes can be found at https://github.com/hmrc/register-trust-other-individual-frontend/commit/ecd03b41b7e4913aac684f1671b238b7fd2f9863
+
+**[Back to top](#contents)**
 
 ### Deskpro link
 
@@ -504,6 +509,8 @@ Change to:
 ```diff
 + Ok(view(Seq(section), index, draftId))
 ``` 
+
+**[Back to top](#contents)**
 
 
 ### Add to list maximum state
