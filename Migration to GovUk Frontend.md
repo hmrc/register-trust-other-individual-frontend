@@ -3,15 +3,27 @@
 ## Contents:
 1. [Resources](#resources)
 1. [Things to watch out for](#things-to-watch-out-for)
+   1. [Duplicate components](#duplicate-components)
+   1. [Back link](#back-link)
    1. [Continue buttons as links](#information-pages-with-continue-buttons-as-links)
-   1. [Position of components](#position-of-components)
-   1. [Update components](#update-components)
-   1. [Classes for components](#classes-for-components)
+   1. [Date and error summary](#date-and-error-summary)
+   1. [Radio options](#radio-options)
+   1. [Extra classes for components](#extra-classes-for-components)
    1. [Accessible autocomplete](#accessible-autocomplete)
+   1. [Deskpro link](#Deskpro-link)
+   3. [Check your answers](#check-your-answers)
+   4. [Add to list maximum state](#Add-to-list-maximum-state)
 1. [Tests](#tests)
 1. [General tips](#general-tips)
 
-### Resources
+
+
+## Resources
+
+Start with this README.md:
+https://github.com/hmrc/play-frontend-hmrc
+
+For the layout, you can copy and paste the MainTemplate from this repo.
 
 To see twirl examples of gov uk design system
 https://github.com/hmrc/play-frontend-govuk-extension
@@ -24,34 +36,75 @@ https://github.com/hmrc/play-frontend-govuk/tree/master/src/main/scala/uk/gov/hm
 
 The folder pattern is the same between `play-frontend-govuk` and `play-frontend-hmrc`
 
-Most standard components are gov-uk, but language select, timeout dialog and the add to list pattern are HMRC specific
-https://github.com/hmrc/play-frontend-hmrc
+Most standard components are gov-uk, but language select, timeout dialog and the add to list pattern are HMRC specific.
 
-### Things to watch out for:
 
-#### Information pages with continue buttons as links
+### Remove old references & styles
 
-We have
-```scala
-@components.button_link(messages("site.continue"), NameController.onPageLoad(0, draftId).url)
-```
-and changed to
+Remove any references to assets-frontend & play-ui
+
+in conf/application.conf:
+
+`conf/application.conf`
 ```diff
-+    @formHelper(action = InfoController.onSubmit(draftId), 'autoComplete -> "off") {
-        @submit_button(Some(messages("site.continue")))
-    }
-    
-+  POST       /:draftId/information-you-need               controllers.register.InfoController.onSubmit(draftId: String)
+- #Needed by play-ui to disable google analytics as we use gtm via HeadWithTrackConsent
+- google-analytics.token = "N/A"
 
-+  def onSubmit(draftId: String) = standardActionSets.identifiedUserWithData(draftId) {
-    implicit request =>
-      Redirect(controllers.register.individual.routes.NameController.onPageLoad(0, draftId))
-  }
+-assets {
+-  version = "3.11.0"
+-  version = ${?ASSETS_FRONTEND_VERSION}
+-  url     = "http://localhost:9032/assets/"
+-}
+```
+`app/config/FrontendAppConfig.scala`
+```diff
+- val analyticsToken: String = configuration.get[String](s"google-analytics.token")
 ```
 
-#### Position of components
+The old govuk-template https://github.com/hmrc/govuk-template is no longer required as a GovUkLayout is now provided by play-frontend-govuk.
 
-#### Back Link
+`conf/prod.routes`
+```diff
+- ->                /template                  template.Routes
+```
+
+`project/AppDependencies/scala`
+```diff
+-    "uk.gov.hmrc"       %% "govuk-template"                 % "5.63.0-play-27"
+```
+
+Remove GovUkWrapper as everything should now be in MainTemplate.scala.html
+
+Replace all of the old components with the comopnents in this repo
+
+Remove everything in the stylesheet folder apart from the location-autocomplete.min.scss
+
+#### Application.scss
+`app/assets/stylesheets/application.scss` can be copied over from this service to include the relevant fixes. If doing this manually you will need the following code in order to apply the "govuk-body" class to all paragraphs automatically:
+```diff
+@import "lib/govuk-frontend/govuk/base";
+@import "lib/govuk-frontend/govuk/core/typography";
+
+p {
+  @extend .govuk-body;
+}
+
+
+h2 {
+ @extend .govuk-heading-m
+}
+```
+
+**[Back to top](#contents)**
+
+## Things to watch out for:
+
+#### Duplicate components
+
+> If the same new component is used multiple times to ‘copy’ old components, consider how easy it is simplify and use less components. We should aim for fewer components, but will decide on a case by case basis.
+
+
+### Back Link
 We have a back link component imported into a view
 ```scala
 // Component
@@ -129,20 +182,67 @@ which hides the back link if the body does not have a css class .js-enabled (set
 This is supported by all major browsers back to IE9.
 https://developer.mozilla.org/en-US/docs/Web/CSS/:not
 
-#### Application.scss
-`app/assets/stylesheets/application.scss` can be copied over from this service to include the relevant fixes. If doing this manually you will need the following code in order to apply the "govuk-body" class to all paragraphs automatically:
+#### Back link support in Internal Explorer (experimental) 
+`app/assets/javascripts/iebacklink.js`
 ```diff
-@import "lib/govuk-frontend/govuk/base";
-@import "lib/govuk-frontend/govuk/core/typography";
++ $(document).ready(function() {
++     // =====================================================
++     // Back link mimics browser back functionality
++     // =====================================================
++     // store referrer value to cater for IE - https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/10474810/  */
++     var docReferrer = document.referrer
++     // prevent resubmit warning
++     if (window.history && window.history.replaceState && typeof window.history.replaceState === 'function') {
++         window.history.replaceState(null, null, window.location.href);
++     }
++     $('#back-link').on('click', function(e){
++         e.preventDefault();
++         window.history.back();
++     });
++ });
 
-p {
-  @extend .govuk-body;
-}
 ```
 
-#### Update components
+`build.sbt`
+```diff
+    // concatenate js
+    Concat.groups := Seq(
+      "javascripts/registertrustotherindividualfrontend-app.js" ->
+        group(Seq(
+          "javascripts/registertrustotherindividualfrontend.js",
+          "javascripts/autocomplete.js",
++         "javascripts/iebacklink.js",
+          "javascripts/libraries/location-autocomplete.min.js"
+        ))
+    ),
+```
 
-> If the same new component is used multiple times to ‘copy’ old components, consider how easy it is simplify and use less components. We should aim for fewer components, but will decide on a case by case basis.
+**[Back to top](#contents)**
+
+
+### Information pages with continue buttons as links
+
+We have
+```scala
+@components.button_link(messages("site.continue"), NameController.onPageLoad(0, draftId).url)
+```
+and changed to
+```diff
++    @formHelper(action = InfoController.onSubmit(draftId), 'autoComplete -> "off") {
+        @submit_button(Some(messages("site.continue")))
+    }
+    
++  POST       /:draftId/information-you-need               controllers.register.InfoController.onSubmit(draftId: String)
+
++  def onSubmit(draftId: String) = standardActionSets.identifiedUserWithData(draftId) {
+    implicit request =>
+      Redirect(controllers.register.individual.routes.NameController.onPageLoad(0, draftId))
+  }
+```
+
+**[Back to top](#contents)**
+
+### Date and error summary
 
 Have made changes to ViewUtils.errorHref and DateErrorFormatter.formatArgs for use in DateInput and ErrorSummary.
 
@@ -202,7 +302,11 @@ and in view changed to
 
 @error_summary(form.errors)
 ```
+unless it's a radio option, then also include options that match `mapRadioOptionsToRadioItems(form("value"), false, KindOfBusiness.options),`
 
+```
+        @error_summary(form.errors, KindOfBusiness.options)
+```
 
 Changes to ViewUitls:
 
@@ -244,11 +348,40 @@ Added mapRadioOptionsToRadioItems:
       }
     )
 ```
+**[Back to top](#contents)**
 
+### Radio options
 
-#### Classes for components
+Add app/views/components/InputRadio.scala.html
 
-When using the new components, the default look may not match our design but we can add classes to get a close match. The easiest way to check is to have it side by side with staging, as the old mark up won't always translate across.
+Changes to 'Add to' view:
+
+```diff
+- @error_summary(form.errors)
++ @errorSummary(form.errors, AddOtherIndividual.options)
+
+-  @components.input_radio(
+-     field = form("value"),
+-     legend = messages("addOtherIndividual.additional-content"),
+-     legendClass = Some("heading-medium"),
+-     inputs = AddOtherIndividual.options,
+-     legendAsH2Heading = true
+-  )
++  @input_radio(
++     field = form("value"),
++     legend = messages("addOtherIndividual.additional-content"),
++     headingIsLegend = false,
++     inputs = mapRadioOptionsToRadioItems(form("value"), false, AddOtherIndividual.options),
++     legendClass = Some("govuk-fieldset__legend--m")
++   )
+```
+Note: See update to ViewUtils above to add mapRadioOptionsToRadioItems method.
+
+**[Back to top](#contents)**
+
+### Extra classes for components
+
+When using the new components, the default look may not match our design but we can add classes to get a close match. This affects the Name View The easiest way to check is to have it side by side with staging, as the old mark up won't always translate across.
 
 [Check the component in the Design System](https://design-system.service.gov.uk/components/) first, classes found under the HTML tab.
 
@@ -275,7 +408,10 @@ https://design-system.service.gov.uk/styles/typography/
      
  ```
 
-#### Accessible autocomplete
+**[Back to top](#contents)**
+
+
+### Accessible autocomplete
 
 Referring to the documentation at https://github.com/alphagov/accessible-autocomplete.
 
@@ -300,7 +436,9 @@ This **will** need updated in `app-config-base`.
 
 The full extent of changes can be found at https://github.com/hmrc/register-trust-other-individual-frontend/commit/ecd03b41b7e4913aac684f1671b238b7fd2f9863
 
-#### Get help with this page (Deskpro)
+**[Back to top](#contents)**
+
+### Deskpro link
 
 The implementation for 'get help with this page' has been updated.
 
@@ -323,7 +461,11 @@ The main changes are:
 +  val betaFeedbackUnauthenticatedUrl = s"${contactFrontendConfig.baseUrl}/contact/beta-feedback-unauthenticated?service=${contactFrontendConfig.serviceId}"
 ```
 
-#### Check Your Answers
+
+**[Back to top](#contents)**
+
+
+### Check Your Answers
 
 Add app/utils/SectionFormatter.scala
 
@@ -368,57 +510,12 @@ Change to:
 + Ok(view(Seq(section), index, draftId))
 ``` 
 
-#### Unused configuration in application.conf
+**[Back to top](#contents)**
 
-Remove:
 
-`conf/application.conf`
-```diff
-- #Needed by play-ui to disable google analytics as we use gtm via HeadWithTrackConsent
-- google-analytics.token = "N/A"
-```
-`app/config/FrontendAppConfig.scala`
-```diff
-- val analyticsToken: String = configuration.get[String](s"google-analytics.token")
-```
+### Add to list maximum state
 
-#### Back link support in Internal Explorer (experimental) 
-`app/assets/javascripts/iebacklink.js`
-```diff
-+ $(document).ready(function() {
-+     // =====================================================
-+     // Back link mimics browser back functionality
-+     // =====================================================
-+     // store referrer value to cater for IE - https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/10474810/  */
-+     var docReferrer = document.referrer
-+     // prevent resubmit warning
-+     if (window.history && window.history.replaceState && typeof window.history.replaceState === 'function') {
-+         window.history.replaceState(null, null, window.location.href);
-+     }
-+     $('#back-link').on('click', function(e){
-+         e.preventDefault();
-+         window.history.back();
-+     });
-+ });
-
-```
-
-`build.sbt`
-```diff
-    // concatenate js
-    Concat.groups := Seq(
-      "javascripts/registertrustotherindividualfrontend-app.js" ->
-        group(Seq(
-          "javascripts/registertrustotherindividualfrontend.js",
-          "javascripts/autocomplete.js",
-+         "javascripts/iebacklink.js",
-          "javascripts/libraries/location-autocomplete.min.js"
-        ))
-    ),
-```
-#### Add to list maximum state
-
-The maximum state for Add-to-pge needs to be updated in the markup as the panel-indent + p spacing is off using govuk-frontend.
+The maximum state for Add-to-page needs to be updated in the markup as the panel-indent + p spacing is off using govuk-frontend.
 
 ```diff
 -        <ul>
@@ -433,34 +530,42 @@ The maximum state for Add-to-pge needs to be updated in the markup as the panel-
 +        </div>
 ```
 
-#### Add to list radio options
 
-Add app/views/components/InputRadio.scala.html
+**[Back to top](#contents)**
 
-Changes to 'Add to' view:
 
-```diff
-- @error_summary(form.errors)
-+ @errorSummary(form.errors, AddOtherIndividual.options)
+## Tests
 
--  @components.input_radio(
--     field = form("value"),
--     legend = messages("addOtherIndividual.additional-content"),
--     legendClass = Some("heading-medium"),
--     inputs = AddOtherIndividual.options,
--     legendAsH2Heading = true
--  )
-+  @input_radio(
-+     field = form("value"),
-+     legend = messages("addOtherIndividual.additional-content"),
-+     headingIsLegend = false,
-+     inputs = mapRadioOptionsToRadioItems(form("value"), false, AddOtherIndividual.options),
-+     legendClass = Some("govuk-fieldset__legend--m")
-+   )
-```
-Note: See update to ViewUtils above to add mapRadioOptionsToRadioItems method.
+### Unit tests
 
-Changes to ViewSpecBase.assertContainsRadioButton:
+Where possible, try adding an id to components and have them match previous components so that tests don't need to be changed.
+
+Will need to update (due to default in a new component):
+- `id="error-summary-heading"` is now `id="error-summary-title"` 
+- For label errors `class="error-message"` has changed to `class="govuk-error-message"`
+- `class="visually-hidden"` has changed to `class="govuk-visually-hidden"`
+- `class="form-label"` has changed to `class="govuk-label"`
+- `"form-hint"` has changed to `"govuk-hint"`
+- `assertRenderedById(doc, "cymraeg-switch")` has changed to  `assertRenderedByCssSelector(doc, "a[lang=cy]")`
+- <legend> now has `class="govuk-fieldset__legend` where there was no class before
+
+ Banner title was
+   
+   ```
+   val nav = doc.getElementById("proposition-menu")
+          val span = nav.children.first
+          span.text mustBe messages("site.service_name")
+   ```
+   
+   and is now
+   
+   ```
+          val bannerTitle = doc.getElementsByClass("govuk-header__link govuk-header__link--service-name")
+          bannerTitle.html() mustBe messages("service.name")
+   ```
+   
+   
+ Changes to ViewSpecBase.assertContainsRadioButton:
 
 ```diff
 -    if (isChecked) {
@@ -474,37 +579,12 @@ Changes to ViewSpecBase.assertContainsRadioButton:
 +    }
 ```
 
-#### Removing govuk-template
-
-The old govuk-template https://github.com/hmrc/govuk-template is no longer required as a GovUkLayout is now provided by play-frontend-govuk.
-
-`conf/prod.routes`
-```diff
-- ->                /template                  template.Routes
-```
-
-`project/AppDependencies/scala`
-```diff
--    "uk.gov.hmrc"       %% "govuk-template"                 % "5.63.0-play-27"
-```
-
-### Tests
-
-#### Unit tests
-
-Where possible, try adding an id to components and have them match previous components so that tests don't need to be changed.
-
-Will need to update (due to default in a new component):
-- `id="error-summary-heading"` is now `id="error-summary-title"` 
-- For label errors `class="error-message"` has changed to `class="govuk-error-message"`
-- `class="visually-hidden"` has changed to `class="govuk-visually-hidden"`
-- `class="form-label"` has changed to `class="govuk-label"`
-- `"form-hint"` has changed to `"govuk-hint"`
-- <legend> now has `class="govuk-fieldset__legend` where there was no class before
-
+   
 ### General tips
 
 If a component doesn't autogenerate an id or have a specific key, you can typically add one via `attributes`
 ```scala
 attributes = Map("id" -> "test-id")
 ```
+   
+**[Back to top](#contents)**
