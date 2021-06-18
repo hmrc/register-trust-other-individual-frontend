@@ -3,20 +3,26 @@
 ## Contents:
 1. [Resources](#resources)
 1. [Things to watch out for](#things-to-watch-out-for)
-   1. [Continue buttons as links](#information-pages-with-continue-buttons-as-links)
-   1. [Back link](#back-link)
    1. [Duplicate components](#duplicate-components)
+   1. [Back link](#back-link)
+   1. [Continue buttons as links](#information-pages-with-continue-buttons-as-links)
    1. [Date and error summary](#date-and-error-summary)
+   1. [Radio options](#radio-options)
    1. [Extra classes for components](#extra-classes-for-components)
    1. [Accessible autocomplete](#accessible-autocomplete)
-   1. [Radio options](#radio-options)
-   1. [Check your answers](#check-your-answers)
+   1. [Deskpro link](#Deskpro-link)
+   3. [Check your answers](#check-your-answers)
+   4. [Add to list maximum state](#Add-to-list-maximum-state)
 1. [Tests](#tests)
 1. [General tips](#general-tips)
 
 
 
 ## Resources
+
+Start with this README.md:
+https://github.com/hmrc/play-frontend-hmrc
+For the layout, you can copy and paste the MainTemplate from this repo.
 
 To see twirl examples of gov uk design system
 https://github.com/hmrc/play-frontend-govuk-extension
@@ -29,11 +35,12 @@ https://github.com/hmrc/play-frontend-govuk/tree/master/src/main/scala/uk/gov/hm
 
 The folder pattern is the same between `play-frontend-govuk` and `play-frontend-hmrc`
 
-Most standard components are gov-uk, but language select, timeout dialog and the add to list pattern are HMRC specific
-https://github.com/hmrc/play-frontend-hmrc <-- start here
+Most standard components are gov-uk, but language select, timeout dialog and the add to list pattern are HMRC specific.
 
 
-#### Remove 
+### Remove old references & styles
+
+Remove any references to assets-frontend & play-ui
 
 in conf/application.conf:
 
@@ -41,6 +48,12 @@ in conf/application.conf:
 ```diff
 - #Needed by play-ui to disable google analytics as we use gtm via HeadWithTrackConsent
 - google-analytics.token = "N/A"
+
+-assets {
+-  version = "3.11.0"
+-  version = ${?ASSETS_FRONTEND_VERSION}
+-  url     = "http://localhost:9032/assets/"
+-}
 ```
 `app/config/FrontendAppConfig.scala`
 ```diff
@@ -59,32 +72,38 @@ The old govuk-template https://github.com/hmrc/govuk-template is no longer requi
 -    "uk.gov.hmrc"       %% "govuk-template"                 % "5.63.0-play-27"
 ```
 
+Remove GovUkWrapper as everything should now be in MainTemplate.scala.html
 
-## Things to watch out for:
+Replace all of the old components with the comopnents in this repo
 
-#### Information pages with continue buttons as links
+Remove everything in the stylesheet folder apart from the location-autocomplete.min.scss
 
-We have
-```scala
-@components.button_link(messages("site.continue"), NameController.onPageLoad(0, draftId).url)
-```
-and changed to
+#### Application.scss
+`app/assets/stylesheets/application.scss` can be copied over from this service to include the relevant fixes. If doing this manually you will need the following code in order to apply the "govuk-body" class to all paragraphs automatically:
 ```diff
-+    @formHelper(action = InfoController.onSubmit(draftId), 'autoComplete -> "off") {
-        @submit_button(Some(messages("site.continue")))
-    }
-    
-+  POST       /:draftId/information-you-need               controllers.register.InfoController.onSubmit(draftId: String)
+@import "lib/govuk-frontend/govuk/base";
+@import "lib/govuk-frontend/govuk/core/typography";
 
-+  def onSubmit(draftId: String) = standardActionSets.identifiedUserWithData(draftId) {
-    implicit request =>
-      Redirect(controllers.register.individual.routes.NameController.onPageLoad(0, draftId))
-  }
+p {
+  @extend .govuk-body;
+}
+
+
+h2 {
+ @extend .govuk-heading-m
+}
 ```
 
 **[Back to top](#contents)**
 
-#### Back Link
+## Things to watch out for:
+
+#### Duplicate components
+
+> If the same new component is used multiple times to ‘copy’ old components, consider how easy it is simplify and use less components. We should aim for fewer components, but will decide on a case by case basis.
+
+
+### Back Link
 We have a back link component imported into a view
 ```scala
 // Component
@@ -199,28 +218,30 @@ https://developer.mozilla.org/en-US/docs/Web/CSS/:not
 
 **[Back to top](#contents)**
 
-#### Application.scss
-`app/assets/stylesheets/application.scss` can be copied over from this service to include the relevant fixes. If doing this manually you will need the following code in order to apply the "govuk-body" class to all paragraphs automatically:
+
+### Information pages with continue buttons as links
+
+We have
+```scala
+@components.button_link(messages("site.continue"), NameController.onPageLoad(0, draftId).url)
+```
+and changed to
 ```diff
-@import "lib/govuk-frontend/govuk/base";
-@import "lib/govuk-frontend/govuk/core/typography";
++    @formHelper(action = InfoController.onSubmit(draftId), 'autoComplete -> "off") {
+        @submit_button(Some(messages("site.continue")))
+    }
+    
++  POST       /:draftId/information-you-need               controllers.register.InfoController.onSubmit(draftId: String)
 
-p {
-  @extend .govuk-body;
-}
-
-
-h2 {
- @extend .govuk-heading-m
-}
++  def onSubmit(draftId: String) = standardActionSets.identifiedUserWithData(draftId) {
+    implicit request =>
+      Redirect(controllers.register.individual.routes.NameController.onPageLoad(0, draftId))
+  }
 ```
 
-#### Duplicate components
+**[Back to top](#contents)**
 
-> If the same new component is used multiple times to ‘copy’ old components, consider how easy it is simplify and use less components. We should aim for fewer components, but will decide on a case by case basis.
-
-
-#### Date and error summary
+### Date and error summary
 
 Have made changes to ViewUtils.errorHref and DateErrorFormatter.formatArgs for use in DateInput and ErrorSummary.
 
@@ -328,7 +349,34 @@ Added mapRadioOptionsToRadioItems:
 ```
 **[Back to top](#contents)**
 
-#### Extra classes for components
+### Radio options
+
+Add app/views/components/InputRadio.scala.html
+
+Changes to 'Add to' view:
+
+```diff
+- @error_summary(form.errors)
++ @errorSummary(form.errors, AddOtherIndividual.options)
+
+-  @components.input_radio(
+-     field = form("value"),
+-     legend = messages("addOtherIndividual.additional-content"),
+-     legendClass = Some("heading-medium"),
+-     inputs = AddOtherIndividual.options,
+-     legendAsH2Heading = true
+-  )
++  @input_radio(
++     field = form("value"),
++     legend = messages("addOtherIndividual.additional-content"),
++     headingIsLegend = false,
++     inputs = mapRadioOptionsToRadioItems(form("value"), false, AddOtherIndividual.options),
++     legendClass = Some("govuk-fieldset__legend--m")
++   )
+```
+Note: See update to ViewUtils above to add mapRadioOptionsToRadioItems method.
+
+### Extra classes for components
 
 When using the new components, the default look may not match our design but we can add classes to get a close match. This affects the Name View The easiest way to check is to have it side by side with staging, as the old mark up won't always translate across.
 
@@ -357,7 +405,10 @@ https://design-system.service.gov.uk/styles/typography/
      
  ```
 
-#### Accessible autocomplete
+**[Back to top](#contents)**
+
+
+### Accessible autocomplete
 
 Referring to the documentation at https://github.com/alphagov/accessible-autocomplete.
 
@@ -382,7 +433,7 @@ This **will** need updated in `app-config-base`.
 
 The full extent of changes can be found at https://github.com/hmrc/register-trust-other-individual-frontend/commit/ecd03b41b7e4913aac684f1671b238b7fd2f9863
 
-#### Get help with this page (Deskpro)
+### Deskpro link
 
 The implementation for 'get help with this page' has been updated.
 
@@ -409,7 +460,7 @@ The main changes are:
 **[Back to top](#contents)**
 
 
-#### Check Your Answers
+### Check Your Answers
 
 Add app/utils/SectionFormatter.scala
 
@@ -455,7 +506,7 @@ Change to:
 ``` 
 
 
-#### Add to list maximum state
+### Add to list maximum state
 
 The maximum state for Add-to-page needs to be updated in the markup as the panel-indent + p spacing is off using govuk-frontend.
 
@@ -472,40 +523,13 @@ The maximum state for Add-to-page needs to be updated in the markup as the panel
 +        </div>
 ```
 
-#### Radio options
-
-Add app/views/components/InputRadio.scala.html
-
-Changes to 'Add to' view:
-
-```diff
-- @error_summary(form.errors)
-+ @errorSummary(form.errors, AddOtherIndividual.options)
-
--  @components.input_radio(
--     field = form("value"),
--     legend = messages("addOtherIndividual.additional-content"),
--     legendClass = Some("heading-medium"),
--     inputs = AddOtherIndividual.options,
--     legendAsH2Heading = true
--  )
-+  @input_radio(
-+     field = form("value"),
-+     legend = messages("addOtherIndividual.additional-content"),
-+     headingIsLegend = false,
-+     inputs = mapRadioOptionsToRadioItems(form("value"), false, AddOtherIndividual.options),
-+     legendClass = Some("govuk-fieldset__legend--m")
-+   )
-```
-Note: See update to ViewUtils above to add mapRadioOptionsToRadioItems method.
-
 
 **[Back to top](#contents)**
 
 
 ## Tests
 
-#### Unit tests
+### Unit tests
 
 Where possible, try adding an id to components and have them match previous components so that tests don't need to be changed.
 
