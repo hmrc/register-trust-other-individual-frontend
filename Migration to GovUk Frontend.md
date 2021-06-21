@@ -432,7 +432,7 @@ Allowed `code.query.com` through the content security policy:
 + play.filters.headers.contentSecurityPolicy = "default-src 'self' 'unsafe-inline' localhost:8841 localhost:9032 localhost:9250 localhost:12345 www.google-analytics.com www.googletagmanager.com tagmanager.google.com 'self' data: ssl.gstatic.com www.gstatic.com fonts.gstatic.com fonts.googleapis.com code.jquery.com;"
 ```
 
-This **will** need updated in `app-config-base`.
+The now unused key `contact-frontend.host` will need to be removed from `app-config-development`, `app-config-qa` `app-config-staging`, `app-config-production`.
 
 The full extent of changes can be found at https://github.com/hmrc/register-trust-other-individual-frontend/commit/ecd03b41b7e4913aac684f1671b238b7fd2f9863
 
