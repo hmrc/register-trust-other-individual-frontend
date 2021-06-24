@@ -87,7 +87,5 @@
     )),
     beforeContentBlock = Some(beforeContentBlock),
     scriptsBlock = Some(hmrcScripts()),
-    footerBlock = Some(hmrcStandardFooter(
-        accessibilityStatementUrl = Some(appConfig.accessibilityLinkUrl)
-    ))
+    footerBlock = Some(hmrcStandardFooter())
 )(mainContentWithGetHelp)
