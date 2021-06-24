@@ -17,11 +17,12 @@
 package controllers.register
 
 import controllers.actions.StandardActionSets
-import javax.inject.Inject
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.register.{InfoView, Mld5InfoView}
+
+import javax.inject.Inject
 
 class InfoController @Inject()(
                                 override val messagesApi: MessagesApi,
@@ -41,8 +42,7 @@ class InfoController @Inject()(
       }
   }
 
-  def onSubmit(draftId: String) = standardActionSets.identifiedUserWithData(draftId) {
-    implicit request =>
-      Redirect(controllers.register.individual.routes.NameController.onPageLoad(0, draftId))
+  def onSubmit(draftId: String): Action[AnyContent] = standardActionSets.identifiedUserWithData(draftId) { _ =>
+    Redirect(controllers.register.individual.routes.NameController.onPageLoad(0, draftId))
   }
 }
