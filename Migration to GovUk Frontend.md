@@ -22,24 +22,23 @@
 
 ## Resources
 
-Start with this README.md:
+> Start with this README.md:
 https://github.com/hmrc/play-frontend-hmrc
 
 For the layout, you can copy and paste the MainTemplate from this repo.
 
-To see twirl examples of gov uk design system
+> To see twirl examples of gov uk design system
 https://github.com/hmrc/play-frontend-govuk-extension
 
-Look at twirl components to get an idea what markup it will generate
+> Look at twirl components to get an idea what markup it will generate
 https://github.com/hmrc/play-frontend-govuk/tree/master/src/main/twirl/uk/gov/hmrc/govukfrontend/views/components
 
-Look at the scala view models to easily tell what keys and data types are required
+> Look at the scala view models to easily tell what keys and data types are required
 https://github.com/hmrc/play-frontend-govuk/tree/master/src/main/scala/uk/gov/hmrc/govukfrontend/views/viewmodels
 
 The folder pattern is the same between `play-frontend-govuk` and `play-frontend-hmrc`
 
 Most standard components are gov-uk, but language select, timeout dialog and the add to list pattern are HMRC specific.
-
 
 ### Remove old references and styles
 
