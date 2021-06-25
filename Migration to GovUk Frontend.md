@@ -2,6 +2,9 @@
 
 ## Contents:
 1. [Resources](#resources)
+   1. [Twirl chrome extension](#twirl-chrome-extension)
+   1. [Components](#components)
+   1. [Remove old references and styles](#remove-old-references-and-styles)
 1. [Things to watch out for](#things-to-watch-out-for)
    1. [Duplicate components](#duplicate-components)
    1. [Back link](#back-link)
@@ -13,6 +16,7 @@
    1. [Deskpro link](#Deskpro-link)
    3. [Check your answers](#check-your-answers)
    4. [Add to list maximum state](#Add-to-list-maximum-state)
+   1. [Draft and confirm Print](#draft-and-confirm-print)
 1. [Tests](#tests)
 1. [General tips](#general-tips)
 
@@ -20,26 +24,31 @@
 
 ## Resources
 
-Start with this README.md:
+> Start with this README.md:
 https://github.com/hmrc/play-frontend-hmrc
 
 For the layout, you can copy and paste the MainTemplate from this repo.
 
-To see twirl examples of gov uk design system
+### Twirl Chrome extension
+:gear:
+Installing the below extension allows you to view a twirl example of the components at https://design-system.service.gov.uk/components/button/
+
+> To see twirl examples of gov uk design system
 https://github.com/hmrc/play-frontend-govuk-extension
 
-Look at twirl components to get an idea what markup it will generate
+### Components
+
+> Look at twirl components to get an idea what markup it will generate
 https://github.com/hmrc/play-frontend-govuk/tree/master/src/main/twirl/uk/gov/hmrc/govukfrontend/views/components
 
-Look at the scala view models to easily tell what keys and data types are required
+> Look at the scala view models to easily tell what keys and data types are required
 https://github.com/hmrc/play-frontend-govuk/tree/master/src/main/scala/uk/gov/hmrc/govukfrontend/views/viewmodels
 
 The folder pattern is the same between `play-frontend-govuk` and `play-frontend-hmrc`
 
 Most standard components are gov-uk, but language select, timeout dialog and the add to list pattern are HMRC specific.
 
-
-### Remove old references & styles
+### Remove old references and styles
 
 Remove any references to assets-frontend & play-ui
 
@@ -75,11 +84,12 @@ The old govuk-template https://github.com/hmrc/govuk-template is no longer requi
 
 Remove GovUkWrapper as everything should now be in MainTemplate.scala.html
 
-Replace all of the old components with the comopnents in this repo
+Replace all of the old components with the components in this repo
 
 Remove everything in the stylesheet folder apart from the location-autocomplete.min.scss
 
-#### Application.scss
+#### Stylesheets
+
 `app/assets/stylesheets/application.scss` can be copied over from this service to include the relevant fixes. If doing this manually you will need the following code in order to apply the "govuk-body" class to all paragraphs automatically:
 ```diff
 @import "lib/govuk-frontend/govuk/base";
@@ -94,8 +104,6 @@ h2 {
  @extend .govuk-heading-m
 }
 ```
-
-**[Back to top](#contents)**
 
 ## Things to watch out for:
 
@@ -512,7 +520,6 @@ Change to:
 
 **[Back to top](#contents)**
 
-
 ### Add to list maximum state
 
 The maximum state for Add-to-page needs to be updated in the markup as the panel-indent + p spacing is off using govuk-frontend.
@@ -530,9 +537,19 @@ The maximum state for Add-to-page needs to be updated in the markup as the panel
 +        </div>
 ```
 
-
 **[Back to top](#contents)**
 
+### Draft and confirm print
+
+If you change a message key in the frontend such as:
+```diff
+- setUpAfterSettlorDied.checkYourAnswersLabel = ...
++ setUpAfterSettlorDiedYesNo.checkYourAnswersLabel = ...
+```
+
+Then you also need to update the message key in [trusts-frontend](https://github.com/hmrc/trusts-frontend) or [maintain-a-trust-frontend](https://github.com/hmrc/maintain-a-trust-frontend). This will ensure the draft and confirm print pages are up-to-date.
+
+**[Back to top](#contents)**
 
 ## Tests
 
@@ -578,7 +595,6 @@ Will need to update (due to default in a new component):
 +      case _ => assert(!radio.hasAttr("checked"), s"\n\nElement $id is checked")
 +    }
 ```
-
    
 ### General tips
 
