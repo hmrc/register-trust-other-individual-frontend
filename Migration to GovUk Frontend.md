@@ -3,6 +3,8 @@
 ## Contents:
 1. [Resources](#resources)
    1. [Remove old references and styles](#remove-old-references-and-styles)
+   1. [Twirl chrome extension](#twirl-chrome-extension)
+   1. [Components](#components)
 1. [Things to watch out for](#things-to-watch-out-for)
    1. [Duplicate components](#duplicate-components)
    1. [Back link](#back-link)
