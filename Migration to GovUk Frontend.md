@@ -27,8 +27,14 @@ https://github.com/hmrc/play-frontend-hmrc
 
 For the layout, you can copy and paste the MainTemplate from this repo.
 
+### Twirl Chrome extension
+:gear:
+Installing the below extension allows you to view a twirl example of the components at https://design-system.service.gov.uk/components/button/
+
 > To see twirl examples of gov uk design system
 https://github.com/hmrc/play-frontend-govuk-extension
+
+### Components
 
 > Look at twirl components to get an idea what markup it will generate
 https://github.com/hmrc/play-frontend-govuk/tree/master/src/main/twirl/uk/gov/hmrc/govukfrontend/views/components
