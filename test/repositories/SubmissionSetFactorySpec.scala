@@ -45,17 +45,17 @@ class SubmissionSetFactorySpec extends SpecBase {
     "return completed answer sections" when {
 
       "trust has otherIndividuals is set to 'false'" must {
-          "return an empty list" in {
-            val userAnswers: UserAnswers = emptyUserAnswers
-              .set(TrustHasOtherIndividualYesNoPage, false).success.value
+        "return an empty list" in {
+          val userAnswers: UserAnswers = emptyUserAnswers
+            .set(TrustHasOtherIndividualYesNoPage, false).success.value
 
-            factory.createFrom(userAnswers) mustBe RegistrationSubmission.DataSet(
-              Json.toJson(userAnswers),
-              Some(Status.Completed),
-              List(RegistrationSubmission.MappedPiece("trust/entities/naturalPerson", JsNull)),
-              List.empty
-            )
-          }
+          factory.createFrom(userAnswers) mustBe RegistrationSubmission.DataSet(
+            Json.toJson(userAnswers),
+            Some(Status.Completed),
+            List(RegistrationSubmission.MappedPiece("trust/entities/naturalPerson", JsNull)),
+            List.empty
+          )
+        }
       }
 
       "only one otherIndividual" must {
@@ -69,9 +69,10 @@ class SubmissionSetFactorySpec extends SpecBase {
             factory.answerSectionsIfCompleted(userAnswers, Some(Completed)) mustBe
               List(
                 AnswerSection(
-                  Some("Other Individual 1"),
-                  Nil,
-                  Some("Other Individuals")
+                  headingKey = Some("answerPage.section.otherIndividual.subheading"),
+                  rows = Nil,
+                  sectionKey = Some("answerPage.section.otherIndividuals.heading"),
+                  headingArg = "1"
                 )
               )
           }
@@ -90,22 +91,21 @@ class SubmissionSetFactorySpec extends SpecBase {
             factory.answerSectionsIfCompleted(userAnswers, Some(Completed)) mustBe
               List(
                 AnswerSection(
-                  Some("Other Individual 1"),
-                  Nil,
-                  Some("Other Individuals")
+                  headingKey = Some("answerPage.section.otherIndividual.subheading"),
+                  rows = Nil,
+                  sectionKey = Some("answerPage.section.otherIndividuals.heading"),
+                  headingArg = "1"
                 ),
                 AnswerSection(
-                  Some("Other Individual 2"),
-                  Nil,
-                  None
+                  headingKey = Some("answerPage.section.otherIndividual.subheading"),
+                  rows = Nil,
+                  sectionKey = None,
+                  headingArg = "2"
                 )
               )
           }
-
         }
       }
-
     }
   }
-
 }
