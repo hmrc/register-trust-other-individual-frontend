@@ -33,7 +33,6 @@ class SubmissionSetFactory @Inject()(registrationProgress: RegistrationProgress,
 
   def createFrom(userAnswers: UserAnswers)(implicit messages: Messages): RegistrationSubmission.DataSet = {
     val status = registrationProgress.otherIndividualsStatus(userAnswers)
-    answerSectionsIfCompleted(userAnswers, status)
 
     RegistrationSubmission.DataSet(
       data = Json.toJson(userAnswers),
@@ -61,10 +60,7 @@ class SubmissionSetFactory @Inject()(registrationProgress: RegistrationProgress,
   def answerSectionsIfCompleted(userAnswers: UserAnswers, status: Option[Status])
                                (implicit messages: Messages): List[RegistrationSubmission.AnswerSection] = {
 
-    val trustHasOtherIndividualYesNo = userAnswers.get(TrustHasOtherIndividualYesNoPage) match {
-      case Some(true) => true
-      case _ => false
-    }
+    val trustHasOtherIndividualYesNo = userAnswers.get(TrustHasOtherIndividualYesNoPage).contains(true)
 
     if (status.contains(Status.Completed) && trustHasOtherIndividualYesNo) {
 
@@ -72,12 +68,7 @@ class SubmissionSetFactory @Inject()(registrationProgress: RegistrationProgress,
         otherIndividualAnswersHelper.otherIndividuals(userAnswers)
       ).flatten.flatten
 
-      val updatedFirstSection = AnswerSection(
-        headingKey = entitySections.head.headingKey,
-        rows = entitySections.head.rows,
-        sectionKey = Some("answerPage.section.otherIndividuals.heading"),
-        headingArg = entitySections.head.headingArg
-      )
+      val updatedFirstSection = entitySections.head.copy(sectionKey = Some("answerPage.section.otherIndividuals.heading"))
 
       val updatedSections = updatedFirstSection :: entitySections.tail
 
@@ -93,7 +84,7 @@ class SubmissionSetFactory @Inject()(registrationProgress: RegistrationProgress,
       headingKey = section.headingKey,
       rows = section.rows.map(convertForSubmission),
       sectionKey = section.sectionKey,
-      headingArg = section.headingArg.toString
+      headingArgs = section.headingArgs.map(_.toString)
     )
   }
 

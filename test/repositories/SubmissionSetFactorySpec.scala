@@ -72,7 +72,7 @@ class SubmissionSetFactorySpec extends SpecBase {
                   headingKey = Some("answerPage.section.otherIndividual.subheading"),
                   rows = Nil,
                   sectionKey = Some("answerPage.section.otherIndividuals.heading"),
-                  headingArg = "1"
+                  headingArgs = Seq("1")
                 )
               )
           }
@@ -94,13 +94,13 @@ class SubmissionSetFactorySpec extends SpecBase {
                   headingKey = Some("answerPage.section.otherIndividual.subheading"),
                   rows = Nil,
                   sectionKey = Some("answerPage.section.otherIndividuals.heading"),
-                  headingArg = "1"
+                  headingArgs = Seq("1")
                 ),
                 AnswerSection(
                   headingKey = Some("answerPage.section.otherIndividual.subheading"),
                   rows = Nil,
                   sectionKey = None,
-                  headingArg = "2"
+                  headingArgs = Seq("2")
                 )
               )
           }

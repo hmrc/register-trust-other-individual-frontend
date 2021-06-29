@@ -66,7 +66,7 @@ class OtherIndividualAnswersHelperSpec extends SpecBase {
                 AnswerRow(label = "otherIndividual.addressYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.AddressYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString)
               ),
               sectionKey = None,
-              headingArg = index + 1
+              headingArgs = Seq(index + 1)
             )
           ))
         }
@@ -103,7 +103,7 @@ class OtherIndividualAnswersHelperSpec extends SpecBase {
                 AnswerRow(label = "otherIndividual.idCardDetailsYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.IDCardDetailsYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString)
               ),
               sectionKey = None,
-              headingArg = index + 1
+              headingArgs = Seq(index + 1)
             )
           ))
         }
@@ -140,7 +140,7 @@ class OtherIndividualAnswersHelperSpec extends SpecBase {
                 AnswerRow(label = "otherIndividual.idCardDetailsYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.IDCardDetailsYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString)
               ),
               sectionKey = None,
-              headingArg = index + 1
+              headingArgs = Seq(index + 1)
             )
           ))
         }
@@ -174,7 +174,7 @@ class OtherIndividualAnswersHelperSpec extends SpecBase {
                 AnswerRow(label = "otherIndividual.5mld.countryOfResidenceYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(mld5rts.CountryOfResidenceYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString)
               ),
               sectionKey = None,
-              headingArg = index + 1
+              headingArgs = Seq(index + 1)
             )
           ))
         }
@@ -223,7 +223,7 @@ class OtherIndividualAnswersHelperSpec extends SpecBase {
                 AnswerRow(label = "otherIndividual.idCardDetailsYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.IDCardDetailsYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString)
               ),
               sectionKey = None,
-              headingArg = index + 1
+              headingArgs = Seq(index + 1)
             )
           ))
         }
@@ -268,7 +268,7 @@ class OtherIndividualAnswersHelperSpec extends SpecBase {
                 AnswerRow(label = "otherIndividual.idCardDetailsYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.IDCardDetailsYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString)
               ),
               sectionKey = None,
-              headingArg = index + 1
+              headingArgs = Seq(index + 1)
             )
           ))
         }

@@ -32,7 +32,7 @@ class OtherIndividualPrintHelper @Inject()(answerRowConverter: AnswerRowConverte
     AnswerSection(
       headingKey = Some("answerPage.section.otherIndividual.subheading"),
       rows = answers(userAnswers, name, index, draftId),
-      headingArg = index + 1
+      headingArgs = Seq(index + 1)
     )
   }
 
