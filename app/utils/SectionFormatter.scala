@@ -32,7 +32,7 @@ object SectionFormatter {
 
   private def formatAnswerSection(section: AnswerSection)(implicit messages: Messages): Seq[SummaryListRow] = {
     section.rows.zipWithIndex.map {
-      case (row:AnswerRow, i: Int) =>
+      case (row: AnswerRow, i: Int) =>
         SummaryListRow(
           key = Key(classes = "govuk-!-width-two-thirds", content = Text(messages(row.label, row.labelArg))),
           value = Value(HtmlContent(row.answer)),
