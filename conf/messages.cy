@@ -1,3 +1,5 @@
+service.name = Cofrestru Ymddiriedolaeth a’i Chynnal
+
 addOtherIndividual.add-them-later = Iawn
 addOtherIndividual.add-them-now = Iawn
 addOtherIndividual.additional-content = A oes angen i chi ychwanegu unigolyn arall?
@@ -287,7 +289,6 @@ site.inprogress = Ar y gweill
 site.no = Na
 site.returnToRegistrationProgress = Yn ôl i gynnydd cofrestru
 site.save.continue = Cadw ac yn eich blaen
-site.service_name = Cofrestru Ymddiriedolaeth a’i Chynnal
 site.sign_in = Mewngofnodi
 site.sign_out = Allgofnodi
 site.textarea.char_limit = (Y terfyn yw {0} o gymeriadau)
