@@ -16,16 +16,16 @@
 
 package utils.answers
 
-import java.time.LocalDate
-
 import base.SpecBase
-import models.{FullName, InternationalAddress, UkAddress}
-import controllers.register.individual.{routes => rts}
 import controllers.register.individual.mld5.{routes => mld5rts}
+import controllers.register.individual.{routes => rts}
+import models.{FullName, InternationalAddress, UkAddress}
 import pages.register.individual._
 import pages.register.individual.mld5._
 import play.twirl.api.Html
 import viewmodels.{AnswerRow, AnswerSection}
+
+import java.time.LocalDate
 
 class OtherIndividualAnswersHelperSpec extends SpecBase {
 
@@ -58,14 +58,15 @@ class OtherIndividualAnswersHelperSpec extends SpecBase {
 
           result mustBe Some(Seq(
             AnswerSection(
-              headingKey = Some(messages("answerPage.section.otherIndividual.subheading", index + 1)),
+              headingKey = Some("answerPage.section.otherIndividual.subheading"),
               rows = Seq(
                 AnswerRow(label = "otherIndividual.name.checkYourAnswersLabel", answer = Html(name.toString), changeUrl = Some(rts.NameController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit),
                 AnswerRow(label = "otherIndividual.dateOfBirthYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.DateOfBirthYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
                 AnswerRow(label = "otherIndividual.nationalInsuranceYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.NationalInsuranceYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
                 AnswerRow(label = "otherIndividual.addressYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.AddressYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString)
               ),
-              sectionKey = None
+              sectionKey = None,
+              headingArgs = Seq(index + 1)
             )
           ))
         }
@@ -89,9 +90,8 @@ class OtherIndividualAnswersHelperSpec extends SpecBase {
 
           result mustBe Some(Seq(
             AnswerSection(
-              headingKey = Some(messages("answerPage.section.otherIndividual.subheading", index + 1)),
+              headingKey = Some("answerPage.section.otherIndividual.subheading"),
               rows = Seq(
-
                 AnswerRow(label = "otherIndividual.name.checkYourAnswersLabel", answer = Html(name.toString), changeUrl = Some(rts.NameController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit),
                 AnswerRow(label = "otherIndividual.dateOfBirthYesNo.checkYourAnswersLabel", answer = Html("Yes"), changeUrl = Some(rts.DateOfBirthYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
                 AnswerRow(label = "otherIndividual.dateOfBirth.checkYourAnswersLabel", answer = Html("16 February 1960"), changeUrl = Some(rts.DateOfBirthController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
@@ -102,7 +102,8 @@ class OtherIndividualAnswersHelperSpec extends SpecBase {
                 AnswerRow(label = "otherIndividual.passportDetailsYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.PassportDetailsYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
                 AnswerRow(label = "otherIndividual.idCardDetailsYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.IDCardDetailsYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString)
               ),
-              sectionKey = None
+              sectionKey = None,
+              headingArgs = Seq(index + 1)
             )
           ))
         }
@@ -126,9 +127,8 @@ class OtherIndividualAnswersHelperSpec extends SpecBase {
 
           result mustBe Some(Seq(
             AnswerSection(
-              headingKey = Some(messages("answerPage.section.otherIndividual.subheading", index + 1)),
+              headingKey = Some("answerPage.section.otherIndividual.subheading"),
               rows = Seq(
-
                 AnswerRow(label = "otherIndividual.name.checkYourAnswersLabel", answer = Html(name.toString), changeUrl = Some(rts.NameController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit),
                 AnswerRow(label = "otherIndividual.dateOfBirthYesNo.checkYourAnswersLabel", answer = Html("Yes"), changeUrl = Some(rts.DateOfBirthYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
                 AnswerRow(label = "otherIndividual.dateOfBirth.checkYourAnswersLabel", answer = Html("16 February 1960"), changeUrl = Some(rts.DateOfBirthController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
@@ -139,11 +139,11 @@ class OtherIndividualAnswersHelperSpec extends SpecBase {
                 AnswerRow(label = "otherIndividual.passportDetailsYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.PassportDetailsYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
                 AnswerRow(label = "otherIndividual.idCardDetailsYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.IDCardDetailsYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString)
               ),
-              sectionKey = None
+              sectionKey = None,
+              headingArgs = Seq(index + 1)
             )
           ))
         }
-
       }
 
       "in 5mld taxable journey" when {
@@ -164,7 +164,7 @@ class OtherIndividualAnswersHelperSpec extends SpecBase {
 
           result mustBe Some(Seq(
             AnswerSection(
-              headingKey = Some(messages("answerPage.section.otherIndividual.subheading", index + 1)),
+              headingKey = Some("answerPage.section.otherIndividual.subheading"),
               rows = Seq(
                 AnswerRow(label = "otherIndividual.name.checkYourAnswersLabel", answer = Html(name.toString), changeUrl = Some(rts.NameController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit),
                 AnswerRow(label = "otherIndividual.dateOfBirthYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.DateOfBirthYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
@@ -173,11 +173,11 @@ class OtherIndividualAnswersHelperSpec extends SpecBase {
                 AnswerRow(label = "otherIndividual.nationalInsuranceNumber.checkYourAnswersLabel", answer = Html("AA 00 00 00 A"), changeUrl = Some(rts.NationalInsuranceNumberController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
                 AnswerRow(label = "otherIndividual.5mld.countryOfResidenceYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(mld5rts.CountryOfResidenceYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString)
               ),
-              sectionKey = None
+              sectionKey = None,
+              headingArgs = Seq(index + 1)
             )
           ))
         }
-
 
         "full data with international address" in {
 
@@ -204,9 +204,8 @@ class OtherIndividualAnswersHelperSpec extends SpecBase {
 
           result mustBe Some(Seq(
             AnswerSection(
-              headingKey = Some(messages("answerPage.section.otherIndividual.subheading", index + 1)),
+              headingKey = Some("answerPage.section.otherIndividual.subheading"),
               rows = Seq(
-
                 AnswerRow(label = "otherIndividual.name.checkYourAnswersLabel", answer = Html(name.toString), changeUrl = Some(rts.NameController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit),
                 AnswerRow(label = "otherIndividual.dateOfBirthYesNo.checkYourAnswersLabel", answer = Html("Yes"), changeUrl = Some(rts.DateOfBirthYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
                 AnswerRow(label = "otherIndividual.dateOfBirth.checkYourAnswersLabel", answer = Html("16 February 1960"), changeUrl = Some(rts.DateOfBirthController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
@@ -223,7 +222,8 @@ class OtherIndividualAnswersHelperSpec extends SpecBase {
                 AnswerRow(label = "otherIndividual.passportDetailsYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.PassportDetailsYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
                 AnswerRow(label = "otherIndividual.idCardDetailsYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.IDCardDetailsYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString)
               ),
-              sectionKey = None
+              sectionKey = None,
+              headingArgs = Seq(index + 1)
             )
           ))
         }
@@ -251,9 +251,8 @@ class OtherIndividualAnswersHelperSpec extends SpecBase {
 
           result mustBe Some(Seq(
             AnswerSection(
-              headingKey = Some(messages("answerPage.section.otherIndividual.subheading", index + 1)),
+              headingKey = Some("answerPage.section.otherIndividual.subheading"),
               rows = Seq(
-
                 AnswerRow(label = "otherIndividual.name.checkYourAnswersLabel", answer = Html(name.toString), changeUrl = Some(rts.NameController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit),
                 AnswerRow(label = "otherIndividual.dateOfBirthYesNo.checkYourAnswersLabel", answer = Html("Yes"), changeUrl = Some(rts.DateOfBirthYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
                 AnswerRow(label = "otherIndividual.dateOfBirth.checkYourAnswersLabel", answer = Html("16 February 1960"), changeUrl = Some(rts.DateOfBirthController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
@@ -268,13 +267,12 @@ class OtherIndividualAnswersHelperSpec extends SpecBase {
                 AnswerRow(label = "otherIndividual.passportDetailsYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.PassportDetailsYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
                 AnswerRow(label = "otherIndividual.idCardDetailsYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.IDCardDetailsYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString)
               ),
-              sectionKey = None
+              sectionKey = None,
+              headingArgs = Seq(index + 1)
             )
           ))
         }
-
       }
-
     }
   }
 }

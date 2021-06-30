@@ -30,16 +30,17 @@ class OtherIndividualPrintHelper @Inject()(answerRowConverter: AnswerRowConverte
   def printSection(userAnswers: UserAnswers, name: String, index: Int, draftId: String)
                   (implicit messages: Messages): AnswerSection = {
     AnswerSection(
-      Some(Messages("answerPage.section.otherIndividual.subheading", index + 1)),
-      answers(userAnswers, name, index, draftId)
+      headingKey = Some("answerPage.section.otherIndividual.subheading"),
+      rows = answers(userAnswers, name, index, draftId),
+      headingArgs = Seq(index + 1)
     )
   }
 
   def checkDetailsSection(userAnswers: UserAnswers, name: String, index: Int, draftId: String)
                          (implicit messages: Messages): AnswerSection = {
     AnswerSection(
-      None,
-      answers(userAnswers, name, index, draftId)
+      headingKey = None,
+      rows = answers(userAnswers, name, index, draftId)
     )
   }
 

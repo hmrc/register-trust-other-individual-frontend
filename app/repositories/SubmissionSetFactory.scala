@@ -16,7 +16,6 @@
 
 package repositories
 
-import javax.inject.Inject
 import mapping.register.OtherIndividualMapper
 import models._
 import pages.register.TrustHasOtherIndividualYesNoPage
@@ -26,26 +25,28 @@ import utils.RegistrationProgress
 import utils.answers.OtherIndividualAnswersHelper
 import viewmodels.{AnswerRow, AnswerSection}
 
+import javax.inject.Inject
+
 class SubmissionSetFactory @Inject()(registrationProgress: RegistrationProgress,
                                      otherIndividualMapper: OtherIndividualMapper,
                                      otherIndividualAnswersHelper: OtherIndividualAnswersHelper) {
 
   def createFrom(userAnswers: UserAnswers)(implicit messages: Messages): RegistrationSubmission.DataSet = {
     val status = registrationProgress.otherIndividualsStatus(userAnswers)
-    answerSectionsIfCompleted(userAnswers, status)
 
     RegistrationSubmission.DataSet(
-      Json.toJson(userAnswers),
-      status,
-      mappedDataIfCompleted(userAnswers, status),
-      answerSectionsIfCompleted(userAnswers, status)
+      data = Json.toJson(userAnswers),
+      status = status,
+      registrationPieces = mappedDataIfCompleted(userAnswers, status),
+      answerSections = answerSectionsIfCompleted(userAnswers, status)
     )
   }
 
   private def mappedPieces(otherIndividualsJson: JsValue) =
     List(RegistrationSubmission.MappedPiece("trust/entities/naturalPerson", otherIndividualsJson))
 
-  private def mappedDataIfCompleted(userAnswers: UserAnswers, status: Option[Status]) = {
+  private def mappedDataIfCompleted(userAnswers: UserAnswers,
+                                    status: Option[Status]): List[RegistrationSubmission.MappedPiece] = {
     if (status.contains(Status.Completed)) {
       otherIndividualMapper.build(userAnswers) match {
         case Some(assets) => mappedPieces(Json.toJson(assets))
@@ -59,10 +60,7 @@ class SubmissionSetFactory @Inject()(registrationProgress: RegistrationProgress,
   def answerSectionsIfCompleted(userAnswers: UserAnswers, status: Option[Status])
                                (implicit messages: Messages): List[RegistrationSubmission.AnswerSection] = {
 
-    val trustHasOtherIndividualYesNo = userAnswers.get(TrustHasOtherIndividualYesNoPage) match {
-      case Some(true) => true
-      case _ => false
-    }
+    val trustHasOtherIndividualYesNo = userAnswers.get(TrustHasOtherIndividualYesNoPage).contains(true)
 
     if (status.contains(Status.Completed) && trustHasOtherIndividualYesNo) {
 
@@ -70,11 +68,7 @@ class SubmissionSetFactory @Inject()(registrationProgress: RegistrationProgress,
         otherIndividualAnswersHelper.otherIndividuals(userAnswers)
       ).flatten.flatten
 
-      val updatedFirstSection = AnswerSection(
-        entitySections.head.headingKey,
-        entitySections.head.rows,
-        Some(Messages("answerPage.section.otherIndividuals.heading"))
-      )
+      val updatedFirstSection = entitySections.head.copy(sectionKey = Some("answerPage.section.otherIndividuals.heading"))
 
       val updatedSections = updatedFirstSection :: entitySections.tail
 
@@ -85,11 +79,21 @@ class SubmissionSetFactory @Inject()(registrationProgress: RegistrationProgress,
     }
   }
 
-  private def convertForSubmission(row: AnswerRow): RegistrationSubmission.AnswerRow = {
-    RegistrationSubmission.AnswerRow(row.label, row.answer.toString, row.labelArg)
+  private def convertForSubmission(section: AnswerSection): RegistrationSubmission.AnswerSection = {
+    RegistrationSubmission.AnswerSection(
+      headingKey = section.headingKey,
+      rows = section.rows.map(convertForSubmission),
+      sectionKey = section.sectionKey,
+      headingArgs = section.headingArgs.map(_.toString)
+    )
   }
 
-  private def convertForSubmission(section: AnswerSection): RegistrationSubmission.AnswerSection = {
-    RegistrationSubmission.AnswerSection(section.headingKey, section.rows.map(convertForSubmission), section.sectionKey)
+  private def convertForSubmission(row: AnswerRow): RegistrationSubmission.AnswerRow = {
+    RegistrationSubmission.AnswerRow(
+      label = row.label,
+      answer = row.answer.toString,
+      labelArg = row.labelArg
+    )
   }
+
 }
