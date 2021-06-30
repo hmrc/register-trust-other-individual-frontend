@@ -1,7 +1,7 @@
 service.name = Cofrestru Ymddiriedolaeth a’i Chynnal
 
-addOtherIndividual.add-them-later = Iawn
-addOtherIndividual.add-them-now = Iawn
+addOtherIndividual.add-them-later = Iawn, rwyf am ei ychwanegu yn nes ymlaen
+addOtherIndividual.add-them-now = Iawn, rwyf am ei ychwanegu nawr
 addOtherIndividual.additional-content = A oes angen i chi ychwanegu unigolyn arall?
 addOtherIndividual.count.heading = Rydych wedi ychwanegu {0} o unigolion eraill
 addOtherIndividual.count.title = Rydych wedi ychwanegu {0} o unigolion eraill
@@ -11,7 +11,7 @@ addOtherIndividual.maxedOut = Ni allwch ychwanegu unigolyn arall gan eich bod we
 addOtherIndividual.maxedOut.all = Ni allwch nodi unigolyn arall gan eich bod wedi nodi uchafswm o 50.
 addOtherIndividual.maxedOut.all.paragraph = Gwiriwch yr unigolion eraill rydych wedi’u hychwanegu. Os oes gennych ragor o unigolion eraill i’w hychwanegu
 addOtherIndividual.maxedOut.paragraph = Gwiriwch yr unigolion eraill rydych wedi’u hychwanegu. Os oes gennych ragor o unigolion eraill i’w hychwanegu
-addOtherIndividual.no-complete = Na
+addOtherIndividual.no-complete = Na, rwyf wedi ychwanegu’r holl unigolion eraill
 addOtherIndividual.title = Ychwanegu unigolyn arall
 
 addOtherIndividualYesNo.error.required = Dewiswch ‘Iawn’ os ydych am ychwanegu unigolyn arall
