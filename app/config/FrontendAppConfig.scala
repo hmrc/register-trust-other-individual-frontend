@@ -26,13 +26,11 @@ import uk.gov.hmrc.hmrcfrontend.config.ContactFrontendConfig
 import java.time.LocalDate
 
 @Singleton
-class FrontendAppConfig @Inject() (val configuration: Configuration,
-                                   contactFrontendConfig: ContactFrontendConfig
-                                  ) {
+class FrontendAppConfig @Inject()(val configuration: Configuration,
+                                  contactFrontendConfig: ContactFrontendConfig) {
 
   final val ENGLISH = "en"
   final val WELSH = "cy"
-  final val UK_COUNTRY_CODE = "GB"
 
   val repositoryKey: String = "otherIndividuals"
 
@@ -53,8 +51,8 @@ class FrontendAppConfig @Inject() (val configuration: Configuration,
   lazy val languageTranslationEnabled: Boolean =
     configuration.get[Boolean]("microservice.services.features.welsh-translation")
 
-  lazy val maintainATrustFrontendUrl : String = configuration.get[String]("urls.maintainATrust")
-  lazy val createAgentServicesAccountUrl : String = configuration.get[String]("urls.createAgentServicesAccount")
+  lazy val maintainATrustFrontendUrl: String = configuration.get[String]("urls.maintainATrust")
+  lazy val createAgentServicesAccountUrl: String = configuration.get[String]("urls.createAgentServicesAccount")
 
   lazy val trustsUrl: String = configuration.get[Service]("microservice.services.trusts").baseUrl
 
