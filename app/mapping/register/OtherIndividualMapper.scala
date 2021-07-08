@@ -23,9 +23,9 @@ class OtherIndividualMapper {
 
   def build(userAnswers: UserAnswers): Option[List[OtherIndividualType]] = {
 
-    userAnswers.get(OtherIndividuals) match {
-      case None => None
-      case Some(list) => Some(
+    userAnswers.get(OtherIndividuals) flatMap {
+      case Nil => None
+      case list => Some(
         list.map { otherIndividual =>
           OtherIndividualType(
             name = otherIndividual.name,

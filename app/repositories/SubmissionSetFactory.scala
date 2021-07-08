@@ -49,7 +49,7 @@ class SubmissionSetFactory @Inject()(registrationProgress: RegistrationProgress,
                                     status: Option[Status]): List[RegistrationSubmission.MappedPiece] = {
     if (status.contains(Status.Completed)) {
       otherIndividualMapper.build(userAnswers) match {
-        case Some(assets) => mappedPieces(Json.toJson(assets))
+        case Some(otherIndividuals) => mappedPieces(Json.toJson(otherIndividuals))
         case _ => mappedPieces(JsNull)
       }
     } else {
