@@ -17,6 +17,7 @@
    3. [Check your answers](#check-your-answers)
    4. [Add to list maximum state](#Add-to-list-maximum-state)
    1. [Draft and confirm Print](#draft-and-confirm-print)
+   1. [Task List](#task-list)
 1. [Tests](#tests)
 1. [General tips](#general-tips)
 
@@ -545,6 +546,19 @@ If you change a message key in the frontend such as:
 ```diff
 - setUpAfterSettlorDied.checkYourAnswersLabel = ...
 + setUpAfterSettlorDiedYesNo.checkYourAnswersLabel = ...
+```
+
+Then you also need to update the message key in [trusts-frontend](https://github.com/hmrc/trusts-frontend) or [maintain-a-trust-frontend](https://github.com/hmrc/maintain-a-trust-frontend). This will ensure the draft and confirm print pages are up-to-date.
+
+**[Back to top](#contents)**
+
+### Task List
+
+When moving to the new task list use new **TaskList** and **TaskItem** components from [trusts-frontend](https://github.com/hmrc/trusts-frontend) and then add the following custom css rule to application.scss to stop the list being offset:
+```diff
++ .app-task-list__items {
++   padding-left: 0 !important;
++ }
 ```
 
 Then you also need to update the message key in [trusts-frontend](https://github.com/hmrc/trusts-frontend) or [maintain-a-trust-frontend](https://github.com/hmrc/maintain-a-trust-frontend). This will ensure the draft and confirm print pages are up-to-date.
