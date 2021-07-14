@@ -255,7 +255,7 @@ and changed to
 
 Have made changes to ViewUtils.errorHref and DateErrorFormatter.formatArgs for use in DateInput and ErrorSummary.
 
-**Note:** The changes to errorHref make error highlighting work for Yes/No Radio buttons only if the message keys used on these pages have "YesNo" in the message Key so any that don't use this format will need to be changed. 
+**Note:** The changes to errorHref make error highlighting work for Yes/No Radio buttons only if the message keys used on these pages have "YesNo" in the message Key so any that don't use this format will need to be changed. ***Please be aware there is now a new method for achieving this result at the bottom of this section that doesn't require changing message keys.***
 
 We have for error summary
 
@@ -357,6 +357,41 @@ Added mapRadioOptionsToRadioItems:
       }
     )
 ```
+
+**Note:** There is also a new method for error highlighting to redirect correctly for YesNo radio buttons, which can be used to avoid the need to change message keys. Both methods are acceptable but this is now preferred. In ViewUtils change errorHref to:
+
+```scala
+  def errorHref(error: FormError, radioOptions: Seq[RadioOption] = Nil, isYesNo: Boolean = false): String = {
+    error.args match {
+      case x if x.contains("day") || x.contains("month") || x.contains("year") =>
+        s"${error.key}.${error.args.head}"
+      case _ if isYesNo =>
+        s"${error.key}-yes"
+      case _ if radioOptions.size != 0 =>
+        radioOptions.head.id
+      case _ =>
+        val isSingleDateField = error.message.toLowerCase.contains("date") && !error.message.toLowerCase.contains("yesno")
+        if (error.key.toLowerCase.contains("date") || isSingleDateField) {
+          s"${error.key}.day"
+        } else {
+          s"${error.key}"
+        }
+    }
+  }
+```
+
+and in all YesNo views change:
+
+```scala
+@error_summary(form.errors)
+```
+
+to
+
+```scala
+@error_summary(form.errors, isYesNo = true)
+```
+
 **[Back to top](#contents)**
 
 ### Radio options
