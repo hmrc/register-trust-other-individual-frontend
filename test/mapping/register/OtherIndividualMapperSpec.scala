@@ -16,14 +16,16 @@
 
 package mapping.register
 
-import java.time.LocalDate
 import base.SpecBase
 import generators.Generators
+import mapping.reads.OtherIndividuals
 import models.{AddressType, FullName, IdentificationType, InternationalAddress, OtherIndividualType, PassportOrIdCardDetails, PassportType, UkAddress}
 import org.scalatest.{MustMatchers, OptionValues}
 import pages.register.individual._
 import pages.register.individual.mld5._
 import utils.Constants._
+
+import java.time.LocalDate
 
 class OtherIndividualMapperSpec extends SpecBase with MustMatchers
   with OptionValues with Generators {
@@ -39,9 +41,8 @@ class OtherIndividualMapperSpec extends SpecBase with MustMatchers
 
   "OtherIndividualMapper" when {
 
-    "when user answers is empty" must {
-
-      "must return None" in {
+    "user answers is empty" must {
+      "return None" in {
 
         val userAnswers = emptyUserAnswers
 
@@ -49,7 +50,16 @@ class OtherIndividualMapperSpec extends SpecBase with MustMatchers
       }
     }
 
-    "when user answers is not empty" must {
+    "empty list at OtherIndividuals path" must {
+      "return None" in {
+
+        val userAnswers = emptyUserAnswers.set(OtherIndividuals, Nil).success.value
+
+        mapper.build(userAnswers) mustNot be(defined)
+      }
+    }
+
+    "user answers is not empty" must {
 
       "return mapped data" when {
 
