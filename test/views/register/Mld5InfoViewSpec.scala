@@ -29,7 +29,7 @@ class Mld5InfoViewSpec extends ViewBehaviours {
 
       val applyView = view.apply(fakeDraftId, isTaxable = true)(fakeRequest, messages)
 
-      behave like normalPageTitleWithCaption(applyView, "otherIndividualsInfo.5mld",
+      behave like normalPageTitleWithSectionSubheading(applyView, "otherIndividualsInfo.5mld",
         "caption",
         "paragraph1",
         "bulletpoint1",
@@ -57,7 +57,7 @@ class Mld5InfoViewSpec extends ViewBehaviours {
 
       val applyView = view.apply(fakeDraftId, isTaxable = false)(fakeRequest, messages)
 
-      behave like normalPageTitleWithCaption(applyView, "otherIndividualsInfo.5mld",
+      behave like normalPageTitleWithSectionSubheading(applyView, "otherIndividualsInfo.5mld",
         "caption",
         "paragraph1",
         "bulletpoint1",
