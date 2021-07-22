@@ -43,14 +43,15 @@ class NationalInsuranceNumberController @Inject()(
                                                    view: NationalInsuranceNumberView
                                                  )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  private val form = formProvider.withPrefix("otherIndividual.nationalInsuranceNumber")
+  private def form(index: Int)(implicit request: OtherIndividualNameRequest[AnyContent]) =
+    formProvider.withPrefix("otherIndividual.nationalInsuranceNumber", request.userAnswers, index)
 
   def onPageLoad(index: Int, draftId: String): Action[AnyContent] = standardActionSets.identifiedUserWithData(draftId).andThen(nameAction(index)) {
     implicit request =>
 
       val preparedForm = request.userAnswers.get(NationalInsuranceNumberPage(index)) match {
-        case None => form
-        case Some(value) => form.fill(value)
+        case None => form(index)
+        case Some(value) => form(index).fill(value)
       }
 
       Ok(view(preparedForm, request.otherIndividualName, index, draftId))
@@ -59,7 +60,7 @@ class NationalInsuranceNumberController @Inject()(
   def onSubmit(index: Int, draftId: String): Action[AnyContent] = standardActionSets.identifiedUserWithData(draftId).andThen(nameAction(index)).async {
     implicit request =>
 
-      form.bindFromRequest().fold(
+      form(index).bindFromRequest().fold(
         (formWithErrors: Form[_]) =>
           Future.successful(BadRequest(view(formWithErrors, request.otherIndividualName, index, draftId))),
 

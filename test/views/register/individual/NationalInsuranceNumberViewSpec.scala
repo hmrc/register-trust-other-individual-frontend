@@ -30,7 +30,7 @@ class NationalInsuranceNumberViewSpec extends StringViewBehaviours {
   val name: FullName = FullName("First", None, "Last")
 
   val form: Form[String] =
-    new NationalInsuranceNumberFormProvider().withPrefix(messageKeyPrefix)
+    new NationalInsuranceNumberFormProvider().withPrefix(messageKeyPrefix, emptyUserAnswers, index)
 
   "OtherIndividualNationalInsuranceNumber view" must {
 
