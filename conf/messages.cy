@@ -184,7 +184,8 @@ otherIndividual.nationalInsuranceNumber.checkYourAnswersLabel = Beth yw rhif Ysw
 otherIndividual.nationalInsuranceNumber.error.invalid = Nodwch rif Yswiriant Gwladol yr unigolyn arall yn y fformat cywir
 otherIndividual.nationalInsuranceNumber.error.required = Nodwch rif Yswiriant Gwladol yr unigolyn arall
 otherIndividual.nationalInsuranceNumber.heading = Beth yw rhif Yswiriant Gwladol {0}?
-otherIndividual.nationalInsuranceNumber.hint = Mae hwn ar ei gerdyn Yswiriant Gwladol
+otherIndividual.nationalInsuranceNumber.hint = Mae hwn ar ei gerdyn Yswiriant Gwladol, llythyr ynghylch budd-daliadau, slip cyflog neu P60. Er enghraifft, ‘QQ 12 34 56 C’.
+
 otherIndividual.nationalInsuranceNumber.title = Beth yw rhif Yswiriant Gwladol yr unigolyn arall?
 
 otherIndividual.nationalInsuranceYesNo.checkYourAnswersLabel = A ydych yn gwybod rhif Yswiriant Gwladol {0}?
