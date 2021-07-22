@@ -30,8 +30,8 @@ import views.html.register.individual.NationalInsuranceNumberView
 class NationalInsuranceNumberControllerSpec extends SpecBase {
 
   private val formProvider = new NationalInsuranceNumberFormProvider()
-  private val form = formProvider.withPrefix("otherIndividual.nationalInsuranceNumber")
   private val index: Int = 0
+  private val form = formProvider.withPrefix("otherIndividual.nationalInsuranceNumber", emptyUserAnswers, index)
   private val name = FullName("first name", None, "Last name")
 
   lazy val otherIndividualNationalInsuranceNumberRoute = routes.NationalInsuranceNumberController.onPageLoad(index,draftId).url
@@ -103,29 +103,61 @@ class NationalInsuranceNumberControllerSpec extends SpecBase {
       application.stop()
     }
 
-    "return a Bad Request and errors when invalid data is submitted" in {
+    "return a Bad Request and errors" when {
+      "invalid data is submitted" in {
 
-      val userAnswers = emptyUserAnswers.set(NamePage(index),
-        name).success.value
+        val userAnswers = emptyUserAnswers.set(NamePage(index),
+          name).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+        val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
-      val request =
-        FakeRequest(POST, otherIndividualNationalInsuranceNumberRoute)
-          .withFormUrlEncodedBody(("value", ""))
+        val request =
+          FakeRequest(POST, otherIndividualNationalInsuranceNumberRoute)
+            .withFormUrlEncodedBody(("value", ""))
 
-      val boundForm = form.bind(Map("value" -> ""))
+        val boundForm = form.bind(Map("value" -> ""))
 
-      val view = application.injector.instanceOf[NationalInsuranceNumberView]
+        val view = application.injector.instanceOf[NationalInsuranceNumberView]
 
-      val result = route(application, request).value
+        val result = route(application, request).value
 
-      status(result) mustEqual BAD_REQUEST
+        status(result) mustEqual BAD_REQUEST
 
-      contentAsString(result) mustEqual
-        view(boundForm,name.toString, index, draftId)(request, messages).toString
+        contentAsString(result) mustEqual
+          view(boundForm,name.toString, index, draftId)(request, messages).toString
 
-      application.stop()
+        application.stop()
+      }
+
+      "duplicate nino is submitted" in {
+
+        val nino = "JH123456C"
+
+        val userAnswers = emptyUserAnswers
+          .set(NamePage(index), name).success.value
+          .set(NationalInsuranceNumberPage(index + 1), nino).success.value
+
+        val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+
+        val request =
+          FakeRequest(POST, otherIndividualNationalInsuranceNumberRoute)
+            .withFormUrlEncodedBody(("value", nino))
+
+        val boundForm = form
+          .bind(Map("value" -> nino))
+          .withError("value", "otherIndividual.nationalInsuranceNumber.error.duplicate")
+
+        val view = application.injector.instanceOf[NationalInsuranceNumberView]
+
+        val result = route(application, request).value
+
+        status(result) mustEqual BAD_REQUEST
+
+        contentAsString(result) mustEqual
+          view(boundForm,name.toString, index, draftId)(request, messages).toString
+
+        application.stop()
+      }
     }
 
     "redirect to Session Expired for a GET if no existing data is found" in {

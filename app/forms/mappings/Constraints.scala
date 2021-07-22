@@ -16,9 +16,13 @@
 
 package forms.mappings
 
-import java.time.LocalDate
+import models.UserAnswers
+import pages.register.individual.NationalInsuranceNumberPage
 
+import java.time.LocalDate
 import play.api.data.validation.{Constraint, Invalid, Valid}
+import play.api.libs.json.{JsArray, JsString, JsSuccess}
+import sections.OtherIndividuals
 import uk.gov.hmrc.domain.Nino
 
 trait Constraints {
@@ -133,6 +137,27 @@ trait Constraints {
         Valid
       case _ =>
         Invalid(errorKey, value)
+    }
+
+
+  protected def isNinoDuplicated(userAnswers: UserAnswers, index: Int, errorKey: String): Constraint[String] =
+    Constraint {
+      nino =>
+        userAnswers.data.transform(OtherIndividuals.path.json.pick[JsArray]) match {
+          case JsSuccess(individuals, _) =>
+
+            val uniqueNino = individuals.value.zipWithIndex.forall( individual =>
+              !((individual._1 \\ NationalInsuranceNumberPage.key).contains(JsString(nino)) && individual._2 != index)
+            )
+
+            if (uniqueNino) {
+              Valid
+            } else {
+              Invalid(errorKey)
+            }
+          case _ =>
+            Valid
+        }
     }
 
 }
