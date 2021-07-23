@@ -107,7 +107,7 @@ otherIndividual.5mld.mentalCapacityYesNo.checkYourAnswersLabel = A oes gan {0} a
 otherIndividual.5mld.mentalCapacityYesNo.error.required = Dewiswch ‘Iawn’ os ydych yn gwybod bod gan yr unigolyn arall alluedd meddyliol ar adeg y cofrestru
 otherIndividual.5mld.mentalCapacityYesNo.heading = A oes gan {0} alluedd meddyliol ar adeg y cofrestru?
 otherIndividual.5mld.mentalCapacityYesNo.hint = Nid oes gan unigolyn arall alluedd meddyliol os nad yw’n gallu deall gwybodaeth na gwneud penderfyniadau am yr ymddiriedolaeth oherwydd salwch meddwl
-otherIndividual.5mld.mentalCapacityYesNo.p1 = 
+otherIndividual.5mld.mentalCapacityYesNo.p1 = Mae angen i chi roi gwybod i CThEM os oes diffyg galluedd meddyliol gan unrhyw un o’r unigolion eraill sy’n ymwneud â’r ymddiriedolaeth ar adeg y cofrestru.
 otherIndividual.5mld.mentalCapacityYesNo.p2 = Nid oes gan unigolyn alluedd meddyliol os nad yw’n gallu deall gwybodaeth am yr ymddiriedolaeth oherwydd unrhyw un o’r canlynol:
 otherIndividual.5mld.mentalCapacityYesNo.title = A oes gan yr unigolyn arall alluedd meddyliol ar adeg y cofrestru?
 
