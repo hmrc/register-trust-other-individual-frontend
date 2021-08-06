@@ -16,12 +16,12 @@
 
 package controllers.actions.register
 
+import controllers.Assets.Redirect
 import controllers.actions.register
 import javax.inject.Inject
 import models.requests.RegistrationDataRequest
 import pages.QuestionPage
 import play.api.Logging
-import play.api.mvc.Results.Redirect
 import play.api.mvc.{ActionRefiner, Result}
 import viewmodels.addAnother.OtherIndividualViewModel
 
