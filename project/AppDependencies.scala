@@ -15,7 +15,7 @@ object AppDependencies {
 
   val test: Seq[ModuleID] = Seq(
     "org.scalatest"            %% "scalatest"             % "3.0.9",
-    "org.scalatestplus.play"   %% "scalatestplus-play"    % "5.1.0",
+    "org.scalatestplus.play"   %% "scalatestplus-play"    % "5.0.0",
     "org.pegdown"              %  "pegdown"               % "1.6.0",
     "org.jsoup"                %  "jsoup"                 % "1.10.3",
     "com.typesafe.play"        %% "play-test"             % PlayVersion.current,
