@@ -290,7 +290,8 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
           val application =
             applicationBuilder(userAnswers = Some(userAnswersWithOtherIndividualsComplete))
               .overrides(
-                bind[TrustsStoreService].to(mockTrustsStoreService)
+                bind[TrustsStoreService].to(mockTrustsStoreService),
+                bind[RegistrationProgress].to(mockRegistrationProgress)
               ).build()
 
           when(mockRegistrationProgress.otherIndividualsStatus(any())).thenReturn(Some(InProgress))
@@ -318,7 +319,8 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
           val application =
             applicationBuilder(userAnswers = Some(userAnswersWithOtherIndividualsComplete))
               .overrides(
-                bind[TrustsStoreService].to(mockTrustsStoreService)
+                bind[TrustsStoreService].to(mockTrustsStoreService),
+                bind[RegistrationProgress].to(mockRegistrationProgress)
               ).build()
 
           when(mockRegistrationProgress.otherIndividualsStatus(any())).thenReturn(Some(InProgress))
@@ -357,8 +359,6 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
                   bind[TrustsStoreService].to(mockTrustsStoreService),
                   bind[RegistrationProgress].to(mockRegistrationProgress)
                 ).build()
-
-            when(mockRegistrationProgress.otherIndividualsStatus(any())).thenReturn(Some(InProgress))
 
             val request =
               FakeRequest(POST, addAnotherPostRoute)
