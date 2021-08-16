@@ -17,30 +17,38 @@
 package controllers.register
 
 import base.SpecBase
-import connectors.TrustsStoreConnector
 import forms.YesNoFormProvider
 import models.TaskStatus
 import org.mockito.Matchers.{any, eq => mEq}
-import org.mockito.Mockito.when
+import org.mockito.Mockito.{reset, verify, when}
+import org.scalatest.BeforeAndAfterEach
 import org.scalatestplus.mockito.MockitoSugar
 import pages.register.TrustHasOtherIndividualYesNoPage
 import play.api.data.Form
+import play.api.inject.bind
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import play.api.inject.bind
+import services.TrustsStoreService
 import uk.gov.hmrc.http.HttpResponse
 import views.html.register.TrustHasOtherIndividualYesNoView
 
 import scala.concurrent.Future
 
-class TrustHasOtherIndividualYesNoControllerSpec extends SpecBase with MockitoSugar {
+class TrustHasOtherIndividualYesNoControllerSpec extends SpecBase with MockitoSugar with BeforeAndAfterEach {
 
   private val form: Form[Boolean] = new YesNoFormProvider().withPrefix("trustHasOtherIndividualYesNo")
   lazy val trustHasOtherIndividualYesNoRoute = routes.TrustHasOtherIndividualYesNoController.onPageLoad(draftId).url
 
   private val baseAnswers = emptyUserAnswers.set(TrustHasOtherIndividualYesNoPage, true).success.value
 
-  private val mockTrustsStoreConnector: TrustsStoreConnector = mock[TrustsStoreConnector]
+  private val mockTrustsStoreService: TrustsStoreService = mock[TrustsStoreService]
+
+  override def beforeEach(): Unit = {
+    reset(mockTrustsStoreService)
+
+    when(mockTrustsStoreService.updateTaskStatus(any(), any())(any(), any()))
+      .thenReturn(Future.successful(HttpResponse(OK, "")))
+  }
 
   "TrustHasOtherIndividualYesNo Controller" must {
 
@@ -82,29 +90,54 @@ class TrustHasOtherIndividualYesNoControllerSpec extends SpecBase with MockitoSu
       application.stop()
     }
 
-    "redirect to the next page when valid data is submitted" in {
+    "redirect to the next page when valid data is submitted" when {
 
-      val application =
-        applicationBuilder(userAnswers = Some(emptyUserAnswers))
-          .overrides(
-            bind[TrustsStoreConnector].to(mockTrustsStoreConnector)
-          )
-          .build()
+      "yes selected" in {
+        val application =
+          applicationBuilder(userAnswers = Some(emptyUserAnswers))
+            .overrides(
+              bind[TrustsStoreService].to(mockTrustsStoreService)
+            )
+            .build()
 
-      when(mockTrustsStoreConnector.updateTaskStatus(any(), mEq(TaskStatus.InProgress))(any(), any()))
-        .thenReturn(Future.successful(HttpResponse.apply(OK, "")))
+        val request =
+          FakeRequest(POST, trustHasOtherIndividualYesNoRoute)
+            .withFormUrlEncodedBody(("value", "true"))
 
-      val request =
-        FakeRequest(POST, trustHasOtherIndividualYesNoRoute)
-          .withFormUrlEncodedBody(("value", "true"))
+        val result = route(application, request).value
 
-      val result = route(application, request).value
+        status(result) mustEqual SEE_OTHER
 
-      status(result) mustEqual SEE_OTHER
+        redirectLocation(result).value mustEqual routes.InfoController.onPageLoad(draftId).url
 
-      redirectLocation(result).value mustEqual routes.InfoController.onPageLoad(draftId).url
+        verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
 
-      application.stop()
+        application.stop()
+      }
+
+      "no selected" in {
+        val application =
+          applicationBuilder(userAnswers = Some(emptyUserAnswers))
+            .overrides(
+              bind[TrustsStoreService].to(mockTrustsStoreService)
+            )
+            .build()
+
+        val request =
+          FakeRequest(POST, trustHasOtherIndividualYesNoRoute)
+            .withFormUrlEncodedBody(("value", "false"))
+
+        val result = route(application, request).value
+
+        status(result) mustEqual SEE_OTHER
+
+        redirectLocation(result).value mustEqual "http://localhost:9781/trusts-registration/draftId/registration-progress"
+
+        verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.Completed))(any(), any())
+
+        application.stop()
+      }
+
     }
 
     "return a Bad Request and errors when invalid data is submitted" in {

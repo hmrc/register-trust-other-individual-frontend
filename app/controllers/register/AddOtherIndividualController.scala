@@ -18,15 +18,13 @@ package controllers.register
 
 import config.FrontendAppConfig
 import config.annotations.OtherIndividual
-import connectors.TrustsStoreConnector
 import controllers.actions.{RequiredAnswer, RequiredAnswerAction, RequiredAnswerActionProvider, StandardActionSets}
 import forms.{AddOtherIndividualFormProvider, YesNoFormProvider}
-
-import javax.inject.Inject
-import models.{Enumerable, TaskStatus}
+import models.Status.Completed
 import models.TaskStatus.TaskStatus
 import models.register.pages.AddOtherIndividual
 import models.register.pages.AddOtherIndividual.NoComplete
+import models.{Enumerable, TaskStatus, UserAnswers}
 import navigation.Navigator
 import pages.register.{AddOtherIndividualPage, AddOtherIndividualYesNoPage, TrustHasOtherIndividualYesNoPage}
 import play.api.Logging
@@ -34,11 +32,13 @@ import play.api.data.Form
 import play.api.i18n.{I18nSupport, Messages, MessagesApi, MessagesProvider}
 import play.api.mvc.{Action, AnyContent, Call, MessagesControllerComponents}
 import repositories.RegistrationsRepository
+import services.TrustsStoreService
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import utils.AddOtherIndividualViewHelper
+import utils.{AddOtherIndividualViewHelper, RegistrationProgress}
 import views.html.register.{AddOtherIndividualView, TrustHasOtherIndividualYesNoView}
 
+import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 class AddOtherIndividualController @Inject()(
@@ -53,7 +53,8 @@ class AddOtherIndividualController @Inject()(
                                               addAnotherView: AddOtherIndividualView,
                                               yesNoView: TrustHasOtherIndividualYesNoView,
                                               config: FrontendAppConfig,
-                                              trustsStoreConnector: TrustsStoreConnector
+                                              trustsStoreService: TrustsStoreService,
+                                              registrationProgress: RegistrationProgress
                                             )(implicit ec: ExecutionContext) extends FrontendBaseController with Logging
   with I18nSupport with Enumerable.Implicits with AnyOtherIndividuals {
 
@@ -72,17 +73,16 @@ class AddOtherIndividualController @Inject()(
 
   private def setTaskStatus(draftId: String, taskStatus: TaskStatus)
                            (implicit hc: HeaderCarrier) = {
-    trustsStoreConnector.updateTaskStatus(draftId, taskStatus)
+    trustsStoreService.updateTaskStatus(draftId, taskStatus)
   }
 
-  private def setTaskStatus(draftId: String, action: AddOtherIndividual)
+  private def setTaskStatus(draftId: String, userAnswers: UserAnswers, action: AddOtherIndividual)
                            (implicit hc: HeaderCarrier) = {
-    val status = action match {
-      case AddOtherIndividual.YesNow => TaskStatus.InProgress
-      case AddOtherIndividual.YesLater => TaskStatus.InProgress
-      case AddOtherIndividual.NoComplete => TaskStatus.Completed
+    val status = (action, registrationProgress.otherIndividualsStatus(userAnswers)) match {
+      case (NoComplete, Some(Completed)) => TaskStatus.Completed
+      case _ => TaskStatus.InProgress
     }
-    trustsStoreConnector.updateTaskStatus(draftId, status)
+    trustsStoreService.updateTaskStatus(draftId, status)
   }
 
   def onPageLoad(draftId: String): Action[AnyContent] = standardActionSets
@@ -130,7 +130,7 @@ class AddOtherIndividualController @Inject()(
             for {
               updatedAnswers <- Future.fromTry(request.userAnswers.set(AddOtherIndividualYesNoPage, value))
               _              <- registrationsRepository.set(updatedAnswers)
-              _              <- setTaskStatus(draftId, TaskStatus.InProgress)
+              _              <- setTaskStatus(draftId, if (value) TaskStatus.InProgress else TaskStatus.Completed)
             } yield Redirect(navigator.nextPage(AddOtherIndividualYesNoPage, draftId, updatedAnswers))
           }
         )
@@ -162,7 +162,7 @@ class AddOtherIndividualController @Inject()(
             for {
               updatedAnswers <- Future.fromTry(request.userAnswers.set(AddOtherIndividualPage, value))
               _              <- registrationsRepository.set(updatedAnswers)
-              _              <- setTaskStatus(draftId, value)
+              _              <- setTaskStatus(draftId, updatedAnswers, value)
             } yield Redirect(navigator.nextPage(AddOtherIndividualPage, draftId, updatedAnswers))
           }
         )
@@ -175,7 +175,7 @@ class AddOtherIndividualController @Inject()(
         for {
           updatedAnswers <- Future.fromTry(request.userAnswers.set(AddOtherIndividualPage, NoComplete))
           _              <- registrationsRepository.set(updatedAnswers)
-          _              <- setTaskStatus(draftId, TaskStatus.Completed)
+          _              <- setTaskStatus(draftId,updatedAnswers, NoComplete)
         } yield Redirect(Call("GET", config.registrationProgressUrl(draftId)))
   }
 

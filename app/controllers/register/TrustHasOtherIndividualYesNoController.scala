@@ -16,22 +16,20 @@
 
 package controllers.register
 
-import config.FrontendAppConfig
 import config.annotations.OtherIndividual
-import connectors.TrustsStoreConnector
 import controllers.actions.StandardActionSets
 import forms.YesNoFormProvider
 import models.TaskStatus
-
-import javax.inject.Inject
 import navigation.Navigator
 import pages.register.TrustHasOtherIndividualYesNoPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.RegistrationsRepository
+import services.TrustsStoreService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.register.TrustHasOtherIndividualYesNoView
 
+import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 class TrustHasOtherIndividualYesNoController @Inject()(
@@ -42,7 +40,7 @@ class TrustHasOtherIndividualYesNoController @Inject()(
                                     formProvider: YesNoFormProvider,
                                     val controllerComponents: MessagesControllerComponents,
                                     view: TrustHasOtherIndividualYesNoView,
-                                    trustsStoreConnector: TrustsStoreConnector
+                                    trustsStoreService: TrustsStoreService
                                       )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   val form = formProvider.withPrefix("trustHasOtherIndividualYesNo")
@@ -76,7 +74,7 @@ class TrustHasOtherIndividualYesNoController @Inject()(
                 TaskStatus.Completed
               }
             }
-            _              <- trustsStoreConnector.updateTaskStatus(draftId, taskStatus)
+            _              <- trustsStoreService.updateTaskStatus(draftId, taskStatus)
           } yield Redirect(navigator.nextPage(TrustHasOtherIndividualYesNoPage, draftId, updatedAnswers))
       )
   }
