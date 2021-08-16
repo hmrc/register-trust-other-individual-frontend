@@ -17,18 +17,25 @@
 package controllers.register
 
 import base.SpecBase
+import connectors.TrustsStoreConnector
 import controllers.register.individual.{routes => irts}
 import forms.{AddOtherIndividualFormProvider, YesNoFormProvider}
 import models.Status.Completed
 import models.register.pages.AddOtherIndividual
-import models.{FullName, UserAnswers}
+import models.{FullName, TaskStatus, UserAnswers}
+import org.mockito.Matchers.{any, eq => mEq}
+import org.mockito.Mockito.when
 import pages.entitystatus.OtherIndividualStatus
 import pages.register.individual._
 import pages.register.{AddOtherIndividualPage, TrustHasOtherIndividualYesNoPage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import play.api.inject.bind
+import uk.gov.hmrc.http.HttpResponse
 import viewmodels.AddRow
 import views.html.register.{AddOtherIndividualView, TrustHasOtherIndividualYesNoView}
+
+import scala.concurrent.Future
 
 class AddOtherIndividualControllerSpec extends SpecBase {
 
@@ -55,6 +62,8 @@ class AddOtherIndividualControllerSpec extends SpecBase {
   private val form = formProvider()
 
   private val yesNoForm = new YesNoFormProvider().withPrefix("trustHasOtherIndividualYesNo")
+
+  private val mockTrustsStoreConnector: TrustsStoreConnector = mock[TrustsStoreConnector]
 
   private lazy val otherIndividualsComplete = List(
     AddRow("Name 1", typeLabel = "Other Individual", changeOtherIndividualRoute(0), removeOtherIndividualRoute(0)),
@@ -145,7 +154,15 @@ class AddOtherIndividualControllerSpec extends SpecBase {
       "redirect to the next page when valid data is submitted" in {
 
         val application =
-          applicationBuilder(userAnswers = Some(emptyUserAnswers.set(TrustHasOtherIndividualYesNoPage, false).success.value)).build()
+          applicationBuilder(userAnswers = Some(emptyUserAnswers.set(TrustHasOtherIndividualYesNoPage, false).success.value))
+            .overrides(
+              bind[TrustsStoreConnector].to(mockTrustsStoreConnector)
+            )
+            .build()
+
+
+        when(mockTrustsStoreConnector.updateTaskStatus(any(), mEq(TaskStatus.InProgress))(any(), any()))
+          .thenReturn(Future.successful(HttpResponse.apply(OK, "")))
 
         val request =
           FakeRequest(POST, addOnePostRoute)
@@ -229,7 +246,14 @@ class AddOtherIndividualControllerSpec extends SpecBase {
 
         val index =3
         val application =
-          applicationBuilder(userAnswers = Some(userAnswersWithOtherIndividualsComplete)).build()
+          applicationBuilder(userAnswers = Some(userAnswersWithOtherIndividualsComplete))
+            .overrides(
+              bind[TrustsStoreConnector].to(mockTrustsStoreConnector)
+            ).build()
+
+
+        when(mockTrustsStoreConnector.updateTaskStatus(any(), mEq(TaskStatus.InProgress))(any(), any()))
+          .thenReturn(Future.successful(HttpResponse.apply(OK, "")))
 
         val request =
           FakeRequest(POST, addAnotherPostRoute)
@@ -291,7 +315,14 @@ class AddOtherIndividualControllerSpec extends SpecBase {
 
       "redirect to registration progress when user clicks continue" in {
 
-        val application = applicationBuilder(userAnswers = Some(emptyUserAnswers.set(TrustHasOtherIndividualYesNoPage, false).success.value)).build()
+        val application = applicationBuilder(userAnswers = Some(emptyUserAnswers.set(TrustHasOtherIndividualYesNoPage, false).success.value))
+          .overrides(
+            bind[TrustsStoreConnector].to(mockTrustsStoreConnector)
+          ).build()
+
+
+        when(mockTrustsStoreConnector.updateTaskStatus(any(), mEq(TaskStatus.Completed))(any(), any()))
+          .thenReturn(Future.successful(HttpResponse.apply(OK, "")))
 
         val request = FakeRequest(POST, submitCompleteRoute)
 
