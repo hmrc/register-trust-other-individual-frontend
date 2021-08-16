@@ -18,8 +18,11 @@ package controllers.register
 
 import config.FrontendAppConfig
 import config.annotations.OtherIndividual
+import connectors.TrustsStoreConnector
 import controllers.actions.StandardActionSets
 import forms.YesNoFormProvider
+import models.TaskStatus
+
 import javax.inject.Inject
 import navigation.Navigator
 import pages.register.TrustHasOtherIndividualYesNoPage
@@ -39,7 +42,7 @@ class TrustHasOtherIndividualYesNoController @Inject()(
                                     formProvider: YesNoFormProvider,
                                     val controllerComponents: MessagesControllerComponents,
                                     view: TrustHasOtherIndividualYesNoView,
-                                    config: FrontendAppConfig
+                                    trustsStoreConnector: TrustsStoreConnector
                                       )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   val form = formProvider.withPrefix("trustHasOtherIndividualYesNo")
@@ -66,6 +69,14 @@ class TrustHasOtherIndividualYesNoController @Inject()(
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(TrustHasOtherIndividualYesNoPage, value))
             _              <- repository.set(updatedAnswers)
+            taskStatus     <- Future.successful {
+              if(value) {
+                TaskStatus.InProgress
+              } else {
+                TaskStatus.Completed
+              }
+            }
+            _              <- trustsStoreConnector.updateTaskStatus(draftId, taskStatus)
           } yield Redirect(navigator.nextPage(TrustHasOtherIndividualYesNoPage, draftId, updatedAnswers))
       )
   }

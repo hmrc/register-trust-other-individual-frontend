@@ -17,13 +17,21 @@
 package controllers.register
 
 import base.SpecBase
+import connectors.TrustsStoreConnector
 import forms.YesNoFormProvider
+import models.TaskStatus
+import org.mockito.Matchers.{any, eq => mEq}
+import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import pages.register.TrustHasOtherIndividualYesNoPage
 import play.api.data.Form
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import play.api.inject.bind
+import uk.gov.hmrc.http.HttpResponse
 import views.html.register.TrustHasOtherIndividualYesNoView
+
+import scala.concurrent.Future
 
 class TrustHasOtherIndividualYesNoControllerSpec extends SpecBase with MockitoSugar {
 
@@ -31,6 +39,8 @@ class TrustHasOtherIndividualYesNoControllerSpec extends SpecBase with MockitoSu
   lazy val trustHasOtherIndividualYesNoRoute = routes.TrustHasOtherIndividualYesNoController.onPageLoad(draftId).url
 
   private val baseAnswers = emptyUserAnswers.set(TrustHasOtherIndividualYesNoPage, true).success.value
+
+  private val mockTrustsStoreConnector: TrustsStoreConnector = mock[TrustsStoreConnector]
 
   "TrustHasOtherIndividualYesNo Controller" must {
 
@@ -76,7 +86,13 @@ class TrustHasOtherIndividualYesNoControllerSpec extends SpecBase with MockitoSu
 
       val application =
         applicationBuilder(userAnswers = Some(emptyUserAnswers))
+          .overrides(
+            bind[TrustsStoreConnector].to(mockTrustsStoreConnector)
+          )
           .build()
+
+      when(mockTrustsStoreConnector.updateTaskStatus(any(), mEq(TaskStatus.InProgress))(any(), any()))
+        .thenReturn(Future.successful(HttpResponse.apply(OK, "")))
 
       val request =
         FakeRequest(POST, trustHasOtherIndividualYesNoRoute)
