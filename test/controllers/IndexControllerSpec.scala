@@ -17,7 +17,7 @@
 package controllers
 
 import base.SpecBase
-import connectors.{SubmissionDraftConnector, TrustsStoreConnector}
+import connectors.SubmissionDraftConnector
 import models.{FullName, TaskStatus, UserAnswers}
 import org.mockito.ArgumentCaptor
 import org.mockito.Matchers.{any, eq => mEq}

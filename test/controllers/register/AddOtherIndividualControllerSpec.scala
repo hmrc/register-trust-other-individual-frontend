@@ -17,7 +17,6 @@
 package controllers.register
 
 import base.SpecBase
-import connectors.TrustsStoreConnector
 import controllers.register.individual.{routes => irts}
 import forms.{AddOtherIndividualFormProvider, YesNoFormProvider}
 import models.Status.{Completed, InProgress}
@@ -29,10 +28,9 @@ import org.scalatest.BeforeAndAfterEach
 import pages.entitystatus.OtherIndividualStatus
 import pages.register.individual._
 import pages.register.{AddOtherIndividualPage, TrustHasOtherIndividualYesNoPage}
+import play.api.inject.bind
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import play.api.inject.bind
-import play.api.mvc.Call
 import services.TrustsStoreService
 import uk.gov.hmrc.http.HttpResponse
 import utils.RegistrationProgress
@@ -42,8 +40,6 @@ import views.html.register.{AddOtherIndividualView, TrustHasOtherIndividualYesNo
 import scala.concurrent.Future
 
 class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach {
-
-  private val onwardRoute: Call = Call("GET", "/foo")
 
   private val index: Int = 0
   private val max: Int = 25

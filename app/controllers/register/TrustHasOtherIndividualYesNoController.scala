@@ -22,6 +22,7 @@ import forms.YesNoFormProvider
 import models.TaskStatus
 import navigation.Navigator
 import pages.register.TrustHasOtherIndividualYesNoPage
+import play.api.data.Form
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.RegistrationsRepository
@@ -33,17 +34,17 @@ import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 class TrustHasOtherIndividualYesNoController @Inject()(
-                                    override val messagesApi: MessagesApi,
-                                    repository: RegistrationsRepository,
-                                    @OtherIndividual navigator: Navigator,
-                                    standardActionSets: StandardActionSets,
-                                    formProvider: YesNoFormProvider,
-                                    val controllerComponents: MessagesControllerComponents,
-                                    view: TrustHasOtherIndividualYesNoView,
-                                    trustsStoreService: TrustsStoreService
-                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+                                                        override val messagesApi: MessagesApi,
+                                                        repository: RegistrationsRepository,
+                                                        @OtherIndividual navigator: Navigator,
+                                                        standardActionSets: StandardActionSets,
+                                                        formProvider: YesNoFormProvider,
+                                                        val controllerComponents: MessagesControllerComponents,
+                                                        view: TrustHasOtherIndividualYesNoView,
+                                                        trustsStoreService: TrustsStoreService
+                                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  val form = formProvider.withPrefix("trustHasOtherIndividualYesNo")
+  private val form: Form[Boolean] = formProvider.withPrefix("trustHasOtherIndividualYesNo")
 
   def onPageLoad(draftId: String): Action[AnyContent] = standardActionSets.identifiedUserWithData(draftId) {
     implicit request =>
@@ -67,13 +68,7 @@ class TrustHasOtherIndividualYesNoController @Inject()(
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(TrustHasOtherIndividualYesNoPage, value))
             _              <- repository.set(updatedAnswers)
-            taskStatus     <- Future.successful {
-              if(value) {
-                TaskStatus.InProgress
-              } else {
-                TaskStatus.Completed
-              }
-            }
+            taskStatus     = if (value) TaskStatus.InProgress else TaskStatus.Completed
             _              <- trustsStoreService.updateTaskStatus(draftId, taskStatus)
           } yield Redirect(navigator.nextPage(TrustHasOtherIndividualYesNoPage, draftId, updatedAnswers))
       )
