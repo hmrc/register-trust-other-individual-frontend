@@ -18,42 +18,56 @@ package services
 
 import base.SpecBase
 import connectors.TrustsStoreConnector
-import models.FeatureResponse
-import org.mockito.Matchers.any
-import org.mockito.Mockito.when
-import uk.gov.hmrc.http.HeaderCarrier
+import models.{FeatureResponse, TaskStatus}
+import org.mockito.Matchers.{any, eq => eqTo}
+import org.mockito.Mockito.{verify, when}
+import play.api.http.Status.OK
+import uk.gov.hmrc.http.HttpResponse
 
 import scala.concurrent.Future
 
-class FeatureFlagServiceSpec extends SpecBase {
+class TrustsStoreServiceSpec extends SpecBase {
 
-  "is5mldEnabled" must {
+  val mockConnector: TrustsStoreConnector = mock[TrustsStoreConnector]
 
-    val mockConnector = mock[TrustsStoreConnector]
+  val trustsStoreService: TrustsStoreService = new TrustsStoreService(mockConnector)
 
-    val featureFlagService = new FeatureFlagService(mockConnector)
-
-    implicit val hc: HeaderCarrier = HeaderCarrier()
+  ".is5mldEnabled" must {
 
     "return true when 5mld is enabled" in {
 
       when(mockConnector.getFeature(any())(any(), any())).thenReturn(Future.successful(FeatureResponse("5mld", isEnabled = true)))
 
-      val result = featureFlagService.is5mldEnabled()
+      val result = trustsStoreService.is5mldEnabled()
 
-       whenReady(result) { res =>
-         res mustEqual true
-       }
+      whenReady(result) { res =>
+        res mustEqual true
+      }
     }
 
     "return false when 5mld is disabled" in {
 
       when(mockConnector.getFeature(any())(any(), any())).thenReturn(Future.successful(FeatureResponse("5mld", isEnabled = false)))
 
-      val result = featureFlagService.is5mldEnabled()
+      val result = trustsStoreService.is5mldEnabled()
 
       whenReady(result) { res =>
         res mustEqual false
+      }
+    }
+  }
+
+  ".updateTaskStatus" must {
+    "call trusts store connector" in {
+
+      when(mockConnector.updateTaskStatus(any(), any())(any(), any()))
+        .thenReturn(Future.successful(HttpResponse(OK, "")))
+
+      val result = trustsStoreService.updateTaskStatus(draftId, TaskStatus.Completed)
+
+      whenReady(result) { res =>
+        res.status mustBe OK
+        verify(mockConnector).updateTaskStatus(eqTo(draftId), eqTo(TaskStatus.Completed))(any(), any())
       }
     }
   }

@@ -19,18 +19,27 @@ package controllers.register
 import base.SpecBase
 import controllers.register.individual.{routes => irts}
 import forms.{AddOtherIndividualFormProvider, YesNoFormProvider}
-import models.Status.Completed
+import models.Status.{Completed, InProgress}
 import models.register.pages.AddOtherIndividual
-import models.{FullName, UserAnswers}
+import models.{FullName, TaskStatus, UserAnswers}
+import org.mockito.Matchers.{any, eq => mEq}
+import org.mockito.Mockito.{reset, verify, when}
+import org.scalatest.BeforeAndAfterEach
 import pages.entitystatus.OtherIndividualStatus
 import pages.register.individual._
 import pages.register.{AddOtherIndividualPage, TrustHasOtherIndividualYesNoPage}
+import play.api.inject.bind
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import services.TrustsStoreService
+import uk.gov.hmrc.http.HttpResponse
+import utils.RegistrationProgress
 import viewmodels.AddRow
 import views.html.register.{AddOtherIndividualView, TrustHasOtherIndividualYesNoView}
 
-class AddOtherIndividualControllerSpec extends SpecBase {
+import scala.concurrent.Future
+
+class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach {
 
   private val index: Int = 0
   private val max: Int = 25
@@ -55,6 +64,9 @@ class AddOtherIndividualControllerSpec extends SpecBase {
   private val form = formProvider()
 
   private val yesNoForm = new YesNoFormProvider().withPrefix("trustHasOtherIndividualYesNo")
+
+  private val mockTrustsStoreService: TrustsStoreService = mock[TrustsStoreService]
+  private val mockRegistrationProgress: RegistrationProgress = mock[RegistrationProgress]
 
   private lazy val otherIndividualsComplete = List(
     AddRow("Name 1", typeLabel = "Other Individual", changeOtherIndividualRoute(0), removeOtherIndividualRoute(0)),
@@ -85,6 +97,13 @@ class AddOtherIndividualControllerSpec extends SpecBase {
       .foldLeft(emptyUserAnswers)((ua,index) =>
         ua.set(NamePage(index), FullName("First", None, "Last")).success.value
       )
+  }
+
+  override def beforeEach(): Unit = {
+    reset(mockTrustsStoreService, mockRegistrationProgress)
+
+    when(mockTrustsStoreService.updateTaskStatus(any(), any())(any(), any()))
+      .thenReturn(Future.successful(HttpResponse(OK, "")))
   }
 
   "AddOtherIndividual Controller" when {
@@ -142,22 +161,55 @@ class AddOtherIndividualControllerSpec extends SpecBase {
         application.stop()
       }
 
-      "redirect to the next page when valid data is submitted" in {
+      "redirect to the next page when valid data is submitted" when {
 
-        val application =
-          applicationBuilder(userAnswers = Some(emptyUserAnswers.set(TrustHasOtherIndividualYesNoPage, false).success.value)).build()
+        "yes selected" in {
+          val application =
+            applicationBuilder(userAnswers = Some(emptyUserAnswers.set(TrustHasOtherIndividualYesNoPage, false).success.value))
+              .overrides(
+                bind[TrustsStoreService].to(mockTrustsStoreService)
+              )
+              .build()
 
-        val request =
-          FakeRequest(POST, addOnePostRoute)
-            .withFormUrlEncodedBody(("value", "true"))
+          val request =
+            FakeRequest(POST, addOnePostRoute)
+              .withFormUrlEncodedBody(("value", "true"))
 
-        val result = route(application, request).value
+          val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
+          status(result) mustEqual SEE_OTHER
 
-        redirectLocation(result).value mustEqual nameRoute
+          redirectLocation(result).value mustEqual nameRoute
 
-        application.stop()
+          verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+
+          application.stop()
+        }
+
+        "no selected" in {
+          val application =
+            applicationBuilder(userAnswers = Some(emptyUserAnswers.set(TrustHasOtherIndividualYesNoPage, true).success.value))
+              .overrides(
+                bind[TrustsStoreService].to(mockTrustsStoreService)
+              )
+              .build()
+
+          val request =
+            FakeRequest(POST, addOnePostRoute)
+              .withFormUrlEncodedBody(("value", "false"))
+
+          val result = route(application, request).value
+
+          status(result) mustEqual SEE_OTHER
+
+          redirectLocation(result).value mustEqual "http://localhost:9781/trusts-registration/draftId/registration-progress"
+
+          verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.Completed))(any(), any())
+
+          application.stop()
+        }
+
+
       }
 
       "return a Bad Request and errors when invalid data is submitted" in {
@@ -225,24 +277,132 @@ class AddOtherIndividualControllerSpec extends SpecBase {
         application.stop()
       }
 
-      "redirect to the next page when valid data is submitted" in {
+      "YesNow selected" must {
 
-        val index =3
-        val application =
-          applicationBuilder(userAnswers = Some(userAnswersWithOtherIndividualsComplete)).build()
+        "redirect to the next page when valid data is submitted" in {
 
-        val request =
-          FakeRequest(POST, addAnotherPostRoute)
-            .withFormUrlEncodedBody(("value", AddOtherIndividual.options.head.value))
+          val index = 3
 
-        val result = route(application, request).value
+          val application =
+            applicationBuilder(userAnswers = Some(userAnswersWithOtherIndividualsComplete))
+              .overrides(
+                bind[TrustsStoreService].to(mockTrustsStoreService),
+                bind[RegistrationProgress].to(mockRegistrationProgress)
+              ).build()
 
-        status(result) mustEqual SEE_OTHER
+          when(mockRegistrationProgress.otherIndividualsStatus(any())).thenReturn(Some(InProgress))
 
-        redirectLocation(result).value mustEqual irts.NameController.onPageLoad(index, fakeDraftId).url
+          val request =
+            FakeRequest(POST, addAnotherPostRoute)
+              .withFormUrlEncodedBody(("value", AddOtherIndividual.YesNow.toString))
 
-        application.stop()
+          val result = route(application, request).value
+
+          status(result) mustEqual SEE_OTHER
+
+          redirectLocation(result).value mustEqual irts.NameController.onPageLoad(index, fakeDraftId).url
+
+          verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+
+          application.stop()
+        }
       }
+
+      "YesLater selected" must {
+
+        "redirect to the next page when valid data is submitted" in {
+
+          val application =
+            applicationBuilder(userAnswers = Some(userAnswersWithOtherIndividualsComplete))
+              .overrides(
+                bind[TrustsStoreService].to(mockTrustsStoreService),
+                bind[RegistrationProgress].to(mockRegistrationProgress)
+              ).build()
+
+          when(mockRegistrationProgress.otherIndividualsStatus(any())).thenReturn(Some(InProgress))
+
+          val request =
+            FakeRequest(POST, addAnotherPostRoute)
+              .withFormUrlEncodedBody(("value", AddOtherIndividual.YesLater.toString))
+
+          val result = route(application, request).value
+
+          status(result) mustEqual SEE_OTHER
+
+          redirectLocation(result).value mustEqual "http://localhost:9781/trusts-registration/draftId/registration-progress"
+
+          verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+
+          application.stop()
+        }
+      }
+
+      "NoComplete selected" when {
+
+        "registration is not complete" must {
+
+          "redirect to the next page when valid data is submitted" in {
+
+            val answersWithInProgress = userAnswersWithOtherIndividualsComplete
+              .set(NamePage(3), FullName("Name", None, "1")).success.value
+              .set(OtherIndividualStatus(3), InProgress).success.value
+
+            when(mockRegistrationProgress.otherIndividualsStatus(any())).thenReturn(Some(InProgress))
+
+            val application =
+              applicationBuilder(userAnswers = Some(answersWithInProgress))
+                .overrides(
+                  bind[TrustsStoreService].to(mockTrustsStoreService),
+                  bind[RegistrationProgress].to(mockRegistrationProgress)
+                ).build()
+
+            val request =
+              FakeRequest(POST, addAnotherPostRoute)
+                .withFormUrlEncodedBody(("value", AddOtherIndividual.NoComplete.toString))
+
+            val result = route(application, request).value
+
+            status(result) mustEqual SEE_OTHER
+
+            redirectLocation(result).value mustEqual "http://localhost:9781/trusts-registration/draftId/registration-progress"
+
+            verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+
+            application.stop()
+          }
+
+        }
+
+        "registration is complete" must {
+
+          "redirect to the next page when valid data is submitted" in {
+
+            val application =
+              applicationBuilder(userAnswers = Some(userAnswersWithOtherIndividualsComplete))
+                .overrides(
+                  bind[TrustsStoreService].to(mockTrustsStoreService),
+                  bind[RegistrationProgress].to(mockRegistrationProgress)
+                ).build()
+
+            when(mockRegistrationProgress.otherIndividualsStatus(any())).thenReturn(Some(Completed))
+
+            val request =
+              FakeRequest(POST, addAnotherPostRoute)
+                .withFormUrlEncodedBody(("value", AddOtherIndividual.NoComplete.toString))
+
+            val result = route(application, request).value
+
+            status(result) mustEqual SEE_OTHER
+
+            redirectLocation(result).value mustEqual "http://localhost:9781/trusts-registration/draftId/registration-progress"
+
+            verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.Completed))(any(), any())
+
+            application.stop()
+          }
+        }
+      }
+
 
       "return a Bad Request and errors when invalid data is submitted" in {
 
@@ -289,19 +449,64 @@ class AddOtherIndividualControllerSpec extends SpecBase {
         application.stop()
       }
 
-      "redirect to registration progress when user clicks continue" in {
+      "redirect to registration progress when user clicks continue" when {
 
-        val application = applicationBuilder(userAnswers = Some(emptyUserAnswers.set(TrustHasOtherIndividualYesNoPage, false).success.value)).build()
+        "registration progress is complete" in {
 
-        val request = FakeRequest(POST, submitCompleteRoute)
+          val otherIndividuals = List(
+            genOtherIndividuals(max)        )
 
-        val result = route(application, request).value
+          val userAnswers = otherIndividuals.foldLeft(emptyUserAnswers)((x, acc) => acc.copy(data = x.data.deepMerge(acc.data)))
 
-        status(result) mustEqual SEE_OTHER
+          val application = applicationBuilder(userAnswers = Some(userAnswers.set(TrustHasOtherIndividualYesNoPage, false).success.value))
+            .overrides(
+              bind[TrustsStoreService].to(mockTrustsStoreService),
+              bind[RegistrationProgress].to(mockRegistrationProgress)
+            ).build()
 
-        redirectLocation(result).value mustEqual "http://localhost:9781/trusts-registration/draftId/registration-progress"
+          val request = FakeRequest(POST, submitCompleteRoute)
 
-        application.stop()
+          when(mockRegistrationProgress.otherIndividualsStatus(any())).thenReturn(Some(Completed))
+
+          val result = route(application, request).value
+
+          status(result) mustEqual SEE_OTHER
+
+          redirectLocation(result).value mustEqual "http://localhost:9781/trusts-registration/draftId/registration-progress"
+
+          verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.Completed))(any(), any())
+
+          application.stop()
+        }
+
+        "registration progress is not complete" in {
+
+          val otherIndividuals = List(
+            genOtherIndividuals(max)
+          )
+
+          val userAnswers = otherIndividuals.foldLeft(emptyUserAnswers)((x, acc) => acc.copy(data = x.data.deepMerge(acc.data)))
+
+          val application = applicationBuilder(userAnswers = Some(userAnswers.set(TrustHasOtherIndividualYesNoPage, false).success.value))
+            .overrides(
+              bind[TrustsStoreService].to(mockTrustsStoreService),
+              bind[RegistrationProgress].to(mockRegistrationProgress)
+            ).build()
+
+          val request = FakeRequest(POST, submitCompleteRoute)
+
+          when(mockRegistrationProgress.otherIndividualsStatus(any())).thenReturn(Some(InProgress))
+
+          val result = route(application, request).value
+
+          status(result) mustEqual SEE_OTHER
+
+          redirectLocation(result).value mustEqual "http://localhost:9781/trusts-registration/draftId/registration-progress"
+
+          verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+
+          application.stop()
+        }
 
       }
 
