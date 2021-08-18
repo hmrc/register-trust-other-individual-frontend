@@ -73,19 +73,8 @@ class OtherIndividualNavigatorSpec extends SpecBase with ScalaCheckPropertyCheck
           }
         }
 
-        "last individual is in progress" must {
-          "-> NamePage at index of in-progress individual" in {
-            val answers = baseAnswers
-              .set(AddOtherIndividualPage, AddOtherIndividual.YesNow).success.value
-              .set(NamePage(0), FullName("First", None, "Last")).success.value
-
-            navigator.nextPage(AddOtherIndividualPage, fakeDraftId, answers)
-              .mustBe(NameController.onPageLoad(0, fakeDraftId))
-          }
-        }
-
-        "last individual is complete" must {
-          "-> NamePage at index of next individual" in {
+        "there are individuals" must {
+          "-> NamePage at next index" in {
             val answers = baseAnswers
               .set(AddOtherIndividualPage, AddOtherIndividual.YesNow).success.value
               .set(NamePage(0), FullName("First", None, "Last")).success.value
