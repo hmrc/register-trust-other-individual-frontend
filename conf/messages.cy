@@ -300,7 +300,7 @@ site.sign_out = Allgofnodi
 site.textarea.char_limit = (Y terfyn yw {0} o gymeriadau)
 site.yes = Iawn
 site.dontKnow = Nid wyf yn gwybod
-#site.or =
+site.or = neu
 
 timeout.keep-alive-button = Yn eich blaen â’r cais
 timeout.message = Byddwn yn eich allgofnodi os na fyddwch yn ymateb ymhen

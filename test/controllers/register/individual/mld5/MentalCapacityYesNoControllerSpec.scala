@@ -18,8 +18,8 @@ package controllers.register.individual.mld5
 
 import base.SpecBase
 import config.annotations.OtherIndividual
-import forms.YesNoFormProvider
-import models.FullName
+import forms.YesNoDontKnowFormProvider
+import models.{FullName, YesNoDontKnow}
 import navigation.{FakeNavigator, Navigator}
 import org.scalatestplus.mockito.MockitoSugar
 import pages.register.individual.NamePage
@@ -32,8 +32,8 @@ import views.html.register.individual.mld5.MentalCapacityYesNoView
 
 class MentalCapacityYesNoControllerSpec extends SpecBase with MockitoSugar {
 
-  val formProvider = new YesNoFormProvider()
-  val form: Form[Boolean] = formProvider.withPrefix("otherIndividual.5mld.mentalCapacityYesNo")
+  val formProvider = new YesNoDontKnowFormProvider()
+  val form: Form[YesNoDontKnow] = formProvider.withPrefix("otherIndividual.5mld.mentalCapacityYesNo")
   val index: Int = 0
   val name: FullName = FullName("FirstName", None, "LastName")
 
@@ -65,7 +65,7 @@ class MentalCapacityYesNoControllerSpec extends SpecBase with MockitoSugar {
     "populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = emptyUserAnswers.set(NamePage(index), name).success.value
-        .set(MentalCapacityYesNoPage(index), true).success.value
+        .set(MentalCapacityYesNoPage(index), YesNoDontKnow.Yes).success.value
 
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
@@ -79,7 +79,7 @@ class MentalCapacityYesNoControllerSpec extends SpecBase with MockitoSugar {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(true), draftId, index, name.toString)(request, messages).toString
+        view(form.fill(YesNoDontKnow.Yes), draftId, index, name.toString)(request, messages).toString
 
       application.stop()
     }
@@ -96,7 +96,7 @@ class MentalCapacityYesNoControllerSpec extends SpecBase with MockitoSugar {
 
       val request =
         FakeRequest(POST, mentalCapacityYesNo)
-          .withFormUrlEncodedBody(("value", "true"))
+          .withFormUrlEncodedBody(("value", "yes"))
 
       val result = route(application, request).value
 
@@ -153,7 +153,7 @@ class MentalCapacityYesNoControllerSpec extends SpecBase with MockitoSugar {
 
       val request =
         FakeRequest(POST, mentalCapacityYesNo)
-          .withFormUrlEncodedBody(("value", "true"))
+          .withFormUrlEncodedBody(("value", "yes"))
 
       val result = route(application, request).value
 

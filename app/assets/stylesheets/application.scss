@@ -55,3 +55,7 @@ body:not(.js-enabled) {
 p {
   @extend .govuk-body;
 }
+
+h2 {
+  @extend .govuk-heading-m
+}
