@@ -38,9 +38,9 @@ class OtherIndividualAnswersHelperSpec extends SpecBase {
   private val dateOfBirth: LocalDate = LocalDate.parse("1960-02-16")
   private val nino: String = "AA000000A"
 
-  "Other Beneficiary answers helper" when {
+  "other individual answers helper" when {
 
-    "Other Beneficiary has mentalCapacity No" in {
+    "other individual has mentalCapacity No" in {
       val userAnswers: UserAnswers = emptyUserAnswers
         .set(NamePage(index), name).success.value
         .set(MentalCapacityYesNoPage(index), YesNoDontKnow.No).success.value
@@ -63,7 +63,7 @@ class OtherIndividualAnswersHelperSpec extends SpecBase {
         ))
     }
 
-    "Other Beneficiary has mentalCapacity Don't know" in {
+    "other individual has mentalCapacity Don't know" in {
       val userAnswers: UserAnswers = emptyUserAnswers
         .set(NamePage(index), name).success.value
         .set(MentalCapacityYesNoPage(index), YesNoDontKnow.DontKnow).success.value
@@ -85,7 +85,7 @@ class OtherIndividualAnswersHelperSpec extends SpecBase {
         ))
     }
 
-    "return a trust beneficiary answer section" when {
+    "return a other individual answer section" when {
 
       "in 4mld journey" when {
 
