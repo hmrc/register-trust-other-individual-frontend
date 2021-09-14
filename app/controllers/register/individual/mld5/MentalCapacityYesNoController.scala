@@ -19,8 +19,9 @@ package controllers.register.individual.mld5
 import config.annotations.OtherIndividual
 import controllers.actions._
 import controllers.actions.register.individual.NameRequiredAction
-import forms.YesNoFormProvider
+import forms.YesNoDontKnowFormProvider
 import javax.inject.Inject
+import models.YesNoDontKnow
 import navigation.Navigator
 import pages.register.individual.mld5.MentalCapacityYesNoPage
 import play.api.data.Form
@@ -38,11 +39,11 @@ class MentalCapacityYesNoController @Inject()(
                                                    @OtherIndividual navigator: Navigator,
                                                    standardActionSets: StandardActionSets,
                                                    nameAction: NameRequiredAction,
-                                                   formProvider: YesNoFormProvider,
+                                                   formProvider: YesNoDontKnowFormProvider,
                                                    view: MentalCapacityYesNoView
                                                  )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  private val form: Form[Boolean] = formProvider.withPrefix("otherIndividual.5mld.mentalCapacityYesNo")
+  private val form: Form[YesNoDontKnow] = formProvider.withPrefix("otherIndividual.5mld.mentalCapacityYesNo")
 
   def onPageLoad(index: Int, draftId: String): Action[AnyContent] =
     standardActionSets.identifiedUserWithData(draftId).andThen(nameAction(index)) {

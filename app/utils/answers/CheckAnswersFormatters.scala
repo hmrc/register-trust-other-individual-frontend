@@ -97,4 +97,7 @@ class CheckAnswersFormatters @Inject()(languageUtils: LanguageUtils,
     Html(lines.mkString("<br />"))
   }
 
+  def formatEnum[T](key: String, answer: T)(implicit messages: Messages): Html =
+    escape(messages(s"$key.$answer"))
+
 }

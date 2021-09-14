@@ -17,6 +17,7 @@
 package mapping.register
 
 import mapping.reads.OtherIndividuals
+import models.YesNoDontKnow._
 import models.{OtherIndividualType, UserAnswers}
 
 class OtherIndividualMapper {
@@ -33,7 +34,11 @@ class OtherIndividualMapper {
             identification = otherIndividual.identification,
             countryOfResidence = otherIndividual.countryOfResidence,
             nationality = otherIndividual.countryOfNationality,
-            legallyIncapable = otherIndividual.mentalCapacityYesNo.map(!_)
+            legallyIncapable = otherIndividual.mentalCapacityYesNo.flatMap {
+              case Yes => Some(false)
+              case No => Some(true)
+              case DontKnow => None
+            }
           )
         }
       )
