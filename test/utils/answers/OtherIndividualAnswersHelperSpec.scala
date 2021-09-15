@@ -19,18 +19,18 @@ package utils.answers
 import base.SpecBase
 import controllers.register.individual.mld5.{routes => mld5rts}
 import controllers.register.individual.{routes => rts}
-import models.{FullName, InternationalAddress, UkAddress}
+import models.{FullName, InternationalAddress, UkAddress, UserAnswers, YesNoDontKnow}
 import pages.register.individual._
 import pages.register.individual.mld5._
 import play.twirl.api.Html
 import viewmodels.{AnswerRow, AnswerSection}
-
 import java.time.LocalDate
 
 class OtherIndividualAnswersHelperSpec extends SpecBase {
 
   private val index: Int = 0
   private val name: FullName = FullName("First", None, "Last")
+  private val arg = name.toString
   private val ukAddress: UkAddress = UkAddress("Line 1", "Line 2", Some("Line 3"), Some("Line 4"), "AB11AB")
   private val nonUkAddress: InternationalAddress = InternationalAddress("Line 1", "Line 2", Some("Line 3"), "FR")
   private val nonUkCountry: String = "FR"
@@ -38,9 +38,54 @@ class OtherIndividualAnswersHelperSpec extends SpecBase {
   private val dateOfBirth: LocalDate = LocalDate.parse("1960-02-16")
   private val nino: String = "AA000000A"
 
-  "Trust Beneficiary answers helper" must {
+  "other individual answers helper" when {
 
-    "return a trust beneficiary answer section" when {
+    "other individual has mentalCapacity No" in {
+      val userAnswers: UserAnswers = emptyUserAnswers
+        .set(NamePage(index), name).success.value
+        .set(MentalCapacityYesNoPage(index), YesNoDontKnow.No).success.value
+
+      val helper = injector.instanceOf[OtherIndividualAnswersHelper]
+
+      val result = helper.otherIndividuals(userAnswers)
+
+      result mustBe
+        Some(Seq(
+          AnswerSection(
+            headingKey = Some("answerPage.section.otherIndividual.subheading"),
+            Seq(
+              AnswerRow("otherIndividual.name.checkYourAnswersLabel", Html(name.displayFullName), Some(rts.NameController.onPageLoad(index, fakeDraftId).url), "", canEdit),
+              AnswerRow("otherIndividual.5mld.mentalCapacityYesNo.checkYourAnswersLabel", Html("No"), Some(mld5rts.MentalCapacityYesNoController.onPageLoad(index, fakeDraftId).url), arg, canEdit)
+            ),
+            sectionKey = None,
+            headingArgs = Seq(index + 1)
+          )
+        ))
+    }
+
+    "other individual has mentalCapacity Don't know" in {
+      val userAnswers: UserAnswers = emptyUserAnswers
+        .set(NamePage(index), name).success.value
+        .set(MentalCapacityYesNoPage(index), YesNoDontKnow.DontKnow).success.value
+
+      val helper = injector.instanceOf[OtherIndividualAnswersHelper]
+      val result = helper.otherIndividuals(userAnswers)
+
+      result mustBe
+        Some(Seq(
+          AnswerSection(
+            headingKey = Some("answerPage.section.otherIndividual.subheading"),
+            Seq(
+              AnswerRow("otherIndividual.name.checkYourAnswersLabel", Html(name.displayFullName), Some(rts.NameController.onPageLoad(index, fakeDraftId).url), "", canEdit),
+              AnswerRow("otherIndividual.5mld.mentalCapacityYesNo.checkYourAnswersLabel", Html("I don’t know"), Some(mld5rts.MentalCapacityYesNoController.onPageLoad(index, fakeDraftId).url), arg, canEdit)
+            ),
+            sectionKey = None,
+            headingArgs = Seq(index + 1)
+          )
+        ))
+    }
+
+    "return a other individual answer section" when {
 
       "in 4mld journey" when {
 

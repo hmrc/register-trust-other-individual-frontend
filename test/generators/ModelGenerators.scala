@@ -23,6 +23,11 @@ import org.scalacheck.{Arbitrary, Gen}
 
 trait ModelGenerators {
 
+  implicit lazy val arbitraryYesNoDontKnow: Arbitrary[YesNoDontKnow] =
+    Arbitrary {
+      Gen.oneOf(YesNoDontKnow.values)
+    }
+
   implicit lazy val arbitraryUkAddress: Arbitrary[UkAddress] =
     Arbitrary {
       for {

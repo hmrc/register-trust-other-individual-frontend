@@ -18,8 +18,8 @@ package mapping.reads
 
 import mapping.register.IdentificationMapper._
 import models._
-import play.api.libs.json.{Format, Json}
-
+import play.api.libs.json._
+import play.api.libs.functional.syntax._
 import java.time.LocalDate
 
 final case class OtherIndividual(name: FullName,
@@ -31,7 +31,7 @@ final case class OtherIndividual(name: FullName,
                                  idCardDetails: Option[PassportOrIdCardDetails],
                                  countryOfResidence: Option[String],
                                  countryOfNationality: Option[String],
-                                 mentalCapacityYesNo: Option[Boolean]) {
+                                 mentalCapacityYesNo: Option[YesNoDontKnow]) {
 
   def address: Option[AddressType] = buildValue(ukAddress, internationalAddress)(buildAddress)
 
@@ -43,5 +43,24 @@ final case class OtherIndividual(name: FullName,
 }
 
 object OtherIndividual {
-  implicit val classFormat: Format[OtherIndividual] = Json.format[OtherIndividual]
+  implicit val reads: Reads[OtherIndividual] = (
+    (__ \ "name").read[FullName] and
+      (__ \ "dateOfBirth").readNullable[LocalDate] and
+      (__ \ "nationalInsuranceNumber").readNullable[String] and
+      (__ \ "ukAddress").readNullable[UkAddress] and
+      (__ \ "internationalAddress").readNullable[InternationalAddress] and
+      (__ \ "passportDetails").readNullable[PassportOrIdCardDetails] and
+      (__ \ "idCardDetails").readNullable[PassportOrIdCardDetails] and
+      (__ \ "countryOfResidence").readNullable[String] and
+      (__ \ "countryOfNationality").readNullable[String] and
+      readMentalCapacity
+    )(OtherIndividual.apply _)
+
+  def readMentalCapacity: Reads[Option[YesNoDontKnow]] =
+    (__ \ 'mentalCapacityYesNo).readNullable[Boolean].flatMap[Option[YesNoDontKnow]] { x: Option[Boolean] =>
+      Reads(_ => JsSuccess(YesNoDontKnow.fromBoolean(x)))
+    }.orElse {
+      (__ \ 'mentalCapacityYesNo).readNullable[YesNoDontKnow]
+    }
+
 }

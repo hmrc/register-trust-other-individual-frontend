@@ -99,16 +99,21 @@ otherIndividual.5mld.countryOfResidenceYesNo.heading = A ydych yn gwybod gwlad b
 otherIndividual.5mld.countryOfResidenceYesNo.hint = Fel arfer, y wlad breswyl yw lle mae’r unigolyn yn byw ac yn gweithio’r rhan fwyaf o’r amser yn ystod y flwyddyn dreth.
 otherIndividual.5mld.countryOfResidenceYesNo.title = A ydych yn gwybod gwlad breswyl yr unigolyn arall?
 
+otherIndividual.5mld.mentalCapacityYesNo.title = A oes gan yr unigolyn arall alluedd meddyliol ar adeg y cofrestru?
+otherIndividual.5mld.mentalCapacityYesNo.heading = A oes gan {0} alluedd meddyliol ar adeg y cofrestru?
+otherIndividual.5mld.mentalCapacityYesNo.checkYourAnswersLabel = A oes gan {0} alluedd meddyliol ar adeg y cofrestru?
+otherIndividual.5mld.mentalCapacityYesNo.error.required = Dewiswch ‘Iawn’ os ydych yn gwybod bod gan yr unigolyn arall alluedd meddyliol ar adeg y cofrestru
+otherIndividual.5mld.mentalCapacityYesNo.p1 = Mae angen i chi roi gwybod i CThEM os oes diffyg galluedd meddyliol gan unrhyw un o’r unigolion eraill sy’n ymwneud â’r ymddiriedolaeth ar adeg y cofrestru.
+otherIndividual.5mld.mentalCapacityYesNo.p2 = Nid oes gan unigolyn alluedd meddyliol os yw’n analluog yn ôl y gyfraith i ddeall gwybodaeth am yr ymddiriedolaeth oherwydd unrhyw un o’r canlynol:
 otherIndividual.5mld.mentalCapacityYesNo.bulletpoint1 = salwch meddwl
 otherIndividual.5mld.mentalCapacityYesNo.bulletpoint2 = anabledd dysgu
 otherIndividual.5mld.mentalCapacityYesNo.bulletpoint3 = dementia neu gyflwr cysylltiedig
 otherIndividual.5mld.mentalCapacityYesNo.bulletpoint4 = methu â chyfathrebu
-otherIndividual.5mld.mentalCapacityYesNo.checkYourAnswersLabel = A oes gan {0} alluedd meddyliol ar adeg y cofrestru?
-otherIndividual.5mld.mentalCapacityYesNo.error.required = Dewiswch ‘Iawn’ os ydych yn gwybod bod gan yr unigolyn arall alluedd meddyliol ar adeg y cofrestru
-otherIndividual.5mld.mentalCapacityYesNo.heading = A oes gan {0} alluedd meddyliol ar adeg y cofrestru?
-otherIndividual.5mld.mentalCapacityYesNo.p1 = Mae angen i chi roi gwybod i CThEM os oes diffyg galluedd meddyliol gan unrhyw un o’r unigolion eraill sy’n ymwneud â’r ymddiriedolaeth ar adeg y cofrestru.
-otherIndividual.5mld.mentalCapacityYesNo.p2 = Nid oes gan unigolyn alluedd meddyliol os nad yw’n gallu deall gwybodaeth am yr ymddiriedolaeth oherwydd unrhyw un o’r canlynol:
-otherIndividual.5mld.mentalCapacityYesNo.title = A oes gan yr unigolyn arall alluedd meddyliol ar adeg y cofrestru?
+otherIndividual.5mld.mentalCapacityYesNo.p3 = Os nad ydych yn siŵr a oes gan yr unigolyn alluedd meddyliol, dewiswch ‘Nid wyf yn gwybod’.
+otherIndividual.5mld.mentalCapacityYesNo.p4 = Bydd CThEM yn cymryd bod gan yr unigolyn alluedd meddyliol, oni roddwch wybod i CThEM nad oes ganddo alluedd meddyliol.
+#otherIndividual.5mld.mentalCapacityYesNo.subheading =
+otherIndividual.5mld.mentalCapacityYesNo.p5 = Fel arfer, caiff CThEM rannu data person o dan Reoliadau Gwyngalchu Arian ac Ariannu Terfysgaeth (Diwygiad) 2020.
+otherIndividual.5mld.mentalCapacityYesNo.p6 = Pan nad oes gan berson alluedd meddyliol, mae gofyn i CThEM beidio â rhannu data personol y person hwnnw.
 
 otherIndividual.addressUkYesNo.checkYourAnswersLabel = A yw cyfeiriad {0} yn y DU?
 otherIndividual.addressUkYesNo.error.required = Dewiswch ‘Iawn’ os yw cyfeiriad yr unigolyn arall yn y DU
@@ -294,6 +299,8 @@ site.sign_in = Mewngofnodi
 site.sign_out = Allgofnodi
 site.textarea.char_limit = (Y terfyn yw {0} o gymeriadau)
 site.yes = Iawn
+site.dontKnow = Nid wyf yn gwybod
+site.or = neu
 
 timeout.keep-alive-button = Yn eich blaen â’r cais
 timeout.message = Byddwn yn eich allgofnodi os na fyddwch yn ymateb ymhen

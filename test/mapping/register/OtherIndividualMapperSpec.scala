@@ -18,13 +18,13 @@ package mapping.register
 
 import base.SpecBase
 import generators.Generators
-import mapping.reads.OtherIndividuals
-import models.{AddressType, FullName, IdentificationType, InternationalAddress, OtherIndividualType, PassportOrIdCardDetails, PassportType, UkAddress}
+import mapping.reads.OtherIndividual
+import models.{AddressType, FullName, IdentificationType, InternationalAddress, OtherIndividualType, PassportOrIdCardDetails, PassportType, UkAddress, YesNoDontKnow}
 import org.scalatest.{MustMatchers, OptionValues}
 import pages.register.individual._
 import pages.register.individual.mld5._
 import utils.Constants._
-
+import play.api.libs.json.Json
 import java.time.LocalDate
 
 class OtherIndividualMapperSpec extends SpecBase with MustMatchers
@@ -50,16 +50,64 @@ class OtherIndividualMapperSpec extends SpecBase with MustMatchers
       }
     }
 
-    "empty list at OtherIndividuals path" must {
-      "return None" in {
-
-        val userAnswers = emptyUserAnswers.set(OtherIndividuals, Nil).success.value
-
-        mapper.build(userAnswers) mustNot be(defined)
-      }
-    }
-
     "user answers is not empty" must {
+
+      "IndividualProtector reads" must {
+
+        "parse the old mental capacity question" in {
+
+          val json = Json.parse(
+            """
+              |{
+              | "name": {
+              |   "firstName": "John",
+              |   "lastName": "Smith"
+              | },
+              | "mentalCapacityYesNo": true
+              |}
+              |""".stripMargin)
+
+          json.as[OtherIndividual] mustBe OtherIndividual(
+            name = FullName("John", None, "Smith"),
+            dateOfBirth = None,
+            nationalInsuranceNumber = None,
+            ukAddress = None,
+            internationalAddress = None,
+            passportDetails = None,
+            idCardDetails = None,
+            countryOfResidence = None,
+            countryOfNationality = None,
+            mentalCapacityYesNo = Some(YesNoDontKnow.Yes)
+          )
+        }
+
+        "parse the new mental capacity question" in {
+          val json = Json.parse(
+            """
+              |{
+              | "name": {
+              |   "firstName": "John",
+              |   "lastName": "Smith"
+              | },
+              | "mentalCapacityYesNo": "dontKnow"
+              |}
+              |""".stripMargin)
+
+          json.as[OtherIndividual] mustBe OtherIndividual(
+            name = FullName("John", None, "Smith"),
+            dateOfBirth = None,
+            nationalInsuranceNumber = None,
+            ukAddress = None,
+            internationalAddress = None,
+            passportDetails = None,
+            idCardDetails = None,
+            countryOfResidence = None,
+            countryOfNationality = None,
+            mentalCapacityYesNo = Some(YesNoDontKnow.DontKnow)
+          )
+        }
+
+      }
 
       "return mapped data" when {
 
@@ -244,7 +292,7 @@ class OtherIndividualMapperSpec extends SpecBase with MustMatchers
             .set(NationalInsuranceNumberPage(index0), nino).success.value
             .set(CountryOfResidenceYesNoPage(index0), true).success.value
             .set(CountryOfResidenceInTheUkYesNoPage(index0), true).success.value
-            .set(MentalCapacityYesNoPage(index0), true).success.value
+            .set(MentalCapacityYesNoPage(index0), YesNoDontKnow.Yes).success.value
 
         val otherIndividuals = mapper.build(userAnswers)
 
@@ -275,7 +323,7 @@ class OtherIndividualMapperSpec extends SpecBase with MustMatchers
             .set(CountryOfResidenceYesNoPage(index0), true).success.value
             .set(CountryOfResidenceInTheUkYesNoPage(index0), false).success.value
             .set(CountryOfResidencePage(index0), ES).success.value
-            .set(MentalCapacityYesNoPage(index0), false).success.value
+            .set(MentalCapacityYesNoPage(index0), YesNoDontKnow.No).success.value
 
         val otherIndividuals = mapper.build(userAnswers)
 

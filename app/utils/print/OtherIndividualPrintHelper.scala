@@ -68,7 +68,7 @@ class OtherIndividualPrintHelper @Inject()(answerRowConverter: AnswerRowConverte
       bound.passportDetailsQuestion(PassportDetailsPage(index), "otherIndividual.passportDetails", irts.PassportDetailsController.onPageLoad(index, draftId).url),
       bound.yesNoQuestion(IDCardDetailsYesNoPage(index), "otherIndividual.idCardDetailsYesNo", irts.IDCardDetailsYesNoController.onPageLoad(index, draftId).url),
       bound.passportDetailsQuestion(IDCardDetailsPage(index), "otherIndividual.idCardDetails", irts.IDCardDetailsController.onPageLoad(index, draftId).url),
-      bound.yesNoQuestion(MentalCapacityYesNoPage(index), "otherIndividual.5mld.mentalCapacityYesNo", mld5irts.MentalCapacityYesNoController.onPageLoad(index, draftId).url)
+      bound.enumQuestion(MentalCapacityYesNoPage(index), "otherIndividual.5mld.mentalCapacityYesNo", mld5irts.MentalCapacityYesNoController.onPageLoad(index, draftId).url, "site")
     ).flatten
   }
 }
