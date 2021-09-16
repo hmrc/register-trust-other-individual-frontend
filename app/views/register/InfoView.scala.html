@@ -19,26 +19,26 @@
 
 @this(
     mainTemplate: MainTemplate,
-    headingWithCaption: HeadingWithCaption,
-    bulletList: BulletList,
     formHelper: FormWithCSRF,
-    submitButton: SubmitButton
+    submitButton: SubmitButton,
+    bulletList: BulletList,
+    headingWithCaption: HeadingWithCaption
 )
 
 
-@(draftId: String)(implicit request: Request[_], messages: Messages)
+@(draftId: String, isTaxable: Boolean)(implicit request: Request[_], messages: Messages)
 
 @mainTemplate(
     title = messages("otherIndividualsInfo.title"),
     showBackLink = true
-    ) {
-
+) {
 
     @headingWithCaption("otherIndividualsInfo")
 
     <p>@messages("otherIndividualsInfo.paragraph1")</p>
 
-    @bulletList("otherIndividualsInfo",
+    @bulletList(
+        "otherIndividualsInfo",
         List(
             "bulletpoint1",
             "bulletpoint2",
@@ -46,8 +46,47 @@
         )
     )
 
+    @if(isTaxable){
+
+        <p>@messages("otherIndividualsInfo.paragraph2")</p>
+
+        @bulletList(
+            "otherIndividualsInfo",
+            List(
+                "bulletpoint4",
+                "bulletpoint5",
+                "bulletpoint6",
+                "bulletpoint7"
+            )
+        )
+    }
+
+    <p>@messages("otherIndividualsInfo.paragraph3")</p>
+
+    <p>@messages("otherIndividualsInfo.paragraph4")</p>
+
+    @bulletList(
+        "otherIndividualsInfo",
+        List(
+            "bulletpoint8",
+            "bulletpoint9",
+            "bulletpoint10",
+            "bulletpoint11"
+        )
+    )
+
+    <details class="govuk-details" data-module="govuk-details">
+        <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+              @messages("otherIndividualsInfo.details")
+            </span>
+        </summary>
+        <div class="govuk-details__text">
+            @messages("otherIndividualsInfo.details.paragraph1")
+        </div>
+    </details>
+
     @formHelper(action = InfoController.onSubmit(draftId), 'autoComplete -> "off") {
         @submitButton(Some(messages("site.continue")))
     }
-
 }

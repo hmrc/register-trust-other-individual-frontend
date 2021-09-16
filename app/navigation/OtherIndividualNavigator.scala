@@ -17,14 +17,12 @@
 package navigation
 
 import config.FrontendAppConfig
-import controllers.register.individual.mld5.routes._
 import controllers.register.individual.routes._
 import controllers.register.routes._
 import models.ReadableUserAnswers
 import models.register.pages.AddOtherIndividual
 import pages.Page
 import pages.register.individual._
-import pages.register.individual.mld5._
 import pages.register.{AddOtherIndividualPage, AddOtherIndividualYesNoPage, TrustHasOtherIndividualYesNoPage}
 import play.api.mvc.Call
 import sections.OtherIndividuals
@@ -49,14 +47,14 @@ class OtherIndividualNavigator @Inject()(config: FrontendAppConfig) extends Navi
 
   private def simpleNavigation(draftId: String): PartialFunction[Page, ReadableUserAnswers => Call] = {
     case NamePage(index) => _ => DateOfBirthYesNoController.onPageLoad(index, draftId)
-    case DateOfBirthPage(index) => ua => navigateAwayFromDateOfBirthQuestions(draftId, index, ua.is5mldEnabled)
+    case DateOfBirthPage(index) => _ => CountryOfNationalityYesNoController.onPageLoad(index, draftId)
     case CountryOfNationalityPage(index) => ua => navigateAwayFromCountryOfNationalityQuestions(draftId, index, ua.isTaxable)
-    case NationalInsuranceNumberPage(index) => ua => navigateAwayFromNinoQuestion(draftId, index, ua.is5mldEnabled)
+    case NationalInsuranceNumberPage(index) => _ => CountryOfResidenceYesNoController.onPageLoad(index, draftId)
     case CountryOfResidencePage(index) => ua => navigateAwayFromCountryOfResidencyQuestions(draftId, index, ua)
     case UkAddressPage(index) => _ => PassportDetailsYesNoController.onPageLoad(index, draftId)
     case NonUkAddressPage(index) => _ => PassportDetailsYesNoController.onPageLoad(index, draftId)
-    case PassportDetailsPage(index) => ua => navigateToMentalCapacityOrCheckAnswers(draftId, index, ua.is5mldEnabled)
-    case IDCardDetailsPage(index) => ua => navigateToMentalCapacityOrCheckAnswers(draftId, index, ua.is5mldEnabled)
+    case PassportDetailsPage(index) => _ => MentalCapacityYesNoController.onPageLoad(index, draftId)
+    case IDCardDetailsPage(index) => _ => MentalCapacityYesNoController.onPageLoad(index, draftId)
     case MentalCapacityYesNoPage(index) => _ => CheckDetailsController.onPageLoad(index, draftId)
     case CheckDetailsPage => _ => AddOtherIndividualController.onPageLoad(draftId)
   }
@@ -67,7 +65,7 @@ class OtherIndividualNavigator @Inject()(config: FrontendAppConfig) extends Navi
         ua = ua,
         fromPage = page,
         yesCall = DateOfBirthController.onPageLoad(index, draftId),
-        noCall = navigateAwayFromDateOfBirthQuestions(draftId, index, ua.is5mldEnabled)
+        noCall = CountryOfNationalityYesNoController.onPageLoad(index, draftId)
       )
     case page @ CountryOfNationalityYesNoPage(index) => ua =>
       yesNoNav(
@@ -88,7 +86,7 @@ class OtherIndividualNavigator @Inject()(config: FrontendAppConfig) extends Navi
         ua = ua,
         fromPage = page,
         yesCall = NationalInsuranceNumberController.onPageLoad(index, draftId),
-        noCall = navigateAwayFromNinoYesNoQuestion(draftId, index, ua.is5mldEnabled)
+        noCall = CountryOfResidenceYesNoController.onPageLoad(index, draftId)
       )
     case page @ CountryOfResidenceYesNoPage(index) => ua =>
       yesNoNav(
@@ -109,7 +107,7 @@ class OtherIndividualNavigator @Inject()(config: FrontendAppConfig) extends Navi
         ua = ua,
         fromPage = page,
         yesCall = AddressUkYesNoController.onPageLoad(index, draftId),
-        noCall = navigateToMentalCapacityOrCheckAnswers(draftId, index, ua.is5mldEnabled)
+        noCall = MentalCapacityYesNoController.onPageLoad(index, draftId)
       )
     case page @ AddressUkYesNoPage(index) => ua =>
       yesNoNav(
@@ -130,32 +128,8 @@ class OtherIndividualNavigator @Inject()(config: FrontendAppConfig) extends Navi
         ua = ua,
         fromPage = page,
         yesCall = IDCardDetailsController.onPageLoad(index, draftId),
-        noCall = navigateToMentalCapacityOrCheckAnswers(draftId, index, ua.is5mldEnabled)
+        noCall = MentalCapacityYesNoController.onPageLoad(index, draftId)
       )
-  }
-
-  private def navigateAwayFromDateOfBirthQuestions(draftId: String, index: Int, is5mldEnabled: Boolean): Call = {
-    if (is5mldEnabled) {
-      CountryOfNationalityYesNoController.onPageLoad(index, draftId)
-    } else {
-      NationalInsuranceYesNoController.onPageLoad(index, draftId)
-    }
-  }
-
-  private def navigateAwayFromNinoYesNoQuestion(draftId: String, index: Int, is5mldEnabled: Boolean): Call = {
-    if (is5mldEnabled) {
-      CountryOfResidenceYesNoController.onPageLoad(index, draftId)
-    } else {
-      AddressYesNoController.onPageLoad(index, draftId)
-    }
-  }
-
-  private def navigateAwayFromNinoQuestion(draftId: String, index: Int, is5mldEnabled: Boolean): Call = {
-    if (is5mldEnabled) {
-      CountryOfResidenceYesNoController.onPageLoad(index, draftId)
-    } else {
-      CheckDetailsController.onPageLoad(index, draftId)
-    }
   }
 
   private def navigateAwayFromCountryOfNationalityQuestions(draftId: String, index: Int, isTaxable: Boolean): Call = {
@@ -173,14 +147,6 @@ class OtherIndividualNavigator @Inject()(config: FrontendAppConfig) extends Navi
     (isNinoDefined, isNonTaxable) match {
       case (true, _) | (_, true) => MentalCapacityYesNoController.onPageLoad(index, draftId)
       case _ => AddressYesNoController.onPageLoad(index, draftId)
-    }
-  }
-
-  private def navigateToMentalCapacityOrCheckAnswers(draftId: String, index: Int, is5mldEnabled: Boolean): Call = {
-    if (is5mldEnabled) {
-      MentalCapacityYesNoController.onPageLoad(index, draftId)
-    } else {
-      CheckDetailsController.onPageLoad(index, draftId)
     }
   }
 

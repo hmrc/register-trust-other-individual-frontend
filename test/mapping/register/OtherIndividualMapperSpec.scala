@@ -22,7 +22,6 @@ import mapping.reads.OtherIndividual
 import models.{AddressType, FullName, IdentificationType, InternationalAddress, OtherIndividualType, PassportOrIdCardDetails, PassportType, UkAddress, YesNoDontKnow}
 import org.scalatest.{MustMatchers, OptionValues}
 import pages.register.individual._
-import pages.register.individual.mld5._
 import utils.Constants._
 import play.api.libs.json.Json
 import java.time.LocalDate
@@ -279,7 +278,7 @@ class OtherIndividualMapperSpec extends SpecBase with MustMatchers
         mapper.build(userAnswers) mustNot be(defined)
       }
 
-      "In 5mld mode with UK country of residence, UK country of nationality and Mental Capacity" in {
+      "with UK country of residence, UK country of nationality and Mental Capacity" in {
 
         val userAnswers =
           emptyUserAnswers
@@ -308,7 +307,7 @@ class OtherIndividualMapperSpec extends SpecBase with MustMatchers
 
       }
 
-      "In 5mld mode with Non UK country of residence, Non UK country of nationality and No Mental Capacity" in {
+      "with Non UK country of residence, Non UK country of nationality and No Mental Capacity" in {
 
         val userAnswers =
           emptyUserAnswers

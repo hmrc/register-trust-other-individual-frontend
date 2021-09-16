@@ -14,21 +14,19 @@
  * limitations under the License.
  */
 
-package services
+package pages.register.individual
 
-import connectors.TrustsStoreConnector
+import pages.behaviours.PageBehaviours
 
-import javax.inject.Inject
-import models.TaskStatus.TaskStatus
-import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
+class CountryOfNationalityPageSpec extends PageBehaviours {
 
-import scala.concurrent.{ExecutionContext, Future}
+  "CountryOfNationalityPage" must {
 
-class TrustsStoreService @Inject()(trustsStoreConnector: TrustsStoreConnector) {
+    beRetrievable[String](CountryOfNationalityPage(0))
 
-  def updateTaskStatus(draftId: String, taskStatus: TaskStatus)
-                      (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[HttpResponse] = {
-    trustsStoreConnector.updateTaskStatus(draftId, taskStatus)
+    beSettable[String](CountryOfNationalityPage(0))
+
+    beRemovable[String](CountryOfNationalityPage(0))
   }
 
 }

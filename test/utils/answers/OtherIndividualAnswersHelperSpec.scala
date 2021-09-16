@@ -17,11 +17,9 @@
 package utils.answers
 
 import base.SpecBase
-import controllers.register.individual.mld5.{routes => mld5rts}
 import controllers.register.individual.{routes => rts}
 import models.{FullName, InternationalAddress, UkAddress, UserAnswers, YesNoDontKnow}
 import pages.register.individual._
-import pages.register.individual.mld5._
 import play.twirl.api.Html
 import viewmodels.{AnswerRow, AnswerSection}
 import java.time.LocalDate
@@ -55,7 +53,7 @@ class OtherIndividualAnswersHelperSpec extends SpecBase {
             headingKey = Some("answerPage.section.otherIndividual.subheading"),
             Seq(
               AnswerRow("otherIndividual.name.checkYourAnswersLabel", Html(name.displayFullName), Some(rts.NameController.onPageLoad(index, fakeDraftId).url), "", canEdit),
-              AnswerRow("otherIndividual.5mld.mentalCapacityYesNo.checkYourAnswersLabel", Html("No"), Some(mld5rts.MentalCapacityYesNoController.onPageLoad(index, fakeDraftId).url), arg, canEdit)
+              AnswerRow("otherIndividual.mentalCapacityYesNo.checkYourAnswersLabel", Html("No"), Some(rts.MentalCapacityYesNoController.onPageLoad(index, fakeDraftId).url), arg, canEdit)
             ),
             sectionKey = None,
             headingArgs = Seq(index + 1)
@@ -77,7 +75,7 @@ class OtherIndividualAnswersHelperSpec extends SpecBase {
             headingKey = Some("answerPage.section.otherIndividual.subheading"),
             Seq(
               AnswerRow("otherIndividual.name.checkYourAnswersLabel", Html(name.displayFullName), Some(rts.NameController.onPageLoad(index, fakeDraftId).url), "", canEdit),
-              AnswerRow("otherIndividual.5mld.mentalCapacityYesNo.checkYourAnswersLabel", Html("I don’t know"), Some(mld5rts.MentalCapacityYesNoController.onPageLoad(index, fakeDraftId).url), arg, canEdit)
+              AnswerRow("otherIndividual.mentalCapacityYesNo.checkYourAnswersLabel", Html("I don’t know"), Some(rts.MentalCapacityYesNoController.onPageLoad(index, fakeDraftId).url), arg, canEdit)
             ),
             sectionKey = None,
             headingArgs = Seq(index + 1)
@@ -86,112 +84,6 @@ class OtherIndividualAnswersHelperSpec extends SpecBase {
     }
 
     "return a other individual answer section" when {
-
-      "in 4mld journey" when {
-
-        "minimum data" in {
-
-          val userAnswers = emptyUserAnswers
-            .set(NamePage(index), name).success.value
-            .set(DateOfBirthYesNoPage(index), false).success.value
-            .set(NationalInsuranceYesNoPage(index), false).success.value
-            .set(AddressYesNoPage(index), false).success.value
-
-          val helper = injector.instanceOf[OtherIndividualAnswersHelper]
-
-          val result: Option[Seq[AnswerSection]] = helper.otherIndividuals(userAnswers)
-
-          result mustBe Some(Seq(
-            AnswerSection(
-              headingKey = Some("answerPage.section.otherIndividual.subheading"),
-              rows = Seq(
-                AnswerRow(label = "otherIndividual.name.checkYourAnswersLabel", answer = Html(name.toString), changeUrl = Some(rts.NameController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit),
-                AnswerRow(label = "otherIndividual.dateOfBirthYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.DateOfBirthYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
-                AnswerRow(label = "otherIndividual.nationalInsuranceYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.NationalInsuranceYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
-                AnswerRow(label = "otherIndividual.addressYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.AddressYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString)
-              ),
-              sectionKey = None,
-              headingArgs = Seq(index + 1)
-            )
-          ))
-        }
-
-        "full data with international address" in {
-
-          val userAnswers = emptyUserAnswers
-            .set(NamePage(index), name).success.value
-            .set(DateOfBirthYesNoPage(index), true).success.value
-            .set(DateOfBirthPage(index), dateOfBirth).success.value
-            .set(NationalInsuranceYesNoPage(index), false).success.value
-            .set(AddressYesNoPage(index), true).success.value
-            .set(AddressUkYesNoPage(index), false).success.value
-            .set(NonUkAddressPage(index), nonUkAddress).success.value
-            .set(PassportDetailsYesNoPage(index), false).success.value
-            .set(IDCardDetailsYesNoPage(index), false).success.value
-
-          val helper = injector.instanceOf[OtherIndividualAnswersHelper]
-
-          val result: Option[Seq[AnswerSection]] = helper.otherIndividuals(userAnswers)
-
-          result mustBe Some(Seq(
-            AnswerSection(
-              headingKey = Some("answerPage.section.otherIndividual.subheading"),
-              rows = Seq(
-                AnswerRow(label = "otherIndividual.name.checkYourAnswersLabel", answer = Html(name.toString), changeUrl = Some(rts.NameController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit),
-                AnswerRow(label = "otherIndividual.dateOfBirthYesNo.checkYourAnswersLabel", answer = Html("Yes"), changeUrl = Some(rts.DateOfBirthYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
-                AnswerRow(label = "otherIndividual.dateOfBirth.checkYourAnswersLabel", answer = Html("16 February 1960"), changeUrl = Some(rts.DateOfBirthController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
-                AnswerRow(label = "otherIndividual.nationalInsuranceYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.NationalInsuranceYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
-                AnswerRow(label = "otherIndividual.addressYesNo.checkYourAnswersLabel", answer = Html("Yes"), changeUrl = Some(rts.AddressYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
-                AnswerRow(label = "otherIndividual.addressUkYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.AddressUkYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
-                AnswerRow(label = "site.address.international.checkYourAnswersLabel", answer = Html("Line 1<br />Line 2<br />Line 3<br />France"), changeUrl = Some(rts.NonUkAddressController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
-                AnswerRow(label = "otherIndividual.passportDetailsYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.PassportDetailsYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
-                AnswerRow(label = "otherIndividual.idCardDetailsYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.IDCardDetailsYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString)
-              ),
-              sectionKey = None,
-              headingArgs = Seq(index + 1)
-            )
-          ))
-        }
-
-        "full data with UK address" in {
-
-          val userAnswers = emptyUserAnswers
-            .set(NamePage(index), name).success.value
-            .set(DateOfBirthYesNoPage(index), true).success.value
-            .set(DateOfBirthPage(index), dateOfBirth).success.value
-            .set(NationalInsuranceYesNoPage(index), false).success.value
-            .set(AddressYesNoPage(index), true).success.value
-            .set(AddressUkYesNoPage(index), true).success.value
-            .set(UkAddressPage(index), ukAddress).success.value
-            .set(PassportDetailsYesNoPage(index), false).success.value
-            .set(IDCardDetailsYesNoPage(index), false).success.value
-
-          val helper = injector.instanceOf[OtherIndividualAnswersHelper]
-
-          val result: Option[Seq[AnswerSection]] = helper.otherIndividuals(userAnswers)
-
-          result mustBe Some(Seq(
-            AnswerSection(
-              headingKey = Some("answerPage.section.otherIndividual.subheading"),
-              rows = Seq(
-                AnswerRow(label = "otherIndividual.name.checkYourAnswersLabel", answer = Html(name.toString), changeUrl = Some(rts.NameController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit),
-                AnswerRow(label = "otherIndividual.dateOfBirthYesNo.checkYourAnswersLabel", answer = Html("Yes"), changeUrl = Some(rts.DateOfBirthYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
-                AnswerRow(label = "otherIndividual.dateOfBirth.checkYourAnswersLabel", answer = Html("16 February 1960"), changeUrl = Some(rts.DateOfBirthController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
-                AnswerRow(label = "otherIndividual.nationalInsuranceYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.NationalInsuranceYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
-                AnswerRow(label = "otherIndividual.addressYesNo.checkYourAnswersLabel", answer = Html("Yes"), changeUrl = Some(rts.AddressYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
-                AnswerRow(label = "otherIndividual.addressUkYesNo.checkYourAnswersLabel", answer = Html("Yes"), changeUrl = Some(rts.AddressUkYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
-                AnswerRow(label = "site.address.uk.checkYourAnswersLabel", answer = Html("Line 1<br />Line 2<br />Line 3<br />Line 4<br />AB11AB"), changeUrl = Some(rts.UkAddressController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
-                AnswerRow(label = "otherIndividual.passportDetailsYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.PassportDetailsYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
-                AnswerRow(label = "otherIndividual.idCardDetailsYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.IDCardDetailsYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString)
-              ),
-              sectionKey = None,
-              headingArgs = Seq(index + 1)
-            )
-          ))
-        }
-      }
-
-      "in 5mld taxable journey" when {
 
         "minimum data" in {
 
@@ -213,10 +105,10 @@ class OtherIndividualAnswersHelperSpec extends SpecBase {
               rows = Seq(
                 AnswerRow(label = "otherIndividual.name.checkYourAnswersLabel", answer = Html(name.toString), changeUrl = Some(rts.NameController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit),
                 AnswerRow(label = "otherIndividual.dateOfBirthYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.DateOfBirthYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
-                AnswerRow(label = "otherIndividual.5mld.countryOfNationalityYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(mld5rts.CountryOfNationalityYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
+                AnswerRow(label = "otherIndividual.countryOfNationalityYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.CountryOfNationalityYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
                 AnswerRow(label = "otherIndividual.nationalInsuranceYesNo.checkYourAnswersLabel", answer = Html("Yes"), changeUrl = Some(rts.NationalInsuranceYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
                 AnswerRow(label = "otherIndividual.nationalInsuranceNumber.checkYourAnswersLabel", answer = Html("AA 00 00 00 A"), changeUrl = Some(rts.NationalInsuranceNumberController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
-                AnswerRow(label = "otherIndividual.5mld.countryOfResidenceYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(mld5rts.CountryOfResidenceYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString)
+                AnswerRow(label = "otherIndividual.countryOfResidenceYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.CountryOfResidenceYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString)
               ),
               sectionKey = None,
               headingArgs = Seq(index + 1)
@@ -254,13 +146,13 @@ class OtherIndividualAnswersHelperSpec extends SpecBase {
                 AnswerRow(label = "otherIndividual.name.checkYourAnswersLabel", answer = Html(name.toString), changeUrl = Some(rts.NameController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit),
                 AnswerRow(label = "otherIndividual.dateOfBirthYesNo.checkYourAnswersLabel", answer = Html("Yes"), changeUrl = Some(rts.DateOfBirthYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
                 AnswerRow(label = "otherIndividual.dateOfBirth.checkYourAnswersLabel", answer = Html("16 February 1960"), changeUrl = Some(rts.DateOfBirthController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
-                AnswerRow(label = "otherIndividual.5mld.countryOfNationalityYesNo.checkYourAnswersLabel", answer = Html("Yes"), changeUrl = Some(mld5rts.CountryOfNationalityYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
-                AnswerRow(label = "otherIndividual.5mld.countryOfNationalityInTheUkYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(mld5rts.CountryOfNationalityInTheUkYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
-                AnswerRow(label = "otherIndividual.5mld.countryOfNationality.checkYourAnswersLabel", answer = Html("France"), changeUrl = Some(mld5rts.CountryOfNationalityController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
+                AnswerRow(label = "otherIndividual.countryOfNationalityYesNo.checkYourAnswersLabel", answer = Html("Yes"), changeUrl = Some(rts.CountryOfNationalityYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
+                AnswerRow(label = "otherIndividual.countryOfNationalityInTheUkYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.CountryOfNationalityInTheUkYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
+                AnswerRow(label = "otherIndividual.countryOfNationality.checkYourAnswersLabel", answer = Html("France"), changeUrl = Some(rts.CountryOfNationalityController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
                 AnswerRow(label = "otherIndividual.nationalInsuranceYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.NationalInsuranceYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
-                AnswerRow(label = "otherIndividual.5mld.countryOfResidenceYesNo.checkYourAnswersLabel", answer = Html("Yes"), changeUrl = Some(mld5rts.CountryOfResidenceYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
-                AnswerRow(label = "otherIndividual.5mld.countryOfResidenceInTheUkYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(mld5rts.CountryOfResidenceInTheUkYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
-                AnswerRow(label = "otherIndividual.5mld.countryOfResidence.checkYourAnswersLabel", answer = Html("France"), changeUrl = Some(mld5rts.CountryOfResidenceController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
+                AnswerRow(label = "otherIndividual.countryOfResidenceYesNo.checkYourAnswersLabel", answer = Html("Yes"), changeUrl = Some(rts.CountryOfResidenceYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
+                AnswerRow(label = "otherIndividual.countryOfResidenceInTheUkYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.CountryOfResidenceInTheUkYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
+                AnswerRow(label = "otherIndividual.countryOfResidence.checkYourAnswersLabel", answer = Html("France"), changeUrl = Some(rts.CountryOfResidenceController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
                 AnswerRow(label = "otherIndividual.addressYesNo.checkYourAnswersLabel", answer = Html("Yes"), changeUrl = Some(rts.AddressYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
                 AnswerRow(label = "otherIndividual.addressUkYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.AddressUkYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
                 AnswerRow(label = "site.address.international.checkYourAnswersLabel", answer = Html("Line 1<br />Line 2<br />Line 3<br />France"), changeUrl = Some(rts.NonUkAddressController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
@@ -301,11 +193,11 @@ class OtherIndividualAnswersHelperSpec extends SpecBase {
                 AnswerRow(label = "otherIndividual.name.checkYourAnswersLabel", answer = Html(name.toString), changeUrl = Some(rts.NameController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit),
                 AnswerRow(label = "otherIndividual.dateOfBirthYesNo.checkYourAnswersLabel", answer = Html("Yes"), changeUrl = Some(rts.DateOfBirthYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
                 AnswerRow(label = "otherIndividual.dateOfBirth.checkYourAnswersLabel", answer = Html("16 February 1960"), changeUrl = Some(rts.DateOfBirthController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
-                AnswerRow(label = "otherIndividual.5mld.countryOfNationalityYesNo.checkYourAnswersLabel", answer = Html("Yes"), changeUrl = Some(mld5rts.CountryOfNationalityYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
-                AnswerRow(label = "otherIndividual.5mld.countryOfNationalityInTheUkYesNo.checkYourAnswersLabel", answer = Html("Yes"), changeUrl = Some(mld5rts.CountryOfNationalityInTheUkYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
+                AnswerRow(label = "otherIndividual.countryOfNationalityYesNo.checkYourAnswersLabel", answer = Html("Yes"), changeUrl = Some(rts.CountryOfNationalityYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
+                AnswerRow(label = "otherIndividual.countryOfNationalityInTheUkYesNo.checkYourAnswersLabel", answer = Html("Yes"), changeUrl = Some(rts.CountryOfNationalityInTheUkYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
                 AnswerRow(label = "otherIndividual.nationalInsuranceYesNo.checkYourAnswersLabel", answer = Html("No"), changeUrl = Some(rts.NationalInsuranceYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
-                AnswerRow(label = "otherIndividual.5mld.countryOfResidenceYesNo.checkYourAnswersLabel", answer = Html("Yes"), changeUrl = Some(mld5rts.CountryOfResidenceYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
-                AnswerRow(label = "otherIndividual.5mld.countryOfResidenceInTheUkYesNo.checkYourAnswersLabel", answer = Html("Yes"), changeUrl = Some(mld5rts.CountryOfResidenceInTheUkYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
+                AnswerRow(label = "otherIndividual.countryOfResidenceYesNo.checkYourAnswersLabel", answer = Html("Yes"), changeUrl = Some(rts.CountryOfResidenceYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
+                AnswerRow(label = "otherIndividual.countryOfResidenceInTheUkYesNo.checkYourAnswersLabel", answer = Html("Yes"), changeUrl = Some(rts.CountryOfResidenceInTheUkYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
                 AnswerRow(label = "otherIndividual.addressYesNo.checkYourAnswersLabel", answer = Html("Yes"), changeUrl = Some(rts.AddressYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
                 AnswerRow(label = "otherIndividual.addressUkYesNo.checkYourAnswersLabel", answer = Html("Yes"), changeUrl = Some(rts.AddressUkYesNoController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
                 AnswerRow(label = "site.address.uk.checkYourAnswersLabel", answer = Html("Line 1<br />Line 2<br />Line 3<br />Line 4<br />AB11AB"), changeUrl = Some(rts.UkAddressController.onPageLoad(index, fakeDraftId).url), canEdit = canEdit, labelArg = name.toString),
@@ -317,7 +209,7 @@ class OtherIndividualAnswersHelperSpec extends SpecBase {
             )
           ))
         }
-      }
+
     }
   }
 }

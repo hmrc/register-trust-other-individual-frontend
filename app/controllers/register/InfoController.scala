@@ -20,7 +20,7 @@ import controllers.actions.StandardActionSets
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import views.html.register.{InfoView, Mld5InfoView}
+import views.html.register.InfoView
 
 import javax.inject.Inject
 
@@ -28,18 +28,12 @@ class InfoController @Inject()(
                                 override val messagesApi: MessagesApi,
                                 standardActionSets: StandardActionSets,
                                 val controllerComponents: MessagesControllerComponents,
-                                view: InfoView,
-                                view5MLD: Mld5InfoView
+                                view: InfoView
                               ) extends FrontendBaseController with I18nSupport {
 
   def onPageLoad(draftId: String): Action[AnyContent] = standardActionSets.identifiedUserWithData(draftId) {
     implicit request =>
-      val ua = request.userAnswers
-      if (ua.is5mldEnabled) {
-        Ok(view5MLD(draftId, ua.isTaxable))
-      } else {
-        Ok(view(draftId))
-      }
+      Ok(view(draftId, request.userAnswers.isTaxable))
   }
 
   def onSubmit(draftId: String): Action[AnyContent] = standardActionSets.identifiedUserWithData(draftId) { _ =>
