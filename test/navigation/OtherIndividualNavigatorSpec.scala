@@ -18,7 +18,6 @@ package navigation
 
 import base.SpecBase
 import config.FrontendAppConfig
-import controllers.register.individual.mld5.routes._
 import controllers.register.individual.routes._
 import controllers.register.routes._
 import generators.Generators
@@ -28,7 +27,6 @@ import models.register.pages.AddOtherIndividual
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import pages.entitystatus.OtherIndividualStatus
 import pages.register.individual._
-import pages.register.individual.mld5._
 import pages.register.{AddOtherIndividualPage, AddOtherIndividualYesNoPage, TrustHasOtherIndividualYesNoPage}
 import play.api.mvc.Call
 import utils.Constants.ES
@@ -39,219 +37,11 @@ class OtherIndividualNavigatorSpec extends SpecBase with ScalaCheckPropertyCheck
   private val index = 0
   private val nino: String = "nino"
 
-  private def otherIndividualsCompletedRoute(draftId: String, config: FrontendAppConfig): Call = {
-    Call("GET", config.registrationProgressUrl(draftId))
-  }
-
   "OtherIndividual navigator" must {
-
-    "a 4mld trust" must {
-
-      val baseAnswers = emptyUserAnswers.copy(is5mldEnabled = false, isTaxable = true)
-
-      "AddOtherIndividualYesNoPage -> Yes -> NamePage from AddOtherIndividualYesNoPage" in {
-        val answers = baseAnswers.set(AddOtherIndividualYesNoPage, true).success.value
-
-        navigator.nextPage(AddOtherIndividualYesNoPage, fakeDraftId, answers)
-          .mustBe(NameController.onPageLoad(index, fakeDraftId))
-      }
-
-      "AddOtherIndividualYesNoPage -> No -> RegistrationProgress" in {
-        val answers = baseAnswers.set(AddOtherIndividualYesNoPage, false).success.value
-
-        navigator.nextPage(AddOtherIndividualYesNoPage, fakeDraftId, answers)
-          .mustBe(otherIndividualsCompletedRoute(fakeDraftId, frontendAppConfig))
-      }
-
-      "AddOtherIndividualPage -> add them now" when {
-        "no individuals" must {
-          "-> NamePage at index 0" in {
-            val answers = baseAnswers.set(AddOtherIndividualPage, AddOtherIndividual.YesNow).success.value
-
-            navigator.nextPage(AddOtherIndividualPage, fakeDraftId, answers)
-              .mustBe(NameController.onPageLoad(0, fakeDraftId))
-          }
-        }
-
-        "there are individuals" must {
-          "-> NamePage at next index" in {
-            val answers = baseAnswers
-              .set(AddOtherIndividualPage, AddOtherIndividual.YesNow).success.value
-              .set(NamePage(0), FullName("First", None, "Last")).success.value
-              .set(OtherIndividualStatus(0), Completed).success.value
-
-            navigator.nextPage(AddOtherIndividualPage, fakeDraftId, answers)
-              .mustBe(NameController.onPageLoad(1, fakeDraftId))
-          }
-        }
-      }
-
-      "AddOtherIndividualPage -> add them later -> RegistrationProgress" in {
-        val answers = baseAnswers
-          .set(NamePage(index), FullName("First", None, "Last")).success.value
-          .set(AddOtherIndividualPage, AddOtherIndividual.YesLater).success.value
-
-        navigator.nextPage(AddOtherIndividualPage, fakeDraftId, answers)
-          .mustBe(otherIndividualsCompletedRoute(fakeDraftId, frontendAppConfig))
-      }
-
-      "AddOtherIndividualPage -> added them all -> RegistrationProgress" in {
-        val answers = baseAnswers
-          .set(NamePage(index), FullName("First", None, "Last")).success.value
-          .set(AddOtherIndividualPage, AddOtherIndividual.NoComplete).success.value
-
-        navigator.nextPage(AddOtherIndividualPage, fakeDraftId, answers)
-          .mustBe(otherIndividualsCompletedRoute(fakeDraftId, frontendAppConfig))
-      }
-
-      "TrustHasOtherIndividualYesNoPage -> yes -> InfoPage" in {
-        val answers = baseAnswers.set(TrustHasOtherIndividualYesNoPage, true).success.value
-
-        navigator.nextPage(TrustHasOtherIndividualYesNoPage, fakeDraftId, answers)
-          .mustBe(InfoController.onPageLoad(fakeDraftId))
-      }
-
-      "TrustHasOtherIndividualYesNoPage -> no -> RegistrationProgress" in {
-        val answers = baseAnswers.set(TrustHasOtherIndividualYesNoPage, false).success.value
-
-        navigator.nextPage(TrustHasOtherIndividualYesNoPage, fakeDraftId, answers)
-          .mustBe(otherIndividualsCompletedRoute(fakeDraftId, frontendAppConfig))
-      }
-
-      "NamePage -> DateOfBirthYesNoPage" in {
-        navigator.nextPage(NamePage(index), draftId, baseAnswers)
-          .mustBe(DateOfBirthYesNoController.onPageLoad(index, draftId))
-      }
-
-      "DateOfBirthYesNoPage -> Yes -> DateOfBirthPage" in {
-        val answers = baseAnswers.set(DateOfBirthYesNoPage(index), true).success.value
-
-        navigator.nextPage(DateOfBirthYesNoPage(index), draftId, answers)
-          .mustBe(DateOfBirthController.onPageLoad(index, draftId))
-      }
-
-      "DateOfBirthYesNoPage -> No -> NationalInsuranceYesNoPage" in {
-        val answers = baseAnswers.set(DateOfBirthYesNoPage(index), false).success.value
-
-        navigator.nextPage(DateOfBirthYesNoPage(index), draftId, answers)
-          .mustBe(NationalInsuranceYesNoController.onPageLoad(index, draftId))
-      }
-
-      "DateOfBirthPage -> NationalInsuranceYesNoPage" in {
-        navigator.nextPage(DateOfBirthPage(index), draftId, baseAnswers)
-          .mustBe(NationalInsuranceYesNoController.onPageLoad(index, draftId))
-      }
-
-      "NationalInsuranceYesNoPage -> Yes -> NationalInsurancePage" in {
-        val answers = baseAnswers.set(NationalInsuranceYesNoPage(index), true).success.value
-
-        navigator.nextPage(NationalInsuranceYesNoPage(index), draftId, answers)
-          .mustBe(NationalInsuranceNumberController.onPageLoad(index, draftId))
-      }
-
-      "NationalInsuranceYesNoPage -> No -> AddressYesNoPage" in {
-        val answers = baseAnswers.set(NationalInsuranceYesNoPage(index), false).success.value
-
-        navigator.nextPage(NationalInsuranceYesNoPage(index), draftId, answers)
-          .mustBe(AddressYesNoController.onPageLoad(index, draftId))
-      }
-
-      "NationalInsurancePage -> CheckDetailsPage" in {
-        navigator.nextPage(NationalInsuranceNumberPage(index), draftId, baseAnswers)
-          .mustBe(CheckDetailsController.onPageLoad(index, draftId))
-      }
-
-      "AddressYesNoPage -> Yes -> AddressUkYesNoPage" in {
-        val answers = baseAnswers
-          .set(AddressYesNoPage(index), true).success.value
-
-        navigator.nextPage(AddressYesNoPage(index), draftId, answers)
-          .mustBe(AddressUkYesNoController.onPageLoad(index, draftId))
-      }
-
-      "AddressYesNoPage -> No -> CheckDetailsPage" in {
-        val answers = baseAnswers
-          .set(AddressYesNoPage(index), false).success.value
-
-        navigator.nextPage(AddressYesNoPage(index), draftId, answers)
-          .mustBe(CheckDetailsController.onPageLoad(index, draftId))
-      }
-
-      "AddressUkYesNoPage -> Yes -> UKAddressPage" in {
-        val answers = baseAnswers
-          .set(AddressUkYesNoPage(index), true).success.value
-
-        navigator.nextPage(AddressUkYesNoPage(index), draftId, answers)
-          .mustBe(UkAddressController.onPageLoad(index, draftId))
-      }
-
-      "AddressUkYesNoPage -> No -> NonUKAddressPage" in {
-        val answers = baseAnswers
-          .set(AddressUkYesNoPage(index), false).success.value
-
-        navigator.nextPage(AddressUkYesNoPage(index), draftId, answers)
-          .mustBe(NonUkAddressController.onPageLoad(index, draftId))
-      }
-
-      "UKAddressPage -> PassportDetailsYesNoController" in {
-        navigator.nextPage(UkAddressPage(index), draftId, baseAnswers)
-          .mustBe(PassportDetailsYesNoController.onPageLoad(index, draftId))
-      }
-
-      "NonUKAddressPage -> PassportDetailsYesNoController" in {
-        navigator.nextPage(NonUkAddressPage(index), draftId, baseAnswers)
-          .mustBe(PassportDetailsYesNoController.onPageLoad(index, draftId))
-      }
-
-      "PassportDetailsYesNoPage -> Yes -> PassportDetailsPage" in {
-        val answers = baseAnswers
-          .set(PassportDetailsYesNoPage(index), true).success.value
-
-        navigator.nextPage(PassportDetailsYesNoPage(index), draftId, answers)
-          .mustBe(PassportDetailsController.onPageLoad(index, draftId))
-      }
-
-      "PassportDetailsYesNoPage -> No -> IDCardDetailsYesNoPage" in {
-        val answers = baseAnswers
-          .set(PassportDetailsYesNoPage(index), false).success.value
-
-        navigator.nextPage(PassportDetailsYesNoPage(index), draftId, answers)
-          .mustBe(IDCardDetailsYesNoController.onPageLoad(index, draftId))
-      }
-
-      "PassportDetailsPage -> CheckDetailsPage" in {
-        navigator.nextPage(PassportDetailsPage(index), fakeDraftId, baseAnswers)
-          .mustBe(CheckDetailsController.onPageLoad(index, fakeDraftId))
-      }
-
-      "IDCardDetailsYesNoPage -> Yes -> IDCardDetailsPage" in {
-        val answers = baseAnswers
-          .set(IDCardDetailsYesNoPage(index), true).success.value
-
-        navigator.nextPage(IDCardDetailsYesNoPage(index), draftId, answers)
-          .mustBe(IDCardDetailsController.onPageLoad(index, draftId))
-      }
-
-      "IDCardDetailsYesNoPage -> No -> CheckDetailsPage" in {
-        val answers = baseAnswers
-          .set(IDCardDetailsYesNoPage(index), false).success.value
-
-        navigator.nextPage(IDCardDetailsYesNoPage(index), draftId, answers)
-          .mustBe(CheckDetailsController.onPageLoad(index, draftId))
-      }
-
-      "CheckDetailsPage -> AddOtherIndividualPage" in {
-        navigator.nextPage(CheckDetailsPage, draftId, baseAnswers)
-          .mustBe(AddOtherIndividualController.onPageLoad(draftId))
-      }
-
-    }
-
-    "a 5mld trust" when {
 
       "taxable" when {
 
-        val baseAnswers = emptyUserAnswers.copy(is5mldEnabled = true, isTaxable = true)
+        val baseAnswers = emptyUserAnswers.copy(isTaxable = true)
 
         "NamePage -> DateOfBirthYesNoPage" in {
           navigator.nextPage(NamePage(index), draftId, baseAnswers)
@@ -522,7 +312,7 @@ class OtherIndividualNavigatorSpec extends SpecBase with ScalaCheckPropertyCheck
 
       "non-taxable" when {
 
-        val baseAnswers = emptyUserAnswers.copy(is5mldEnabled = true, isTaxable = false)
+        val baseAnswers = emptyUserAnswers.copy(isTaxable = false)
 
         "NamePage -> DateOfBirthYesNoPage" in {
           navigator.nextPage(NamePage(index), draftId, baseAnswers)
@@ -644,6 +434,6 @@ class OtherIndividualNavigatorSpec extends SpecBase with ScalaCheckPropertyCheck
             .mustBe(CheckDetailsController.onPageLoad(index, draftId))
         }
       }
-    }
+
   }
 }

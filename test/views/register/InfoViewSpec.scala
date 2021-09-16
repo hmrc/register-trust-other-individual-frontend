@@ -21,20 +21,59 @@ import views.html.register.InfoView
 
 class InfoViewSpec extends ViewBehaviours {
 
-  "Info view" must {
+  "Info view" when {
 
     val view = viewFor[InfoView](Some(emptyUserAnswers))
 
-    val applyView = view.apply(fakeDraftId)(fakeRequest, messages)
+    "taxable" must {
 
-    behave like normalPageTitleWithSectionSubheading(applyView, "otherIndividualsInfo",
-      "caption",
-      "paragraph1",
-      "bulletpoint1",
-      "bulletpoint2",
-      "bulletpoint3"
-    )
+      val applyView = view.apply(fakeDraftId, isTaxable = true)(fakeRequest, messages)
 
-    behave like pageWithBackLink(applyView)
+      behave like normalPageTitleWithSectionSubheading(applyView, "otherIndividualsInfo",
+        "caption",
+        "paragraph1",
+        "bulletpoint1",
+        "bulletpoint2",
+        "bulletpoint3",
+        "paragraph2",
+        "bulletpoint4",
+        "bulletpoint5",
+        "bulletpoint6",
+        "bulletpoint7",
+        "paragraph3",
+        "paragraph4",
+        "bulletpoint8",
+        "bulletpoint9",
+        "bulletpoint10",
+        "bulletpoint11",
+        "details",
+        "details.paragraph1"
+      )
+
+      behave like pageWithBackLink(applyView)
+    }
+
+    "non-taxable" must {
+
+      val applyView = view.apply(fakeDraftId, isTaxable = false)(fakeRequest, messages)
+
+      behave like normalPageTitleWithSectionSubheading(applyView, "otherIndividualsInfo",
+        "caption",
+        "paragraph1",
+        "bulletpoint1",
+        "bulletpoint2",
+        "bulletpoint3",
+        "paragraph3",
+        "paragraph4",
+        "bulletpoint8",
+        "bulletpoint9",
+        "bulletpoint10",
+        "bulletpoint11",
+        "details",
+        "details.paragraph1"
+      )
+
+      behave like pageWithBackLink(applyView)
+    }
   }
 }

@@ -14,21 +14,16 @@
  * limitations under the License.
  */
 
-package services
+package pages.register.individual
 
-import connectors.TrustsStoreConnector
+import pages.QuestionPage
+import play.api.libs.json.JsPath
+import sections.OtherIndividuals
 
-import javax.inject.Inject
-import models.TaskStatus.TaskStatus
-import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
+final case class CountryOfNationalityPage(index : Int) extends QuestionPage[String] {
 
-import scala.concurrent.{ExecutionContext, Future}
+  override def path: JsPath = OtherIndividuals.path \ index \ toString
 
-class TrustsStoreService @Inject()(trustsStoreConnector: TrustsStoreConnector) {
-
-  def updateTaskStatus(draftId: String, taskStatus: TaskStatus)
-                      (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[HttpResponse] = {
-    trustsStoreConnector.updateTaskStatus(draftId, taskStatus)
-  }
+  override def toString: String = "countryOfNationality"
 
 }
