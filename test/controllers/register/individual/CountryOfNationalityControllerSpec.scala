@@ -35,7 +35,7 @@ import views.html.register.individual.CountryOfNationalityView
 class CountryOfNationalityControllerSpec extends SpecBase with MockitoSugar {
 
   val formProvider = new CountryFormProvider()
-  val form: Form[String] = formProvider.withPrefix("otherIndividual.countryOfNationality")
+  val form: Form[String] = formProvider.withPrefix("otherIndividual.5mld.countryOfNationality")
   val index: Int = 0
   val name: FullName = FullName("FirstName", None, "LastName")
 

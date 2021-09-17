@@ -29,7 +29,7 @@
 @(form: Form[_], draftId: String, index: Int, name: String)(implicit request: Request[_], messages: Messages)
 
 @mainTemplate(
-    title = s"${errorPrefix(form)}${messages("otherIndividual.countryOfNationalityInTheUkYesNo.title")}",
+    title = s"${errorPrefix(form)}${messages("otherIndividual.5mld.countryOfNationalityInTheUkYesNo.title")}",
     showBackLink = true
 ) {
 
@@ -39,7 +39,7 @@
 
         @inputYesNo(
             field = form("value"),
-            label = messages("otherIndividual.countryOfNationalityInTheUkYesNo.heading", name),
+            label = messages("otherIndividual.5mld.countryOfNationalityInTheUkYesNo.heading", name),
             legendAsHeading = true
         )
 

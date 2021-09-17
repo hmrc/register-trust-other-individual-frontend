@@ -30,31 +30,31 @@
 @(form: Form[_], draftId: String, index: Int, name: String)(implicit request: Request[_], messages: Messages)
 
 @content = {
-<p>@messages("otherIndividual.mentalCapacityYesNo.p1")</p>
+<p>@messages("otherIndividual.5mld.mentalCapacityYesNo.p1")</p>
 
-<p>@messages("otherIndividual.mentalCapacityYesNo.p2")</p>
+<p>@messages("otherIndividual.5mld.mentalCapacityYesNo.p2")</p>
 
 <ul class="govuk-list govuk-list--bullet">
-    <li class="inside">@messages("otherIndividual.mentalCapacityYesNo.bulletpoint1")</li>
-    <li class="inside">@messages("otherIndividual.mentalCapacityYesNo.bulletpoint2")</li>
-    <li class="inside">@messages("otherIndividual.mentalCapacityYesNo.bulletpoint3")</li>
-    <li class="inside">@messages("otherIndividual.mentalCapacityYesNo.bulletpoint4")</li>
+    <li class="inside">@messages("otherIndividual.5mld.mentalCapacityYesNo.bulletpoint1")</li>
+    <li class="inside">@messages("otherIndividual.5mld.mentalCapacityYesNo.bulletpoint2")</li>
+    <li class="inside">@messages("otherIndividual.5mld.mentalCapacityYesNo.bulletpoint3")</li>
+    <li class="inside">@messages("otherIndividual.5mld.mentalCapacityYesNo.bulletpoint4")</li>
 </ul>
 
-<p>@messages("otherIndividual.mentalCapacityYesNo.p3")</p>
+<p>@messages("otherIndividual.5mld.mentalCapacityYesNo.p3")</p>
 
-<p>@messages("otherIndividual.mentalCapacityYesNo.p4")</p>
+<p>@messages("otherIndividual.5mld.mentalCapacityYesNo.p4")</p>
 
-<h2>@messages("otherIndividual.mentalCapacityYesNo.subheading")</h2>
+<h2>@messages("otherIndividual.5mld.mentalCapacityYesNo.subheading")</h2>
 
-<p>@messages("otherIndividual.mentalCapacityYesNo.p5")</p>
+<p>@messages("otherIndividual.5mld.mentalCapacityYesNo.p5")</p>
 
-<p>@messages("otherIndividual.mentalCapacityYesNo.p6")</p>
+<p>@messages("otherIndividual.5mld.mentalCapacityYesNo.p6")</p>
 
 }
 
 @mainTemplate(
-    title = s"${errorPrefix(form)}${messages("otherIndividual.mentalCapacityYesNo.title")}",
+    title = s"${errorPrefix(form)}${messages("otherIndividual.5mld.mentalCapacityYesNo.title")}",
     showBackLink = true
 ) {
 
@@ -62,13 +62,13 @@
 
         @errorSummary(form.errors)
 
-        @heading(messages("otherIndividual.mentalCapacityYesNo.heading", name))
+        @heading(messages("otherIndividual.5mld.mentalCapacityYesNo.heading", name))
 
         @content
 
         @inputYesNoDontKnow(
             field = form("value"),
-            label = messages("otherIndividual.mentalCapacityYesNo.heading", name),
+            label = messages("otherIndividual.5mld.mentalCapacityYesNo.heading", name),
             legendAsHeading = false,
             legendClass = Some("govuk-visually-hidden")
         )

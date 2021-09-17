@@ -28,7 +28,7 @@ inputYesNo: InputYesNo,
 @(form: Form[_], draftId: String, index: Int, name: String)(implicit request: Request[_], messages: Messages)
 
 @mainTemplate(
-    title = s"${errorPrefix(form)}${messages("otherIndividual.countryOfResidenceYesNo.title")}",
+    title = s"${errorPrefix(form)}${messages("otherIndividual.5mld.countryOfResidenceYesNo.title")}",
     showBackLink = true
 ) {
 
@@ -38,9 +38,9 @@ inputYesNo: InputYesNo,
 
         @inputYesNo(
             field = form("value"),
-            label = messages("otherIndividual.countryOfResidenceYesNo.heading", name),
+            label = messages("otherIndividual.5mld.countryOfResidenceYesNo.heading", name),
             legendAsHeading = true,
-            hint = Some(messages("otherIndividual.countryOfResidenceYesNo.hint"))
+            hint = Some(messages("otherIndividual.5mld.countryOfResidenceYesNo.hint"))
         )
 
         @submitButton()

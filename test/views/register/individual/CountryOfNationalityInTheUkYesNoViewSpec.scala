@@ -25,7 +25,7 @@ import views.html.register.individual.CountryOfNationalityInTheUkYesNoView
 
 class CountryOfNationalityInTheUkYesNoViewSpec extends YesNoViewBehaviours {
 
-  val prefix = "otherIndividual.countryOfNationalityInTheUkYesNo"
+  val prefix = "otherIndividual.5mld.countryOfNationalityInTheUkYesNo"
   val index = 0
   val name: String = FullName("FirstName", None, "LastName").toString
 

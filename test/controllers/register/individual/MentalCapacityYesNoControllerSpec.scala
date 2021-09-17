@@ -32,7 +32,7 @@ import views.html.register.individual.MentalCapacityYesNoView
 class MentalCapacityYesNoControllerSpec extends SpecBase with MockitoSugar {
 
   val formProvider = new YesNoDontKnowFormProvider()
-  val form: Form[YesNoDontKnow] = formProvider.withPrefix("otherIndividual.mentalCapacityYesNo")
+  val form: Form[YesNoDontKnow] = formProvider.withPrefix("otherIndividual.5mld.mentalCapacityYesNo")
   val index: Int = 0
   val name: FullName = FullName("FirstName", None, "LastName")
 
