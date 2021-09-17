@@ -21,7 +21,7 @@ import views.html.register.InfoView
 
 class InfoViewSpec extends ViewBehaviours {
 
-  "Info view" when {
+  "Mld5Info view" when {
 
     val view = viewFor[InfoView](Some(emptyUserAnswers))
 
@@ -29,7 +29,7 @@ class InfoViewSpec extends ViewBehaviours {
 
       val applyView = view.apply(fakeDraftId, isTaxable = true)(fakeRequest, messages)
 
-      behave like normalPageTitleWithSectionSubheading(applyView, "otherIndividualsInfo",
+      behave like normalPageTitleWithSectionSubheading(applyView, "otherIndividualsInfo.5mld",
         "caption",
         "paragraph1",
         "bulletpoint1",
@@ -57,7 +57,7 @@ class InfoViewSpec extends ViewBehaviours {
 
       val applyView = view.apply(fakeDraftId, isTaxable = false)(fakeRequest, messages)
 
-      behave like normalPageTitleWithSectionSubheading(applyView, "otherIndividualsInfo",
+      behave like normalPageTitleWithSectionSubheading(applyView, "otherIndividualsInfo.5mld",
         "caption",
         "paragraph1",
         "bulletpoint1",

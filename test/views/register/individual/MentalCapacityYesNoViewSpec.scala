@@ -26,7 +26,7 @@ import views.html.register.individual.MentalCapacityYesNoView
 
 class MentalCapacityYesNoViewSpec extends QuestionViewBehaviours[YesNoDontKnow] with OptionsViewBehaviours {
 
-  val prefix = "otherIndividual.mentalCapacityYesNo"
+  val prefix = "otherIndividual.5mld.mentalCapacityYesNo"
   val index = 0
   val name: String = FullName("FirstName", None, "LastName").toString
 

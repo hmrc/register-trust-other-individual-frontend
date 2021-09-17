@@ -27,7 +27,7 @@ import views.html.register.individual.CountryOfResidenceView
 
 class CountryOfResidenceViewSpec extends SelectCountryViewBehaviours {
 
-  val prefix = "otherIndividual.countryOfResidence"
+  val prefix = "otherIndividual.5mld.countryOfResidence"
   val index = 0
   val name: String = FullName("FirstName", None, "LastName").toString
 

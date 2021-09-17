@@ -29,7 +29,7 @@
 @(form: Form[_], countryOptions: Seq[InputOption], draftId: String, index: Int, name: String)(implicit request: Request[_], messages: Messages)
 
 @mainTemplate(
-    title = s"${errorPrefix(form)}${messages("otherIndividual.countryOfNationality.title")}",
+    title = s"${errorPrefix(form)}${messages("otherIndividual.5mld.countryOfNationality.title")}",
     showBackLink = true
 ) {
 
@@ -39,7 +39,7 @@
 
         @select(
             field = form("value"),
-            label = messages("otherIndividual.countryOfNationality.heading", name),
+            label = messages("otherIndividual.5mld.countryOfNationality.heading", name),
             labelAsHeading = true,
             options = countryOptions,
             placeholder = Some(messages("site.address.country.select")),

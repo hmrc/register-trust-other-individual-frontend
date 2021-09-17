@@ -28,7 +28,7 @@ submitButton: SubmitButton
 @(form: Form[_], draftId: String, index: Int, name: String)(implicit request: Request[_], messages: Messages)
 
 @mainTemplate(
-    title = s"${errorPrefix(form)}${messages("otherIndividual.countryOfNationalityYesNo.title")}",
+    title = s"${errorPrefix(form)}${messages("otherIndividual.5mld.countryOfNationalityYesNo.title")}",
     showBackLink = true
 ) {
 
@@ -38,9 +38,9 @@ submitButton: SubmitButton
 
         @inputYesNo(
             field = form("value"),
-            label = messages("otherIndividual.countryOfNationalityYesNo.heading", name),
+            label = messages("otherIndividual.5mld.countryOfNationalityYesNo.heading", name),
             legendAsHeading = true,
-            hint = Some(messages("otherIndividual.countryOfNationalityYesNo.hint"))
+            hint = Some(messages("otherIndividual.5mld.countryOfNationalityYesNo.hint"))
         )
 
         @submitButton()
