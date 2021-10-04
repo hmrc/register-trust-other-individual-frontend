@@ -17,18 +17,10 @@
 package navigation
 
 import base.SpecBase
-import config.FrontendAppConfig
 import controllers.register.individual.routes._
-import controllers.register.routes._
 import generators.Generators
-import models.Status.Completed
-import models._
-import models.register.pages.AddOtherIndividual
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
-import pages.entitystatus.OtherIndividualStatus
 import pages.register.individual._
-import pages.register.{AddOtherIndividualPage, AddOtherIndividualYesNoPage, TrustHasOtherIndividualYesNoPage}
-import play.api.mvc.Call
 import utils.Constants.ES
 
 class OtherIndividualNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Generators {
