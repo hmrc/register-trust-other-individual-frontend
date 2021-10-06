@@ -332,3 +332,10 @@ unauthorised.link = gallwch greu cyfrif ar-lein wrth gofrestru’r ymddiriedolae
 unauthorised.p3 = Er mwyn creu cyfrif, bydd angen arnoch:
 unauthorised.bullet1 = eich enw llawn
 unauthorised.bullet2 = cyfeiriad e-bost
+
+pageNotFound.title = Heb ddod o hyd i’r dudalen
+pageNotFound.heading = Heb ddod o hyd i’r dudalen
+pageNotFound.p1 = Os gwnaethoch deipio’r cyfeiriad gwe, gwiriwch ei fod yn gywir.
+pageNotFound.p2 = Os gwnaethoch ludo’r cyfeiriad gwe, gwiriwch eich bod wedi copïo’r cyfeiriad yn llawn.
+pageNotFound.p3 = Os yw’r cyfeiriad gwe yn gywir, neu eich bod wedi dewis cysylltiad neu fotwm, {0}.
+pageNotFound.link = cysylltwch â Gwasanaeth Cwsmeriaid Cymraeg CThEM i siarad â rhywun ynghylch ymddiriedolaeth (yn agor tab newydd)
