@@ -52,11 +52,11 @@ class SubmissionSetFactory @Inject()(otherIndividualMapper: OtherIndividualMappe
 
     val trustHasOtherIndividualYesNo = userAnswers.get(TrustHasOtherIndividualYesNoPage).contains(true)
 
-    if (trustHasOtherIndividualYesNo) {
+    val entitySections = List(
+      otherIndividualAnswersHelper.otherIndividuals(userAnswers)
+    ).flatten.flatten
 
-      val entitySections = List(
-        otherIndividualAnswersHelper.otherIndividuals(userAnswers)
-      ).flatten.flatten
+    if (entitySections.nonEmpty && trustHasOtherIndividualYesNo) {
 
       val updatedFirstSection = entitySections.head.copy(sectionKey = Some("answerPage.section.otherIndividuals.heading"))
 
