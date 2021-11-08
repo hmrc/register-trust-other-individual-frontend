@@ -21,48 +21,38 @@ import models._
 import pages.register.TrustHasOtherIndividualYesNoPage
 import play.api.i18n.Messages
 import play.api.libs.json.{JsNull, JsValue, Json}
-import utils.RegistrationProgress
 import utils.answers.OtherIndividualAnswersHelper
 import viewmodels.{AnswerRow, AnswerSection}
 
 import javax.inject.Inject
 
-class SubmissionSetFactory @Inject()(registrationProgress: RegistrationProgress,
-                                     otherIndividualMapper: OtherIndividualMapper,
+class SubmissionSetFactory @Inject()(otherIndividualMapper: OtherIndividualMapper,
                                      otherIndividualAnswersHelper: OtherIndividualAnswersHelper) {
 
   def createFrom(userAnswers: UserAnswers)(implicit messages: Messages): RegistrationSubmission.DataSet = {
-    val status = registrationProgress.otherIndividualsStatus(userAnswers)
 
     RegistrationSubmission.DataSet(
       data = Json.toJson(userAnswers),
-      status = status,
-      registrationPieces = mappedDataIfCompleted(userAnswers, status),
-      answerSections = answerSectionsIfCompleted(userAnswers, status)
-    )
+      registrationPieces = mappedData(userAnswers),
+      answerSections = answerSections(userAnswers))
   }
 
   private def mappedPieces(otherIndividualsJson: JsValue) =
     List(RegistrationSubmission.MappedPiece("trust/entities/naturalPerson", otherIndividualsJson))
 
-  private def mappedDataIfCompleted(userAnswers: UserAnswers,
-                                    status: Option[Status]): List[RegistrationSubmission.MappedPiece] = {
-    if (status.contains(Status.Completed)) {
+  private def mappedData(userAnswers: UserAnswers): List[RegistrationSubmission.MappedPiece] = {
       otherIndividualMapper.build(userAnswers) match {
         case Some(otherIndividuals) => mappedPieces(Json.toJson(otherIndividuals))
         case _ => mappedPieces(JsNull)
       }
-    } else {
-      mappedPieces(JsNull)
-    }
   }
 
-  def answerSectionsIfCompleted(userAnswers: UserAnswers, status: Option[Status])
-                               (implicit messages: Messages): List[RegistrationSubmission.AnswerSection] = {
+  def answerSections(userAnswers: UserAnswers)
+                    (implicit messages: Messages): List[RegistrationSubmission.AnswerSection] = {
 
     val trustHasOtherIndividualYesNo = userAnswers.get(TrustHasOtherIndividualYesNoPage).contains(true)
 
-    if (status.contains(Status.Completed) && trustHasOtherIndividualYesNo) {
+    if (trustHasOtherIndividualYesNo) {
 
       val entitySections = List(
         otherIndividualAnswersHelper.otherIndividuals(userAnswers)

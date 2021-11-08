@@ -19,7 +19,7 @@ package repositories
 import base.SpecBase
 import models.RegistrationSubmission.AnswerSection
 import models.Status.Completed
-import models.{RegistrationSubmission, Status, UserAnswers}
+import models.{RegistrationSubmission, UserAnswers}
 import pages.entitystatus.OtherIndividualStatus
 import pages.register.TrustHasOtherIndividualYesNoPage
 import play.api.libs.json.{JsNull, Json}
@@ -32,11 +32,10 @@ class SubmissionSetFactorySpec extends SpecBase {
 
     val factory = injector.instanceOf[SubmissionSetFactory]
 
-    "return no answer sections if no completed otherIndividuals" in {
+    "return no answer sections if no otherIndividuals" in {
 
       factory.createFrom(emptyUserAnswers) mustBe RegistrationSubmission.DataSet(
         Json.toJson(emptyUserAnswers),
-        None,
         List(RegistrationSubmission.MappedPiece("trust/entities/naturalPerson", JsNull)),
         List.empty
       )
@@ -51,7 +50,6 @@ class SubmissionSetFactorySpec extends SpecBase {
 
           factory.createFrom(userAnswers) mustBe RegistrationSubmission.DataSet(
             Json.toJson(userAnswers),
-            Some(Status.Completed),
             List(RegistrationSubmission.MappedPiece("trust/entities/naturalPerson", JsNull)),
             List.empty
           )
@@ -66,7 +64,7 @@ class SubmissionSetFactorySpec extends SpecBase {
               .set(OtherIndividualStatus(0), Completed).success.value
               .set(TrustHasOtherIndividualYesNoPage, true).success.value
 
-            factory.answerSectionsIfCompleted(userAnswers, Some(Completed)) mustBe
+            factory.answerSections(userAnswers) mustBe
               List(
                 AnswerSection(
                   headingKey = Some("answerPage.section.otherIndividual.subheading"),
@@ -88,7 +86,7 @@ class SubmissionSetFactorySpec extends SpecBase {
               .set(OtherIndividualStatus(1), Completed).success.value
               .set(TrustHasOtherIndividualYesNoPage, true).success.value
 
-            factory.answerSectionsIfCompleted(userAnswers, Some(Completed)) mustBe
+            factory.answerSections(userAnswers) mustBe
               List(
                 AnswerSection(
                   headingKey = Some("answerPage.section.otherIndividual.subheading"),
