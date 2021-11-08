@@ -16,9 +16,9 @@
 
 package models
 
-import java.time.LocalDateTime
-
 import play.api.libs.json.{JsValue, Json, OFormat}
+
+import java.time.LocalDateTime
 
 // Primary front end draft data (e.g, trusts-frontend), including reference and in-progress.
 case class SubmissionDraftData(data: JsValue, reference: Option[String], inProgress: Option[Boolean])
@@ -51,11 +51,8 @@ object RegistrationSubmission {
     implicit lazy val format: OFormat[AnswerSection] = Json.format[AnswerSection]
   }
 
-  // Set of data sent by sub-frontend, with user answers, status, any mapped pieces and answer sections.
-  case class DataSet(data: JsValue,
-                     status: Option[Status],
-                     registrationPieces: List[MappedPiece],
-                     answerSections: List[AnswerSection])
+  // Set of data sent by sub-frontend, with user answers, any mapped pieces and answer sections.
+  case class DataSet(data: JsValue, registrationPieces: List[MappedPiece], answerSections: List[AnswerSection])
 
   object DataSet {
     implicit lazy val format: OFormat[DataSet] = Json.format[DataSet]
