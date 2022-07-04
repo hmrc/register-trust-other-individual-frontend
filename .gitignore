@@ -2,6 +2,7 @@
 /.classpath
 db
 dist
+.bsp/
 .DS_Store
 **/*.DS_Store
 eclipse

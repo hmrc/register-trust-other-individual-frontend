@@ -164,7 +164,7 @@ class OtherIndividualNavigator @Inject()(config: FrontendAppConfig) extends Navi
       case Some(AddOtherIndividual.YesNow) => routeToOtherIndividualIndex(answers, draftId)
       case Some(AddOtherIndividual.YesLater) => otherIndividualsCompletedRoute(draftId, config)
       case Some(AddOtherIndividual.NoComplete) => otherIndividualsCompletedRoute(draftId, config)
-      case _ => controllers.routes.SessionExpiredController.onPageLoad()
+      case _ => controllers.routes.SessionExpiredController.onPageLoad
     }
   }
 
@@ -172,7 +172,7 @@ class OtherIndividualNavigator @Inject()(config: FrontendAppConfig) extends Navi
     answers.get(AddOtherIndividualYesNoPage) match {
       case Some(true) => routeToOtherIndividualIndex(answers, draftId)
       case Some(false) => otherIndividualsCompletedRoute(draftId, config)
-      case _ => controllers.routes.SessionExpiredController.onPageLoad()
+      case _ => controllers.routes.SessionExpiredController.onPageLoad
     }
   }
 
