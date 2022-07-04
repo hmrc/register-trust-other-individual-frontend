@@ -146,7 +146,7 @@ class DateOfBirthControllerSpec extends SpecBase with MockitoSugar {
       val result = route(application, request).value
 
       status(result) mustEqual SEE_OTHER
-      redirectLocation(result).value mustEqual controllers.routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual controllers.routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }
@@ -167,7 +167,7 @@ class DateOfBirthControllerSpec extends SpecBase with MockitoSugar {
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual controllers.routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual controllers.routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }

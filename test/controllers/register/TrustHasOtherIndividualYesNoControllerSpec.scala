@@ -169,7 +169,7 @@ class TrustHasOtherIndividualYesNoControllerSpec extends SpecBase with MockitoSu
       val result = route(application, request).value
 
       status(result) mustEqual SEE_OTHER
-      redirectLocation(result).value mustEqual controllers.routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual controllers.routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }
@@ -186,7 +186,7 @@ class TrustHasOtherIndividualYesNoControllerSpec extends SpecBase with MockitoSu
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual controllers.routes.SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual controllers.routes.SessionExpiredController.onPageLoad.url
 
       application.stop()
     }
