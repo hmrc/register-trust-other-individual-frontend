@@ -32,8 +32,6 @@ class TrustsStoreConnectorSpec extends SpecBase with MustMatchers with OptionVal
       "auditing.enabled" -> false): _*
     ).build()
 
-  private lazy val connector = injector.instanceOf[TrustsStoreConnector]
-
   ".updateTaskStatus" must {
 
     val url = s"/trusts-store/register/tasks/update-other-individuals/$fakeDraftId"
