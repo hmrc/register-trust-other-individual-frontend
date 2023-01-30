@@ -34,7 +34,7 @@ class PassportDetailsYesNoControllerSpec extends SpecBase {
   private val index: Int = 0
   private val name = FullName("first name", None, "Last name")
 
-  lazy val otherIndividualPassportDetailsYesNoRoute = routes.PassportDetailsYesNoController.onPageLoad(index, draftId).url
+  lazy val otherIndividualPassportDetailsYesNoRoute: String = routes.PassportDetailsYesNoController.onPageLoad(index, draftId).url
 
   "PassportDetailsYesNo Controller" must {
 

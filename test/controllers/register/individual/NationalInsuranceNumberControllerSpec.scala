@@ -34,7 +34,7 @@ class NationalInsuranceNumberControllerSpec extends SpecBase {
   private val form = formProvider.withPrefix("otherIndividual.nationalInsuranceNumber", emptyUserAnswers, index)
   private val name = FullName("first name", None, "Last name")
 
-  lazy val otherIndividualNationalInsuranceNumberRoute = routes.NationalInsuranceNumberController.onPageLoad(index,draftId).url
+  lazy val otherIndividualNationalInsuranceNumberRoute: String = routes.NationalInsuranceNumberController.onPageLoad(index,draftId).url
 
   "NationalInsuranceNumber Controller" must {
 

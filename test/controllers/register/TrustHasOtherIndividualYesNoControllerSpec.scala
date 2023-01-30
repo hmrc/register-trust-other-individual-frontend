@@ -19,10 +19,8 @@ package controllers.register
 import base.SpecBase
 import forms.YesNoFormProvider
 import models.TaskStatus
-import org.mockito.Matchers.{any, eq => mEq}
-import org.mockito.Mockito.{reset, verify, when}
+import org.mockito.ArgumentMatchers.{any, eq => mEq}
 import org.scalatest.BeforeAndAfterEach
-import org.scalatestplus.mockito.MockitoSugar
 import pages.register.TrustHasOtherIndividualYesNoPage
 import play.api.data.Form
 import play.api.inject.bind
@@ -34,10 +32,10 @@ import views.html.register.TrustHasOtherIndividualYesNoView
 
 import scala.concurrent.Future
 
-class TrustHasOtherIndividualYesNoControllerSpec extends SpecBase with MockitoSugar with BeforeAndAfterEach {
+class TrustHasOtherIndividualYesNoControllerSpec extends SpecBase with BeforeAndAfterEach {
 
   private val form: Form[Boolean] = new YesNoFormProvider().withPrefix("trustHasOtherIndividualYesNo")
-  lazy val trustHasOtherIndividualYesNoRoute = routes.TrustHasOtherIndividualYesNoController.onPageLoad(draftId).url
+  lazy val trustHasOtherIndividualYesNoRoute: String = routes.TrustHasOtherIndividualYesNoController.onPageLoad(draftId).url
 
   private val baseAnswers = emptyUserAnswers.set(TrustHasOtherIndividualYesNoPage, true).success.value
 

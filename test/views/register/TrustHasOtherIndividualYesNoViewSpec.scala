@@ -26,7 +26,7 @@ class TrustHasOtherIndividualYesNoViewSpec extends YesNoViewBehaviours {
 
   val messageKeyPrefix = "trustHasOtherIndividualYesNo"
 
-  val form = new YesNoFormProvider().withPrefix(messageKeyPrefix)
+  val form: Form[Boolean] = new YesNoFormProvider().withPrefix(messageKeyPrefix)
 
   "TrustHasOtherIndividual view" must {
 

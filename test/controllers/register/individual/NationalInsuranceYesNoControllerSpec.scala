@@ -34,7 +34,7 @@ class NationalInsuranceYesNoControllerSpec extends SpecBase {
   private val index: Int = 0
   private val name = FullName("first name", None, "Last name")
 
-  lazy val otherIndividualNationalInsuranceYesNoRoute = routes.NationalInsuranceYesNoController.onPageLoad(index, draftId).url
+  lazy val otherIndividualNationalInsuranceYesNoRoute: String = routes.NationalInsuranceYesNoController.onPageLoad(index, draftId).url
 
   "NationalInsuranceYesNo Controller" must {
 

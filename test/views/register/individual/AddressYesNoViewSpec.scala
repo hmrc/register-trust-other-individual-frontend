@@ -27,7 +27,7 @@ class AddressYesNoViewSpec extends YesNoViewBehaviours {
 
   private val index = 0
   val messageKeyPrefix = "otherIndividual.addressYesNo"
-  val name = FullName("FirstName", None, "LastName")
+  val name: FullName = FullName("FirstName", None, "LastName")
 
   val form: Form[Boolean] = new YesNoFormProvider().withPrefix(messageKeyPrefix)
 

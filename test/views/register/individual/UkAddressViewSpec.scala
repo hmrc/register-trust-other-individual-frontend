@@ -27,7 +27,7 @@ class UkAddressViewSpec extends UkAddressViewBehaviours {
 
   val messageKeyPrefix = "site.address.uk"
   val index = 0
-  val name = FullName("FirstName", None, "LastName")
+  val name: FullName = FullName("FirstName", None, "LastName")
 
   override val form = new UkAddressFormProvider()()
 

@@ -26,7 +26,7 @@ class AddOtherIndividualYesNoViewSpec extends YesNoViewBehaviours {
 
   val messageKeyPrefix = "addOtherIndividualYesNo"
 
-  val form = new YesNoFormProvider().withPrefix(messageKeyPrefix)
+  val form: Form[Boolean] = new YesNoFormProvider().withPrefix(messageKeyPrefix)
 
   "addOtherIndividualYesNo view" must {
 

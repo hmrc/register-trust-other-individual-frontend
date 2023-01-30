@@ -19,15 +19,14 @@ package mapping.register
 import base.SpecBase
 import generators.Generators
 import mapping.reads.OtherIndividual
-import models.{AddressType, FullName, IdentificationType, InternationalAddress, OtherIndividualType, PassportOrIdCardDetails, PassportType, UkAddress, YesNoDontKnow}
-import org.scalatest.{MustMatchers, OptionValues}
+import models._
 import pages.register.individual._
-import utils.Constants._
 import play.api.libs.json.Json
+import utils.Constants._
+
 import java.time.LocalDate
 
-class OtherIndividualMapperSpec extends SpecBase with MustMatchers
-  with OptionValues with Generators {
+class OtherIndividualMapperSpec extends SpecBase with Generators {
 
   private val mapper = injector.instanceOf[OtherIndividualMapper]
   private val index0 = 0

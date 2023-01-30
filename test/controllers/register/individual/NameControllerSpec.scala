@@ -19,10 +19,9 @@ package controllers.register.individual
 import base.SpecBase
 import config.annotations.OtherIndividual
 import forms.NameFormProvider
-import models.{FullName, ReadOnlyUserAnswers}
+import models.{FullName, ReadOnlyUserAnswers, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
-import org.mockito.Matchers.any
-import org.mockito.Mockito.when
+import org.mockito.ArgumentMatchers.any
 import pages.register.individual.NamePage
 import play.api.inject.bind
 import play.api.libs.json.Json
@@ -39,9 +38,9 @@ class NameControllerSpec extends SpecBase {
   private val name: FullName = FullName("First", Some("Middle"), "Last")
   private val index: Int = 0
 
-  lazy val otherIndividualNameRoute = routes.NameController.onPageLoad(index, draftId).url
+  lazy val otherIndividualNameRoute: String = routes.NameController.onPageLoad(index, draftId).url
 
-  val userAnswers = emptyUserAnswers
+  val userAnswers: UserAnswers = emptyUserAnswers
     .set(NamePage(index), name).success.value
 
   "Name Controller" must {

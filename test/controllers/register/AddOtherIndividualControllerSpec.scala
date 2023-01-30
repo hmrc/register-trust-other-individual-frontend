@@ -22,8 +22,7 @@ import forms.{AddOtherIndividualFormProvider, YesNoFormProvider}
 import models.Status.{Completed, InProgress}
 import models.register.pages.AddOtherIndividual
 import models.{FullName, TaskStatus, UserAnswers}
-import org.mockito.Matchers.{any, eq => mEq}
-import org.mockito.Mockito.{reset, verify, when}
+import org.mockito.ArgumentMatchers.{any, eq => mEq}
 import org.scalatest.BeforeAndAfterEach
 import pages.entitystatus.OtherIndividualStatus
 import pages.register.individual._
@@ -251,7 +250,7 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(form, fakeDraftId, Nil, otherIndividualsComplete, "You have added 3 other individuals", false)(request, messages).toString
+          view(form, fakeDraftId, Nil, otherIndividualsComplete, "You have added 3 other individuals", maxedOut = false)(request, messages).toString
 
         application.stop()
       }
@@ -272,7 +271,7 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(form, fakeDraftId, Nil, otherIndividualsComplete, "You have added 3 other individuals", false)(request, messages).toString
+          view(form, fakeDraftId, Nil, otherIndividualsComplete, "You have added 3 other individuals", maxedOut = false)(request, messages).toString
 
         application.stop()
       }
@@ -421,7 +420,7 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
         status(result) mustEqual BAD_REQUEST
 
         contentAsString(result) mustEqual
-          view(boundForm, fakeDraftId, Nil, Nil, "Add other individual", false)(request, messages).toString
+          view(boundForm, fakeDraftId, Nil, Nil, "Add other individual", maxedOut = false)(request, messages).toString
 
         application.stop()
       }

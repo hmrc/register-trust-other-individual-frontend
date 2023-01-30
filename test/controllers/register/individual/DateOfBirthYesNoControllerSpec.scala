@@ -34,7 +34,7 @@ class DateOfBirthYesNoControllerSpec extends SpecBase {
   private val index: Int = 0
   private val name = FullName("first name", None, "Last name")
 
-  lazy val otherIndividualDateOfBirthYesNoRoute = routes.DateOfBirthYesNoController.onPageLoad(index, draftId).url
+  lazy val otherIndividualDateOfBirthYesNoRoute: String = routes.DateOfBirthYesNoController.onPageLoad(index, draftId).url
 
   "DateOfBirthYesNo Controller" must {
 

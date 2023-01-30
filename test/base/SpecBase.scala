@@ -18,10 +18,11 @@ package base
 
 import controllers.actions.register._
 import controllers.actions.{FakeDraftIdRetrievalActionProvider, FakeIdentifyForRegistration}
-import models.{Status, UserAnswers}
+import models.UserAnswers
 import navigation.{FakeNavigator, Navigator}
-import org.scalatest.TryValues
+import org.mockito.MockitoSugar
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
+import org.scalatest.{EitherValues, OptionValues, TryValues}
 import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.guice._
 import play.api.inject.bind
@@ -38,7 +39,10 @@ trait SpecBase extends PlaySpec
   with ScalaFutures
   with IntegrationPatience
   with Mocked
-  with FakeTrustsApp {
+  with FakeTrustsApp
+  with OptionValues
+  with MockitoSugar
+  with EitherValues {
 
   final val ENGLISH = "en"
   final val WELSH = "cy"
@@ -47,7 +51,7 @@ trait SpecBase extends PlaySpec
   lazy val userInternalId: String = "internalId"
   lazy val fakeDraftId: String = draftId
 
-  implicit val hc = HeaderCarrier()
+  implicit val hc: HeaderCarrier = HeaderCarrier()
 
   def emptyUserAnswers: UserAnswers = UserAnswers(draftId, Json.obj(), internalAuthId = userInternalId)
 
@@ -55,11 +59,7 @@ trait SpecBase extends PlaySpec
 
   private def fakeDraftIdAction(userAnswers: Option[UserAnswers]): FakeDraftIdRetrievalActionProvider =
     new FakeDraftIdRetrievalActionProvider(
-      draftId,
-      Status.InProgress,
-      userAnswers,
-      registrationsRepository
-    )
+      userAnswers)
 
   protected def applicationBuilder(userAnswers: Option[UserAnswers] = None,
                                    affinityGroup: AffinityGroup = AffinityGroup.Organisation,

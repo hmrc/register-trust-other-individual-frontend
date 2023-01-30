@@ -16,8 +16,6 @@
 
 package controllers.register.individual
 
-import java.time.LocalDate
-
 import base.SpecBase
 import config.annotations.OtherIndividual
 import forms.PassportOrIdCardFormProvider
@@ -31,6 +29,8 @@ import utils.InputOption
 import utils.countryOptions.CountryOptions
 import views.html.register.individual.PassportDetailsView
 
+import java.time.LocalDate
+
 class PassportDetailsControllerSpec extends SpecBase {
 
   private val formProvider = new PassportOrIdCardFormProvider(frontendAppConfig)
@@ -42,7 +42,7 @@ class PassportDetailsControllerSpec extends SpecBase {
 
 
 
-  lazy val passportDetailsRoute = routes.PassportDetailsController.onPageLoad(index, draftId).url
+  lazy val passportDetailsRoute: String = routes.PassportDetailsController.onPageLoad(index, draftId).url
 
   "PassportDetails Controller" must {
 

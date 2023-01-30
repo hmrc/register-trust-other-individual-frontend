@@ -16,30 +16,29 @@
 
 package controllers.register.individual
 
-import java.time.{LocalDate, ZoneOffset}
-
 import base.SpecBase
 import config.annotations.OtherIndividual
 import forms.DateOfBirthFormProvider
 import models.FullName
 import navigation.{FakeNavigator, Navigator}
-import org.scalatestplus.mockito.MockitoSugar
 import pages.register.individual.{DateOfBirthPage, NamePage}
 import play.api.inject.bind
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import views.html.register.individual.DateOfBirthView
 
-class DateOfBirthControllerSpec extends SpecBase with MockitoSugar {
+import java.time.{LocalDate, ZoneOffset}
+
+class DateOfBirthControllerSpec extends SpecBase {
 
   private val formProvider = new DateOfBirthFormProvider(frontendAppConfig)
   private val form = formProvider.withPrefix("otherIndividual.dateOfBirth")
   private val index: Int = 0
   private val name = FullName("first name", None, "Last name")
 
-  val validAnswer = LocalDate.now(ZoneOffset.UTC)
+  val validAnswer: LocalDate = LocalDate.now(ZoneOffset.UTC)
 
-  lazy val otherIndividualDateOfBirthRoute = routes.DateOfBirthController.onPageLoad(index, draftId).url
+  lazy val otherIndividualDateOfBirthRoute: String = routes.DateOfBirthController.onPageLoad(index, draftId).url
 
   "DateOfBirth Controller" must {
 

@@ -24,8 +24,6 @@ import pages.entitystatus.OtherIndividualStatus
 import pages.register.TrustHasOtherIndividualYesNoPage
 import play.api.libs.json.{JsNull, Json}
 
-import scala.collection.immutable.Nil
-
 class SubmissionSetFactorySpec extends SpecBase {
 
   "Submission set factory" must {

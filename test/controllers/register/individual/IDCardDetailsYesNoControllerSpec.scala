@@ -34,7 +34,7 @@ class IDCardDetailsYesNoControllerSpec extends SpecBase {
   private val index: Int = 0
   private val name = FullName("first name", None, "Last name")
 
-  lazy val otherIndividualIdCardDetailsYesNoRoute = routes.IDCardDetailsYesNoController.onPageLoad(index, draftId).url
+  lazy val otherIndividualIdCardDetailsYesNoRoute: String = routes.IDCardDetailsYesNoController.onPageLoad(index, draftId).url
 
   "IdCardDetailsYesNo Controller" must {
 
