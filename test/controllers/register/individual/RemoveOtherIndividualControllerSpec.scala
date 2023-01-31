@@ -21,8 +21,7 @@ import forms.YesNoFormProvider
 import models.Status._
 import models.{FullName, UserAnswers}
 import org.mockito.ArgumentCaptor
-import org.mockito.Matchers.any
-import org.mockito.Mockito.{reset, times, verify, when}
+import org.mockito.ArgumentMatchers.any
 import pages.entitystatus.OtherIndividualStatus
 import pages.register.individual.NamePage
 import play.api.data.Form
@@ -127,7 +126,7 @@ class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation 
 
         redirectLocation(result).value mustEqual addToPageRoute
 
-        val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
+        val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
         verify(registrationsRepository, times(1)).set(uaCaptor.capture)(any(), any())
         uaCaptor.getValue.get(OtherIndividual(index)) mustNot be(defined)
 

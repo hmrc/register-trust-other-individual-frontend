@@ -18,15 +18,13 @@ package controllers.register.individual
 
 import base.SpecBase
 import models.{FullName, UserAnswers}
-import org.scalatest.concurrent.ScalaFutures
-import org.scalatestplus.mockito.MockitoSugar
 import pages.register.individual.NamePage
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import utils.print.OtherIndividualPrintHelper
 import views.html.register.individual.CheckDetailsView
 
-class CheckDetailsControllerSpec extends SpecBase with MockitoSugar with ScalaFutures {
+class CheckDetailsControllerSpec extends SpecBase {
 
   private val index: Int = 0
   private val name = FullName("Test", None, "Name")

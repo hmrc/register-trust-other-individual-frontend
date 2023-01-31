@@ -20,8 +20,7 @@ import base.SpecBase
 import connectors.SubmissionDraftConnector
 import models.{FullName, TaskStatus, UserAnswers}
 import org.mockito.ArgumentCaptor
-import org.mockito.Matchers.{any, eq => mEq}
-import org.mockito.Mockito.{reset, verify, when}
+import org.mockito.ArgumentMatchers.{any, eq => mEq}
 import org.scalatest.BeforeAndAfterEach
 import pages.register.individual.NamePage
 import play.api.inject.bind
@@ -121,7 +120,7 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
         val request = FakeRequest(GET, routes.IndexController.onPageLoad(fakeDraftId).url)
 
         route(application, request).value.map { _ =>
-          val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
+          val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
           verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
 
           uaCaptor.getValue.isTaxable mustBe true
@@ -150,7 +149,7 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
           val request = FakeRequest(GET, routes.IndexController.onPageLoad(fakeDraftId).url)
 
           route(application, request).value.map { _ =>
-            val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
+            val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
             verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
 
             uaCaptor.getValue.draftId mustBe fakeDraftId

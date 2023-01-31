@@ -22,6 +22,7 @@ import models.{FullName, InternationalAddress, UkAddress, UserAnswers, YesNoDont
 import pages.register.individual._
 import play.twirl.api.Html
 import viewmodels.{AnswerRow, AnswerSection}
+
 import java.time.LocalDate
 
 class OtherIndividualAnswersHelperSpec extends SpecBase {

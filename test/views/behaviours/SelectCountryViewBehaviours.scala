@@ -27,7 +27,7 @@ trait SelectCountryViewBehaviours extends QuestionViewBehaviours[String] {
                  createView: Form[String] => HtmlFormat.Appendable,
                  messageKeyPrefix: String,
                  messageKeyParam: String,
-                 expectedHintKey: Option[String] = None) = {
+                 expectedHintKey: Option[String] = None): Unit = {
 
     "behave like a page with a string value field" when {
 
@@ -61,7 +61,7 @@ trait SelectCountryViewBehaviours extends QuestionViewBehaviours[String] {
         "show an error summary" in {
 
           val doc = asDocument(createView(form.withError(error)))
-          assertRenderedById(doc, "error-summary-title")
+          assertRenderedByClass(doc, "govuk-error-summary")
         }
 
         "show an error in the value field's label" in {

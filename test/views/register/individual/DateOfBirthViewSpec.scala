@@ -16,8 +16,6 @@
 
 package views.register.individual
 
-import java.time.LocalDate
-
 import forms.DateOfBirthFormProvider
 import models.FullName
 import play.api.data.Form
@@ -25,13 +23,15 @@ import play.twirl.api.HtmlFormat
 import views.behaviours.QuestionViewBehaviours
 import views.html.register.individual.DateOfBirthView
 
+import java.time.LocalDate
+
 class DateOfBirthViewSpec extends QuestionViewBehaviours[LocalDate] {
 
   val messageKeyPrefix = "otherIndividual.dateOfBirth"
   val index = 0
   val name: FullName = FullName("First", None, "Last")
 
-  val form = new DateOfBirthFormProvider(frontendAppConfig).withPrefix("otherIndividual.dateOfBirth")
+  val form: Form[LocalDate] = new DateOfBirthFormProvider(frontendAppConfig).withPrefix("otherIndividual.dateOfBirth")
 
   "OtherIndividualDateOfBirthView view" must {
 

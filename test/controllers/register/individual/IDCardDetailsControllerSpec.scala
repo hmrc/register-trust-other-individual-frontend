@@ -16,8 +16,6 @@
 
 package controllers.register.individual
 
-import java.time.LocalDate
-
 import base.SpecBase
 import config.annotations.OtherIndividual
 import forms.PassportOrIdCardFormProvider
@@ -31,6 +29,8 @@ import utils.InputOption
 import utils.countryOptions.CountryOptions
 import views.html.register.individual.IDCardDetailsView
 
+import java.time.LocalDate
+
 class IDCardDetailsControllerSpec extends SpecBase {
 
   private val formProvider = new PassportOrIdCardFormProvider(frontendAppConfig)
@@ -40,7 +40,7 @@ class IDCardDetailsControllerSpec extends SpecBase {
   private val name = FullName("FirstName", None, "LastName")
   private val countryOptions: Seq[InputOption] = app.injector.instanceOf[CountryOptions].options
 
-  lazy val idCardDetailsRoute = routes.IDCardDetailsController.onPageLoad(index, draftId).url
+  lazy val idCardDetailsRoute: String = routes.IDCardDetailsController.onPageLoad(index, draftId).url
 
   "IDCardDetails Controller" must {
 

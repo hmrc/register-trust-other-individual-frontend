@@ -21,7 +21,6 @@ import config.annotations.OtherIndividual
 import forms.CountryFormProvider
 import models.FullName
 import navigation.{FakeNavigator, Navigator}
-import org.scalatestplus.mockito.MockitoSugar
 import pages.register.individual.{CountryOfNationalityPage, NamePage}
 import play.api.data.Form
 import play.api.inject.bind
@@ -32,7 +31,7 @@ import utils.InputOption
 import utils.countryOptions.CountryOptionsNonUK
 import views.html.register.individual.CountryOfNationalityView
 
-class CountryOfNationalityControllerSpec extends SpecBase with MockitoSugar {
+class CountryOfNationalityControllerSpec extends SpecBase {
 
   val formProvider = new CountryFormProvider()
   val form: Form[String] = formProvider.withPrefix("otherIndividual.5mld.countryOfNationality")

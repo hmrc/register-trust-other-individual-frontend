@@ -32,10 +32,10 @@ class UkAddressControllerSpec extends SpecBase {
   val form = new UkAddressFormProvider()()
   val index: Int = 0
 
-  val validAnswer = UkAddress("value 1", "value 2", None, None, "AB1 1AB")
+  val validAnswer: UkAddress = UkAddress("value 1", "value 2", None, None, "AB1 1AB")
   private val name: FullName = FullName("First", Some("Middle"), "Last")
 
-  lazy val ukAddressRoute = routes.UkAddressController.onPageLoad(index, fakeDraftId).url
+  lazy val ukAddressRoute: String = routes.UkAddressController.onPageLoad(index, fakeDraftId).url
 
   "UkAddress Controller" must {
 

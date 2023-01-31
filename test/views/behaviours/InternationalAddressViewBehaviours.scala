@@ -27,14 +27,13 @@ trait InternationalAddressViewBehaviours extends ViewBehaviours {
 
   val errorKey = "value"
   val errorMessage = "error.number"
-  val error = FormError(errorKey, errorMessage)
+  val error: FormError = FormError(errorKey, errorMessage)
 
   val form: Form[InternationalAddress]
 
   def internationalAddress(createView: Form[InternationalAddress] => HtmlFormat.Appendable,
                            titleMessagePrefix: Option[String],
-                           expectedFormAction: String,
-                           args: String*) = {
+                           args: String*): Unit = {
 
     val titlePrefix = titleMessagePrefix.getOrElse("site.address.international")
 
@@ -59,7 +58,7 @@ trait InternationalAddressViewBehaviours extends ViewBehaviours {
         "not render an error summary" in {
 
           val doc = asDocument(createView(form))
-          assertNotRenderedById(doc, "error-summary-title")
+          assertNotRenderedByClass(doc, "govuk-error-summary")
         }
       }
 
@@ -82,7 +81,7 @@ trait InternationalAddressViewBehaviours extends ViewBehaviours {
           "show an error summary" in {
 
             val doc = asDocument(createView(form.withError(FormError(field._1, "error"))))
-            assertRenderedById(doc, "error-summary-title")
+            assertRenderedByClass(doc, "govuk-error-summary")
           }
 
           s"show an error in the label for field '$field'" in {

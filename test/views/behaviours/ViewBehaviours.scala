@@ -68,8 +68,7 @@ trait ViewBehaviours extends ViewSpecBase {
 
   def normalPageTitleWithSectionSubheading(view: HtmlFormat.Appendable,
                                  messageKeyPrefix: String,
-                                 captionParam: String,
-                                 expectedGuidanceKeys: String*): Unit = {
+                                           expectedGuidanceKeys: String*): Unit = {
 
     "behave like a normal page" when {
 
