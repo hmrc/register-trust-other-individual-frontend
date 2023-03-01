@@ -2,6 +2,7 @@ import sbt._
 
 object AppDependencies {
   import play.core.PlayVersion
+  val bootstrapVersion = "7.14.0"
 
   val compile: Seq[ModuleID] = Seq(
     play.sbt.PlayImport.ws,
@@ -9,10 +10,11 @@ object AppDependencies {
     "uk.gov.hmrc"       %% "play-conditional-form-mapping"  % "1.12.0-play-28",
     "uk.gov.hmrc"       %% "domain"                         % "8.1.0-play-28",
     "com.typesafe.play" %% "play-json-joda"                 % "2.9.4",
-    "uk.gov.hmrc"       %% "bootstrap-frontend-play-28"     % "7.8.0"
+    "uk.gov.hmrc"       %% "bootstrap-frontend-play-28"     % bootstrapVersion
   )
 
   val test: Seq[ModuleID] = Seq(
+    "uk.gov.hmrc"              %% "bootstrap-test-play-28"   % bootstrapVersion,
     "org.scalatest"            %% "scalatest"               % "3.2.15",
     "org.scalatestplus"        %% "scalacheck-1-17"         % "3.2.15.0",
     "org.scalatestplus.play"   %% "scalatestplus-play"      % "5.1.0",
