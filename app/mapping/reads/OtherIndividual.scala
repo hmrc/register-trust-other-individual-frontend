@@ -57,10 +57,10 @@ object OtherIndividual {
     )(OtherIndividual.apply _)
 
   def readMentalCapacity: Reads[Option[YesNoDontKnow]] =
-    (__ \ 'mentalCapacityYesNo).readNullable[Boolean].flatMap[Option[YesNoDontKnow]] { x: Option[Boolean] =>
+    (__ \ "mentalCapacityYesNo").readNullable[Boolean].flatMap[Option[YesNoDontKnow]] { x: Option[Boolean] =>
       Reads(_ => JsSuccess(YesNoDontKnow.fromBoolean(x)))
     }.orElse {
-      (__ \ 'mentalCapacityYesNo).readNullable[YesNoDontKnow]
+      (__ \ "mentalCapacityYesNo").readNullable[YesNoDontKnow]
     }
 
 }

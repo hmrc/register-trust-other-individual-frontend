@@ -55,7 +55,7 @@ class IDCardDetailsController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      Ok(view(preparedForm, countryOptions.options, request.otherIndividualName, index, draftId))
+      Ok(view(preparedForm, countryOptions.options(), request.otherIndividualName, index, draftId))
   }
 
   def onSubmit(index: Int, draftId: String): Action[AnyContent] = standardActionSets.identifiedUserWithData(draftId).andThen(nameAction(index)).async {
@@ -63,7 +63,7 @@ class IDCardDetailsController @Inject()(
 
       form.bindFromRequest().fold(
         (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors, countryOptions.options, request.otherIndividualName, index, draftId))),
+          Future.successful(BadRequest(view(formWithErrors, countryOptions.options(), request.otherIndividualName, index, draftId))),
 
         value => {
           for {

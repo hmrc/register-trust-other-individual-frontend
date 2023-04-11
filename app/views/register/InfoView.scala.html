@@ -86,7 +86,7 @@
         </div>
     </details>
 
-    @formHelper(action = InfoController.onSubmit(draftId), 'autoComplete -> "off") {
+    @formHelper(action = InfoController.onSubmit(draftId), Symbol("autoComplete") -> "off") {
         @submitButton(Some(messages("site.continue")))
     }
 }
