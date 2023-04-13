@@ -45,7 +45,7 @@
     showBackLink = true
 ) {
 
-        @formHelper(action = if(maxedOut) {AddOtherIndividualController.submitComplete(draftId)} else {AddOtherIndividualController.submitAnother(draftId)}, 'autoComplete -> "off") {
+        @formHelper(action = if(maxedOut) {AddOtherIndividualController.submitComplete(draftId)} else {AddOtherIndividualController.submitAnother(draftId)}, Symbol("autoComplete") -> "off") {
 
         @errorSummary(form.errors, AddOtherIndividual.options)
 
