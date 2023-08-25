@@ -37,7 +37,7 @@ class PassportDetailsControllerSpec extends SpecBase {
   private val form = formProvider("otherIndividual.passportDetails")
   private val index = 0
   private val name = FullName("FirstName", None, "LastName")
-  private val countryOptions: Seq[InputOption] = app.injector.instanceOf[CountryOptions].options
+  private val countryOptions: Seq[InputOption] = app.injector.instanceOf[CountryOptions].options()
   private val passportDetails = PassportOrIdCardDetails("UK", "0987654321234", LocalDate.now())
 
 
@@ -92,7 +92,7 @@ class PassportDetailsControllerSpec extends SpecBase {
     "redirect to the next page when valid data is submitted" in {
 
       val userAnswers = emptyUserAnswers
-        
+
         .set(NamePage(index), name).success.value
         .set(PassportDetailsPage(index), passportDetails).success.value
 
