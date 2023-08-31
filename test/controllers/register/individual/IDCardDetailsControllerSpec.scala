@@ -38,7 +38,7 @@ class IDCardDetailsControllerSpec extends SpecBase {
   private val cardDetails = PassportOrIdCardDetails("UK", "0987654321234", LocalDate.now())
   private val index = 0
   private val name = FullName("FirstName", None, "LastName")
-  private val countryOptions: Seq[InputOption] = app.injector.instanceOf[CountryOptions].options
+  private val countryOptions: Seq[InputOption] = app.injector.instanceOf[CountryOptions].options()
 
   lazy val idCardDetailsRoute: String = routes.IDCardDetailsController.onPageLoad(index, draftId).url
 

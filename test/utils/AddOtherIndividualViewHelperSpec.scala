@@ -31,7 +31,7 @@ class AddOtherIndividualViewHelperSpec extends SpecBase {
   private def changeInProgressOtherIndividualRoute(index: Int): String = irts.NameController.onPageLoad(index, draftId).url
   private def changeCompleteOtherIndividualRoute(index: Int): String = irts.CheckDetailsController.onPageLoad(index, draftId).url
   private def removeOtherIndividualRoute(index: Int): String = irts.RemoveOtherIndividualController.onPageLoad(index, draftId).url
-  
+
   "Add otherIndividual view helper" when {
 
     def helper(userAnswers: UserAnswers) = new AddOtherIndividualViewHelper(userAnswers, fakeDraftId)

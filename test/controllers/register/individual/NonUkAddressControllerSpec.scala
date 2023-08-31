@@ -39,7 +39,7 @@ class NonUkAddressControllerSpec extends SpecBase {
   private val name: FullName = FullName("First", Some("Middle"), "Last")
   private val onwardRoute = Call("GET", "/foo")
   private val answer = InternationalAddress("Line 1", "Line 2", None, "DE")
-  private val countryOptions: Seq[InputOption] = app.injector.instanceOf[CountryOptionsNonUK].options
+  private val countryOptions: Seq[InputOption] = app.injector.instanceOf[CountryOptionsNonUK].options()
 
   private val baseAnswers = emptyUserAnswers.set(NamePage(index), name).success.value
 
