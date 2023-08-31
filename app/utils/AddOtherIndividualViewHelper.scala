@@ -56,7 +56,7 @@ class AddOtherIndividualViewHelper(userAnswers: UserAnswers, draftId : String)(i
 
     InProgressComplete(inProgress = otherIndividualsInProgress, complete = otherIndividualsComplete)
   }
-  
+
   def rows : AddToRows =
     AddToRows(
       inProgress = otherIndividuals.inProgress,
