@@ -14,7 +14,7 @@ object AppDependencies {
   )
 
   val test: Seq[ModuleID] = Seq(
-    "uk.gov.hmrc"              %% "bootstrap-test-play-28"   % bootstrapVersion,
+    "uk.gov.hmrc"              %% "bootstrap-test-play-28"  % bootstrapVersion,
     "org.scalatest"            %% "scalatest"               % "3.2.16",
     "org.scalatestplus"        %% "scalacheck-1-17"         % "3.2.16.0",
     "org.scalatestplus.play"   %% "scalatestplus-play"      % "5.1.0",
@@ -24,7 +24,7 @@ object AppDependencies {
     "org.mockito"              %% "mockito-scala"           % "1.17.14",
     "org.scalacheck"           %% "scalacheck"              % "1.17.0",
     "io.github.wolfendale"     %% "scalacheck-gen-regexp"   % "1.1.0",
-    "com.github.tomakehurst"   %  "wiremock-standalone"     % "3.0.0"
+    "org.wiremock"             %  "wiremock-standalone"     % "3.0.1"
   ).map(_ % Test)
 
   def apply(): Seq[ModuleID] = compile ++ test
