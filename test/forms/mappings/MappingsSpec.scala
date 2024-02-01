@@ -51,6 +51,11 @@ class MappingsSpec extends SpecBase with Mappings {
       result.get mustEqual "foobar"
     }
 
+    "filter out smart apostrophes on binding" in {
+      val boundValue = testForm bind Map("value" -> "We’re ‘aving fish ‘n’ chips for tea")
+      boundValue.get mustEqual "We're 'aving fish 'n' chips for tea"
+    }
+
     "not bind an empty string" in {
       val result = testForm.bind(Map("value" -> ""))
       result.errors must contain(FormError("value", "error.required"))
