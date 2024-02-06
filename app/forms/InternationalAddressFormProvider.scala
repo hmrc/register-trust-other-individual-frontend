@@ -22,7 +22,7 @@ import forms.mappings.Mappings
 import javax.inject.Inject
 import models.InternationalAddress
 import play.api.data.Forms._
-import play.api.data.{Form, Forms}
+import play.api.data.Form
 
 class InternationalAddressFormProvider @Inject() extends Mappings {
 
@@ -45,8 +45,7 @@ class InternationalAddressFormProvider @Inject() extends Mappings {
               regexp(Validation.addressLineRegex, "internationalAddress.error.line2.invalidCharacters")
             )),
       "line3" ->
-        optional(Forms.text
-          .transform(trimWhitespace, identity[String])
+        optional(text()
           .verifying(
             firstError(
               maxLength(35, "internationalAddress.error.line3.length"),
