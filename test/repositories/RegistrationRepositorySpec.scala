@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,8 @@ import base.SpecBase
 import connectors.SubmissionDraftConnector
 import models._
 import org.mockito.ArgumentMatchers.any
+import org.mockito.Mockito
+import org.mockito.Mockito.{verify, when}
 import play.api.http
 import play.api.libs.json.Json
 import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
@@ -30,7 +32,7 @@ import scala.concurrent.{Await, Future}
 
 class RegistrationRepositorySpec extends SpecBase {
 
-  private val unusedSubmissionSetFactory = mock[SubmissionSetFactory]
+  private val unusedSubmissionSetFactory = Mockito.mock(classOf[SubmissionSetFactory])
 
   private def createRepository(connector: SubmissionDraftConnector, submissionSetFactory: SubmissionSetFactory) = {
     new DefaultRegistrationsRepository(connector, frontendAppConfig, submissionSetFactory)
@@ -45,7 +47,7 @@ class RegistrationRepositorySpec extends SpecBase {
 
         val userAnswers = UserAnswers(draftId = draftId, internalAuthId = "internalAuthId")
 
-        val mockConnector = mock[SubmissionDraftConnector]
+        val mockConnector = Mockito.mock(classOf[SubmissionDraftConnector])
 
         val repository = createRepository(mockConnector, unusedSubmissionSetFactory)
 
@@ -72,7 +74,7 @@ class RegistrationRepositorySpec extends SpecBase {
             |}
             |""".stripMargin)
 
-        val mockConnector = mock[SubmissionDraftConnector]
+        val mockConnector = Mockito.mock(classOf[SubmissionDraftConnector])
 
         val repository = createRepository(mockConnector, unusedSubmissionSetFactory)
 
@@ -99,11 +101,11 @@ class RegistrationRepositorySpec extends SpecBase {
 
         val userAnswers = UserAnswers(draftId = draftId, internalAuthId = "internalAuthId")
 
-        val mockConnector = mock[SubmissionDraftConnector]
+        val mockConnector = Mockito.mock(classOf[SubmissionDraftConnector])
 
         val submissionSet = RegistrationSubmission.DataSet(Json.obj(), List.empty, List.empty)
 
-        val mockSubmissionSetFactory = mock[SubmissionSetFactory]
+        val mockSubmissionSetFactory = Mockito.mock(classOf[SubmissionSetFactory])
         when(mockSubmissionSetFactory.createFrom(any())(any())).thenReturn(submissionSet)
 
         val repository = createRepository(mockConnector, mockSubmissionSetFactory)

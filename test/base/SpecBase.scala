@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ import controllers.actions.register._
 import controllers.actions.{FakeDraftIdRetrievalActionProvider, FakeIdentifyForRegistration}
 import models.UserAnswers
 import navigation.{FakeNavigator, Navigator}
-import org.mockito.MockitoSugar
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
 import org.scalatest.{EitherValues, OptionValues, TryValues}
 import org.scalatestplus.play.PlaySpec
@@ -41,8 +40,13 @@ trait SpecBase extends PlaySpec
   with Mocked
   with FakeTrustsApp
   with OptionValues
-  with MockitoSugar
   with EitherValues {
+
+  val defaultAppConfigurations: Map[String, Any] = Map(
+    "auditing.enabled" -> false,
+    "metrics.enabled" -> false,
+    "play.filters.disabled" -> List("play.filters.csrf.CSRFFilter", "play.filters.csp.CSPFilter")
+  )
 
   final val ENGLISH = "en"
   final val WELSH = "cy"
@@ -77,4 +81,5 @@ trait SpecBase extends PlaySpec
         bind[RegistrationsRepository].toInstance(registrationsRepository),
         bind[AffinityGroup].toInstance(Organisation)
       )
+      .configure(defaultAppConfigurations)
 }

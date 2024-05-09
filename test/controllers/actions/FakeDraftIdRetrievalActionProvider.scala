@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,18 +19,19 @@ package controllers.actions
 import controllers.actions.register.{DraftIdDataRetrievalAction, DraftIdRetrievalActionProvider}
 import models.UserAnswers
 import org.mockito.ArgumentMatchers._
-import org.mockito.MockitoSugar
+import org.mockito.Mockito.when
+import org.mockito.Mockito
 import repositories.RegistrationsRepository
 
 import scala.concurrent.{ExecutionContext, Future}
 
 class FakeDraftIdRetrievalActionProvider(dataToReturn : Option[UserAnswers])
-  extends DraftIdRetrievalActionProvider with MockitoSugar {
+  extends DraftIdRetrievalActionProvider {
 
   implicit val executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
 
-  val mockedRepository: RegistrationsRepository = mock[RegistrationsRepository]
+  val mockedRepository: RegistrationsRepository = Mockito.mock(classOf[RegistrationsRepository])
 
   when(mockedRepository.get(any())(any())).thenReturn(Future.successful(dataToReturn))
 
