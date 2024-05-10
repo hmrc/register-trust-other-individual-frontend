@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,8 @@ import base.SpecBase
 import forms.YesNoFormProvider
 import models.TaskStatus
 import org.mockito.ArgumentMatchers.{any, eq => mEq}
+import org.mockito.Mockito
+import org.mockito.Mockito.{reset, verify, when}
 import org.scalatest.BeforeAndAfterEach
 import pages.register.TrustHasOtherIndividualYesNoPage
 import play.api.data.Form
@@ -39,7 +41,7 @@ class TrustHasOtherIndividualYesNoControllerSpec extends SpecBase with BeforeAnd
 
   private val baseAnswers = emptyUserAnswers.set(TrustHasOtherIndividualYesNoPage, true).success.value
 
-  private val mockTrustsStoreService: TrustsStoreService = mock[TrustsStoreService]
+  private val mockTrustsStoreService: TrustsStoreService = Mockito.mock(classOf[TrustsStoreService])
 
   override def beforeEach(): Unit = {
     reset(mockTrustsStoreService)

@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,8 @@ import models.Status.{Completed, InProgress}
 import models.register.pages.AddOtherIndividual
 import models.{FullName, TaskStatus, UserAnswers}
 import org.mockito.ArgumentMatchers.{any, eq => mEq}
+import org.mockito.Mockito
+import org.mockito.Mockito.{reset, verify, when}
 import org.scalatest.BeforeAndAfterEach
 import pages.entitystatus.OtherIndividualStatus
 import pages.register.individual._
@@ -64,8 +66,8 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
 
   private val yesNoForm = new YesNoFormProvider().withPrefix("trustHasOtherIndividualYesNo")
 
-  private val mockTrustsStoreService: TrustsStoreService = mock[TrustsStoreService]
-  private val mockRegistrationProgress: RegistrationProgress = mock[RegistrationProgress]
+  private val mockTrustsStoreService: TrustsStoreService = Mockito.mock(classOf[TrustsStoreService])
+  private val mockRegistrationProgress: RegistrationProgress = Mockito.mock(classOf[RegistrationProgress])
 
   private lazy val otherIndividualsComplete = List(
     AddRow("Name 1", typeLabel = "Other Individual", changeOtherIndividualRoute(0), removeOtherIndividualRoute(0)),
@@ -99,7 +101,8 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
   }
 
   override def beforeEach(): Unit = {
-    reset(mockTrustsStoreService, mockRegistrationProgress)
+    reset(mockTrustsStoreService)
+    reset(mockRegistrationProgress)
 
     when(mockTrustsStoreService.updateTaskStatus(any(), any())(any(), any()))
       .thenReturn(Future.successful(HttpResponse(OK, "")))

@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +19,9 @@ package controllers
 import base.SpecBase
 import connectors.SubmissionDraftConnector
 import models.{FullName, TaskStatus, UserAnswers}
-import org.mockito.ArgumentCaptor
+import org.mockito.{ArgumentCaptor, Mockito}
 import org.mockito.ArgumentMatchers.{any, eq => mEq}
+import org.mockito.Mockito.{reset, verify, when}
 import org.scalatest.BeforeAndAfterEach
 import pages.register.individual.NamePage
 import play.api.inject.bind
@@ -34,8 +35,8 @@ import scala.concurrent.Future
 class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
 
   private val name: FullName = FullName("Joe", None, "Bloggs")
-  private val submissionDraftConnector: SubmissionDraftConnector = mock[SubmissionDraftConnector]
-  private val mockTrustsStoreService: TrustsStoreService = mock[TrustsStoreService]
+  private val submissionDraftConnector: SubmissionDraftConnector = Mockito.mock(classOf[SubmissionDraftConnector])
+  private val mockTrustsStoreService: TrustsStoreService = Mockito.mock(classOf[TrustsStoreService])
 
   override protected def beforeEach(): Unit = {
     reset(mockTrustsStoreService)
