@@ -18,6 +18,7 @@ package forms.behaviours
 
 import forms.Validation
 import org.scalacheck.Gen
+import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 import play.api.data.{Form, FormError}
 import uk.gov.hmrc.domain.Nino
 import wolfendale.scalacheck.regexp.RegexpGen
@@ -54,6 +55,27 @@ trait StringFieldBehaviours extends FieldBehaviours with OptionalFieldBehaviours
         string =>
           val result = form.bind(Map(fieldName -> string)).apply(fieldName)
           result.errors mustEqual Seq(lengthError)
+      }
+    }
+  }
+
+  def checkForMaxLengthAndInvalid(form: Form[_],
+                         fieldName: String,
+                         maxLength: Int,
+                         lengthError: FormError,
+                          invalidError: FormError
+                        ): Unit = {
+
+    s"not bind strings longer than $maxLength characters" in {
+
+      forAll(stringsLongerThan(maxLength) -> "longString") {
+        string =>
+          val result = form.bind(Map(fieldName -> string)).apply(fieldName)
+          if (result.errors.size > 1) {
+            result.errors should contain allOf(lengthError, invalidError)
+          } else {
+            result.errors should contain oneOf(lengthError, invalidError)
+          }
       }
     }
   }
