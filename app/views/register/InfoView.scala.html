@@ -26,7 +26,7 @@
 )
 
 
-@(draftId: String, isTaxable: Boolean)(implicit request: Request[_], messages: Messages)
+@(draftId: String, isTaxable: Boolean)(implicit request: RequestHeader, messages: Messages)
 
 @mainTemplate(
     title = messages("otherIndividualsInfo.5mld.title"),

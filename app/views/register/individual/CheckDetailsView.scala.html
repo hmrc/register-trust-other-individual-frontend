@@ -29,7 +29,7 @@
     heading: Heading
 )
 
-@(answerSection: Seq[Section], index: Int, draftId: String)(implicit request: Request[_], messages: Messages)
+@(answerSection: Seq[Section], index: Int, draftId: String)(implicit request: RequestHeader, messages: Messages)
 
 @mainTemplate(
     title = messages("otherIndividual.checkDetails.title"),

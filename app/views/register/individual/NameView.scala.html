@@ -27,7 +27,7 @@
     heading: Heading
 )
 
-@(form: Form[_], index: Int, draftId: String)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], index: Int, draftId: String)(implicit request: RequestHeader, messages: Messages)
 
 @mainTemplate(
     title = s"${errorPrefix(form)}${messages("otherIndividual.name.title")}",
