@@ -27,7 +27,7 @@
     heading: Heading
 )
 
-@(form: Form[_], draftId: String, index: Int, name: String)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], draftId: String, index: Int, name: String)(implicit request: RequestHeader, messages: Messages)
 
 @content = {
 <p>@messages("otherIndividual.5mld.mentalCapacityYesNo.p1")</p>
