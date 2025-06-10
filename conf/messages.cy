@@ -1,4 +1,4 @@
-service.name = Cofrestru Ymddiriedolaeth a’i Chynnal
+service.name = Cofrestru ymddiriedolaeth
 
 addOtherIndividual.add-them-later = Iawn, rwyf am ei ychwanegu yn nes ymlaen
 addOtherIndividual.add-them-now = Iawn, rwyf am ei ychwanegu nawr
