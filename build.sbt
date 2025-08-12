@@ -10,6 +10,7 @@ ThisBuild / majorVersion := 0
 lazy val root = (project in file("."))
   .enablePlugins(PlayScala, SbtDistributablesPlugin, SbtSassify)
   .disablePlugins(JUnitXmlReportPlugin) //Required to prevent https://github.com/scalatest/scalatest/issues/1427
+  .settings(CodeCoverageSettings())
   .settings(
     name := appName,
     RoutesKeys.routesImport += "models._",
@@ -24,10 +25,6 @@ lazy val root = (project in file("."))
       "controllers.routes._"
     ),
     PlayKeys.playDefaultPort := 8841,
-    ScoverageKeys.coverageExcludedFiles := "<empty>;.*components.*;.*Mode.*;.*Routes.*;",
-    ScoverageKeys.coverageMinimumStmtTotal := 91,
-    ScoverageKeys.coverageFailOnMinimum := true,
-    ScoverageKeys.coverageHighlighting := true,
     scalacOptions ++= Seq("-feature"),
     libraryDependencies ++= AppDependencies(),
     // concatenate js
@@ -55,5 +52,3 @@ lazy val root = (project in file("."))
       "-Wconf:cat=unused-imports&src=views/.*:s"
     )
   )
-
-addCommandAlias("scalastyleAll", "all scalastyle Test/scalastyle")
