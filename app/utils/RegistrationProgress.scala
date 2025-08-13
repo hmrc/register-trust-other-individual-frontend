@@ -77,5 +77,5 @@ class RegistrationProgress extends AnyOtherIndividuals {
       userAnswers.get(AddOtherIndividualPage).contains(AddOtherIndividual.NoComplete)
   }
 
-  private object OtherIndividualsAreComplete extends ListIsComplete(OtherIndividuals)
+   object OtherIndividualsAreComplete extends ListIsComplete(OtherIndividuals)
 }
