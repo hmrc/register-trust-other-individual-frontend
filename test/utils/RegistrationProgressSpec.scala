@@ -50,7 +50,7 @@ class RegistrationProgressSpec extends SpecBase {
         val status = registrationProgress.otherIndividualsStatus(userAnswers)
         status mustBe None
       }
-      "return InProgress when not all status checks pass" in {
+      "return InProgress when OtherIndividuals is missing" in {
         val userAnswers = emptyUserAnswers
           .set(TrustHasOtherIndividualYesNoPage, false).success.value
           .set(OtherIndividuals, List(OtherIndividualViewModel(None, InProgress))).success.value
@@ -58,7 +58,7 @@ class RegistrationProgressSpec extends SpecBase {
         val status = registrationProgress.otherIndividualsStatus(userAnswers)
         status.value mustBe InProgress
       }
-      "return Completed when all status checks pass" in {
+      "return Completed when AddOtherIndividualPage is NoComplete and OtherIndividuals are completed" in {
         val userAnswers = emptyUserAnswers
           .set(TrustHasOtherIndividualYesNoPage, true).success.value
           .set(OtherIndividuals, List(OtherIndividualViewModel(None, Completed))).success.value
@@ -67,13 +67,19 @@ class RegistrationProgressSpec extends SpecBase {
         val status = registrationProgress.otherIndividualsStatus(userAnswers)
         status.value mustBe Completed
       }
-      "return true when no individuals are present" in {
+      "return InProgress when AddOtherIndividualPage is not NoComplete" in {
         val userAnswers = emptyUserAnswers
-        val result = registrationProgress.OtherIndividualsAreComplete.apply(userAnswers)
-        result mustBe true
+          .set(TrustHasOtherIndividualYesNoPage, false).success.value
+          .set(OtherIndividuals, List(OtherIndividualViewModel(None, InProgress))).success.value
+          .set(AddOtherIndividualPage, AddOtherIndividual.YesNow).success.value
+
+        val status = registrationProgress.otherIndividualsStatus(userAnswers)
+        status.value mustBe InProgress
       }
-    }
+
+      }
   }
+
 
 
 }

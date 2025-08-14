@@ -42,18 +42,15 @@ class RegistrationProgress extends AnyOtherIndividuals {
         OtherIndividualsAreComplete
       )
 
-      statusList match {
-        case Nil => None
-        case list =>
 
-          val complete = list.forall(isComplete => isComplete(userAnswers))
+          val complete = statusList.forall(isComplete => isComplete(userAnswers))
 
           Some(if (complete) {
             Status.Completed
           } else {
             Status.InProgress
           })
-      }
+
     }
   }
 
@@ -77,5 +74,5 @@ class RegistrationProgress extends AnyOtherIndividuals {
       userAnswers.get(AddOtherIndividualPage).contains(AddOtherIndividual.NoComplete)
   }
 
-   object OtherIndividualsAreComplete extends ListIsComplete(OtherIndividuals)
+  private object OtherIndividualsAreComplete extends ListIsComplete(OtherIndividuals)
 }
