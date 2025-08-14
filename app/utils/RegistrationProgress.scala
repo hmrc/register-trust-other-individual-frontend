@@ -42,18 +42,15 @@ class RegistrationProgress extends AnyOtherIndividuals {
         OtherIndividualsAreComplete
       )
 
-      statusList match {
-        case Nil => None
-        case list =>
 
-          val complete = list.forall(isComplete => isComplete(userAnswers))
+          val complete = statusList.forall(isComplete => isComplete(userAnswers))
 
           Some(if (complete) {
             Status.Completed
           } else {
             Status.InProgress
           })
-      }
+
     }
   }
 

@@ -41,13 +41,6 @@ class AnswerRowConverter @Inject()(checkAnswersFormatters: CheckAnswersFormatter
       question(query, labelKey, format, changeUrl)
     }
 
-    def stringQuestion(query: Gettable[String],
-                       labelKey: String,
-                       changeUrl: String): Option[AnswerRow] = {
-      val format = (x: String) => HtmlFormat.escape(x)
-      question(query, labelKey, format, changeUrl, name)
-    }
-
     def yesNoQuestion(query: Gettable[Boolean],
                       labelKey: String,
                       changeUrl: String): Option[AnswerRow] = {
