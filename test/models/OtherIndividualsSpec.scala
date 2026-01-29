@@ -49,4 +49,5 @@ class OtherIndividualsSpec extends SpecBase {
       }
     }
   }
+
 }

@@ -29,7 +29,7 @@ import views.html.register.individual.UkAddressView
 
 class UkAddressControllerSpec extends SpecBase {
 
-  val form = new UkAddressFormProvider()()
+  val form       = new UkAddressFormProvider()()
   val index: Int = 0
 
   val validAnswer: UkAddress = UkAddress("value 1", "value 2", None, None, "AB1 1AB")
@@ -41,8 +41,7 @@ class UkAddressControllerSpec extends SpecBase {
 
     "return OK and the correct view for a GET" in {
 
-      val userAnswers = emptyUserAnswers.set(NamePage(index),
-        name).success.value
+      val userAnswers = emptyUserAnswers.set(NamePage(index), name).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -62,8 +61,13 @@ class UkAddressControllerSpec extends SpecBase {
 
     "populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = emptyUserAnswers.set(UkAddressPage(index), validAnswer).success.value
-        .set(NamePage(index), name).success.value
+      val userAnswers = emptyUserAnswers
+        .set(UkAddressPage(index), validAnswer)
+        .success
+        .value
+        .set(NamePage(index), name)
+        .success
+        .value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -83,14 +87,14 @@ class UkAddressControllerSpec extends SpecBase {
 
     "redirect to the next page when valid data is submitted" in {
 
-      val userAnswers = emptyUserAnswers.set(NamePage(index),
-        name).success.value
+      val userAnswers = emptyUserAnswers.set(NamePage(index), name).success.value
 
       val application =
         applicationBuilder(userAnswers = Some(userAnswers))
           .overrides(
             bind[Navigator].qualifiedWith(classOf[OtherIndividual]).toInstance(new FakeNavigator)
-          ).build()
+          )
+          .build()
 
       val request =
         FakeRequest(POST, ukAddressRoute)
@@ -106,8 +110,7 @@ class UkAddressControllerSpec extends SpecBase {
 
     "return a Bad Request and errors when invalid data is submitted" in {
 
-      val userAnswers = emptyUserAnswers.set(NamePage(index),
-        name).success.value
+      val userAnswers = emptyUserAnswers.set(NamePage(index), name).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -161,4 +164,5 @@ class UkAddressControllerSpec extends SpecBase {
       application.stop()
     }
   }
+
 }

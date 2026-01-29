@@ -32,43 +32,46 @@ import views.html.register.individual.NonUkAddressView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class NonUkAddressController @Inject()(
-                                        override val messagesApi: MessagesApi,
-                                        repository: RegistrationsRepository,
-                                        @OtherIndividual navigator: Navigator,
-                                        standardActionSets: StandardActionSets,
-                                        nameAction: NameRequiredAction,
-                                        formProvider: InternationalAddressFormProvider,
-                                        val controllerComponents: MessagesControllerComponents,
-                                        view: NonUkAddressView,
-                                        val countryOptions: CountryOptionsNonUK
-                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class NonUkAddressController @Inject() (
+  override val messagesApi: MessagesApi,
+  repository: RegistrationsRepository,
+  @OtherIndividual navigator: Navigator,
+  standardActionSets: StandardActionSets,
+  nameAction: NameRequiredAction,
+  formProvider: InternationalAddressFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: NonUkAddressView,
+  val countryOptions: CountryOptionsNonUK
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController with I18nSupport {
 
   val form = formProvider()
 
-  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = standardActionSets.identifiedUserWithData(draftId).andThen(nameAction(index)) {
-    implicit request =>
-
+  def onPageLoad(index: Int, draftId: String): Action[AnyContent] =
+    standardActionSets.identifiedUserWithData(draftId).andThen(nameAction(index)) { implicit request =>
       val preparedForm = request.userAnswers.get(NonUkAddressPage(index)) match {
-        case None => form
+        case None        => form
         case Some(value) => form.fill(value)
       }
 
       Ok(view(preparedForm, countryOptions.options(), request.otherIndividualName, index, draftId))
-  }
+    }
 
-  def onSubmit(index: Int, draftId: String): Action[AnyContent] = standardActionSets.identifiedUserWithData(draftId).andThen(nameAction(index)).async {
-    implicit request =>
+  def onSubmit(index: Int, draftId: String): Action[AnyContent] =
+    standardActionSets.identifiedUserWithData(draftId).andThen(nameAction(index)).async { implicit request =>
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors =>
+            Future.successful(
+              BadRequest(view(formWithErrors, countryOptions.options(), request.otherIndividualName, index, draftId))
+            ),
+          value =>
+            for {
+              updatedAnswers <- Future.fromTry(request.userAnswers.set(NonUkAddressPage(index), value))
+              _              <- repository.set(updatedAnswers)
+            } yield Redirect(navigator.nextPage(NonUkAddressPage(index), draftId, updatedAnswers))
+        )
+    }
 
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, countryOptions.options(), request.otherIndividualName, index, draftId))),
-
-        value =>
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(NonUkAddressPage(index), value))
-            _              <- repository.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(NonUkAddressPage(index), draftId, updatedAnswers))
-      )
-  }
 }

@@ -32,8 +32,8 @@ class LogoutControllerSpec extends SpecBase {
     val mockAuditConnector = Mockito.mock(classOf[AuditConnector])
 
     val application = applicationBuilder(userAnswers = Some(emptyUserAnswers))
-    .overrides(bind[AuditConnector].toInstance(mockAuditConnector))
-    .build()
+      .overrides(bind[AuditConnector].toInstance(mockAuditConnector))
+      .build()
 
     val request = FakeRequest(GET, routes.LogoutController.logout().url)
 

@@ -22,26 +22,27 @@ import models.{OtherIndividualType, UserAnswers}
 
 class OtherIndividualMapper {
 
-  def build(userAnswers: UserAnswers): Option[List[OtherIndividualType]] = {
+  def build(userAnswers: UserAnswers): Option[List[OtherIndividualType]] =
 
     userAnswers.get(OtherIndividuals) flatMap {
-      case Nil => None
-      case list => Some(
-        list.map { otherIndividual =>
-          OtherIndividualType(
-            name = otherIndividual.name,
-            dateOfBirth = otherIndividual.dateOfBirth,
-            identification = otherIndividual.identification,
-            countryOfResidence = otherIndividual.countryOfResidence,
-            nationality = otherIndividual.countryOfNationality,
-            legallyIncapable = otherIndividual.mentalCapacityYesNo.flatMap {
-              case Yes => Some(false)
-              case No => Some(true)
-              case DontKnow => None
-            }
-          )
-        }
-      )
+      case Nil  => None
+      case list =>
+        Some(
+          list.map { otherIndividual =>
+            OtherIndividualType(
+              name = otherIndividual.name,
+              dateOfBirth = otherIndividual.dateOfBirth,
+              identification = otherIndividual.identification,
+              countryOfResidence = otherIndividual.countryOfResidence,
+              nationality = otherIndividual.countryOfNationality,
+              legallyIncapable = otherIndividual.mentalCapacityYesNo.flatMap {
+                case Yes      => Some(false)
+                case No       => Some(true)
+                case DontKnow => None
+              }
+            )
+          }
+        )
     }
-  }
+
 }

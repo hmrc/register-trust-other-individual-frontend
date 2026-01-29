@@ -27,43 +27,41 @@ import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class DefaultRegistrationsRepository @Inject()(submissionDraftConnector: SubmissionDraftConnector,
-                                               config: FrontendAppConfig,
-                                               submissionSetFactory: SubmissionSetFactory
-                                        )(implicit ec: ExecutionContext) extends RegistrationsRepository {
+class DefaultRegistrationsRepository @Inject() (
+  submissionDraftConnector: SubmissionDraftConnector,
+  config: FrontendAppConfig,
+  submissionSetFactory: SubmissionSetFactory
+)(implicit ec: ExecutionContext)
+    extends RegistrationsRepository {
 
   private val userAnswersSection = config.repositoryKey
   private val mainAnswersSection = "main"
 
-  override def set(userAnswers: UserAnswers)(implicit hc: HeaderCarrier, messages: Messages): Future[Boolean] = {
+  override def set(userAnswers: UserAnswers)(implicit hc: HeaderCarrier, messages: Messages): Future[Boolean] =
     submissionDraftConnector.setDraftSectionSet(
       userAnswers.draftId,
       userAnswersSection,
       submissionSetFactory.createFrom(userAnswers)
-    ) map {
-      response => response.status == http.Status.OK
+    ) map { response =>
+      response.status == http.Status.OK
     }
-  }
 
-  override def get(draftId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] = {
-    submissionDraftConnector.getDraftSection(draftId, userAnswersSection).map {
-      response =>
-        response.data.validate[UserAnswers] match {
-          case JsSuccess(userAnswers, _) => Some(userAnswers)
-          case _ => None
-        }
+  override def get(draftId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] =
+    submissionDraftConnector.getDraftSection(draftId, userAnswersSection).map { response =>
+      response.data.validate[UserAnswers] match {
+        case JsSuccess(userAnswers, _) => Some(userAnswers)
+        case _                         => None
+      }
     }
-  }
 
-  override def getMainAnswers(draftId: String)(implicit hc: HeaderCarrier): Future[Option[ReadOnlyUserAnswers]] = {
-    submissionDraftConnector.getDraftSection(draftId, mainAnswersSection).map {
-      response =>
-        response.data.validate[ReadOnlyUserAnswers] match {
-          case JsSuccess(userAnswers, _) => Some(userAnswers)
-          case _ => None
-        }
+  override def getMainAnswers(draftId: String)(implicit hc: HeaderCarrier): Future[Option[ReadOnlyUserAnswers]] =
+    submissionDraftConnector.getDraftSection(draftId, mainAnswersSection).map { response =>
+      response.data.validate[ReadOnlyUserAnswers] match {
+        case JsSuccess(userAnswers, _) => Some(userAnswers)
+        case _                         => None
+      }
     }
-  }
+
 }
 
 trait RegistrationsRepository {

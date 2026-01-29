@@ -25,7 +25,7 @@ import scala.concurrent.Future
 
 trait Mocked {
 
-  val registrationsRepository : RegistrationsRepository = Mockito.mock(classOf[RegistrationsRepository])
+  val registrationsRepository: RegistrationsRepository = Mockito.mock(classOf[RegistrationsRepository])
 
   when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(None))
   when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))

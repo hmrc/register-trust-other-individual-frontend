@@ -38,9 +38,10 @@ class TrustsStoreConnectorSpec extends SpecBase with WireMockHelper {
         .configure(
           Seq(
             "microservice.services.trusts-store.port" -> server.port(),
-            "auditing.enabled" -> false
+            "auditing.enabled"                        -> false
           ): _*
-        ).build()
+        )
+        .build()
 
       val connector = application.injector.instanceOf[TrustsStoreConnector]
 
@@ -51,9 +52,8 @@ class TrustsStoreConnectorSpec extends SpecBase with WireMockHelper {
 
       val futureResult = connector.updateTaskStatus(fakeDraftId, TaskStatus.Completed)
 
-      whenReady(futureResult) {
-        r =>
-          r.status mustBe 200
+      whenReady(futureResult) { r =>
+        r.status mustBe 200
       }
 
       application.stop()
@@ -64,9 +64,10 @@ class TrustsStoreConnectorSpec extends SpecBase with WireMockHelper {
         .configure(
           Seq(
             "microservice.services.trusts-store.port" -> server.port(),
-            "auditing.enabled" -> false
+            "auditing.enabled"                        -> false
           ): _*
-        ).build()
+        )
+        .build()
 
       val connector = application.injector.instanceOf[TrustsStoreConnector]
 
@@ -82,4 +83,5 @@ class TrustsStoreConnectorSpec extends SpecBase with WireMockHelper {
       application.stop()
     }
   }
+
 }

@@ -34,15 +34,17 @@ import scala.concurrent.Future
 
 class NameControllerSpec extends SpecBase {
 
-  private val formProvider = new NameFormProvider()
-  private val form = formProvider.withPrefix("otherIndividual.name")
+  private val formProvider   = new NameFormProvider()
+  private val form           = formProvider.withPrefix("otherIndividual.name")
   private val name: FullName = FullName("First", Some("Middle"), "Last")
-  private val index: Int = 0
+  private val index: Int     = 0
 
   lazy val otherIndividualNameRoute: String = routes.NameController.onPageLoad(index, draftId).url
 
   val userAnswers: UserAnswers = emptyUserAnswers
-    .set(NamePage(index), name).success.value
+    .set(NamePage(index), name)
+    .success
+    .value
 
   "Name Controller" must {
 
@@ -91,7 +93,8 @@ class NameControllerSpec extends SpecBase {
         val application = applicationBuilder(userAnswers = Some(emptyUserAnswers))
           .overrides(
             bind[Navigator].qualifiedWith(classOf[OtherIndividual]).toInstance(new FakeNavigator)
-          ).build()
+          )
+          .build()
 
         val request =
           FakeRequest(POST, otherIndividualNameRoute)
@@ -113,7 +116,8 @@ class NameControllerSpec extends SpecBase {
         val application = applicationBuilder(userAnswers = Some(emptyUserAnswers))
           .overrides(
             bind[Navigator].qualifiedWith(classOf[OtherIndividual]).toInstance(new FakeNavigator)
-          ).build()
+          )
+          .build()
 
         val request =
           FakeRequest(POST, otherIndividualNameRoute)
@@ -182,4 +186,5 @@ class NameControllerSpec extends SpecBase {
       application.stop()
     }
   }
+
 }

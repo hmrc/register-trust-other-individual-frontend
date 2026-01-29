@@ -23,50 +23,131 @@ import pages.register.individual._
 import play.api.i18n.Messages
 import viewmodels.{AnswerRow, AnswerSection}
 
-class OtherIndividualPrintHelper @Inject()(answerRowConverter: AnswerRowConverter) {
+class OtherIndividualPrintHelper @Inject() (answerRowConverter: AnswerRowConverter) {
 
-  def printSection(userAnswers: UserAnswers, name: String, index: Int, draftId: String)
-                  (implicit messages: Messages): AnswerSection = {
+  def printSection(userAnswers: UserAnswers, name: String, index: Int, draftId: String)(implicit
+    messages: Messages
+  ): AnswerSection =
     AnswerSection(
       headingKey = Some("answerPage.section.otherIndividual.subheading"),
       rows = answers(userAnswers, name, index, draftId),
       headingArgs = Seq(index + 1)
     )
-  }
 
-  def checkDetailsSection(userAnswers: UserAnswers, name: String, index: Int, draftId: String)
-                         (implicit messages: Messages): AnswerSection = {
+  def checkDetailsSection(userAnswers: UserAnswers, name: String, index: Int, draftId: String)(implicit
+    messages: Messages
+  ): AnswerSection =
     AnswerSection(
       headingKey = None,
       rows = answers(userAnswers, name, index, draftId)
     )
-  }
 
-  def answers(userAnswers: UserAnswers, name: String, index: Int, draftId: String)
-             (implicit messages: Messages): Seq[AnswerRow] = {
+  def answers(userAnswers: UserAnswers, name: String, index: Int, draftId: String)(implicit
+    messages: Messages
+  ): Seq[AnswerRow] = {
     val bound: answerRowConverter.Bound = answerRowConverter.bind(userAnswers, name)
 
     Seq(
       bound.nameQuestion(NamePage(index), "otherIndividual.name", irts.NameController.onPageLoad(index, draftId).url),
-      bound.yesNoQuestion(DateOfBirthYesNoPage(index), "otherIndividual.dateOfBirthYesNo", irts.DateOfBirthYesNoController.onPageLoad(index, draftId).url),
-      bound.dateQuestion(DateOfBirthPage(index), "otherIndividual.dateOfBirth", irts.DateOfBirthController.onPageLoad(index, draftId).url),
-      bound.yesNoQuestion(CountryOfNationalityYesNoPage(index), "otherIndividual.5mld.countryOfNationalityYesNo", irts.CountryOfNationalityYesNoController.onPageLoad(index, draftId).url),
-      bound.yesNoQuestion(CountryOfNationalityInTheUkYesNoPage(index), "otherIndividual.5mld.countryOfNationalityInTheUkYesNo", irts.CountryOfNationalityInTheUkYesNoController.onPageLoad(index, draftId).url),
-      bound.countryQuestion(CountryOfNationalityPage(index), CountryOfNationalityInTheUkYesNoPage(index), "otherIndividual.5mld.countryOfNationality",  irts.CountryOfNationalityController.onPageLoad(index, draftId).url),
-      bound.yesNoQuestion(NationalInsuranceYesNoPage(index), "otherIndividual.nationalInsuranceYesNo", irts.NationalInsuranceYesNoController.onPageLoad(index, draftId).url),
-      bound.ninoQuestion(NationalInsuranceNumberPage(index), "otherIndividual.nationalInsuranceNumber", irts.NationalInsuranceNumberController.onPageLoad(index, draftId).url),
-      bound.yesNoQuestion(CountryOfResidenceYesNoPage(index), "otherIndividual.5mld.countryOfResidenceYesNo", irts.CountryOfResidenceYesNoController.onPageLoad(index, draftId).url),
-      bound.yesNoQuestion(CountryOfResidenceInTheUkYesNoPage(index), "otherIndividual.5mld.countryOfResidenceInTheUkYesNo", irts.CountryOfResidenceInTheUkYesNoController.onPageLoad(index, draftId).url),
-      bound.countryQuestion(CountryOfResidencePage(index), CountryOfResidenceInTheUkYesNoPage(index), "otherIndividual.5mld.countryOfResidence",  irts.CountryOfResidenceController.onPageLoad(index, draftId).url),
-      bound.yesNoQuestion(AddressYesNoPage(index), "otherIndividual.addressYesNo", irts.AddressYesNoController.onPageLoad(index, draftId).url),
-      bound.yesNoQuestion(AddressUkYesNoPage(index), "otherIndividual.addressUkYesNo", irts.AddressUkYesNoController.onPageLoad(index, draftId).url),
-      bound.addressQuestion(UkAddressPage(index), "site.address.uk", irts.UkAddressController.onPageLoad(index, draftId).url),
-      bound.addressQuestion(NonUkAddressPage(index), "site.address.international", irts.NonUkAddressController.onPageLoad(index, draftId).url),
-      bound.yesNoQuestion(PassportDetailsYesNoPage(index), "otherIndividual.passportDetailsYesNo", irts.PassportDetailsYesNoController.onPageLoad(index, draftId).url),
-      bound.passportDetailsQuestion(PassportDetailsPage(index), "otherIndividual.passportDetails", irts.PassportDetailsController.onPageLoad(index, draftId).url),
-      bound.yesNoQuestion(IDCardDetailsYesNoPage(index), "otherIndividual.idCardDetailsYesNo", irts.IDCardDetailsYesNoController.onPageLoad(index, draftId).url),
-      bound.passportDetailsQuestion(IDCardDetailsPage(index), "otherIndividual.idCardDetails", irts.IDCardDetailsController.onPageLoad(index, draftId).url),
-      bound.enumQuestion(MentalCapacityYesNoPage(index), "otherIndividual.5mld.mentalCapacityYesNo", irts.MentalCapacityYesNoController.onPageLoad(index, draftId).url, "site")
+      bound.yesNoQuestion(
+        DateOfBirthYesNoPage(index),
+        "otherIndividual.dateOfBirthYesNo",
+        irts.DateOfBirthYesNoController.onPageLoad(index, draftId).url
+      ),
+      bound.dateQuestion(
+        DateOfBirthPage(index),
+        "otherIndividual.dateOfBirth",
+        irts.DateOfBirthController.onPageLoad(index, draftId).url
+      ),
+      bound.yesNoQuestion(
+        CountryOfNationalityYesNoPage(index),
+        "otherIndividual.5mld.countryOfNationalityYesNo",
+        irts.CountryOfNationalityYesNoController.onPageLoad(index, draftId).url
+      ),
+      bound.yesNoQuestion(
+        CountryOfNationalityInTheUkYesNoPage(index),
+        "otherIndividual.5mld.countryOfNationalityInTheUkYesNo",
+        irts.CountryOfNationalityInTheUkYesNoController.onPageLoad(index, draftId).url
+      ),
+      bound.countryQuestion(
+        CountryOfNationalityPage(index),
+        CountryOfNationalityInTheUkYesNoPage(index),
+        "otherIndividual.5mld.countryOfNationality",
+        irts.CountryOfNationalityController.onPageLoad(index, draftId).url
+      ),
+      bound.yesNoQuestion(
+        NationalInsuranceYesNoPage(index),
+        "otherIndividual.nationalInsuranceYesNo",
+        irts.NationalInsuranceYesNoController.onPageLoad(index, draftId).url
+      ),
+      bound.ninoQuestion(
+        NationalInsuranceNumberPage(index),
+        "otherIndividual.nationalInsuranceNumber",
+        irts.NationalInsuranceNumberController.onPageLoad(index, draftId).url
+      ),
+      bound.yesNoQuestion(
+        CountryOfResidenceYesNoPage(index),
+        "otherIndividual.5mld.countryOfResidenceYesNo",
+        irts.CountryOfResidenceYesNoController.onPageLoad(index, draftId).url
+      ),
+      bound.yesNoQuestion(
+        CountryOfResidenceInTheUkYesNoPage(index),
+        "otherIndividual.5mld.countryOfResidenceInTheUkYesNo",
+        irts.CountryOfResidenceInTheUkYesNoController.onPageLoad(index, draftId).url
+      ),
+      bound.countryQuestion(
+        CountryOfResidencePage(index),
+        CountryOfResidenceInTheUkYesNoPage(index),
+        "otherIndividual.5mld.countryOfResidence",
+        irts.CountryOfResidenceController.onPageLoad(index, draftId).url
+      ),
+      bound.yesNoQuestion(
+        AddressYesNoPage(index),
+        "otherIndividual.addressYesNo",
+        irts.AddressYesNoController.onPageLoad(index, draftId).url
+      ),
+      bound.yesNoQuestion(
+        AddressUkYesNoPage(index),
+        "otherIndividual.addressUkYesNo",
+        irts.AddressUkYesNoController.onPageLoad(index, draftId).url
+      ),
+      bound.addressQuestion(
+        UkAddressPage(index),
+        "site.address.uk",
+        irts.UkAddressController.onPageLoad(index, draftId).url
+      ),
+      bound.addressQuestion(
+        NonUkAddressPage(index),
+        "site.address.international",
+        irts.NonUkAddressController.onPageLoad(index, draftId).url
+      ),
+      bound.yesNoQuestion(
+        PassportDetailsYesNoPage(index),
+        "otherIndividual.passportDetailsYesNo",
+        irts.PassportDetailsYesNoController.onPageLoad(index, draftId).url
+      ),
+      bound.passportDetailsQuestion(
+        PassportDetailsPage(index),
+        "otherIndividual.passportDetails",
+        irts.PassportDetailsController.onPageLoad(index, draftId).url
+      ),
+      bound.yesNoQuestion(
+        IDCardDetailsYesNoPage(index),
+        "otherIndividual.idCardDetailsYesNo",
+        irts.IDCardDetailsYesNoController.onPageLoad(index, draftId).url
+      ),
+      bound.passportDetailsQuestion(
+        IDCardDetailsPage(index),
+        "otherIndividual.idCardDetails",
+        irts.IDCardDetailsController.onPageLoad(index, draftId).url
+      ),
+      bound.enumQuestion(
+        MentalCapacityYesNoPage(index),
+        "otherIndividual.5mld.mentalCapacityYesNo",
+        irts.MentalCapacityYesNoController.onPageLoad(index, draftId).url,
+        "site"
+      )
     ).flatten
   }
+
 }

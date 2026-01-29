@@ -22,7 +22,8 @@ import play.api.mvc.WrappedRequest
 import viewmodels.addAnother.OtherIndividualViewModel
 
 case class OtherIndividualRequiredRequest[T](
-                                  request: RegistrationDataRequest[T],
-                                  otherIndividual: OtherIndividualViewModel) extends WrappedRequest[T](request){
-  val userAnswers:UserAnswers = request.userAnswers
+  request: RegistrationDataRequest[T],
+  otherIndividual: OtherIndividualViewModel
+) extends WrappedRequest[T](request) {
+  val userAnswers: UserAnswers = request.userAnswers
 }

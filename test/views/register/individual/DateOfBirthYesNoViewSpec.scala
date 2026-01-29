@@ -27,15 +27,17 @@ import views.html.register.individual.DateOfBirthYesNoView
 class DateOfBirthYesNoViewSpec extends YesNoViewBehaviours {
 
   val messageKeyPrefix = "otherIndividual.dateOfBirthYesNo"
-  val index = 0
-  val name: FullName = FullName("First", None, "Last")
+  val index            = 0
+  val name: FullName   = FullName("First", None, "Last")
 
   val form: Form[Boolean] = new YesNoFormProvider().withPrefix(messageKeyPrefix)
 
   "OtherIndividualDateOfBirthYesNo view" must {
 
     val userAnswers = emptyUserAnswers
-      .set(NamePage(index), name).success.value
+      .set(NamePage(index), name)
+      .success
+      .value
 
     val view = viewFor[DateOfBirthYesNoView](Some(userAnswers))
 
@@ -51,4 +53,5 @@ class DateOfBirthYesNoViewSpec extends YesNoViewBehaviours {
     behave like pageWithASubmitButton(applyView(form))
 
   }
+
 }

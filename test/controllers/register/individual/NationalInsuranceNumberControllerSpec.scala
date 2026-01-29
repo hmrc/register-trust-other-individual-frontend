@@ -30,18 +30,18 @@ import views.html.register.individual.NationalInsuranceNumberView
 class NationalInsuranceNumberControllerSpec extends SpecBase {
 
   private val formProvider = new NationalInsuranceNumberFormProvider()
-  private val index: Int = 0
-  private val form = formProvider.withPrefix("otherIndividual.nationalInsuranceNumber", emptyUserAnswers, index)
-  private val name = FullName("first name", None, "Last name")
+  private val index: Int   = 0
+  private val form         = formProvider.withPrefix("otherIndividual.nationalInsuranceNumber", emptyUserAnswers, index)
+  private val name         = FullName("first name", None, "Last name")
 
-  lazy val otherIndividualNationalInsuranceNumberRoute: String = routes.NationalInsuranceNumberController.onPageLoad(index,draftId).url
+  lazy val otherIndividualNationalInsuranceNumberRoute: String =
+    routes.NationalInsuranceNumberController.onPageLoad(index, draftId).url
 
   "NationalInsuranceNumber Controller" must {
 
     "return OK and the correct view for a GET" in {
 
-      val userAnswers = emptyUserAnswers.set(NamePage(index),
-        name).success.value
+      val userAnswers = emptyUserAnswers.set(NamePage(index), name).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -54,15 +54,20 @@ class NationalInsuranceNumberControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form,name.toString, index, draftId)(request, messages).toString
+        view(form, name.toString, index, draftId)(request, messages).toString
 
       application.stop()
     }
 
     "populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = emptyUserAnswers.set(NationalInsuranceNumberPage(index), "answer").success.value
-        .set(NamePage(index),name).success.value
+      val userAnswers = emptyUserAnswers
+        .set(NationalInsuranceNumberPage(index), "answer")
+        .success
+        .value
+        .set(NamePage(index), name)
+        .success
+        .value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -75,21 +80,21 @@ class NationalInsuranceNumberControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill("answer"),name.toString, index, draftId)(request, messages).toString
+        view(form.fill("answer"), name.toString, index, draftId)(request, messages).toString
 
       application.stop()
     }
 
     "redirect to the next page when valid data is submitted" in {
 
-      val userAnswers = emptyUserAnswers.set(NamePage(index),
-        name).success.value
+      val userAnswers = emptyUserAnswers.set(NamePage(index), name).success.value
 
       val application =
         applicationBuilder(userAnswers = Some(userAnswers))
           .overrides(
             bind[Navigator].qualifiedWith(classOf[OtherIndividual]).toInstance(new FakeNavigator)
-          ).build()
+          )
+          .build()
 
       val request =
         FakeRequest(POST, otherIndividualNationalInsuranceNumberRoute)
@@ -106,8 +111,7 @@ class NationalInsuranceNumberControllerSpec extends SpecBase {
     "return a Bad Request and errors" when {
       "invalid data is submitted" in {
 
-        val userAnswers = emptyUserAnswers.set(NamePage(index),
-          name).success.value
+        val userAnswers = emptyUserAnswers.set(NamePage(index), name).success.value
 
         val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -124,7 +128,7 @@ class NationalInsuranceNumberControllerSpec extends SpecBase {
         status(result) mustEqual BAD_REQUEST
 
         contentAsString(result) mustEqual
-          view(boundForm,name.toString, index, draftId)(request, messages).toString
+          view(boundForm, name.toString, index, draftId)(request, messages).toString
 
         application.stop()
       }
@@ -134,8 +138,12 @@ class NationalInsuranceNumberControllerSpec extends SpecBase {
         val nino = "JH123456C"
 
         val userAnswers = emptyUserAnswers
-          .set(NamePage(index), name).success.value
-          .set(NationalInsuranceNumberPage(index + 1), nino).success.value
+          .set(NamePage(index), name)
+          .success
+          .value
+          .set(NationalInsuranceNumberPage(index + 1), nino)
+          .success
+          .value
 
         val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -154,7 +162,7 @@ class NationalInsuranceNumberControllerSpec extends SpecBase {
         status(result) mustEqual BAD_REQUEST
 
         contentAsString(result) mustEqual
-          view(boundForm,name.toString, index, draftId)(request, messages).toString
+          view(boundForm, name.toString, index, draftId)(request, messages).toString
 
         application.stop()
       }
@@ -192,4 +200,5 @@ class NationalInsuranceNumberControllerSpec extends SpecBase {
       application.stop()
     }
   }
+
 }

@@ -31,15 +31,16 @@ import views.html.RemoveIndexView
 
 import scala.concurrent.ExecutionContext
 
-class RemoveOtherIndividualController @Inject()(
-                                                 override val messagesApi: MessagesApi,
-                                                 val registrationsRepository: RegistrationsRepository,
-                                                 val standardActionSets: StandardActionSets,
-                                                 val otherIndividualAction: OtherIndividualRequiredActionImpl,
-                                                 val formProvider: RemoveIndexFormProvider,
-                                                 val controllerComponents: MessagesControllerComponents,
-                                                 val view: RemoveIndexView
-                                               )(implicit val ec: ExecutionContext) extends RemoveIndexController {
+class RemoveOtherIndividualController @Inject() (
+  override val messagesApi: MessagesApi,
+  val registrationsRepository: RegistrationsRepository,
+  val standardActionSets: StandardActionSets,
+  val otherIndividualAction: OtherIndividualRequiredActionImpl,
+  val formProvider: RemoveIndexFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  val view: RemoveIndexView
+)(implicit val ec: ExecutionContext)
+    extends RemoveIndexController {
   def otherIndividualAtIndex(index: Int): QuestionPage[OtherIndividualViewModel] = OtherIndividual(index)
-  def submitCall(index: Int, draftId: String): Call = routes.RemoveOtherIndividualController.onSubmit(index, draftId)
+  def submitCall(index: Int, draftId: String): Call                              = routes.RemoveOtherIndividualController.onSubmit(index, draftId)
 }

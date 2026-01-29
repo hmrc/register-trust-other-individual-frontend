@@ -29,7 +29,9 @@ class InfoViewSpec extends ViewBehaviours {
 
       val applyView = view.apply(fakeDraftId, isTaxable = true)(fakeRequest, messages)
 
-      behave like normalPageTitleWithSectionSubheading(applyView, "otherIndividualsInfo.5mld",
+      behave like normalPageTitleWithSectionSubheading(
+        applyView,
+        "otherIndividualsInfo.5mld",
         "paragraph1",
         "bulletpoint1",
         "bulletpoint2",
@@ -56,7 +58,9 @@ class InfoViewSpec extends ViewBehaviours {
 
       val applyView = view.apply(fakeDraftId, isTaxable = false)(fakeRequest, messages)
 
-      behave like normalPageTitleWithSectionSubheading(applyView, "otherIndividualsInfo.5mld",
+      behave like normalPageTitleWithSectionSubheading(
+        applyView,
+        "otherIndividualsInfo.5mld",
         "paragraph1",
         "bulletpoint1",
         "bulletpoint2",
@@ -74,4 +78,5 @@ class InfoViewSpec extends ViewBehaviours {
       behave like pageWithBackLink(applyView)
     }
   }
+
 }

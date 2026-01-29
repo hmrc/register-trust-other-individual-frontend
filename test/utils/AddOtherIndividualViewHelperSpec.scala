@@ -24,13 +24,16 @@ import pages.entitystatus.OtherIndividualStatus
 import pages.register.{individual => ind}
 import viewmodels.{AddRow, AddToRows}
 
-
 class AddOtherIndividualViewHelperSpec extends SpecBase {
 
+  private def changeInProgressOtherIndividualRoute(index: Int): String =
+    irts.NameController.onPageLoad(index, draftId).url
 
-  private def changeInProgressOtherIndividualRoute(index: Int): String = irts.NameController.onPageLoad(index, draftId).url
-  private def changeCompleteOtherIndividualRoute(index: Int): String = irts.CheckDetailsController.onPageLoad(index, draftId).url
-  private def removeOtherIndividualRoute(index: Int): String = irts.RemoveOtherIndividualController.onPageLoad(index, draftId).url
+  private def changeCompleteOtherIndividualRoute(index: Int): String   =
+    irts.CheckDetailsController.onPageLoad(index, draftId).url
+
+  private def removeOtherIndividualRoute(index: Int): String           =
+    irts.RemoveOtherIndividualController.onPageLoad(index, draftId).url
 
   "Add otherIndividual view helper" when {
 
@@ -39,21 +42,37 @@ class AddOtherIndividualViewHelperSpec extends SpecBase {
     "otherIndividual" must {
 
       val name: FullName = FullName("First", Some("Middle"), "Last")
-      val label: String = "Other Individual"
+      val label: String  = "Other Individual"
 
       "render a complete" in {
 
         val index: Int = 0
 
         val userAnswers = emptyUserAnswers
-          .set(ind.NamePage(index), name).success.value
-          .set(ind.DateOfBirthYesNoPage(index), false).success.value
-          .set(ind.AddressYesNoPage(index), true).success.value
-          .set(ind.AddressUkYesNoPage(index), true).success.value
-          .set(ind.UkAddressPage(index), UkAddress("line1", "line2", None, None, "NE99 1NE")).success.value
-          .set(ind.PassportDetailsYesNoPage(index), false).success.value
-          .set(ind.IDCardDetailsYesNoPage(index), false).success.value
-          .set(OtherIndividualStatus(index), Completed).success.value
+          .set(ind.NamePage(index), name)
+          .success
+          .value
+          .set(ind.DateOfBirthYesNoPage(index), false)
+          .success
+          .value
+          .set(ind.AddressYesNoPage(index), true)
+          .success
+          .value
+          .set(ind.AddressUkYesNoPage(index), true)
+          .success
+          .value
+          .set(ind.UkAddressPage(index), UkAddress("line1", "line2", None, None, "NE99 1NE"))
+          .success
+          .value
+          .set(ind.PassportDetailsYesNoPage(index), false)
+          .success
+          .value
+          .set(ind.IDCardDetailsYesNoPage(index), false)
+          .success
+          .value
+          .set(OtherIndividualStatus(index), Completed)
+          .success
+          .value
 
         helper(userAnswers).rows mustEqual AddToRows(
           inProgress = Nil,
@@ -75,9 +94,15 @@ class AddOtherIndividualViewHelperSpec extends SpecBase {
           val index: Int = 0
 
           val userAnswers = emptyUserAnswers
-            .set(ind.NamePage(index), name).success.value
-            .set(ind.DateOfBirthYesNoPage(index), false).success.value
-            .set(OtherIndividualStatus(index), InProgress).success.value
+            .set(ind.NamePage(index), name)
+            .success
+            .value
+            .set(ind.DateOfBirthYesNoPage(index), false)
+            .success
+            .value
+            .set(OtherIndividualStatus(index), InProgress)
+            .success
+            .value
 
           helper(userAnswers).rows mustEqual AddToRows(
             inProgress = List(
@@ -100,25 +125,57 @@ class AddOtherIndividualViewHelperSpec extends SpecBase {
         val name3: FullName = FullName("Name 3", Some("Middle"), "Last")
 
         val userAnswers = emptyUserAnswers
-          .set(ind.NamePage(0), name1).success.value
-          .set(ind.DateOfBirthYesNoPage(0), false).success.value
-          .set(ind.NationalInsuranceYesNoPage(0), true).success.value
-          .set(ind.NationalInsuranceNumberPage(0), "AB123456C").success.value
-          .set(OtherIndividualStatus(0), Completed).success.value
-
-          .set(ind.NamePage(1), name2).success.value
-          .set(ind.DateOfBirthYesNoPage(1), false).success.value
-          .set(ind.NationalInsuranceYesNoPage(1), false).success.value
-          .set(ind.AddressYesNoPage(1), true).success.value
-          .set(ind.AddressUkYesNoPage(1), true).success.value
-          .set(ind.UkAddressPage(1), UkAddress("line1", "line2", None, None, "NE99 1NE")).success.value
-          .set(ind.PassportDetailsYesNoPage(1), false).success.value
-          .set(ind.IDCardDetailsYesNoPage(1), false).success.value
-          .set(OtherIndividualStatus(1), Completed).success.value
-
-          .set(ind.NamePage(2), name3).success.value
-          .set(ind.DateOfBirthYesNoPage(2), false).success.value
-          .set(OtherIndividualStatus(2), InProgress).success.value
+          .set(ind.NamePage(0), name1)
+          .success
+          .value
+          .set(ind.DateOfBirthYesNoPage(0), false)
+          .success
+          .value
+          .set(ind.NationalInsuranceYesNoPage(0), true)
+          .success
+          .value
+          .set(ind.NationalInsuranceNumberPage(0), "AB123456C")
+          .success
+          .value
+          .set(OtherIndividualStatus(0), Completed)
+          .success
+          .value
+          .set(ind.NamePage(1), name2)
+          .success
+          .value
+          .set(ind.DateOfBirthYesNoPage(1), false)
+          .success
+          .value
+          .set(ind.NationalInsuranceYesNoPage(1), false)
+          .success
+          .value
+          .set(ind.AddressYesNoPage(1), true)
+          .success
+          .value
+          .set(ind.AddressUkYesNoPage(1), true)
+          .success
+          .value
+          .set(ind.UkAddressPage(1), UkAddress("line1", "line2", None, None, "NE99 1NE"))
+          .success
+          .value
+          .set(ind.PassportDetailsYesNoPage(1), false)
+          .success
+          .value
+          .set(ind.IDCardDetailsYesNoPage(1), false)
+          .success
+          .value
+          .set(OtherIndividualStatus(1), Completed)
+          .success
+          .value
+          .set(ind.NamePage(2), name3)
+          .success
+          .value
+          .set(ind.DateOfBirthYesNoPage(2), false)
+          .success
+          .value
+          .set(OtherIndividualStatus(2), InProgress)
+          .success
+          .value
 
         helper(userAnswers).rows mustEqual AddToRows(
           inProgress = List(

@@ -23,20 +23,21 @@ import sections.OtherIndividuals
 
 import scala.util.Try
 
-final case class AddressYesNoPage(index : Int) extends QuestionPage[Boolean] {
+final case class AddressYesNoPage(index: Int) extends QuestionPage[Boolean] {
 
   override def path: JsPath = OtherIndividuals.path \ index \ toString
 
   override def toString: String = "addressYesNo"
 
-  override def cleanup(value: Option[Boolean], userAnswers: UserAnswers): Try[UserAnswers] = {
+  override def cleanup(value: Option[Boolean], userAnswers: UserAnswers): Try[UserAnswers] =
     value match {
       case Some(false) =>
-        userAnswers.remove(AddressUkYesNoPage(index))
+        userAnswers
+          .remove(AddressUkYesNoPage(index))
           .flatMap(_.remove(UkAddressPage(index)))
           .flatMap(_.remove(NonUkAddressPage(index)))
-      case _ =>
+      case _           =>
         super.cleanup(value, userAnswers)
     }
-  }
+
 }

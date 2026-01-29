@@ -21,16 +21,16 @@ import play.api.libs.json.{Reads, __}
 
 case class OtherIndividualViewModel(name: Option[FullName], status: Status) {
   def displayName: Option[String] = name.map(_.toString)
-  def isComplete: Boolean = name.nonEmpty && (status == Status.Completed)
+  def isComplete: Boolean         = name.nonEmpty && (status == Status.Completed)
 }
 
 object OtherIndividualViewModel {
 
   import play.api.libs.functional.syntax._
 
-  implicit val reads : Reads[OtherIndividualViewModel] = (
+  implicit val reads: Reads[OtherIndividualViewModel] = (
     (__ \ "name").readNullable[FullName] and
       (__ \ "status").readWithDefault[Status](Status.InProgress)
-    )(OtherIndividualViewModel.apply _)
+  )(OtherIndividualViewModel.apply _)
 
 }

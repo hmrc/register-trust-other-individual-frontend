@@ -42,10 +42,12 @@ object RegistrationSubmission {
     implicit lazy val format: OFormat[AnswerRow] = Json.format[AnswerRow]
   }
 
-  case class AnswerSection(headingKey: Option[String],
-                           rows: Seq[AnswerRow],
-                           sectionKey: Option[String],
-                           headingArgs: Seq[String])
+  case class AnswerSection(
+    headingKey: Option[String],
+    rows: Seq[AnswerRow],
+    sectionKey: Option[String],
+    headingArgs: Seq[String]
+  )
 
   object AnswerSection {
     implicit lazy val format: OFormat[AnswerSection] = Json.format[AnswerSection]
@@ -57,6 +59,7 @@ object RegistrationSubmission {
   object DataSet {
     implicit lazy val format: OFormat[DataSet] = Json.format[DataSet]
   }
+
 }
 
 // Responses

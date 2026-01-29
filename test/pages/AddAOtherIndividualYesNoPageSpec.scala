@@ -29,4 +29,5 @@ class AddOtherIndividualYesNoPageSpec extends PageBehaviours {
 
     beRemovable[Boolean](AddOtherIndividualYesNoPage)
   }
+
 }

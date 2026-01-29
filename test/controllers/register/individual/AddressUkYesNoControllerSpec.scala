@@ -31,11 +31,11 @@ import views.html.register.individual.AddressUkYesNoView
 
 class AddressUkYesNoControllerSpec extends SpecBase {
 
-  private val index = 0
-  private val form: Form[Boolean] = new YesNoFormProvider().withPrefix("otherIndividual.addressUkYesNo")
+  private val index                       = 0
+  private val form: Form[Boolean]         = new YesNoFormProvider().withPrefix("otherIndividual.addressUkYesNo")
   private val addressUkYesNoRoute: String = routes.AddressUkYesNoController.onPageLoad(index, draftId).url
-  private val name: FullName = FullName("First", Some("Middle"), "Last")
-  private val onwardRoute = Call("GET", "/foo")
+  private val name: FullName              = FullName("First", Some("Middle"), "Last")
+  private val onwardRoute                 = Call("GET", "/foo")
 
   private val baseAnswers = emptyUserAnswers.set(NamePage(index), name).success.value
 
@@ -85,7 +85,8 @@ class AddressUkYesNoControllerSpec extends SpecBase {
         applicationBuilder(userAnswers = Some(emptyUserAnswers))
           .overrides(
             bind[Navigator].qualifiedWith(classOf[OtherIndividual]).toInstance(new FakeNavigator(onwardRoute))
-          ).build()
+          )
+          .build()
 
       val request =
         FakeRequest(POST, addressUkYesNoRoute)
@@ -151,4 +152,5 @@ class AddressUkYesNoControllerSpec extends SpecBase {
       application.stop()
     }
   }
+
 }

@@ -30,4 +30,5 @@ trait AnyOtherIndividuals {
     otherIndividualLists.individuals.nonEmpty
 
   }
+
 }

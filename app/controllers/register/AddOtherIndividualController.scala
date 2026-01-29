@@ -43,137 +43,139 @@ import views.html.register.{AddOtherIndividualView, TrustHasOtherIndividualYesNo
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class AddOtherIndividualController @Inject()(
-                                              override val messagesApi: MessagesApi,
-                                              registrationsRepository: RegistrationsRepository,
-                                              @OtherIndividual navigator: Navigator,
-                                              standardActionSets: StandardActionSets,
-                                              requiredAnswer: RequiredAnswerActionProvider,
-                                              addAnotherFormProvider: AddOtherIndividualFormProvider,
-                                              yesNoFormProvider: YesNoFormProvider,
-                                              val controllerComponents: MessagesControllerComponents,
-                                              addAnotherView: AddOtherIndividualView,
-                                              yesNoView: TrustHasOtherIndividualYesNoView,
-                                              config: FrontendAppConfig,
-                                              trustsStoreService: TrustsStoreService,
-                                              registrationProgress: RegistrationProgress
-                                            )(implicit ec: ExecutionContext) extends FrontendBaseController with Logging
-  with I18nSupport with Enumerable.Implicits with AnyOtherIndividuals {
+class AddOtherIndividualController @Inject() (
+  override val messagesApi: MessagesApi,
+  registrationsRepository: RegistrationsRepository,
+  @OtherIndividual navigator: Navigator,
+  standardActionSets: StandardActionSets,
+  requiredAnswer: RequiredAnswerActionProvider,
+  addAnotherFormProvider: AddOtherIndividualFormProvider,
+  yesNoFormProvider: YesNoFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  addAnotherView: AddOtherIndividualView,
+  yesNoView: TrustHasOtherIndividualYesNoView,
+  config: FrontendAppConfig,
+  trustsStoreService: TrustsStoreService,
+  registrationProgress: RegistrationProgress
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController with Logging with I18nSupport with Enumerable.Implicits with AnyOtherIndividuals {
 
   private val addAnotherForm = addAnotherFormProvider()
-  private val yesNoForm = yesNoFormProvider.withPrefix("trustHasOtherIndividualYesNo")
+  private val yesNoForm      = yesNoFormProvider.withPrefix("trustHasOtherIndividualYesNo")
 
   private def actions(draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
     standardActionSets.identifiedUserWithData(draftId).andThen(trustHasOtherIndividualAnswer(draftId))
 
   private def trustHasOtherIndividualAnswer(draftId: String): RequiredAnswerAction[Boolean] =
-    requiredAnswer(RequiredAnswer(TrustHasOtherIndividualYesNoPage, routes.TrustHasOtherIndividualYesNoController.onPageLoad(draftId)))
+    requiredAnswer(
+      RequiredAnswer(
+        TrustHasOtherIndividualYesNoPage,
+        routes.TrustHasOtherIndividualYesNoController.onPageLoad(draftId)
+      )
+    )
 
-  private def heading(count: Int)(implicit mp: MessagesProvider): String = {
+  private def heading(count: Int)(implicit mp: MessagesProvider): String =
     count match {
       case x if x <= 1 => Messages("addOtherIndividual.heading")
-      case _ => Messages("addOtherIndividual.count.heading", count)
+      case _           => Messages("addOtherIndividual.count.heading", count)
     }
-  }
 
-  private def setTaskStatus(draftId: String, userAnswers: UserAnswers, action: AddOtherIndividual)
-                           (implicit hc: HeaderCarrier): Future[HttpResponse] = {
+  private def setTaskStatus(draftId: String, userAnswers: UserAnswers, action: AddOtherIndividual)(implicit
+    hc: HeaderCarrier
+  ): Future[HttpResponse] = {
     val status = (action, registrationProgress.otherIndividualsStatus(userAnswers)) match {
       case (NoComplete, Some(Completed)) => TaskStatus.Completed
-      case _ => TaskStatus.InProgress
+      case _                             => TaskStatus.InProgress
     }
     setTaskStatus(draftId, status)
   }
 
-  private def setTaskStatus(draftId: String, taskStatus: TaskStatus)
-                           (implicit hc: HeaderCarrier): Future[HttpResponse] = {
+  private def setTaskStatus(draftId: String, taskStatus: TaskStatus)(implicit hc: HeaderCarrier): Future[HttpResponse] =
     trustsStoreService.updateTaskStatus(draftId, taskStatus)
-  }
 
-  def onPageLoad(draftId: String): Action[AnyContent] = actions(draftId) {
-    implicit request =>
+  def onPageLoad(draftId: String): Action[AnyContent] = actions(draftId) { implicit request =>
+    val allOtherIndividuals = otherIndividuals(request.userAnswers)
 
-      val allOtherIndividuals = otherIndividuals(request.userAnswers)
+    allOtherIndividuals.size match {
+      case 0 =>
+        logger.info(s"[Session ID: ${request.sessionId}] ${request.internalId} has added no other individuals")
+        Ok(yesNoView(yesNoForm, draftId))
+      case _ =>
+        if (allOtherIndividuals.isMaxedOut) {
+          logger.info(s"[Session ID: ${request.sessionId}] ${request.internalId} has maxed out otherIndividuals")
+        } else {
+          logger.info(s"[Session ID: ${request.sessionId}] ${request.internalId} has not maxed out otherIndividuals")
+        }
 
-      allOtherIndividuals.size match {
-        case 0 =>
-          logger.info(s"[Session ID: ${request.sessionId}] ${request.internalId} has added no other individuals")
-          Ok(yesNoView(yesNoForm, draftId))
-        case _ =>
-          if (allOtherIndividuals.isMaxedOut) {
-            logger.info(s"[Session ID: ${request.sessionId}] ${request.internalId} has maxed out otherIndividuals")
-          } else {
-            logger.info(s"[Session ID: ${request.sessionId}] ${request.internalId} has not maxed out otherIndividuals")
-          }
+        val rows = new AddOtherIndividualViewHelper(request.userAnswers, draftId).rows
 
-          val rows = new AddOtherIndividualViewHelper(request.userAnswers, draftId).rows
-
-          Ok(addAnotherView(
+        Ok(
+          addAnotherView(
             addAnotherForm,
             draftId,
             rows.inProgress,
             rows.complete,
             heading(rows.count),
             allOtherIndividuals.isMaxedOut
-          ))
-      }
+          )
+        )
+    }
   }
 
-  def submitOne(draftId: String): Action[AnyContent] = actions(draftId).async {
-    implicit request =>
-      yesNoForm.bindFromRequest().fold(
-        (formWithErrors: Form[_]) => {
+  def submitOne(draftId: String): Action[AnyContent] = actions(draftId).async { implicit request =>
+    yesNoForm
+      .bindFromRequest()
+      .fold(
+        (formWithErrors: Form[_]) =>
           Future.successful(
             BadRequest(yesNoView(formWithErrors, draftId))
-          )
-        },
-        value => {
+          ),
+        value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(AddOtherIndividualYesNoPage, value))
             _              <- registrationsRepository.set(updatedAnswers)
             _              <- setTaskStatus(draftId, if (value) TaskStatus.InProgress else TaskStatus.Completed)
           } yield Redirect(navigator.nextPage(AddOtherIndividualYesNoPage, draftId, updatedAnswers))
-        }
       )
   }
 
-  def submitAnother(draftId: String): Action[AnyContent] = actions(draftId).async {
-    implicit request =>
-
-      addAnotherForm.bindFromRequest().fold(
+  def submitAnother(draftId: String): Action[AnyContent] = actions(draftId).async { implicit request =>
+    addAnotherForm
+      .bindFromRequest()
+      .fold(
         (formWithErrors: Form[_]) => {
 
-          val rows = new AddOtherIndividualViewHelper(request.userAnswers, draftId).rows
+          val rows                = new AddOtherIndividualViewHelper(request.userAnswers, draftId).rows
           val allOtherIndividuals = otherIndividuals(request.userAnswers)
 
-          Future.successful(BadRequest(
-            addAnotherView(
-              formWithErrors,
-              draftId,
-              rows.inProgress,
-              rows.complete,
-              heading(rows.count),
-              allOtherIndividuals.isMaxedOut
+          Future.successful(
+            BadRequest(
+              addAnotherView(
+                formWithErrors,
+                draftId,
+                rows.inProgress,
+                rows.complete,
+                heading(rows.count),
+                allOtherIndividuals.isMaxedOut
+              )
             )
-          ))
+          )
         },
-        value => {
+        value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(AddOtherIndividualPage, value))
             _              <- registrationsRepository.set(updatedAnswers)
             _              <- setTaskStatus(draftId, updatedAnswers, value)
           } yield Redirect(navigator.nextPage(AddOtherIndividualPage, draftId, updatedAnswers))
-        }
       )
   }
 
-  def submitComplete(draftId: String): Action[AnyContent] = actions(draftId).async {
-    implicit request =>
-      for {
-        updatedAnswers <- Future.fromTry(request.userAnswers.set(AddOtherIndividualPage, NoComplete))
-        _              <- registrationsRepository.set(updatedAnswers)
-        _              <- setTaskStatus(draftId,updatedAnswers, NoComplete)
-      } yield Redirect(Call(GET, config.registrationProgressUrl(draftId)))
+  def submitComplete(draftId: String): Action[AnyContent] = actions(draftId).async { implicit request =>
+    for {
+      updatedAnswers <- Future.fromTry(request.userAnswers.set(AddOtherIndividualPage, NoComplete))
+      _              <- registrationsRepository.set(updatedAnswers)
+      _              <- setTaskStatus(draftId, updatedAnswers, NoComplete)
+    } yield Redirect(Call(GET, config.registrationProgressUrl(draftId)))
   }
 
 }

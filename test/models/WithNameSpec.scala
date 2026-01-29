@@ -27,4 +27,5 @@ class WithNameSpec extends SpecBase {
       Foo.toString mustEqual "bar"
     }
   }
+
 }

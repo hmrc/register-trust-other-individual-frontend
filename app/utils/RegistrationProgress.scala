@@ -27,13 +27,13 @@ import viewmodels.addAnother._
 
 class RegistrationProgress extends AnyOtherIndividuals {
 
-  def otherIndividualsStatus(userAnswers: ReadableUserAnswers): Option[Status] = {
+  def otherIndividualsStatus(userAnswers: ReadableUserAnswers): Option[Status] =
 
     if (!isAnyOtherIndividualAdded(userAnswers)) {
       userAnswers.get(TrustHasOtherIndividualYesNoPage) match {
-        case Some(true) => Some(Status.InProgress)
+        case Some(true)  => Some(Status.InProgress)
         case Some(false) => Some(Status.Completed)
-        case _ => None
+        case _           => None
       }
     } else {
 
@@ -42,36 +42,36 @@ class RegistrationProgress extends AnyOtherIndividuals {
         OtherIndividualsAreComplete
       )
 
+      val complete = statusList.forall(isComplete => isComplete(userAnswers))
 
-          val complete = statusList.forall(isComplete => isComplete(userAnswers))
-
-          Some(if (complete) {
-            Status.Completed
-          } else {
-            Status.InProgress
-          })
+      Some(if (complete) {
+        Status.Completed
+      } else {
+        Status.InProgress
+      })
 
     }
-  }
 
   sealed trait IsComplete {
     def apply(userAnswers: ReadableUserAnswers): Boolean
   }
 
-  sealed class ListIsComplete[T <: OtherIndividualViewModel](section: QuestionPage[List[T]])
-                                                      (implicit reads: Reads[T]) extends IsComplete {
+  sealed class ListIsComplete[T <: OtherIndividualViewModel](section: QuestionPage[List[T]])(implicit reads: Reads[T])
+      extends IsComplete {
 
-    override def apply(userAnswers: ReadableUserAnswers): Boolean = {
+    override def apply(userAnswers: ReadableUserAnswers): Boolean =
       userAnswers.get(section) match {
         case Some(otherIndividuals) => !otherIndividuals.exists(_.status == Status.InProgress)
-        case _ => true
+        case _                      => true
       }
-    }
+
   }
 
   private object AddingOtherIndividualsIsComplete extends IsComplete {
+
     override def apply(userAnswers: ReadableUserAnswers): Boolean =
       userAnswers.get(AddOtherIndividualPage).contains(AddOtherIndividual.NoComplete)
+
   }
 
   private object OtherIndividualsAreComplete extends ListIsComplete(OtherIndividuals)

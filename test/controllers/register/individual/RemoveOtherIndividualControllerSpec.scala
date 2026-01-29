@@ -35,12 +35,12 @@ import scala.concurrent.Future
 
 class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation {
 
-  private val prefix = "removeOtherIndividual"
-  private val formProvider = new YesNoFormProvider()
+  private val prefix                              = "removeOtherIndividual"
+  private val formProvider                        = new YesNoFormProvider()
   private def form(prefix: String): Form[Boolean] = formProvider.withPrefix(prefix)
 
-  private val index = 0
-  private val testName = FullName("A", Some("Test"), "Name")
+  private val index                      = 0
+  private val testName                   = FullName("A", Some("Test"), "Name")
   private val defaultOtherIndividualName = "the other individual"
 
   private lazy val removeRoute: String = routes.RemoveOtherIndividualController.onPageLoad(index, fakeDraftId).url
@@ -52,7 +52,9 @@ class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation 
       "otherIndividual without name" in {
 
         val userAnswers: UserAnswers = emptyUserAnswers
-          .set(OtherIndividualStatus(index), InProgress).success.value
+          .set(OtherIndividualStatus(index), InProgress)
+          .success
+          .value
 
         val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -65,11 +67,13 @@ class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation 
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(form(prefix),
+          view(
+            form(prefix),
             fakeDraftId,
             index,
             defaultOtherIndividualName,
-            routes.RemoveOtherIndividualController.onSubmit(index, draftId))(request, messages).toString
+            routes.RemoveOtherIndividualController.onSubmit(index, draftId)
+          )(request, messages).toString
 
         application.stop()
       }
@@ -77,8 +81,12 @@ class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation 
       "otherIndividual with name" in {
 
         val userAnswers: UserAnswers = emptyUserAnswers
-          .set(OtherIndividualStatus(index), InProgress).success.value
-          .set(NamePage(index), testName).success.value
+          .set(OtherIndividualStatus(index), InProgress)
+          .success
+          .value
+          .set(NamePage(index), testName)
+          .success
+          .value
 
         val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -91,11 +99,13 @@ class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation 
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(form(prefix),
+          view(
+            form(prefix),
             fakeDraftId,
             index,
             testName.toString,
-            routes.RemoveOtherIndividualController.onSubmit(index, draftId))(request, messages).toString
+            routes.RemoveOtherIndividualController.onSubmit(index, draftId)
+          )(request, messages).toString
 
         application.stop()
       }
@@ -103,11 +113,16 @@ class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation 
 
     "redirect to add to page" when {
 
-      lazy val addToPageRoute: String = controllers.register.routes.AddOtherIndividualController.onPageLoad(fakeDraftId).url
+      lazy val addToPageRoute: String =
+        controllers.register.routes.AddOtherIndividualController.onPageLoad(fakeDraftId).url
 
       val userAnswers: UserAnswers = emptyUserAnswers
-        .set(OtherIndividualStatus(index), Completed).success.value
-        .set(NamePage(index), testName).success.value
+        .set(OtherIndividualStatus(index), Completed)
+        .success
+        .value
+        .set(NamePage(index), testName)
+        .success
+        .value
 
       "YES is submitted and trustee is removed" in {
 
@@ -162,7 +177,9 @@ class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation 
     "return a Bad Request and errors when invalid data is submitted" in {
 
       val userAnswers: UserAnswers = emptyUserAnswers
-        .set(OtherIndividualStatus(index), Completed).success.value
+        .set(OtherIndividualStatus(index), Completed)
+        .success
+        .value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -184,7 +201,8 @@ class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation 
           fakeDraftId,
           index,
           defaultOtherIndividualName,
-          routes.RemoveOtherIndividualController.onSubmit(index, draftId))(request, messages).toString
+          routes.RemoveOtherIndividualController.onSubmit(index, draftId)
+        )(request, messages).toString
 
       application.stop()
     }
@@ -219,4 +237,5 @@ class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation 
       application.stop()
     }
   }
+
 }

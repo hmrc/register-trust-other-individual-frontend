@@ -29,8 +29,8 @@ class NameViewSpec extends QuestionViewBehaviours[FullName] with Generators {
   val messageKeyPrefix = "otherIndividual.name"
 
   val form: Form[FullName] = new NameFormProvider().withPrefix("otherIndividual.name")
-  val view: NameView = viewFor[NameView](Some(emptyUserAnswers))
-  val index = 0
+  val view: NameView       = viewFor[NameView](Some(emptyUserAnswers))
+  val index                = 0
 
   "Name view" must {
 

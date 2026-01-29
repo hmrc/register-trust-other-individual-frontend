@@ -21,7 +21,7 @@ import pages.QuestionPage
 import play.api.libs.json.JsPath
 import sections.OtherIndividuals
 
-final case class IDCardDetailsPage(index : Int) extends QuestionPage[PassportOrIdCardDetails] {
+final case class IDCardDetailsPage(index: Int) extends QuestionPage[PassportOrIdCardDetails] {
 
   override def path: JsPath = OtherIndividuals.path \ index \ toString
 

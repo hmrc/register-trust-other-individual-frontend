@@ -31,42 +31,43 @@ import views.html.register.individual.AddressYesNoView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class AddressYesNoController @Inject()(
-                                        override val messagesApi: MessagesApi,
-                                        repository: RegistrationsRepository,
-                                        @OtherIndividual navigator: Navigator,
-                                        standardActionSets: StandardActionSets,
-                                        nameAction: NameRequiredAction,
-                                        formProvider: YesNoFormProvider,
-                                        val controllerComponents: MessagesControllerComponents,
-                                        view: AddressYesNoView
-                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class AddressYesNoController @Inject() (
+  override val messagesApi: MessagesApi,
+  repository: RegistrationsRepository,
+  @OtherIndividual navigator: Navigator,
+  standardActionSets: StandardActionSets,
+  nameAction: NameRequiredAction,
+  formProvider: YesNoFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: AddressYesNoView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController with I18nSupport {
 
   val form = formProvider.withPrefix("otherIndividual.addressYesNo")
 
-  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = standardActionSets.identifiedUserWithData(draftId).andThen(nameAction(index)) {
-    implicit request =>
-
+  def onPageLoad(index: Int, draftId: String): Action[AnyContent] =
+    standardActionSets.identifiedUserWithData(draftId).andThen(nameAction(index)) { implicit request =>
       val preparedForm = request.userAnswers.get(AddressYesNoPage(index)) match {
-        case None => form
+        case None        => form
         case Some(value) => form.fill(value)
       }
 
       Ok(view(preparedForm, request.otherIndividualName, index, draftId))
-  }
+    }
 
-  def onSubmit(index: Int, draftId: String): Action[AnyContent] = standardActionSets.identifiedUserWithData(draftId).andThen(nameAction(index)).async {
-    implicit request =>
+  def onSubmit(index: Int, draftId: String): Action[AnyContent] =
+    standardActionSets.identifiedUserWithData(draftId).andThen(nameAction(index)).async { implicit request =>
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors =>
+            Future.successful(BadRequest(view(formWithErrors, request.otherIndividualName, index, draftId))),
+          value =>
+            for {
+              updatedAnswers <- Future.fromTry(request.userAnswers.set(AddressYesNoPage(index), value))
+              _              <- repository.set(updatedAnswers)
+            } yield Redirect(navigator.nextPage(AddressYesNoPage(index), draftId, updatedAnswers))
+        )
+    }
 
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, request.otherIndividualName, index, draftId))),
-
-        value =>
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(AddressYesNoPage(index), value))
-            _              <- repository.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(AddressYesNoPage(index), draftId, updatedAnswers))
-      )
-  }
 }

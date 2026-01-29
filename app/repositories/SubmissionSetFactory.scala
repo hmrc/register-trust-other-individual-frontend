@@ -26,29 +26,31 @@ import viewmodels.{AnswerRow, AnswerSection}
 
 import javax.inject.Inject
 
-class SubmissionSetFactory @Inject()(otherIndividualMapper: OtherIndividualMapper,
-                                     otherIndividualAnswersHelper: OtherIndividualAnswersHelper) {
+class SubmissionSetFactory @Inject() (
+  otherIndividualMapper: OtherIndividualMapper,
+  otherIndividualAnswersHelper: OtherIndividualAnswersHelper
+) {
 
-  def createFrom(userAnswers: UserAnswers)(implicit messages: Messages): RegistrationSubmission.DataSet = {
+  def createFrom(userAnswers: UserAnswers)(implicit messages: Messages): RegistrationSubmission.DataSet =
 
     RegistrationSubmission.DataSet(
       data = Json.toJson(userAnswers),
       registrationPieces = mappedData(userAnswers),
-      answerSections = answerSections(userAnswers))
-  }
+      answerSections = answerSections(userAnswers)
+    )
 
   private def mappedPieces(otherIndividualsJson: JsValue) =
     List(RegistrationSubmission.MappedPiece("trust/entities/naturalPerson", otherIndividualsJson))
 
-  private def mappedData(userAnswers: UserAnswers): List[RegistrationSubmission.MappedPiece] = {
-      otherIndividualMapper.build(userAnswers) match {
-        case Some(otherIndividuals) => mappedPieces(Json.toJson(otherIndividuals))
-        case _ => mappedPieces(JsNull)
-      }
-  }
+  private def mappedData(userAnswers: UserAnswers): List[RegistrationSubmission.MappedPiece] =
+    otherIndividualMapper.build(userAnswers) match {
+      case Some(otherIndividuals) => mappedPieces(Json.toJson(otherIndividuals))
+      case _                      => mappedPieces(JsNull)
+    }
 
-  def answerSections(userAnswers: UserAnswers)
-                    (implicit messages: Messages): List[RegistrationSubmission.AnswerSection] = {
+  def answerSections(
+    userAnswers: UserAnswers
+  )(implicit messages: Messages): List[RegistrationSubmission.AnswerSection] = {
 
     val trustHasOtherIndividualYesNo = userAnswers.get(TrustHasOtherIndividualYesNoPage).contains(true)
 
@@ -58,7 +60,8 @@ class SubmissionSetFactory @Inject()(otherIndividualMapper: OtherIndividualMappe
 
     if (entitySections.nonEmpty && trustHasOtherIndividualYesNo) {
 
-      val updatedFirstSection = entitySections.head.copy(sectionKey = Some("answerPage.section.otherIndividuals.heading"))
+      val updatedFirstSection =
+        entitySections.head.copy(sectionKey = Some("answerPage.section.otherIndividuals.heading"))
 
       val updatedSections = updatedFirstSection :: entitySections.tail
 
@@ -69,21 +72,19 @@ class SubmissionSetFactory @Inject()(otherIndividualMapper: OtherIndividualMappe
     }
   }
 
-  private def convertForSubmission(section: AnswerSection): RegistrationSubmission.AnswerSection = {
+  private def convertForSubmission(section: AnswerSection): RegistrationSubmission.AnswerSection =
     RegistrationSubmission.AnswerSection(
       headingKey = section.headingKey,
       rows = section.rows.map(convertForSubmission),
       sectionKey = section.sectionKey,
       headingArgs = section.headingArgs.map(_.toString)
     )
-  }
 
-  private def convertForSubmission(row: AnswerRow): RegistrationSubmission.AnswerRow = {
+  private def convertForSubmission(row: AnswerRow): RegistrationSubmission.AnswerRow =
     RegistrationSubmission.AnswerRow(
       label = row.label,
       answer = row.answer.toString,
       labelArg = row.labelArg
     )
-  }
 
 }

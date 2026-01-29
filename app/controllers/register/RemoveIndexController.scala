@@ -46,44 +46,49 @@ trait RemoveIndexController extends FrontendBaseController with I18nSupport {
   def submitCall(index: Int, draftId: String): Call
 
   private def actions(index: Int, draftId: String) =
-    standardActionSets.identifiedUserWithData(draftId) andThen otherIndividualAction(otherIndividualAtIndex(index), draftId)
+    standardActionSets.identifiedUserWithData(draftId) andThen otherIndividualAction(
+      otherIndividualAtIndex(index),
+      draftId
+    )
 
-  private def redirect(draftId: String): Result = Redirect(controllers.register.routes.AddOtherIndividualController.onPageLoad(draftId))
+  private def redirect(draftId: String): Result = Redirect(
+    controllers.register.routes.AddOtherIndividualController.onPageLoad(draftId)
+  )
 
-  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) {
-    implicit request =>
+  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) { implicit request =>
+    val form: Form[Boolean] = formProvider(prefix)
 
-      val form: Form[Boolean] = formProvider(prefix)
-
-      Ok(view(form, draftId, index, name(request.otherIndividual), submitCall(index, draftId)))
+    Ok(view(form, draftId, index, name(request.otherIndividual), submitCall(index, draftId)))
   }
 
-  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async {
-    implicit request =>
+  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async { implicit request =>
+    val form: Form[Boolean] = formProvider(prefix)
 
-      val form: Form[Boolean] = formProvider(prefix)
-
-      form.bindFromRequest().fold(
+    form
+      .bindFromRequest()
+      .fold(
         (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors, draftId, index, name(request.otherIndividual), submitCall(index, draftId)))),
-
-        remove => {
+          Future.successful(
+            BadRequest(view(formWithErrors, draftId, index, name(request.otherIndividual), submitCall(index, draftId)))
+          ),
+        remove =>
           if (remove) {
             for {
               updatedAnswers <- Future.fromTry(request.userAnswers.deleteAtPath(otherIndividualAtIndex(index).path))
-              _ <- registrationsRepository.set(updatedAnswers)
+              _              <- registrationsRepository.set(updatedAnswers)
             } yield redirect(draftId)
           } else {
             Future.successful(redirect(draftId))
           }
-        }
       )
   }
 
-  private def name(otherIndividual: OtherIndividualViewModel)(implicit request: OtherIndividualRequiredRequest[AnyContent]): String = {
+  private def name(
+    otherIndividual: OtherIndividualViewModel
+  )(implicit request: OtherIndividualRequiredRequest[AnyContent]): String =
     otherIndividual.displayName match {
       case Some(name) => name
-      case None => Messages(s"$prefix.default")
+      case None       => Messages(s"$prefix.default")
     }
-  }
+
 }
