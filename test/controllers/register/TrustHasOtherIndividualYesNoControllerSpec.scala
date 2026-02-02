@@ -36,7 +36,7 @@ import scala.concurrent.Future
 
 class TrustHasOtherIndividualYesNoControllerSpec extends SpecBase with BeforeAndAfterEach {
 
-  private val form: Form[Boolean]                    = new YesNoFormProvider().withPrefix("trustHasOtherIndividualYesNo")
+  private val form: Form[Boolean] = new YesNoFormProvider().withPrefix("trustHasOtherIndividualYesNo")
 
   lazy val trustHasOtherIndividualYesNoRoute: String =
     routes.TrustHasOtherIndividualYesNoController.onPageLoad(draftId).url

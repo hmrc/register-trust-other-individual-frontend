@@ -64,7 +64,7 @@ class FrontendAppConfig @Inject() (
 
   lazy val trustsStoreUrl: String = servicesConfig.baseUrl("trusts-store")
 
-  private def getInt(path: String): Int         = configuration.get[Int](path)
+  private def getInt(path: String): Int = configuration.get[Int](path)
 
   private def getDate(entry: String): LocalDate =
     LocalDate.of(

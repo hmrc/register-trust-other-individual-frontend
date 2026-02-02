@@ -38,7 +38,7 @@ class AddOtherIndividualViewSpec extends OptionsViewBehaviours with TabularDataV
     AddRow("Business 4", "Business otherIndividual", featureUnavailable, featureUnavailable)
   )
 
-  val messageKeyPrefix                        = "addOtherIndividual"
+  val messageKeyPrefix = "addOtherIndividual"
 
   val form = new AddOtherIndividualFormProvider()()
 
