@@ -32,43 +32,43 @@ import views.html.register.individual.IDCardDetailsYesNoView
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class IDCardDetailsYesNoController @Inject()(
-                                              override val messagesApi: MessagesApi,
-                                              registrationsRepository: RegistrationsRepository,
-                                              @OtherIndividual navigator: Navigator,
-                                              standardActionSets: StandardActionSets,
-                                              nameAction: NameRequiredAction,
-                                              yesNoFormProvider: YesNoFormProvider,
-                                              val controllerComponents: MessagesControllerComponents,
-                                              view: IDCardDetailsYesNoView
-                                            )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class IDCardDetailsYesNoController @Inject() (
+  override val messagesApi: MessagesApi,
+  registrationsRepository: RegistrationsRepository,
+  @OtherIndividual navigator: Navigator,
+  standardActionSets: StandardActionSets,
+  nameAction: NameRequiredAction,
+  yesNoFormProvider: YesNoFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: IDCardDetailsYesNoView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController with I18nSupport {
 
   private val form = yesNoFormProvider.withPrefix("otherIndividual.idCardDetailsYesNo")
 
-  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = standardActionSets.identifiedUserWithData(draftId).andThen(nameAction(index)) {
-    implicit request =>
-
+  def onPageLoad(index: Int, draftId: String): Action[AnyContent] =
+    standardActionSets.identifiedUserWithData(draftId).andThen(nameAction(index)) { implicit request =>
       val preparedForm = request.userAnswers.get(IDCardDetailsYesNoPage(index)) match {
-        case None => form
+        case None        => form
         case Some(value) => form.fill(value)
       }
 
       Ok(view(preparedForm, request.otherIndividualName, index, draftId))
-  }
+    }
 
-  def onSubmit(index: Int, draftId: String): Action[AnyContent] = standardActionSets.identifiedUserWithData(draftId).andThen(nameAction(index)).async {
-    implicit request =>
+  def onSubmit(index: Int, draftId: String): Action[AnyContent] =
+    standardActionSets.identifiedUserWithData(draftId).andThen(nameAction(index)).async { implicit request =>
+      form
+        .bindFromRequest()
+        .fold(
+          (formWithErrors: Form[_]) =>
+            Future.successful(BadRequest(view(formWithErrors, request.otherIndividualName, index, draftId))),
+          value =>
+            for {
+              updatedAnswers <- Future.fromTry(request.userAnswers.set(IDCardDetailsYesNoPage(index), value))
+              _              <- registrationsRepository.set(updatedAnswers)
+            } yield Redirect(navigator.nextPage(IDCardDetailsYesNoPage(index), draftId, updatedAnswers))
+        )
+    }
 
-      form.bindFromRequest().fold(
-        (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors, request.otherIndividualName, index, draftId))),
-
-        value => {
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(IDCardDetailsYesNoPage(index), value))
-            _              <- registrationsRepository.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(IDCardDetailsYesNoPage(index), draftId, updatedAnswers))
-        }
-      )
-  }
 }

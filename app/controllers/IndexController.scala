@@ -30,39 +30,36 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class IndexController @Inject()(
-                                 val controllerComponents: MessagesControllerComponents,
-                                 repository: RegistrationsRepository,
-                                 identify: RegistrationIdentifierAction,
-                                 submissionDraftConnector: SubmissionDraftConnector,
-                                 trustsStoreService: TrustsStoreService
-                               )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with AnyOtherIndividuals {
+class IndexController @Inject() (
+  val controllerComponents: MessagesControllerComponents,
+  repository: RegistrationsRepository,
+  identify: RegistrationIdentifierAction,
+  submissionDraftConnector: SubmissionDraftConnector,
+  trustsStoreService: TrustsStoreService
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController with I18nSupport with AnyOtherIndividuals {
 
   def onPageLoad(draftId: String): Action[AnyContent] = identify.async { implicit request =>
-
-    def redirect(userAnswers: UserAnswers): Future[Result] = {
+    def redirect(userAnswers: UserAnswers): Future[Result] =
       for {
         _ <- repository.set(userAnswers)
         _ <- trustsStoreService.updateTaskStatus(draftId, TaskStatus.InProgress)
-      } yield {
+      } yield
         if (isAnyOtherIndividualAdded(userAnswers)) {
           Redirect(rts.AddOtherIndividualController.onPageLoad(draftId))
         } else {
           Redirect(rts.TrustHasOtherIndividualYesNoController.onPageLoad(draftId))
         }
+
+    submissionDraftConnector.getIsTrustTaxable(draftId) flatMap { isTaxable =>
+      repository.get(draftId) flatMap {
+        case Some(userAnswers) =>
+          redirect(userAnswers.copy(isTaxable = isTaxable))
+        case _                 =>
+          val userAnswers = UserAnswers(draftId, Json.obj(), request.identifier, isTaxable)
+          redirect(userAnswers)
       }
     }
-
-        submissionDraftConnector.getIsTrustTaxable(draftId) flatMap {
-          isTaxable =>
-            repository.get(draftId) flatMap {
-              case Some(userAnswers) =>
-                redirect(userAnswers.copy(isTaxable = isTaxable))
-              case _ =>
-                val userAnswers = UserAnswers(draftId, Json.obj(), request.identifier, isTaxable)
-                redirect(userAnswers)
-            }
-        }
   }
 
 }

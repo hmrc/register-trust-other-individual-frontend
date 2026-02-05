@@ -37,6 +37,7 @@ class AddOtherIndividualViewSpec extends OptionsViewBehaviours with TabularDataV
     AddRow("Business 3", "Business otherIndividual", featureUnavailable, featureUnavailable),
     AddRow("Business 4", "Business otherIndividual", featureUnavailable, featureUnavailable)
   )
+
   val messageKeyPrefix = "addOtherIndividual"
 
   val form = new AddOtherIndividualFormProvider()()
@@ -46,7 +47,13 @@ class AddOtherIndividualViewSpec extends OptionsViewBehaviours with TabularDataV
   def applyView(form: Form[_]): HtmlFormat.Appendable =
     view.apply(form, fakeDraftId, Nil, Nil, "Add other individual", maxedOut = false)(fakeRequest, messages)
 
-  def applyView(form: Form[_], inProgressProtectors: Seq[AddRow], completeProtectors: Seq[AddRow], count : Int, maxedOut: Boolean): HtmlFormat.Appendable = {
+  def applyView(
+    form: Form[_],
+    inProgressProtectors: Seq[AddRow],
+    completeProtectors: Seq[AddRow],
+    count: Int,
+    maxedOut: Boolean
+  ): HtmlFormat.Appendable = {
     val title = if (count > 1) s"You have added $count other individuals" else "You have added 1 otherIndividual"
     view.apply(form, fakeDraftId, inProgressProtectors, completeProtectors, title, maxedOut)(fakeRequest, messages)
   }
@@ -118,7 +125,10 @@ class AddOtherIndividualViewSpec extends OptionsViewBehaviours with TabularDataV
         val doc = asDocument(viewWithData)
         assertNotRenderedById(doc, "value")
         assertContainsText(doc, "You cannot add another other individual as you have entered a maximum of 25.")
-        assertContainsText(doc, "Check the other individuals you have added. If you have further other individuals to add, write to HMRC with their details.")
+        assertContainsText(
+          doc,
+          "Check the other individuals you have added. If you have further other individuals to add, write to HMRC with their details."
+        )
       }
     }
   }

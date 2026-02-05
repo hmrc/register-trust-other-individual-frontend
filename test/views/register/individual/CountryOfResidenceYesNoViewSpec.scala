@@ -25,8 +25,8 @@ import views.html.register.individual.CountryOfResidenceYesNoView
 
 class CountryOfResidenceYesNoViewSpec extends YesNoViewBehaviours {
 
-  val prefix = "otherIndividual.5mld.countryOfResidenceYesNo"
-  val index = 0
+  val prefix       = "otherIndividual.5mld.countryOfResidenceYesNo"
+  val index        = 0
   val name: String = FullName("FirstName", None, "LastName").toString
 
   val form: Form[Boolean] = new YesNoFormProvider().withPrefix(prefix)
@@ -46,4 +46,5 @@ class CountryOfResidenceYesNoViewSpec extends YesNoViewBehaviours {
 
     behave like pageWithASubmitButton(applyView(form))
   }
+
 }

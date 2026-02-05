@@ -27,12 +27,14 @@ import views.html.register.individual.CheckDetailsView
 class CheckDetailsControllerSpec extends SpecBase {
 
   private val index: Int = 0
-  private val name = FullName("Test", None, "Name")
+  private val name       = FullName("Test", None, "Name")
 
   private lazy val checkDetailsRoute = routes.CheckDetailsController.onPageLoad(index, fakeDraftId).url
 
   override val emptyUserAnswers: UserAnswers = super.emptyUserAnswers
-    .set(NamePage(index), name).success.value
+    .set(NamePage(index), name)
+    .success
+    .value
 
   "CheckDetails Controller" must {
 
@@ -44,8 +46,8 @@ class CheckDetailsControllerSpec extends SpecBase {
 
       val result = route(application, request).value
 
-      val view = application.injector.instanceOf[CheckDetailsView]
-      val printHelper = application.injector.instanceOf[OtherIndividualPrintHelper]
+      val view          = application.injector.instanceOf[CheckDetailsView]
+      val printHelper   = application.injector.instanceOf[OtherIndividualPrintHelper]
       val answerSection = printHelper.checkDetailsSection(emptyUserAnswers, name.toString, index, fakeDraftId)
 
       status(result) mustEqual OK
@@ -55,4 +57,5 @@ class CheckDetailsControllerSpec extends SpecBase {
     }
 
   }
+
 }

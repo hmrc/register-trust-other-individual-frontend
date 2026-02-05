@@ -24,46 +24,45 @@ import java.time.LocalDate
  * Trust Registration API Schema - definitions models below
  */
 
-case class OtherIndividualType(name: FullName,
-                               dateOfBirth: Option[LocalDate],
-                               identification: Option[IdentificationType],
-                               countryOfResidence: Option[String],
-                               nationality: Option[String],
-                               legallyIncapable: Option[Boolean])
+case class OtherIndividualType(
+  name: FullName,
+  dateOfBirth: Option[LocalDate],
+  identification: Option[IdentificationType],
+  countryOfResidence: Option[String],
+  nationality: Option[String],
+  legallyIncapable: Option[Boolean]
+)
 
 object OtherIndividualType {
   implicit val otherIndividualFormat: Format[OtherIndividualType] = Json.format[OtherIndividualType]
 }
 
-case class IdentificationType(nino: Option[String],
-                              passport: Option[PassportType],
-                              address: Option[AddressType])
+case class IdentificationType(nino: Option[String], passport: Option[PassportType], address: Option[AddressType])
 
 object IdentificationType {
   implicit val identificationTypeFormat: Format[IdentificationType] = Json.format[IdentificationType]
 }
 
-case class IdentificationOrgType(utr: Option[String],
-                                 address: Option[AddressType])
+case class IdentificationOrgType(utr: Option[String], address: Option[AddressType])
 
 object IdentificationOrgType {
   implicit val identificationOrgTypeFormat: Format[IdentificationOrgType] = Json.format[IdentificationOrgType]
 }
 
-case class PassportType(number: String,
-                        expirationDate: LocalDate,
-                        countryOfIssue: String)
+case class PassportType(number: String, expirationDate: LocalDate, countryOfIssue: String)
 
 object PassportType {
   implicit val passportTypeFormat: Format[PassportType] = Json.format[PassportType]
 }
 
-case class AddressType(line1: String,
-                       line2: String,
-                       line3: Option[String],
-                       line4: Option[String],
-                       postCode: Option[String],
-                       country: String)
+case class AddressType(
+  line1: String,
+  line2: String,
+  line3: Option[String],
+  line4: Option[String],
+  postCode: Option[String],
+  country: String
+)
 
 object AddressType {
   implicit val addressTypeFormat: Format[AddressType] = Json.format[AddressType]

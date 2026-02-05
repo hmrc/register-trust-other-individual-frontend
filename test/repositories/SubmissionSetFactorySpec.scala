@@ -44,7 +44,9 @@ class SubmissionSetFactorySpec extends SpecBase {
       "trust has otherIndividuals is set to 'false'" must {
         "return an empty list" in {
           val userAnswers: UserAnswers = emptyUserAnswers
-            .set(TrustHasOtherIndividualYesNoPage, false).success.value
+            .set(TrustHasOtherIndividualYesNoPage, false)
+            .success
+            .value
 
           factory.createFrom(userAnswers) mustBe RegistrationSubmission.DataSet(
             Json.toJson(userAnswers),
@@ -59,8 +61,12 @@ class SubmissionSetFactorySpec extends SpecBase {
 
           "other Individual only" in {
             val userAnswers: UserAnswers = emptyUserAnswers
-              .set(OtherIndividualStatus(0), Completed).success.value
-              .set(TrustHasOtherIndividualYesNoPage, true).success.value
+              .set(OtherIndividualStatus(0), Completed)
+              .success
+              .value
+              .set(TrustHasOtherIndividualYesNoPage, true)
+              .success
+              .value
 
             factory.answerSections(userAnswers) mustBe
               List(
@@ -80,9 +86,15 @@ class SubmissionSetFactorySpec extends SpecBase {
 
           "Other Individuals" in {
             val userAnswers: UserAnswers = emptyUserAnswers
-              .set(OtherIndividualStatus(0), Completed).success.value
-              .set(OtherIndividualStatus(1), Completed).success.value
-              .set(TrustHasOtherIndividualYesNoPage, true).success.value
+              .set(OtherIndividualStatus(0), Completed)
+              .success
+              .value
+              .set(OtherIndividualStatus(1), Completed)
+              .success
+              .value
+              .set(TrustHasOtherIndividualYesNoPage, true)
+              .success
+              .value
 
             factory.answerSections(userAnswers) mustBe
               List(
@@ -104,4 +116,5 @@ class SubmissionSetFactorySpec extends SpecBase {
       }
     }
   }
+
 }

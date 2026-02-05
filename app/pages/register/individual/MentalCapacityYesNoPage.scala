@@ -21,7 +21,7 @@ import pages.QuestionPage
 import play.api.libs.json.JsPath
 import sections.OtherIndividuals
 
-final case class MentalCapacityYesNoPage(index : Int) extends QuestionPage[YesNoDontKnow] {
+final case class MentalCapacityYesNoPage(index: Int) extends QuestionPage[YesNoDontKnow] {
 
   override def path: JsPath = OtherIndividuals.path \ index \ toString
 

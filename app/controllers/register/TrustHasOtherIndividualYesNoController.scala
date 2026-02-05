@@ -33,45 +33,44 @@ import views.html.register.TrustHasOtherIndividualYesNoView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class TrustHasOtherIndividualYesNoController @Inject()(
-                                                        override val messagesApi: MessagesApi,
-                                                        repository: RegistrationsRepository,
-                                                        @OtherIndividual navigator: Navigator,
-                                                        standardActionSets: StandardActionSets,
-                                                        formProvider: YesNoFormProvider,
-                                                        val controllerComponents: MessagesControllerComponents,
-                                                        view: TrustHasOtherIndividualYesNoView,
-                                                        trustsStoreService: TrustsStoreService
-                                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class TrustHasOtherIndividualYesNoController @Inject() (
+  override val messagesApi: MessagesApi,
+  repository: RegistrationsRepository,
+  @OtherIndividual navigator: Navigator,
+  standardActionSets: StandardActionSets,
+  formProvider: YesNoFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: TrustHasOtherIndividualYesNoView,
+  trustsStoreService: TrustsStoreService
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController with I18nSupport {
 
   private val form: Form[Boolean] = formProvider.withPrefix("trustHasOtherIndividualYesNo")
 
   def onPageLoad(draftId: String): Action[AnyContent] = standardActionSets.identifiedUserWithData(draftId) {
     implicit request =>
-
       val preparedForm = request.userAnswers.get(TrustHasOtherIndividualYesNoPage) match {
-        case None => form
+        case None        => form
         case Some(value) => form.fill(value)
       }
 
       Ok(view(preparedForm, draftId))
   }
 
-  def onSubmit(draftId: String): Action[AnyContent] = standardActionSets.identifiedUserWithData(draftId).async {
-    implicit request =>
-
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, draftId))),
-
-        value =>
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(TrustHasOtherIndividualYesNoPage, value))
-            _              <- repository.set(updatedAnswers)
-            taskStatus     = if (value) TaskStatus.InProgress else TaskStatus.Completed
-            _              <- trustsStoreService.updateTaskStatus(draftId, taskStatus)
-          } yield Redirect(navigator.nextPage(TrustHasOtherIndividualYesNoPage, draftId, updatedAnswers))
-      )
-  }
+  def onSubmit(draftId: String): Action[AnyContent] =
+    standardActionSets.identifiedUserWithData(draftId).async { implicit request =>
+      form
+        .bindFromRequest()
+        .fold(
+          formWithErrors => Future.successful(BadRequest(view(formWithErrors, draftId))),
+          value =>
+            for {
+              updatedAnswers <- Future.fromTry(request.userAnswers.set(TrustHasOtherIndividualYesNoPage, value))
+              _              <- repository.set(updatedAnswers)
+              taskStatus      = if (value) TaskStatus.InProgress else TaskStatus.Completed
+              _              <- trustsStoreService.updateTaskStatus(draftId, taskStatus)
+            } yield Redirect(navigator.nextPage(TrustHasOtherIndividualYesNoPage, draftId, updatedAnswers))
+        )
+    }
 
 }

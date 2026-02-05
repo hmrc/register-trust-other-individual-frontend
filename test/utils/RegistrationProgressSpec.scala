@@ -26,60 +26,78 @@ import viewmodels.addAnother.OtherIndividualViewModel
 import utils.RegistrationProgress
 
 class RegistrationProgressSpec extends SpecBase {
-  implicit val writes = Json.writes[OtherIndividualViewModel]
+  implicit val writes      = Json.writes[OtherIndividualViewModel]
   val registrationProgress = new RegistrationProgress()
 
   "RegistrationProgress" when {
     ".otherIndividualsStatus" should {
       "return in-progress when we added other individuals" in {
         val userAnswers = emptyUserAnswers
-          .set(TrustHasOtherIndividualYesNoPage, true).success.value
+          .set(TrustHasOtherIndividualYesNoPage, true)
+          .success
+          .value
 
         val status = registrationProgress.otherIndividualsStatus(userAnswers)
         status.value mustBe InProgress
       }
       "return completed when we added other individuals" in {
         val userAnswers = emptyUserAnswers
-          .set(TrustHasOtherIndividualYesNoPage, false).success.value
+          .set(TrustHasOtherIndividualYesNoPage, false)
+          .success
+          .value
 
         val status = registrationProgress.otherIndividualsStatus(userAnswers)
         status.value mustBe Completed
       }
       "return no status when trustHasOtherIndividuals has no answer" in {
         val userAnswers = emptyUserAnswers
-        val status = registrationProgress.otherIndividualsStatus(userAnswers)
+        val status      = registrationProgress.otherIndividualsStatus(userAnswers)
         status mustBe None
       }
       "return InProgress when OtherIndividuals is missing" in {
         val userAnswers = emptyUserAnswers
-          .set(TrustHasOtherIndividualYesNoPage, false).success.value
-          .set(OtherIndividuals, List(OtherIndividualViewModel(None, InProgress))).success.value
+          .set(TrustHasOtherIndividualYesNoPage, false)
+          .success
+          .value
+          .set(OtherIndividuals, List(OtherIndividualViewModel(None, InProgress)))
+          .success
+          .value
 
         val status = registrationProgress.otherIndividualsStatus(userAnswers)
         status.value mustBe InProgress
       }
       "return Completed when AddOtherIndividualPage is NoComplete and OtherIndividuals are completed" in {
         val userAnswers = emptyUserAnswers
-          .set(TrustHasOtherIndividualYesNoPage, true).success.value
-          .set(OtherIndividuals, List(OtherIndividualViewModel(None, Completed))).success.value
-          .set(AddOtherIndividualPage, AddOtherIndividual.NoComplete).success.value
+          .set(TrustHasOtherIndividualYesNoPage, true)
+          .success
+          .value
+          .set(OtherIndividuals, List(OtherIndividualViewModel(None, Completed)))
+          .success
+          .value
+          .set(AddOtherIndividualPage, AddOtherIndividual.NoComplete)
+          .success
+          .value
 
         val status = registrationProgress.otherIndividualsStatus(userAnswers)
         status.value mustBe Completed
       }
       "return InProgress when AddOtherIndividualPage is not NoComplete" in {
         val userAnswers = emptyUserAnswers
-          .set(TrustHasOtherIndividualYesNoPage, false).success.value
-          .set(OtherIndividuals, List(OtherIndividualViewModel(None, InProgress))).success.value
-          .set(AddOtherIndividualPage, AddOtherIndividual.YesNow).success.value
+          .set(TrustHasOtherIndividualYesNoPage, false)
+          .success
+          .value
+          .set(OtherIndividuals, List(OtherIndividualViewModel(None, InProgress)))
+          .success
+          .value
+          .set(AddOtherIndividualPage, AddOtherIndividual.YesNow)
+          .success
+          .value
 
         val status = registrationProgress.otherIndividualsStatus(userAnswers)
         status.value mustBe InProgress
       }
 
-      }
+    }
   }
-
-
 
 }

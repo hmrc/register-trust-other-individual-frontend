@@ -28,16 +28,16 @@ object AddOtherIndividual extends Enumerable.Implicits {
   case object NoComplete extends WithName("no-complete") with AddOtherIndividual
 
   val values: List[AddOtherIndividual] = List(
-    YesNow, YesLater, NoComplete
+    YesNow,
+    YesLater,
+    NoComplete
   )
 
-  val options: List[RadioOption] = values.map {
-    value =>
-      RadioOption("addOtherIndividual", value.toString)
+  val options: List[RadioOption] = values.map { value =>
+    RadioOption("addOtherIndividual", value.toString)
   }
 
   implicit val enumerable: Enumerable[AddOtherIndividual] =
     Enumerable(values.map(v => v.toString -> v): _*)
+
 }
-
-

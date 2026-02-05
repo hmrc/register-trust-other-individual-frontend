@@ -68,4 +68,5 @@ class InfoControllerSpec extends SpecBase {
       }
     }
   }
+
 }

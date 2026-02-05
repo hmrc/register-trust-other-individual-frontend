@@ -30,4 +30,5 @@ class AddOtherIndividualPageSpec extends PageBehaviours {
 
     beRemovable[AddOtherIndividual](AddOtherIndividualPage)
   }
+
 }

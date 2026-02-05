@@ -43,4 +43,5 @@ class AddOtherIndividualYesNoViewSpec extends YesNoViewBehaviours {
 
     behave like pageWithASubmitButton(applyView(form))
   }
+
 }

@@ -22,27 +22,32 @@ import play.api.libs.json._
 import play.api.libs.functional.syntax._
 import java.time.LocalDate
 
-final case class OtherIndividual(name: FullName,
-                                 dateOfBirth: Option[LocalDate],
-                                 nationalInsuranceNumber: Option[String],
-                                 ukAddress: Option[UkAddress],
-                                 internationalAddress: Option[InternationalAddress],
-                                 passportDetails: Option[PassportOrIdCardDetails],
-                                 idCardDetails: Option[PassportOrIdCardDetails],
-                                 countryOfResidence: Option[String],
-                                 countryOfNationality: Option[String],
-                                 mentalCapacityYesNo: Option[YesNoDontKnow]) {
+final case class OtherIndividual(
+  name: FullName,
+  dateOfBirth: Option[LocalDate],
+  nationalInsuranceNumber: Option[String],
+  ukAddress: Option[UkAddress],
+  internationalAddress: Option[InternationalAddress],
+  passportDetails: Option[PassportOrIdCardDetails],
+  idCardDetails: Option[PassportOrIdCardDetails],
+  countryOfResidence: Option[String],
+  countryOfNationality: Option[String],
+  mentalCapacityYesNo: Option[YesNoDontKnow]
+) {
 
   def address: Option[AddressType] = buildValue(ukAddress, internationalAddress)(buildAddress)
 
-  def identification: Option[IdentificationType] = (nationalInsuranceNumber, address, passportDetails, idCardDetails) match {
-    case (None, None, None, None) => None
-    case (Some(_), _, _, _) => Some(IdentificationType(nationalInsuranceNumber, None, None))
-    case _ => Some(IdentificationType(None, buildValue(passportDetails, idCardDetails)(buildPassport), address))
-  }
+  def identification: Option[IdentificationType] =
+    (nationalInsuranceNumber, address, passportDetails, idCardDetails) match {
+      case (None, None, None, None) => None
+      case (Some(_), _, _, _)       => Some(IdentificationType(nationalInsuranceNumber, None, None))
+      case _                        => Some(IdentificationType(None, buildValue(passportDetails, idCardDetails)(buildPassport), address))
+    }
+
 }
 
 object OtherIndividual {
+
   implicit val reads: Reads[OtherIndividual] = (
     (__ \ "name").read[FullName] and
       (__ \ "dateOfBirth").readNullable[LocalDate] and
@@ -54,13 +59,16 @@ object OtherIndividual {
       (__ \ "countryOfResidence").readNullable[String] and
       (__ \ "countryOfNationality").readNullable[String] and
       readMentalCapacity
-    )(OtherIndividual.apply _)
+  )(OtherIndividual.apply _)
 
   def readMentalCapacity: Reads[Option[YesNoDontKnow]] =
-    (__ \ "mentalCapacityYesNo").readNullable[Boolean].flatMap[Option[YesNoDontKnow]] { x: Option[Boolean] =>
-      Reads(_ => JsSuccess(YesNoDontKnow.fromBoolean(x)))
-    }.orElse {
-      (__ \ "mentalCapacityYesNo").readNullable[YesNoDontKnow]
-    }
+    (__ \ "mentalCapacityYesNo")
+      .readNullable[Boolean]
+      .flatMap[Option[YesNoDontKnow]] { x: Option[Boolean] =>
+        Reads(_ => JsSuccess(YesNoDontKnow.fromBoolean(x)))
+      }
+      .orElse {
+        (__ \ "mentalCapacityYesNo").readNullable[YesNoDontKnow]
+      }
 
 }

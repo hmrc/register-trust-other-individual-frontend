@@ -26,13 +26,13 @@ class AddOtherIndividualFormProviderSpec extends OptionFieldBehaviours {
 
   ".value" must {
 
-    val fieldName = "value"
+    val fieldName   = "value"
     val requiredKey = "addOtherIndividual.error.required"
 
     behave like optionsField[AddOtherIndividual](
       form,
       fieldName,
-      validValues  = AddOtherIndividual.values,
+      validValues = AddOtherIndividual.values,
       invalidError = FormError(fieldName, "error.invalid")
     )
 
@@ -42,4 +42,5 @@ class AddOtherIndividualFormProviderSpec extends OptionFieldBehaviours {
       requiredError = FormError(fieldName, requiredKey)
     )
   }
+
 }

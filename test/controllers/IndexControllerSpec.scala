@@ -34,9 +34,9 @@ import scala.concurrent.Future
 
 class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
 
-  private val name: FullName = FullName("Joe", None, "Bloggs")
+  private val name: FullName                                     = FullName("Joe", None, "Bloggs")
   private val submissionDraftConnector: SubmissionDraftConnector = Mockito.mock(classOf[SubmissionDraftConnector])
-  private val mockTrustsStoreService: TrustsStoreService = Mockito.mock(classOf[TrustsStoreService])
+  private val mockTrustsStoreService: TrustsStoreService         = Mockito.mock(classOf[TrustsStoreService])
 
   override protected def beforeEach(): Unit = {
     reset(mockTrustsStoreService)
@@ -52,7 +52,9 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
       "redirect to add-to page if there is at least one in-progress or completed other individual" in {
 
         val userAnswers: UserAnswers = emptyUserAnswers
-          .set(NamePage(0), name).success.value
+          .set(NamePage(0), name)
+          .success
+          .value
 
         val application = applicationBuilder(userAnswers = Some(userAnswers))
           .overrides(
@@ -69,7 +71,9 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
 
         status(result) mustEqual SEE_OTHER
 
-        redirectLocation(result).get mustBe controllers.register.routes.AddOtherIndividualController.onPageLoad(fakeDraftId).url
+        redirectLocation(result).get mustBe controllers.register.routes.AddOtherIndividualController
+          .onPageLoad(fakeDraftId)
+          .url
 
         verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
 
@@ -95,7 +99,9 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
 
         status(result) mustEqual SEE_OTHER
 
-        redirectLocation(result).get mustBe controllers.register.routes.TrustHasOtherIndividualYesNoController.onPageLoad(fakeDraftId).url
+        redirectLocation(result).get mustBe controllers.register.routes.TrustHasOtherIndividualYesNoController
+          .onPageLoad(fakeDraftId)
+          .url
 
         verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
 
@@ -136,34 +142,32 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
 
       "instantiate new set of user answers" in {
 
+        reset(registrationsRepository)
 
-          reset(registrationsRepository)
+        val application = applicationBuilder(userAnswers = None)
+          .overrides(bind[TrustsStoreService].toInstance(mockTrustsStoreService))
+          .build()
 
-          val application = applicationBuilder(userAnswers = None)
-            .overrides(bind[TrustsStoreService].toInstance(mockTrustsStoreService))
-            .build()
+        when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(None))
+        when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
+        when(submissionDraftConnector.getIsTrustTaxable(any())(any(), any())).thenReturn(Future.successful(false))
 
-          when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(None))
-          when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-          when(submissionDraftConnector.getIsTrustTaxable(any())(any(), any())).thenReturn(Future.successful(false))
+        val request = FakeRequest(GET, routes.IndexController.onPageLoad(fakeDraftId).url)
 
-          val request = FakeRequest(GET, routes.IndexController.onPageLoad(fakeDraftId).url)
+        route(application, request).value.map { _ =>
+          val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
+          verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
 
-          route(application, request).value.map { _ =>
-            val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
-            verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
+          uaCaptor.getValue.draftId        mustBe fakeDraftId
+          uaCaptor.getValue.internalAuthId mustBe "id"
 
-            uaCaptor.getValue.draftId mustBe fakeDraftId
-            uaCaptor.getValue.internalAuthId mustBe "id"
-
-            application.stop()
-          }
-
-
+          application.stop()
+        }
 
       }
 
     }
 
   }
+
 }

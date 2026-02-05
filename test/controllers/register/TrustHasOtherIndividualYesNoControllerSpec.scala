@@ -37,7 +37,9 @@ import scala.concurrent.Future
 class TrustHasOtherIndividualYesNoControllerSpec extends SpecBase with BeforeAndAfterEach {
 
   private val form: Form[Boolean] = new YesNoFormProvider().withPrefix("trustHasOtherIndividualYesNo")
-  lazy val trustHasOtherIndividualYesNoRoute: String = routes.TrustHasOtherIndividualYesNoController.onPageLoad(draftId).url
+
+  lazy val trustHasOtherIndividualYesNoRoute: String =
+    routes.TrustHasOtherIndividualYesNoController.onPageLoad(draftId).url
 
   private val baseAnswers = emptyUserAnswers.set(TrustHasOtherIndividualYesNoPage, true).success.value
 
@@ -131,7 +133,9 @@ class TrustHasOtherIndividualYesNoControllerSpec extends SpecBase with BeforeAnd
 
         status(result) mustEqual SEE_OTHER
 
-        redirectLocation(result).value mustEqual "http://localhost:9781/trusts-registration/draftId/registration-progress"
+        redirectLocation(
+          result
+        ).value mustEqual "http://localhost:9781/trusts-registration/draftId/registration-progress"
 
         verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.Completed))(any(), any())
 
@@ -191,4 +195,5 @@ class TrustHasOtherIndividualYesNoControllerSpec extends SpecBase with BeforeAnd
       application.stop()
     }
   }
+
 }

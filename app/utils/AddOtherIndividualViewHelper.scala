@@ -23,18 +23,18 @@ import sections.OtherIndividuals
 import viewmodels.addAnother.OtherIndividualViewModel
 import viewmodels.{AddRow, AddToRows}
 
-class AddOtherIndividualViewHelper(userAnswers: UserAnswers, draftId : String)(implicit messages: Messages) {
+class AddOtherIndividualViewHelper(userAnswers: UserAnswers, draftId: String)(implicit messages: Messages) {
 
-  private case class InProgressComplete(inProgress : List[AddRow], complete: List[AddRow])
+  private case class InProgressComplete(inProgress: List[AddRow], complete: List[AddRow])
 
-  private def parseName(name : Option[String]) : String = {
+  private def parseName(name: Option[String]): String = {
     val defaultValue = messages("entities.no.name.added")
     name.getOrElse(defaultValue)
   }
 
-  private def parseOtherIndividual(otherIndividual : (OtherIndividualViewModel, Int)) : AddRow = {
+  private def parseOtherIndividual(otherIndividual: (OtherIndividualViewModel, Int)): AddRow = {
 
-    val vm = otherIndividual._1
+    val vm    = otherIndividual._1
     val index = otherIndividual._2
 
     AddRow(
@@ -50,14 +50,14 @@ class AddOtherIndividualViewHelper(userAnswers: UserAnswers, draftId : String)(i
   }
 
   private def otherIndividuals: InProgressComplete = {
-    val otherIndividuals = userAnswers.get(OtherIndividuals).toList.flatten.zipWithIndex
-    val otherIndividualsComplete = otherIndividuals.filter(_._1.isComplete).map(parseOtherIndividual)
+    val otherIndividuals           = userAnswers.get(OtherIndividuals).toList.flatten.zipWithIndex
+    val otherIndividualsComplete   = otherIndividuals.filter(_._1.isComplete).map(parseOtherIndividual)
     val otherIndividualsInProgress = otherIndividuals.filterNot(_._1.isComplete).map(parseOtherIndividual)
 
     InProgressComplete(inProgress = otherIndividualsInProgress, complete = otherIndividualsComplete)
   }
 
-  def rows : AddToRows =
+  def rows: AddToRows =
     AddToRows(
       inProgress = otherIndividuals.inProgress,
       complete = otherIndividuals.complete

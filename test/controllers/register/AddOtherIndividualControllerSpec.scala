@@ -43,7 +43,7 @@ import scala.concurrent.Future
 class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach {
 
   private val index: Int = 0
-  private val max: Int = 25
+  private val max: Int   = 25
 
   private def removeOtherIndividualRoute(index: Int): String =
     controllers.register.individual.routes.RemoveOtherIndividualController.onPageLoad(index, fakeDraftId).url
@@ -62,11 +62,11 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
   private lazy val submitCompleteRoute = routes.AddOtherIndividualController.submitComplete(fakeDraftId).url
 
   private val formProvider = new AddOtherIndividualFormProvider()
-  private val form = formProvider()
+  private val form         = formProvider()
 
   private val yesNoForm = new YesNoFormProvider().withPrefix("trustHasOtherIndividualYesNo")
 
-  private val mockTrustsStoreService: TrustsStoreService = Mockito.mock(classOf[TrustsStoreService])
+  private val mockTrustsStoreService: TrustsStoreService     = Mockito.mock(classOf[TrustsStoreService])
   private val mockRegistrationProgress: RegistrationProgress = Mockito.mock(classOf[RegistrationProgress])
 
   private lazy val otherIndividualsComplete = List(
@@ -76,29 +76,58 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
   )
 
   private val userAnswersWithOtherIndividualsComplete = emptyUserAnswers
-    .set(TrustHasOtherIndividualYesNoPage, true).success.value
-    .set(NamePage(0), FullName("Name", None, "1")).success.value
-    .set(DateOfBirthYesNoPage(0), false).success.value
-    .set(NationalInsuranceYesNoPage(0), true).success.value
-    .set(NationalInsuranceNumberPage(0), "1234567890").success.value
-    .set(OtherIndividualStatus(0), Completed).success.value
-    .set(NamePage(1), FullName("Name", None, "2")).success.value
-    .set(DateOfBirthYesNoPage(1), false).success.value
-    .set(NationalInsuranceYesNoPage(1), true).success.value
-    .set(NationalInsuranceNumberPage(1), "1234567890").success.value
-    .set(OtherIndividualStatus(1), Completed).success.value
-    .set(NamePage(2), FullName("Name", None, "3")).success.value
-    .set(DateOfBirthYesNoPage(2), false).success.value
-    .set(NationalInsuranceYesNoPage(2), true).success.value
-    .set(NationalInsuranceNumberPage(2), "1234567890").success.value
-    .set(OtherIndividualStatus(2), Completed).success.value
+    .set(TrustHasOtherIndividualYesNoPage, true)
+    .success
+    .value
+    .set(NamePage(0), FullName("Name", None, "1"))
+    .success
+    .value
+    .set(DateOfBirthYesNoPage(0), false)
+    .success
+    .value
+    .set(NationalInsuranceYesNoPage(0), true)
+    .success
+    .value
+    .set(NationalInsuranceNumberPage(0), "1234567890")
+    .success
+    .value
+    .set(OtherIndividualStatus(0), Completed)
+    .success
+    .value
+    .set(NamePage(1), FullName("Name", None, "2"))
+    .success
+    .value
+    .set(DateOfBirthYesNoPage(1), false)
+    .success
+    .value
+    .set(NationalInsuranceYesNoPage(1), true)
+    .success
+    .value
+    .set(NationalInsuranceNumberPage(1), "1234567890")
+    .success
+    .value
+    .set(OtherIndividualStatus(1), Completed)
+    .success
+    .value
+    .set(NamePage(2), FullName("Name", None, "3"))
+    .success
+    .value
+    .set(DateOfBirthYesNoPage(2), false)
+    .success
+    .value
+    .set(NationalInsuranceYesNoPage(2), true)
+    .success
+    .value
+    .set(NationalInsuranceNumberPage(2), "1234567890")
+    .success
+    .value
+    .set(OtherIndividualStatus(2), Completed)
+    .success
+    .value
 
-  private def genOtherIndividuals(range: Int): UserAnswers = {
+  private def genOtherIndividuals(range: Int): UserAnswers =
     (0 until range)
-      .foldLeft(emptyUserAnswers)((ua,index) =>
-        ua.set(NamePage(index), FullName("First", None, "Last")).success.value
-      )
-  }
+      .foldLeft(emptyUserAnswers)((ua, index) => ua.set(NamePage(index), FullName("First", None, "Last")).success.value)
 
   override def beforeEach(): Unit = {
     reset(mockTrustsStoreService)
@@ -147,7 +176,9 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
 
       "return OK and the correct view for a GET" in {
 
-        val application = applicationBuilder(userAnswers = Some(emptyUserAnswers.set(TrustHasOtherIndividualYesNoPage, true).success.value)).build()
+        val application = applicationBuilder(userAnswers =
+          Some(emptyUserAnswers.set(TrustHasOtherIndividualYesNoPage, true).success.value)
+        ).build()
 
         val request = FakeRequest(GET, addOtherIndividualRoute)
 
@@ -167,7 +198,9 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
 
         "yes selected" in {
           val application =
-            applicationBuilder(userAnswers = Some(emptyUserAnswers.set(TrustHasOtherIndividualYesNoPage, false).success.value))
+            applicationBuilder(userAnswers =
+              Some(emptyUserAnswers.set(TrustHasOtherIndividualYesNoPage, false).success.value)
+            )
               .overrides(
                 bind[TrustsStoreService].to(mockTrustsStoreService)
               )
@@ -190,7 +223,9 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
 
         "no selected" in {
           val application =
-            applicationBuilder(userAnswers = Some(emptyUserAnswers.set(TrustHasOtherIndividualYesNoPage, true).success.value))
+            applicationBuilder(userAnswers =
+              Some(emptyUserAnswers.set(TrustHasOtherIndividualYesNoPage, true).success.value)
+            )
               .overrides(
                 bind[TrustsStoreService].to(mockTrustsStoreService)
               )
@@ -204,19 +239,22 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
 
           status(result) mustEqual SEE_OTHER
 
-          redirectLocation(result).value mustEqual "http://localhost:9781/trusts-registration/draftId/registration-progress"
+          redirectLocation(
+            result
+          ).value mustEqual "http://localhost:9781/trusts-registration/draftId/registration-progress"
 
           verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.Completed))(any(), any())
 
           application.stop()
         }
 
-
       }
 
       "return a Bad Request and errors when invalid data is submitted" in {
 
-        val application = applicationBuilder(userAnswers = Some(emptyUserAnswers.set(TrustHasOtherIndividualYesNoPage, true).success.value)).build()
+        val application = applicationBuilder(userAnswers =
+          Some(emptyUserAnswers.set(TrustHasOtherIndividualYesNoPage, true).success.value)
+        ).build()
 
         val request =
           FakeRequest(POST, addOnePostRoute)
@@ -253,15 +291,26 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(form, fakeDraftId, Nil, otherIndividualsComplete, "You have added 3 other individuals", maxedOut = false)(request, messages).toString
+          view(
+            form,
+            fakeDraftId,
+            Nil,
+            otherIndividualsComplete,
+            "You have added 3 other individuals",
+            maxedOut = false
+          )(request, messages).toString
 
         application.stop()
       }
 
       "populate the view without value on a GET when the question has previously been answered" in {
         val userAnswers = userAnswersWithOtherIndividualsComplete
-          .set(AddOtherIndividualPage, AddOtherIndividual.YesNow).success.value
-          .set(TrustHasOtherIndividualYesNoPage, true).success.value
+          .set(AddOtherIndividualPage, AddOtherIndividual.YesNow)
+          .success
+          .value
+          .set(TrustHasOtherIndividualYesNoPage, true)
+          .success
+          .value
 
         val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -274,7 +323,14 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(form, fakeDraftId, Nil, otherIndividualsComplete, "You have added 3 other individuals", maxedOut = false)(request, messages).toString
+          view(
+            form,
+            fakeDraftId,
+            Nil,
+            otherIndividualsComplete,
+            "You have added 3 other individuals",
+            maxedOut = false
+          )(request, messages).toString
 
         application.stop()
       }
@@ -290,7 +346,8 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
               .overrides(
                 bind[TrustsStoreService].to(mockTrustsStoreService),
                 bind[RegistrationProgress].to(mockRegistrationProgress)
-              ).build()
+              )
+              .build()
 
           when(mockRegistrationProgress.otherIndividualsStatus(any())).thenReturn(Some(InProgress))
 
@@ -319,7 +376,8 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
               .overrides(
                 bind[TrustsStoreService].to(mockTrustsStoreService),
                 bind[RegistrationProgress].to(mockRegistrationProgress)
-              ).build()
+              )
+              .build()
 
           when(mockRegistrationProgress.otherIndividualsStatus(any())).thenReturn(Some(InProgress))
 
@@ -331,7 +389,9 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
 
           status(result) mustEqual SEE_OTHER
 
-          redirectLocation(result).value mustEqual "http://localhost:9781/trusts-registration/draftId/registration-progress"
+          redirectLocation(
+            result
+          ).value mustEqual "http://localhost:9781/trusts-registration/draftId/registration-progress"
 
           verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
 
@@ -346,8 +406,12 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
           "redirect to the next page when valid data is submitted" in {
 
             val answersWithInProgress = userAnswersWithOtherIndividualsComplete
-              .set(NamePage(3), FullName("Name", None, "1")).success.value
-              .set(OtherIndividualStatus(3), InProgress).success.value
+              .set(NamePage(3), FullName("Name", None, "1"))
+              .success
+              .value
+              .set(OtherIndividualStatus(3), InProgress)
+              .success
+              .value
 
             when(mockRegistrationProgress.otherIndividualsStatus(any())).thenReturn(Some(InProgress))
 
@@ -356,7 +420,8 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
                 .overrides(
                   bind[TrustsStoreService].to(mockTrustsStoreService),
                   bind[RegistrationProgress].to(mockRegistrationProgress)
-                ).build()
+                )
+                .build()
 
             val request =
               FakeRequest(POST, addAnotherPostRoute)
@@ -366,7 +431,9 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
 
             status(result) mustEqual SEE_OTHER
 
-            redirectLocation(result).value mustEqual "http://localhost:9781/trusts-registration/draftId/registration-progress"
+            redirectLocation(
+              result
+            ).value mustEqual "http://localhost:9781/trusts-registration/draftId/registration-progress"
 
             verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
 
@@ -384,7 +451,8 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
                 .overrides(
                   bind[TrustsStoreService].to(mockTrustsStoreService),
                   bind[RegistrationProgress].to(mockRegistrationProgress)
-                ).build()
+                )
+                .build()
 
             when(mockRegistrationProgress.otherIndividualsStatus(any())).thenReturn(Some(Completed))
 
@@ -396,7 +464,9 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
 
             status(result) mustEqual SEE_OTHER
 
-            redirectLocation(result).value mustEqual "http://localhost:9781/trusts-registration/draftId/registration-progress"
+            redirectLocation(
+              result
+            ).value mustEqual "http://localhost:9781/trusts-registration/draftId/registration-progress"
 
             verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.Completed))(any(), any())
 
@@ -405,10 +475,11 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
         }
       }
 
-
       "return a Bad Request and errors when invalid data is submitted" in {
 
-        val application = applicationBuilder(userAnswers = Some(emptyUserAnswers.set(TrustHasOtherIndividualYesNoPage, false).success.value)).build()
+        val application = applicationBuilder(userAnswers =
+          Some(emptyUserAnswers.set(TrustHasOtherIndividualYesNoPage, false).success.value)
+        ).build()
 
         val request =
           FakeRequest(POST, addAnotherPostRoute)
@@ -434,19 +505,25 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
 
       "return correct view when otherIndividuals is maxed out" in {
 
-        val otherIndividuals = List(
-          genOtherIndividuals(max)        )
+        val otherIndividuals = List(genOtherIndividuals(max))
 
-        val userAnswers = otherIndividuals.foldLeft(emptyUserAnswers)((x, acc) => acc.copy(data = x.data.deepMerge(acc.data)))
+        val userAnswers =
+          otherIndividuals.foldLeft(emptyUserAnswers)((x, acc) => acc.copy(data = x.data.deepMerge(acc.data)))
 
-        val application = applicationBuilder(userAnswers = Some(userAnswers.set(TrustHasOtherIndividualYesNoPage, true).success.value)).build()
+        val application = applicationBuilder(userAnswers =
+          Some(userAnswers.set(TrustHasOtherIndividualYesNoPage, true).success.value)
+        ).build()
 
         val request = FakeRequest(GET, addOtherIndividualRoute)
 
         val result = route(application, request).value
 
-        contentAsString(result) must include("You cannot add another other individual as you have entered a maximum of 25.")
-        contentAsString(result) must include("If you have further other individuals to add, write to HMRC with their details.")
+        contentAsString(result) must include(
+          "You cannot add another other individual as you have entered a maximum of 25."
+        )
+        contentAsString(result) must include(
+          "If you have further other individuals to add, write to HMRC with their details."
+        )
 
         application.stop()
       }
@@ -455,16 +532,19 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
 
         "registration progress is complete" in {
 
-          val otherIndividuals = List(
-            genOtherIndividuals(max)        )
+          val otherIndividuals = List(genOtherIndividuals(max))
 
-          val userAnswers = otherIndividuals.foldLeft(emptyUserAnswers)((x, acc) => acc.copy(data = x.data.deepMerge(acc.data)))
+          val userAnswers =
+            otherIndividuals.foldLeft(emptyUserAnswers)((x, acc) => acc.copy(data = x.data.deepMerge(acc.data)))
 
-          val application = applicationBuilder(userAnswers = Some(userAnswers.set(TrustHasOtherIndividualYesNoPage, false).success.value))
+          val application = applicationBuilder(userAnswers =
+            Some(userAnswers.set(TrustHasOtherIndividualYesNoPage, false).success.value)
+          )
             .overrides(
               bind[TrustsStoreService].to(mockTrustsStoreService),
               bind[RegistrationProgress].to(mockRegistrationProgress)
-            ).build()
+            )
+            .build()
 
           val request = FakeRequest(POST, submitCompleteRoute)
 
@@ -474,7 +554,9 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
 
           status(result) mustEqual SEE_OTHER
 
-          redirectLocation(result).value mustEqual "http://localhost:9781/trusts-registration/draftId/registration-progress"
+          redirectLocation(
+            result
+          ).value mustEqual "http://localhost:9781/trusts-registration/draftId/registration-progress"
 
           verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.Completed))(any(), any())
 
@@ -487,13 +569,17 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
             genOtherIndividuals(max)
           )
 
-          val userAnswers = otherIndividuals.foldLeft(emptyUserAnswers)((x, acc) => acc.copy(data = x.data.deepMerge(acc.data)))
+          val userAnswers =
+            otherIndividuals.foldLeft(emptyUserAnswers)((x, acc) => acc.copy(data = x.data.deepMerge(acc.data)))
 
-          val application = applicationBuilder(userAnswers = Some(userAnswers.set(TrustHasOtherIndividualYesNoPage, false).success.value))
+          val application = applicationBuilder(userAnswers =
+            Some(userAnswers.set(TrustHasOtherIndividualYesNoPage, false).success.value)
+          )
             .overrides(
               bind[TrustsStoreService].to(mockTrustsStoreService),
               bind[RegistrationProgress].to(mockRegistrationProgress)
-            ).build()
+            )
+            .build()
 
           val request = FakeRequest(POST, submitCompleteRoute)
 
@@ -503,7 +589,9 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
 
           status(result) mustEqual SEE_OTHER
 
-          redirectLocation(result).value mustEqual "http://localhost:9781/trusts-registration/draftId/registration-progress"
+          redirectLocation(
+            result
+          ).value mustEqual "http://localhost:9781/trusts-registration/draftId/registration-progress"
 
           verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
 
@@ -515,4 +603,5 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
     }
 
   }
+
 }

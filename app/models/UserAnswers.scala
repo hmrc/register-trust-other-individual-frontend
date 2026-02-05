@@ -28,12 +28,12 @@ trait ReadableUserAnswers {
 
   val isTaxable: Boolean = true
 
-  def get[A](page: Gettable[A])(implicit rds: Reads[A]): Option[A] = {
+  def get[A](page: Gettable[A])(implicit rds: Reads[A]): Option[A] =
     Reads.at(page.path).reads(data) match {
       case JsSuccess(value, _) => Some(value)
-      case JsError(_) => None
+      case JsError(_)          => None
     }
-  }
+
 }
 
 case class ReadOnlyUserAnswers(data: JsObject) extends ReadableUserAnswers
@@ -43,27 +43,26 @@ object ReadOnlyUserAnswers {
 }
 
 final case class UserAnswers(
-                              draftId: String,
-                              data: JsObject = Json.obj(),
-                              internalAuthId :String,
-                              override val isTaxable: Boolean = true
-                            ) extends ReadableUserAnswers with Logging {
+  draftId: String,
+  data: JsObject = Json.obj(),
+  internalAuthId: String,
+  override val isTaxable: Boolean = true
+) extends ReadableUserAnswers with Logging {
 
   def set[A](page: Settable[A], value: A)(implicit writes: Writes[A]): Try[UserAnswers] = {
 
     val updatedData = data.setObject(page.path, Json.toJson(value)) match {
       case JsSuccess(jsValue, _) =>
         Success(jsValue)
-      case JsError(errors) =>
-        val errorPaths = errors.collectFirst{ case (path, e) => s"$path $e"}
+      case JsError(errors)       =>
+        val errorPaths = errors.collectFirst { case (path, e) => s"$path $e" }
         logger.warn(s"Unable to set path ${page.path} due to errors $errorPaths")
         Failure(JsResultException(errors))
     }
 
-    updatedData.flatMap {
-      d =>
-        val updatedAnswers = copy (data = d)
-        page.cleanup(Some(value), updatedAnswers)
+    updatedData.flatMap { d =>
+      val updatedAnswers = copy(data = d)
+      page.cleanup(Some(value), updatedAnswers)
     }
   }
 
@@ -72,23 +71,25 @@ final case class UserAnswers(
     val updatedData = data.removeObject(query.path) match {
       case JsSuccess(jsValue, _) =>
         Success(jsValue)
-      case JsError(_) =>
+      case JsError(_)            =>
         Success(data)
     }
 
-    updatedData.flatMap {
-      d =>
-        val updatedAnswers = copy (data = d)
-        query.cleanup(None, updatedAnswers)
+    updatedData.flatMap { d =>
+      val updatedAnswers = copy(data = d)
+      query.cleanup(None, updatedAnswers)
     }
   }
 
-  def deleteAtPath(path: JsPath): Try[UserAnswers] = {
-    data.removeObject(path).map(obj => copy(data = obj)).fold(
-      _ => Success(this),
-      result => Success(result)
-    )
-  }
+  def deleteAtPath(path: JsPath): Try[UserAnswers] =
+    data
+      .removeObject(path)
+      .map(obj => copy(data = obj))
+      .fold(
+        _ => Success(this),
+        result => Success(result)
+      )
+
 }
 
 object UserAnswers {
@@ -102,7 +103,7 @@ object UserAnswers {
         (__ \ "data").read[JsObject] and
         (__ \ "internalId").read[String] and
         (__ \ "isTaxable").readWithDefault[Boolean](true)
-      ) (UserAnswers.apply _)
+    )(UserAnswers.apply _)
   }
 
   implicit lazy val writes: OWrites[UserAnswers] = {
@@ -114,6 +115,7 @@ object UserAnswers {
         (__ \ "data").write[JsObject] and
         (__ \ "internalId").write[String] and
         (__ \ "isTaxable").write[Boolean]
-      ) (unlift(UserAnswers.unapply))
+    )(unlift(UserAnswers.unapply))
   }
+
 }

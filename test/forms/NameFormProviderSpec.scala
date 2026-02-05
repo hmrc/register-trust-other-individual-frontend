@@ -24,14 +24,14 @@ import wolfendale.scalacheck.regexp.RegexpGen
 class NameFormProviderSpec extends StringFieldBehaviours with OptionalFieldBehaviours {
 
   val messagePrefix: String = "otherIndividual.name"
-  val form: Form[FullName] = new NameFormProvider().withPrefix(messagePrefix)
+  val form: Form[FullName]  = new NameFormProvider().withPrefix(messagePrefix)
 
   ".firstName" must {
 
-    val fieldName = "firstName"
+    val fieldName   = "firstName"
     val requiredKey = s"$messagePrefix.error.firstname.required"
-    val lengthKey = s"$messagePrefix.error.firstname.length"
-    val maxLength = 35
+    val lengthKey   = s"$messagePrefix.error.firstname.length"
+    val maxLength   = 35
 
     behave like fieldThatBindsValidData(
       form,
@@ -96,10 +96,10 @@ class NameFormProviderSpec extends StringFieldBehaviours with OptionalFieldBehav
 
   ".lastName" must {
 
-    val fieldName = "lastName"
+    val fieldName   = "lastName"
     val requiredKey = s"$messagePrefix.error.lastname.required"
-    val lengthKey = s"$messagePrefix.error.lastname.length"
-    val maxLength = 35
+    val lengthKey   = s"$messagePrefix.error.lastname.length"
+    val maxLength   = 35
 
     behave like fieldThatBindsValidData(
       form,

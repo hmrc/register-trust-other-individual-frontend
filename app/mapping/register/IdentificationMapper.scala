@@ -19,16 +19,15 @@ package mapping.register
 import models.{Address, AddressType, InternationalAddress, PassportOrIdCardDetails, PassportType, UkAddress}
 import utils.Constants.GB
 
-object IdentificationMapper  {
+object IdentificationMapper {
 
-  def buildAddress(address: Address): Option[AddressType] = {
+  def buildAddress(address: Address): Option[AddressType] =
     address match {
-      case a: UkAddress => Some(buildUkAddress(a))
+      case a: UkAddress            => Some(buildUkAddress(a))
       case a: InternationalAddress => Some(buildInternationalAddress(a))
     }
-  }
 
-  private def buildUkAddress(address: UkAddress): AddressType = {
+  private def buildUkAddress(address: UkAddress): AddressType =
     AddressType(
       line1 = address.line1,
       line2 = address.line2,
@@ -37,9 +36,8 @@ object IdentificationMapper  {
       postCode = Some(address.postcode),
       country = GB
     )
-  }
 
-  private def buildInternationalAddress(address: InternationalAddress): AddressType = {
+  private def buildInternationalAddress(address: InternationalAddress): AddressType =
     AddressType(
       line1 = address.line1,
       line2 = address.line2,
@@ -48,17 +46,14 @@ object IdentificationMapper  {
       postCode = None,
       country = address.country
     )
-  }
 
-  def buildPassport(details: PassportOrIdCardDetails): Option[PassportType] = {
+  def buildPassport(details: PassportOrIdCardDetails): Option[PassportType] =
     Some(PassportType(details.cardNumber, details.expiryDate, details.country))
-  }
 
-  def buildValue[A, B](o1: Option[A], o2: Option[A])
-                      (build: A => Option[B]): Option[B] = (o1, o2) match {
+  def buildValue[A, B](o1: Option[A], o2: Option[A])(build: A => Option[B]): Option[B] = (o1, o2) match {
     case (Some(v), _) => build(v)
     case (_, Some(v)) => build(v)
-    case _ => None
+    case _            => None
   }
 
 }
