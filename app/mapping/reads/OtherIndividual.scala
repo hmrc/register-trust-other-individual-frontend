@@ -59,12 +59,12 @@ object OtherIndividual {
       (__ \ "countryOfResidence").readNullable[String] and
       (__ \ "countryOfNationality").readNullable[String] and
       readMentalCapacity
-  )(OtherIndividual.apply _)
+  )(OtherIndividual.apply)
 
   def readMentalCapacity: Reads[Option[YesNoDontKnow]] =
     (__ \ "mentalCapacityYesNo")
       .readNullable[Boolean]
-      .flatMap[Option[YesNoDontKnow]] { x: Option[Boolean] =>
+      .flatMap[Option[YesNoDontKnow]] { (x: Option[Boolean]) =>
         Reads(_ => JsSuccess(YesNoDontKnow.fromBoolean(x)))
       }
       .orElse {

@@ -74,7 +74,7 @@ class UkAddressFormProvider @Inject() extends Mappings {
               regexp(Validation.postcodeRegex, "ukAddress.error.postcode.invalidCharacters")
             )
           )
-    )(UkAddress.apply)(UkAddress.unapply)
+    )(UkAddress.apply)(o => Some(Tuple.fromProductTyped(o)))
   )
 
 }

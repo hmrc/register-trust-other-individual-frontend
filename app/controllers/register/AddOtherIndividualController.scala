@@ -126,7 +126,7 @@ class AddOtherIndividualController @Inject() (
     yesNoForm
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) =>
+        (formWithErrors: Form[?]) =>
           Future.successful(
             BadRequest(yesNoView(formWithErrors, draftId))
           ),
@@ -143,7 +143,7 @@ class AddOtherIndividualController @Inject() (
     addAnotherForm
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) => {
+        (formWithErrors: Form[?]) => {
 
           val rows                = new AddOtherIndividualViewHelper(request.userAnswers, draftId).rows
           val allOtherIndividuals = otherIndividuals(request.userAnswers)

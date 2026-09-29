@@ -133,7 +133,7 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
     reset(mockTrustsStoreService)
     reset(mockRegistrationProgress)
 
-    when(mockTrustsStoreService.updateTaskStatus(any(), any())(any(), any()))
+    when(mockTrustsStoreService.updateTaskStatus(any(), any())(using any(), any()))
       .thenReturn(Future.successful(HttpResponse(OK, "")))
   }
 
@@ -189,7 +189,7 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(form, fakeDraftId)(request, messages).toString
+          view(form, fakeDraftId)(using request, messages).toString
 
         application.stop()
       }
@@ -216,7 +216,7 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
 
           redirectLocation(result).value mustEqual nameRoute
 
-          verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+          verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(using any(), any())
 
           application.stop()
         }
@@ -243,7 +243,7 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
             result
           ).value mustEqual "http://localhost:9781/trusts-registration/draftId/registration-progress"
 
-          verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.Completed))(any(), any())
+          verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.Completed))(using any(), any())
 
           application.stop()
         }
@@ -269,7 +269,7 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
         status(result) mustEqual BAD_REQUEST
 
         contentAsString(result) mustEqual
-          view(boundForm, fakeDraftId)(request, messages).toString
+          view(boundForm, fakeDraftId)(using request, messages).toString
 
         application.stop()
       }
@@ -298,7 +298,7 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
             otherIndividualsComplete,
             "You have added 3 other individuals",
             maxedOut = false
-          )(request, messages).toString
+          )(using request, messages).toString
 
         application.stop()
       }
@@ -330,7 +330,7 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
             otherIndividualsComplete,
             "You have added 3 other individuals",
             maxedOut = false
-          )(request, messages).toString
+          )(using request, messages).toString
 
         application.stop()
       }
@@ -361,7 +361,7 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
 
           redirectLocation(result).value mustEqual irts.NameController.onPageLoad(index, fakeDraftId).url
 
-          verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+          verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(using any(), any())
 
           application.stop()
         }
@@ -393,7 +393,7 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
             result
           ).value mustEqual "http://localhost:9781/trusts-registration/draftId/registration-progress"
 
-          verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+          verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(using any(), any())
 
           application.stop()
         }
@@ -435,7 +435,10 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
               result
             ).value mustEqual "http://localhost:9781/trusts-registration/draftId/registration-progress"
 
-            verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+            verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(using
+              any(),
+              any()
+            )
 
             application.stop()
           }
@@ -468,7 +471,7 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
               result
             ).value mustEqual "http://localhost:9781/trusts-registration/draftId/registration-progress"
 
-            verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.Completed))(any(), any())
+            verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.Completed))(using any(), any())
 
             application.stop()
           }
@@ -494,7 +497,10 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
         status(result) mustEqual BAD_REQUEST
 
         contentAsString(result) mustEqual
-          view(boundForm, fakeDraftId, Nil, Nil, "Add other individual", maxedOut = false)(request, messages).toString
+          view(boundForm, fakeDraftId, Nil, Nil, "Add other individual", maxedOut = false)(using
+            request,
+            messages
+          ).toString
 
         application.stop()
       }
@@ -558,7 +564,7 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
             result
           ).value mustEqual "http://localhost:9781/trusts-registration/draftId/registration-progress"
 
-          verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.Completed))(any(), any())
+          verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.Completed))(using any(), any())
 
           application.stop()
         }
@@ -593,7 +599,7 @@ class AddOtherIndividualControllerSpec extends SpecBase with BeforeAndAfterEach 
             result
           ).value mustEqual "http://localhost:9781/trusts-registration/draftId/registration-progress"
 
-          verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+          verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(using any(), any())
 
           application.stop()
         }

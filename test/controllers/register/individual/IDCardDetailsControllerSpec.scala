@@ -62,7 +62,7 @@ class IDCardDetailsControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, countryOptions, name.toString, index, draftId)(request, messages).toString
+        view(form, countryOptions, name.toString, index, draftId)(using request, messages).toString
 
       application.stop()
     }
@@ -88,7 +88,7 @@ class IDCardDetailsControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(cardDetails), countryOptions, name.toString, index, draftId)(request, messages).toString
+        view(form.fill(cardDetails), countryOptions, name.toString, index, draftId)(using request, messages).toString
 
       application.stop()
     }
@@ -153,7 +153,7 @@ class IDCardDetailsControllerSpec extends SpecBase {
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, countryOptions, name.toString, index, draftId)(request, messages).toString
+        view(boundForm, countryOptions, name.toString, index, draftId)(using request, messages).toString
 
       application.stop()
     }

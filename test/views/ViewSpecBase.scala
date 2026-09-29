@@ -39,7 +39,7 @@ trait ViewSpecBase extends SpecBase {
   }
 
   def assertEqualsMessage(doc: Document, cssSelector: String, expectedMessageKey: String, args: Any*): Assertion =
-    assertEqualsValue(doc, cssSelector, ViewUtils.breadcrumbTitle(messages(expectedMessageKey, args: _*)))
+    assertEqualsValue(doc, cssSelector, ViewUtils.breadcrumbTitle(messages(expectedMessageKey, args*)))
 
   def assertEqualsValue(doc: Document, cssSelector: String, expectedValue: String): Assertion = {
     val elements = doc.select(cssSelector)
@@ -53,7 +53,7 @@ trait ViewSpecBase extends SpecBase {
   def assertPageTitleEqualsMessage(doc: Document, expectedMessageKey: String, args: Any*): Assertion = {
     val headers = doc.getElementsByTag("h1")
     headers.size                                 mustBe 1
-    headers.first.text.replaceAll("\u00a0", " ") mustBe messages(expectedMessageKey, args: _*).replaceAll("&nbsp;", " ")
+    headers.first.text.replaceAll("\u00a0", " ") mustBe messages(expectedMessageKey, args*).replaceAll("&nbsp;", " ")
   }
 
   def assertPageTitleWithCaptionEqualsMessages(
@@ -85,7 +85,7 @@ trait ViewSpecBase extends SpecBase {
     val expectedCaption =
       s"${messages(s"$expectedMessageKey.caption.hidden")} ${messages(s"$expectedMessageKey.caption", captionParam)}"
 
-    val expectedHeading = messages(s"$expectedMessageKey.heading", args: _*)
+    val expectedHeading = messages(s"$expectedMessageKey.heading", args*)
 
     val expected = s"$expectedCaption $expectedHeading"
       .replaceAll("&nbsp;", " ")

@@ -32,7 +32,7 @@ class FakeDraftIdRetrievalActionProvider(dataToReturn: Option[UserAnswers]) exte
 
   val mockedRepository: RegistrationsRepository = Mockito.mock(classOf[RegistrationsRepository])
 
-  when(mockedRepository.get(any())(any())).thenReturn(Future.successful(dataToReturn))
+  when(mockedRepository.get(any())(using any())).thenReturn(Future.successful(dataToReturn))
 
   override def apply(draftId: String) = new DraftIdDataRetrievalAction(draftId, mockedRepository, executionContext)
 

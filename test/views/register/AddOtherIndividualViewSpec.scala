@@ -44,18 +44,21 @@ class AddOtherIndividualViewSpec extends OptionsViewBehaviours with TabularDataV
 
   val view: AddOtherIndividualView = viewFor[AddOtherIndividualView](Some(emptyUserAnswers))
 
-  def applyView(form: Form[_]): HtmlFormat.Appendable =
-    view.apply(form, fakeDraftId, Nil, Nil, "Add other individual", maxedOut = false)(fakeRequest, messages)
+  def applyView(form: Form[?]): HtmlFormat.Appendable =
+    view.apply(form, fakeDraftId, Nil, Nil, "Add other individual", maxedOut = false)(using fakeRequest, messages)
 
   def applyView(
-    form: Form[_],
+    form: Form[?],
     inProgressProtectors: Seq[AddRow],
     completeProtectors: Seq[AddRow],
     count: Int,
     maxedOut: Boolean
   ): HtmlFormat.Appendable = {
     val title = if (count > 1) s"You have added $count other individuals" else "You have added 1 otherIndividual"
-    view.apply(form, fakeDraftId, inProgressProtectors, completeProtectors, title, maxedOut)(fakeRequest, messages)
+    view.apply(form, fakeDraftId, inProgressProtectors, completeProtectors, title, maxedOut)(using
+      fakeRequest,
+      messages
+    )
   }
 
   "AddOtherIndividualView" when {

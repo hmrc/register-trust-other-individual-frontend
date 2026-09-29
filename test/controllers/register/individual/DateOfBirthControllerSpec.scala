@@ -57,7 +57,7 @@ class DateOfBirthControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, name.toString, index, draftId)(request, messages).toString
+        view(form, name.toString, index, draftId)(using request, messages).toString
 
       application.stop()
     }
@@ -83,7 +83,7 @@ class DateOfBirthControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(validAnswer), name.toString, index, draftId)(request, messages).toString
+        view(form.fill(validAnswer), name.toString, index, draftId)(using request, messages).toString
 
       application.stop()
     }
@@ -134,7 +134,7 @@ class DateOfBirthControllerSpec extends SpecBase {
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, name.toString, index, draftId)(request, messages).toString
+        view(boundForm, name.toString, index, draftId)(using request, messages).toString
 
       application.stop()
     }

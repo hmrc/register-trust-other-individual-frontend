@@ -35,8 +35,8 @@ class PassportDetailsYesNoViewSpec extends YesNoViewBehaviours {
 
     val view = viewFor[PassportDetailsYesNoView](Some(emptyUserAnswers))
 
-    def applyView(form: Form[_]): HtmlFormat.Appendable =
-      view.apply(form, name.toString, index, draftId)(fakeRequest, messages)
+    def applyView(form: Form[?]): HtmlFormat.Appendable =
+      view.apply(form, name.toString, index, draftId)(using fakeRequest, messages)
 
     behave like dynamicTitlePage(applyView(form), messageKeyPrefix, name.toString)
 

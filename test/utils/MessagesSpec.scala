@@ -32,7 +32,7 @@ class MessagesSpec extends SpecBase {
     "features.welsh-language-support" -> true
   )
 
-  override lazy val fakeApplication: Application = new GuiceApplicationBuilder()
+  override def fakeApplication(): Application = new GuiceApplicationBuilder()
     .configure(configs)
     .build()
 

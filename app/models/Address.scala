@@ -60,13 +60,12 @@ object Address {
     implicit def convertToSupertype[A, B >: A](a: Reads[A]): Reads[B] =
       a.map(identity)
 
-    UkAddress.formats or
-      InternationalAddress.formats
+    UkAddress.formats.or(InternationalAddress.formats)
   }
 
   implicit lazy val writes: Writes[Address] = Writes {
-    case address: UkAddress            => Json.toJson(address)(UkAddress.formats)
-    case address: InternationalAddress => Json.toJson(address)(InternationalAddress.formats)
+    case address: UkAddress            => Json.toJson(address)(using UkAddress.formats)
+    case address: InternationalAddress => Json.toJson(address)(using InternationalAddress.formats)
   }
 
 }

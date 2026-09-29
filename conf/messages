@@ -290,10 +290,6 @@ addOtherIndividual.maxedOut.paragraph = Check the other individuals you have add
 addOtherIndividual.maxedOut.all = You cannot enter another other individual as you have entered a maximum of 50.
 addOtherIndividual.maxedOut.all.paragraph = Check the other individuals you have added. If you have further other individuals to add, write to HMRC with their details.
 
-addOtherIndividualYesNo.title = Do you want to add an other individual?
-addOtherIndividualYesNo.heading = Do you want to add an other individual?
-addOtherIndividualYesNo.error.required = Select yes if you want to add an other individual
-
 otherIndividualsInfo.title = Information you’ll need to provide
 otherIndividualsInfo.heading = Information you’ll need to provide
 otherIndividualsInfo.caption = Other individuals

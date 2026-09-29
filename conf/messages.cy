@@ -14,10 +14,6 @@ addOtherIndividual.maxedOut.paragraph = Gwiriwch yr unigolion eraill rydych wedi
 addOtherIndividual.no-complete = Na, rwyf wedi ychwanegu’r holl unigolion eraill
 addOtherIndividual.title = Ychwanegu unigolyn arall
 
-addOtherIndividualYesNo.error.required = Dewiswch ‘Iawn’ os ydych am ychwanegu unigolyn arall
-addOtherIndividualYesNo.heading = A ydych am ychwanegu unigolyn arall?
-addOtherIndividualYesNo.title = A ydych am ychwanegu unigolyn arall?
-
 answerPage.section.otherIndividual.subheading = Unigolyn Arall {0}
 answerPage.section.otherIndividuals.heading = Unigolion Eraill
 

@@ -62,7 +62,7 @@ class CountryOfNationalityControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, countryOptions, draftId, index, name.toString)(request, messages).toString
+        view(form, countryOptions, draftId, index, name.toString)(using request, messages).toString
 
       application.stop()
     }
@@ -90,7 +90,7 @@ class CountryOfNationalityControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(SPAIN), countryOptions, draftId, index, name.toString)(request, messages).toString
+        view(form.fill(SPAIN), countryOptions, draftId, index, name.toString)(using request, messages).toString
 
       application.stop()
     }
@@ -145,7 +145,7 @@ class CountryOfNationalityControllerSpec extends SpecBase {
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, countryOptions, draftId, index, name.toString)(request, messages).toString
+        view(boundForm, countryOptions, draftId, index, name.toString)(using request, messages).toString
 
       application.stop()
     }

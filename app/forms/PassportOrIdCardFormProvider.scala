@@ -68,7 +68,7 @@ class PassportOrIdCardFormProvider @Inject() (appConfig: FrontendAppConfig) exte
           )
         )
       )
-    )(PassportOrIdCardDetails.apply)(PassportOrIdCardDetails.unapply)
+    )(PassportOrIdCardDetails.apply)(o => Some(Tuple.fromProductTyped(o)))
   )
 
 }

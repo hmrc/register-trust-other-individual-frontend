@@ -39,7 +39,7 @@ class TrustsStoreConnectorSpec extends SpecBase with WireMockHelper {
           Seq(
             "microservice.services.trusts-store.port" -> server.port(),
             "auditing.enabled"                        -> false
-          ): _*
+          )*
         )
         .build()
 
@@ -65,7 +65,7 @@ class TrustsStoreConnectorSpec extends SpecBase with WireMockHelper {
           Seq(
             "microservice.services.trusts-store.port" -> server.port(),
             "auditing.enabled"                        -> false
-          ): _*
+          )*
         )
         .build()
 

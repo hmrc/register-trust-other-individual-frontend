@@ -54,7 +54,7 @@ class NameFormProvider @Inject() extends Mappings {
             regexp(Validation.nameRegex, s"$prefix.error.lastname.invalid")
           )
         )
-    )(FullName.apply)(FullName.unapply)
+    )(FullName.apply)(o => Some(Tuple.fromProductTyped(o)))
   )
 
 }

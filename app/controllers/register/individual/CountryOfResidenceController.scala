@@ -40,7 +40,6 @@ class CountryOfResidenceController @Inject() (
   standardActionSets: StandardActionSets,
   nameAction: NameRequiredAction,
   formProvider: CountryFormProvider,
-  standardActions: StandardActionSets,
   val controllerComponents: MessagesControllerComponents,
   view: CountryOfResidenceView,
   val countryOptions: CountryOptionsNonUK
@@ -64,7 +63,7 @@ class CountryOfResidenceController @Inject() (
       form
         .bindFromRequest()
         .fold(
-          (formWithErrors: Form[_]) =>
+          (formWithErrors: Form[?]) =>
             Future.successful(
               BadRequest(view(formWithErrors, countryOptions.options(), draftId, index, request.otherIndividualName))
             ),

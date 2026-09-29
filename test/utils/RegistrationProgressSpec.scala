@@ -20,14 +20,14 @@ import base.SpecBase
 import models.Status.{Completed, InProgress}
 import models.register.pages.AddOtherIndividual
 import pages.register.{AddOtherIndividualPage, TrustHasOtherIndividualYesNoPage}
-import play.api.libs.json.Json
+import play.api.libs.json.{Json, OWrites}
 import sections.OtherIndividuals
 import viewmodels.addAnother.OtherIndividualViewModel
 import utils.RegistrationProgress
 
 class RegistrationProgressSpec extends SpecBase {
-  implicit val writes      = Json.writes[OtherIndividualViewModel]
-  val registrationProgress = new RegistrationProgress()
+  implicit val writes: OWrites[OtherIndividualViewModel] = Json.writes[OtherIndividualViewModel]
+  val registrationProgress                               = new RegistrationProgress()
 
   "RegistrationProgress" when {
     ".otherIndividualsStatus" should {

@@ -103,7 +103,7 @@ object UserAnswers {
         (__ \ "data").read[JsObject] and
         (__ \ "internalId").read[String] and
         (__ \ "isTaxable").readWithDefault[Boolean](true)
-    )(UserAnswers.apply _)
+    )(UserAnswers.apply)
   }
 
   implicit lazy val writes: OWrites[UserAnswers] = {
@@ -115,7 +115,7 @@ object UserAnswers {
         (__ \ "data").write[JsObject] and
         (__ \ "internalId").write[String] and
         (__ \ "isTaxable").write[Boolean]
-    )(unlift(UserAnswers.unapply))
+    )(o => Tuple.fromProductTyped(o))
   }
 
 }

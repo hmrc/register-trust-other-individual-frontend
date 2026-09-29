@@ -43,12 +43,6 @@ object IdentificationType {
   implicit val identificationTypeFormat: Format[IdentificationType] = Json.format[IdentificationType]
 }
 
-case class IdentificationOrgType(utr: Option[String], address: Option[AddressType])
-
-object IdentificationOrgType {
-  implicit val identificationOrgTypeFormat: Format[IdentificationOrgType] = Json.format[IdentificationOrgType]
-}
-
 case class PassportType(number: String, expirationDate: LocalDate, countryOfIssue: String)
 
 object PassportType {

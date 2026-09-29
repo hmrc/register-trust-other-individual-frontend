@@ -34,8 +34,8 @@ class NameViewSpec extends QuestionViewBehaviours[FullName] with Generators {
 
   "Name view" must {
 
-    def applyView(form: Form[_]): HtmlFormat.Appendable =
-      view.apply(form, index, draftId)(fakeRequest, messages)
+    def applyView(form: Form[?]): HtmlFormat.Appendable =
+      view.apply(form, index, draftId)(using fakeRequest, messages)
 
     behave like normalPage(applyView(form), messageKeyPrefix)
 

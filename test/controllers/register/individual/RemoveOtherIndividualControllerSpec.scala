@@ -73,7 +73,7 @@ class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation 
             index,
             defaultOtherIndividualName,
             routes.RemoveOtherIndividualController.onSubmit(index, draftId)
-          )(request, messages).toString
+          )(using request, messages).toString
 
         application.stop()
       }
@@ -105,7 +105,7 @@ class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation 
             index,
             testName.toString,
             routes.RemoveOtherIndividualController.onSubmit(index, draftId)
-          )(request, messages).toString
+          )(using request, messages).toString
 
         application.stop()
       }
@@ -127,8 +127,8 @@ class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation 
       "YES is submitted and trustee is removed" in {
 
         reset(registrationsRepository)
-        when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-        when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(None))
+        when(registrationsRepository.set(any())(using any(), any())).thenReturn(Future.successful(true))
+        when(registrationsRepository.get(any())(using any())).thenReturn(Future.successful(None))
 
         val application =
           applicationBuilder(userAnswers = Some(userAnswers)).build()
@@ -143,7 +143,7 @@ class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation 
         redirectLocation(result).value mustEqual addToPageRoute
 
         val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
-        verify(registrationsRepository, times(1)).set(uaCaptor.capture)(any(), any())
+        verify(registrationsRepository, times(1)).set(uaCaptor.capture)(using any(), any())
         uaCaptor.getValue.get(OtherIndividual(index)) mustNot be(defined)
 
         application.stop()
@@ -152,8 +152,8 @@ class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation 
       "NO is submitted and trustee is not removed" in {
 
         reset(registrationsRepository)
-        when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-        when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(None))
+        when(registrationsRepository.set(any())(using any(), any())).thenReturn(Future.successful(true))
+        when(registrationsRepository.get(any())(using any())).thenReturn(Future.successful(None))
 
         val application =
           applicationBuilder(userAnswers = Some(userAnswers)).build()
@@ -168,7 +168,7 @@ class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation 
         redirectLocation(result).value mustEqual addToPageRoute
 
         val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
-        verify(registrationsRepository, times(0)).set(uaCaptor.capture)(any(), any())
+        verify(registrationsRepository, times(0)).set(uaCaptor.capture)(using any(), any())
 
         application.stop()
       }
@@ -202,7 +202,7 @@ class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation 
           index,
           defaultOtherIndividualName,
           routes.RemoveOtherIndividualController.onSubmit(index, draftId)
-        )(request, messages).toString
+        )(using request, messages).toString
 
       application.stop()
     }

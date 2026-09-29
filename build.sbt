@@ -1,19 +1,23 @@
-import play.sbt.routes.RoutesKeys
-import scoverage.ScoverageKeys
-import uk.gov.hmrc.versioning.SbtGitVersioning.autoImport.majorVersion
+import uk.gov.hmrc.DefaultBuildSettings.targetJvm
 
-lazy val appName: String = "register-trust-other-individual-frontend"
+ThisBuild / scalaVersion := "3.9.0"
+ThisBuild / majorVersion := 1
+ThisBuild / targetJvm := "jvm-21"
 
-ThisBuild / scalaVersion := "2.13.18"
-ThisBuild / majorVersion := 0
-
-lazy val root = (project in file("."))
+lazy val microservice = Project("register-trust-other-individual-frontend", file("."))
   .enablePlugins(PlayScala, SbtDistributablesPlugin)
   .disablePlugins(JUnitXmlReportPlugin) // Required to prevent https://github.com/scalatest/scalatest/issues/1427
-  .settings(CodeCoverageSettings())
   .settings(
-    name := appName,
-    RoutesKeys.routesImport += "models._",
+    CodeCoverageSettings(),
+    scalacOptions ++= Seq(
+      "-Wconf:msg=unused import&src=conf/.*:s",
+      "-Wconf:msg=unused import&src=routes/.*:s",
+      "-Wconf:msg=unused import&src=html/.*:s",
+      "-Wconf:msg=unused import&src=views/.*:s",
+      "-Wconf:msg=Flag.*repeatedly:s",
+      "-feature"
+    ),
+    routesImport += "models._",
     TwirlKeys.templateImports ++= Seq(
       "play.twirl.api.HtmlFormat",
       "play.twirl.api.HtmlFormat._",
@@ -21,11 +25,9 @@ lazy val root = (project in file("."))
       "uk.gov.hmrc.hmrcfrontend.views.html.components._",
       "uk.gov.hmrc.hmrcfrontend.views.html.helpers._",
       "views.ViewUtils._",
-      "models.Mode",
       "controllers.routes._"
     ),
     PlayKeys.playDefaultPort := 8841,
-    scalacOptions ++= Seq("-feature"),
     libraryDependencies ++= AppDependencies()
   )
 

@@ -64,7 +64,7 @@ class InternationalAddressFormProvider @Inject() extends Mappings {
               nonEmptyString("country", "internationalAddress.error.country.required")
             )
           )
-    )(InternationalAddress.apply)(InternationalAddress.unapply)
+    )(InternationalAddress.apply)(o => Some(Tuple.fromProductTyped(o)))
   )
 
 }

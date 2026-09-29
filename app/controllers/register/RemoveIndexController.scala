@@ -67,7 +67,7 @@ trait RemoveIndexController extends FrontendBaseController with I18nSupport {
     form
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) =>
+        (formWithErrors: Form[?]) =>
           Future.successful(
             BadRequest(view(formWithErrors, draftId, index, name(request.otherIndividual), submitCall(index, draftId)))
           ),

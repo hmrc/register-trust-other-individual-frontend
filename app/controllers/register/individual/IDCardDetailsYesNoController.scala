@@ -61,7 +61,7 @@ class IDCardDetailsYesNoController @Inject() (
       form
         .bindFromRequest()
         .fold(
-          (formWithErrors: Form[_]) =>
+          (formWithErrors: Form[?]) =>
             Future.successful(BadRequest(view(formWithErrors, request.otherIndividualName, index, draftId))),
           value =>
             for {

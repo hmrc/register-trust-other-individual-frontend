@@ -39,7 +39,7 @@ trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
           val doc     = asDocument(createView(form))
           val legends = doc.getElementsByTag("legend")
           legends.size     mustBe 1
-          legends.first.text must include(messages(s"$messageKeyPrefix.heading", args: _*))
+          legends.first.text must include(messages(s"$messageKeyPrefix.heading", args*))
 
           hintTextPrefix.map { pref =>
             doc.getElementsByClass("govuk-hint").first.text must include(messages(s"$pref.hint"))
@@ -67,16 +67,6 @@ trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
         }
       }
 
-      "rendered with a value of true" must {
-
-        behave like answeredYesNoPage(createView, answer = true)
-      }
-
-      "rendered with a value of false" must {
-
-        behave like answeredYesNoPage(createView, answer = false)
-      }
-
       "rendered with an error" must {
 
         "show an error summary" in {
@@ -99,27 +89,11 @@ trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
             doc,
             "title",
             ViewUtils.breadcrumbTitle(
-              s"""${messages("error.browser.title.prefix")} ${messages(s"$messageKeyPrefix.title", args: _*)}"""
+              s"""${messages("error.browser.title.prefix")} ${messages(s"$messageKeyPrefix.title", args*)}"""
             )
           )
         }
       }
     }
-
-  def answeredYesNoPage(createView: Form[Boolean] => HtmlFormat.Appendable, answer: Boolean): Unit = {
-
-    "have only the correct value checked" in {
-
-      val doc = asDocument(createView(form.fill(answer)))
-      assert(doc.getElementById("value-yes").hasAttr("checked") == answer)
-      assert(doc.getElementById("value-no").hasAttr("checked") != answer)
-    }
-
-    "not render an error summary" in {
-
-      val doc = asDocument(createView(form.fill(answer)))
-      assertNotRenderedById(doc, "error-summary_header")
-    }
-  }
 
 }

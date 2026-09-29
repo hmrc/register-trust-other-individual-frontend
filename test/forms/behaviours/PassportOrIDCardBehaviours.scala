@@ -46,7 +46,7 @@ trait PassportOrIDCardBehaviours
       }
     }
 
-  def passportOrIdCardNumberField(form: Form[_], fieldName: String, invalidError: FormError): Unit =
+  def passportOrIdCardNumberField(form: Form[?], fieldName: String, invalidError: FormError): Unit =
 
     s"not bind strings which do not match valid passport or id card number format " in {
       val generator = stringsWithMaxLength(30)
@@ -56,15 +56,6 @@ trait PassportOrIDCardBehaviours
           result.errors mustEqual Seq(invalidError)
         }
       }
-    }
-
-  def mandatoryPassportOrIdDateField(form: Form[PassportOrIdCardDetails], key: String, requiredAllKey: String): Unit =
-
-    "fail to bind an empty date" in {
-
-      val result = form.bind(Map.empty[String, String]).apply(key)
-
-      result.errors must contain(FormError(key, requiredAllKey, List.empty))
     }
 
   def passportOrIDCardInvalidDateField(form: Form[PassportOrIdCardDetails], key: String, requiredAllKey: String): Unit =
