@@ -17,7 +17,7 @@
 package repositories
 
 import mapping.register.OtherIndividualMapper
-import models._
+import models.*
 import pages.register.TrustHasOtherIndividualYesNoPage
 import play.api.i18n.Messages
 import play.api.libs.json.{JsNull, JsValue, Json}
@@ -58,7 +58,7 @@ class SubmissionSetFactory @Inject() (
       otherIndividualAnswersHelper.otherIndividuals(userAnswers)
     ).flatten.flatten
 
-    if (entitySections.nonEmpty && trustHasOtherIndividualYesNo) {
+    if entitySections.nonEmpty && trustHasOtherIndividualYesNo then {
 
       val updatedFirstSection =
         entitySections.head.copy(sectionKey = Some("answerPage.section.otherIndividuals.heading"))

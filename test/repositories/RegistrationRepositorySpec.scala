@@ -18,7 +18,7 @@ package repositories
 
 import base.SpecBase
 import connectors.SubmissionDraftConnector
-import models._
+import models.*
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito
 import org.mockito.Mockito.{verify, when}

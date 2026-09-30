@@ -40,7 +40,7 @@ trait StringFieldBehaviours extends FieldBehaviours with OptionalFieldBehaviours
     s"not bind strings longer than $maxLength characters" in
       forAll(stringsLongerThan(maxLength) -> "longString") { string =>
         val result = form.bind(Map(fieldName -> string)).apply(fieldName)
-        if (result.errors.size > 1) {
+        if result.errors.size > 1 then {
           result.errors must contain allOf (lengthError, invalidError)
         } else {
           result.errors must contain oneOf (lengthError, invalidError)

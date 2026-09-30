@@ -20,7 +20,7 @@ import play.twirl.api.{Html, HtmlFormat}
 import views.behaviours.ViewBehaviours
 import views.html.MainTemplate
 
-import scala.jdk.CollectionConverters._
+import scala.jdk.CollectionConverters.*
 
 class MainTemplateViewSpec extends ViewBehaviours {
 

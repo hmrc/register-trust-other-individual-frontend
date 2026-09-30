@@ -33,7 +33,7 @@ trait TabularDataViewBehaviours extends ViewSpecBase {
 
     val dataWithIndex = data.zipWithIndex
 
-    for ((item, index) <- dataWithIndex) {
+    for (item, index) <- dataWithIndex do {
       val element = elements.get(index)
 
       element.text must include(item.name)

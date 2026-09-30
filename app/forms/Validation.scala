@@ -23,7 +23,6 @@ object Validation {
   val nameRegex     = "^[A-Za-z0-9 ,.()/&'-]*$"
 
   val addressLineRegex            = "^[A-Za-z0-9 ,.()/&'-]*$"
-  val validNinoFormat: String     = "[[A-Z]&&[^DFIQUV]][[A-Z]&&[^DFIQUVO]] ?\\d{2} ?\\d{2} ?\\d{2} ?[A-D]{1}"
   val passportOrIdCardNumberRegEx = """^([A-Za-z0-9]{1,30})$"""
 
 }

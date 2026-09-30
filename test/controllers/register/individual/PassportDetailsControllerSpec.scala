@@ -24,7 +24,7 @@ import navigation.{FakeNavigator, Navigator}
 import pages.register.individual.{NamePage, PassportDetailsPage}
 import play.api.inject.bind
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import utils.InputOption
 import utils.countryOptions.CountryOptions
 import views.html.register.individual.PassportDetailsView

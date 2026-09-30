@@ -19,7 +19,7 @@ package controllers.register
 import base.SpecBase
 import forms.YesNoFormProvider
 import models.TaskStatus
-import org.mockito.ArgumentMatchers.{any, eq => mEq}
+import org.mockito.ArgumentMatchers.{any, eq as mEq}
 import org.mockito.Mockito
 import org.mockito.Mockito.{reset, verify, when}
 import org.scalatest.BeforeAndAfterEach
@@ -27,7 +27,7 @@ import pages.register.TrustHasOtherIndividualYesNoPage
 import play.api.data.Form
 import play.api.inject.bind
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import services.TrustsStoreService
 import uk.gov.hmrc.http.HttpResponse
 import views.html.register.TrustHasOtherIndividualYesNoView

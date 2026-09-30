@@ -20,13 +20,13 @@ import base.SpecBase
 import connectors.SubmissionDraftConnector
 import models.{FullName, TaskStatus, UserAnswers}
 import org.mockito.{ArgumentCaptor, Mockito}
-import org.mockito.ArgumentMatchers.{any, eq => mEq}
+import org.mockito.ArgumentMatchers.{any, eq as mEq}
 import org.mockito.Mockito.{reset, verify, when}
 import org.scalatest.BeforeAndAfterEach
 import pages.register.individual.NamePage
 import play.api.inject.bind
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import services.TrustsStoreService
 import uk.gov.hmrc.http.HttpResponse
 

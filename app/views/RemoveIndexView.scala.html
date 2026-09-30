@@ -25,7 +25,7 @@ errorSummary: ErrorSummary,
 submitButton: SubmitButton
 )
 
-@(form: Form[?], draftId: String, index: Int, name: String, action: Call)(implicit request: RequestHeader, messages: Messages)
+@(form: Form[?], name: String, action: Call)(implicit request: RequestHeader, messages: Messages)
 
 @mainTemplate(
     title = s"${errorPrefix(form)}${messages("removeOtherIndividualYesNo.title")}",

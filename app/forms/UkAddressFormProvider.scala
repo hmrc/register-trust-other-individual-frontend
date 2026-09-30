@@ -16,12 +16,12 @@
 
 package forms
 
-import forms.helpers.WhitespaceHelper._
+import forms.helpers.WhitespaceHelper.*
 import forms.mappings.Mappings
 
 import javax.inject.Inject
 import models.UkAddress
-import play.api.data.Forms._
+import play.api.data.Forms.*
 import play.api.data.Form
 
 class UkAddressFormProvider @Inject() extends Mappings {

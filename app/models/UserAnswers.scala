@@ -17,7 +17,7 @@
 package models
 
 import play.api.Logging
-import play.api.libs.json._
+import play.api.libs.json.*
 import queries.{Gettable, Settable}
 
 import scala.util.{Failure, Success, Try}
@@ -96,7 +96,7 @@ object UserAnswers {
 
   implicit lazy val reads: Reads[UserAnswers] = {
 
-    import play.api.libs.functional.syntax._
+    import play.api.libs.functional.syntax.*
 
     (
       (__ \ "_id").read[String] and
@@ -108,7 +108,7 @@ object UserAnswers {
 
   implicit lazy val writes: OWrites[UserAnswers] = {
 
-    import play.api.libs.functional.syntax._
+    import play.api.libs.functional.syntax.*
 
     (
       (__ \ "_id").write[String] and

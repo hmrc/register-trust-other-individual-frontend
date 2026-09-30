@@ -31,7 +31,7 @@ import pages.register.{AddOtherIndividualPage, AddOtherIndividualYesNoPage, Trus
 import play.api.Logging
 import play.api.data.Form
 import play.api.i18n.{I18nSupport, Messages, MessagesApi, MessagesProvider}
-import play.api.mvc._
+import play.api.mvc.*
 import repositories.RegistrationsRepository
 import services.TrustsStoreService
 import uk.gov.hmrc.http.HttpVerbs.GET
@@ -101,7 +101,7 @@ class AddOtherIndividualController @Inject() (
         logger.info(s"[Session ID: ${request.sessionId}] ${request.internalId} has added no other individuals")
         Ok(yesNoView(yesNoForm, draftId))
       case _ =>
-        if (allOtherIndividuals.isMaxedOut) {
+        if allOtherIndividuals.isMaxedOut then {
           logger.info(s"[Session ID: ${request.sessionId}] ${request.internalId} has maxed out otherIndividuals")
         } else {
           logger.info(s"[Session ID: ${request.sessionId}] ${request.internalId} has not maxed out otherIndividuals")
@@ -134,7 +134,7 @@ class AddOtherIndividualController @Inject() (
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(AddOtherIndividualYesNoPage, value))
             _              <- registrationsRepository.set(updatedAnswers)
-            _              <- setTaskStatus(draftId, if (value) TaskStatus.InProgress else TaskStatus.Completed)
+            _              <- setTaskStatus(draftId, if value then TaskStatus.InProgress else TaskStatus.Completed)
           } yield Redirect(navigator.nextPage(AddOtherIndividualYesNoPage, draftId, updatedAnswers))
       )
   }

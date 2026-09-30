@@ -17,12 +17,12 @@
 package controllers.register
 
 import base.SpecBase
-import org.mockito.ArgumentMatchers.{eq => eqTo, _}
+import org.mockito.ArgumentMatchers.{eq as eqTo, *}
 import org.mockito.Mockito
 import org.mockito.Mockito.{never, verify}
 import play.api.inject.bind
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import uk.gov.hmrc.play.audit.http.connector.AuditConnector
 
 class LogoutControllerSpec extends SpecBase {

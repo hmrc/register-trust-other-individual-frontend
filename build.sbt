@@ -14,6 +14,7 @@ lazy val microservice = Project("register-trust-other-individual-frontend", file
       "-Wconf:msg=unused import&src=routes/.*:s",
       "-Wconf:msg=unused import&src=html/.*:s",
       "-Wconf:msg=unused import&src=views/.*:s",
+      "-Wconf:src=routes/.*:s",
       "-Wconf:msg=Flag.*repeatedly:s",
       "-feature"
     ),

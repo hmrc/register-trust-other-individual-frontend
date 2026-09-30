@@ -16,10 +16,10 @@
 
 package mapping.reads
 
-import mapping.register.IdentificationMapper._
-import models._
-import play.api.libs.json._
-import play.api.libs.functional.syntax._
+import mapping.register.IdentificationMapper.*
+import models.*
+import play.api.libs.json.*
+import play.api.libs.functional.syntax.*
 import java.time.LocalDate
 
 final case class OtherIndividual(

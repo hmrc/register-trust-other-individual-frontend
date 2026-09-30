@@ -25,7 +25,7 @@ import pages.register.individual.{CountryOfNationalityInTheUkYesNoPage, NamePage
 import play.api.data.Form
 import play.api.inject.bind
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import views.html.register.individual.CountryOfNationalityInTheUkYesNoView
 
 class CountryOfNationalityInTheUkYesNoControllerSpec extends SpecBase {

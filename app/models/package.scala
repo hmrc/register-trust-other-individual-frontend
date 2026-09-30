@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import play.api.libs.json._
+import play.api.libs.json.*
 
 package object models {
 
@@ -76,7 +76,7 @@ package object models {
 
       oldValue match {
         case oldValue: JsArray if index >= 0 && index <= oldValue.value.length =>
-          if (index == oldValue.value.length) {
+          if index == oldValue.value.length then {
             JsSuccess(oldValue.append(newValue))
           } else {
             JsSuccess(JsArray(oldValue.value.updated(index, newValue)))

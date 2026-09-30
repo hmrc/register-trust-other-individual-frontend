@@ -22,7 +22,7 @@ import javax.inject.Inject
 import models.{ReadOnlyUserAnswers, UserAnswers}
 import play.api.http
 import play.api.i18n.Messages
-import play.api.libs.json._
+import play.api.libs.json.*
 import uk.gov.hmrc.http.HeaderCarrier
 
 import scala.concurrent.{ExecutionContext, Future}

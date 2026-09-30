@@ -16,7 +16,7 @@
 
 package generators
 
-import models._
+import models.*
 import models.register.pages.AddOtherIndividual
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.{Arbitrary, Gen}

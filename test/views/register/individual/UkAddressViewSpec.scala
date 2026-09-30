@@ -17,7 +17,7 @@
 package views.register.individual
 
 import forms.UkAddressFormProvider
-import models.FullName
+import models.{FullName, UkAddress}
 import play.api.data.Form
 import play.twirl.api.HtmlFormat
 import views.behaviours.UkAddressViewBehaviours
@@ -29,7 +29,7 @@ class UkAddressViewSpec extends UkAddressViewBehaviours {
   val index            = 0
   val name: FullName   = FullName("FirstName", None, "LastName")
 
-  override val form = new UkAddressFormProvider()()
+  override val form: Form[UkAddress] = new UkAddressFormProvider()()
 
   "UkAddressView" must {
 

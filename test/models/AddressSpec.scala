@@ -42,4 +42,5 @@ class AddressSpec extends SpecBase {
       Json.toJson[Address](intl) mustEqual Json.toJson(intl)
     }
   }
+
 }

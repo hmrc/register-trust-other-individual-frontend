@@ -26,7 +26,7 @@ case class OtherIndividualViewModel(name: Option[FullName], status: Status) {
 
 object OtherIndividualViewModel {
 
-  import play.api.libs.functional.syntax._
+  import play.api.libs.functional.syntax.*
 
   implicit val reads: Reads[OtherIndividualViewModel] = (
     (__ \ "name").readNullable[FullName] and

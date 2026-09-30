@@ -41,7 +41,7 @@ trait QuestionViewBehaviours[A] extends ViewBehaviours {
 
       "rendered" must {
 
-        for (field <- fields)
+        for field <- fields do
 
           s"contain an input for $field" in {
             val doc = asDocument(createView(form))
@@ -70,7 +70,7 @@ trait QuestionViewBehaviours[A] extends ViewBehaviours {
         }
       }
 
-      for (field <- fields) {
+      for field <- fields do {
 
         s"rendered with an error with field '$field'" must {
 
@@ -97,7 +97,7 @@ trait QuestionViewBehaviours[A] extends ViewBehaviours {
 
         s"show an error associated with the field '${field._1}'" in {
 
-          val fieldId = if (field._1.contains("_")) {
+          val fieldId = if field._1.contains("_") then {
             field._1.replace("_", ".")
           } else {
             field._1
@@ -135,7 +135,7 @@ trait QuestionViewBehaviours[A] extends ViewBehaviours {
 
       "rendered" must {
 
-        for (field <- fields)
+        for field <- fields do
 
           s"contain an input for $field" in {
             val doc = asDocument(createView(form))
@@ -196,14 +196,14 @@ trait QuestionViewBehaviours[A] extends ViewBehaviours {
 
       "rendered" must {
 
-        for (field <- textFields)
+        for field <- textFields do
 
           s"contain an input for $field" in {
             val doc = asDocument(createView(form))
             assertRenderedById(doc, field._1)
           }
 
-        for (field <- dateFields)
+        for field <- dateFields do
 
           s"contain an input for $field" in {
             val doc = asDocument(createView(form))
@@ -232,7 +232,7 @@ trait QuestionViewBehaviours[A] extends ViewBehaviours {
         }
       }
 
-      for (field <- textFields)
+      for field <- textFields do
 
         s"rendered with an error with field '$field'" must {
 

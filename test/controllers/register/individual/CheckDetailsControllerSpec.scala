@@ -20,7 +20,7 @@ import base.SpecBase
 import models.{FullName, UserAnswers}
 import pages.register.individual.NamePage
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import utils.print.OtherIndividualPrintHelper
 import views.html.register.individual.CheckDetailsView
 

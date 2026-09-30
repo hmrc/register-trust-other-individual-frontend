@@ -16,7 +16,7 @@
 
 package utils
 
-import controllers.register.individual.{routes => individualRts}
+import controllers.register.individual.routes as individualRts
 import models.UserAnswers
 import play.api.i18n.Messages
 import sections.OtherIndividuals
@@ -40,7 +40,7 @@ class AddOtherIndividualViewHelper(userAnswers: UserAnswers, draftId: String)(im
     AddRow(
       name = parseName(vm.name.map(_.toString)),
       typeLabel = messages("entities.otherIndividual"),
-      changeUrl = if (vm.isComplete) {
+      changeUrl = if vm.isComplete then {
         individualRts.CheckDetailsController.onPageLoad(index, draftId).url
       } else {
         individualRts.NameController.onPageLoad(index, draftId).url

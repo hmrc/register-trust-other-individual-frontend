@@ -17,7 +17,7 @@
 package models
 
 import base.SpecBase
-import play.api.libs.json._
+import play.api.libs.json.*
 
 object EnumerableSpec {
 
@@ -38,7 +38,7 @@ object EnumerableSpec {
 
 class EnumerableSpec extends SpecBase with Enumerable.Implicits {
 
-  import EnumerableSpec._
+  import EnumerableSpec.*
 
   ".reads" must {
 

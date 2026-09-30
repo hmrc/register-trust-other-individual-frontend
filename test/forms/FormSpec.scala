@@ -28,7 +28,7 @@ trait FormSpec extends SpecBase {
       .bind(data)
       .fold(
         formWithErrors => {
-          for (error <- expectedErrors)
+          for error <- expectedErrors do
             formWithErrors.errors      must contain(FormError(error.key, error.message, error.args))
           formWithErrors.errors.size mustBe expectedErrors.size
         },

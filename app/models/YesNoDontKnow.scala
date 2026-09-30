@@ -31,7 +31,7 @@ object YesNoDontKnow extends Enumerable.Implicits {
   )
 
   def fromBoolean(v: Option[Boolean]): Option[YesNoDontKnow] = v match {
-    case Some(value) => if (value) Some(Yes) else Some(No)
+    case Some(value) => if value then Some(Yes) else Some(No)
     case None        => Some(DontKnow)
   }
 

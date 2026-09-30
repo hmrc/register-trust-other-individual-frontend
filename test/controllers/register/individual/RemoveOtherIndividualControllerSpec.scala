@@ -18,7 +18,7 @@ package controllers.register.individual
 
 import base.SpecBase
 import forms.YesNoFormProvider
-import models.Status._
+import models.Status.*
 import models.{FullName, UserAnswers}
 import org.mockito.ArgumentCaptor
 import org.mockito.ArgumentMatchers.any
@@ -27,13 +27,13 @@ import pages.entitystatus.OtherIndividualStatus
 import pages.register.individual.NamePage
 import play.api.data.Form
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{route, _}
+import play.api.test.Helpers.{route, *}
 import sections.OtherIndividual
 import views.html.RemoveIndexView
 
 import scala.concurrent.Future
 
-class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation {
+class RemoveOtherIndividualControllerSpec extends SpecBase {
 
   private val prefix                              = "removeOtherIndividual"
   private val formProvider                        = new YesNoFormProvider()
@@ -69,8 +69,6 @@ class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation 
         contentAsString(result) mustEqual
           view(
             form(prefix),
-            fakeDraftId,
-            index,
             defaultOtherIndividualName,
             routes.RemoveOtherIndividualController.onSubmit(index, draftId)
           )(using request, messages).toString
@@ -101,8 +99,6 @@ class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation 
         contentAsString(result) mustEqual
           view(
             form(prefix),
-            fakeDraftId,
-            index,
             testName.toString,
             routes.RemoveOtherIndividualController.onSubmit(index, draftId)
           )(using request, messages).toString
@@ -198,8 +194,6 @@ class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation 
       contentAsString(result) mustEqual
         view(
           boundForm,
-          fakeDraftId,
-          index,
           defaultOtherIndividualName,
           routes.RemoveOtherIndividualController.onSubmit(index, draftId)
         )(using request, messages).toString

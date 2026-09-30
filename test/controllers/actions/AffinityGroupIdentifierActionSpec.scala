@@ -22,8 +22,8 @@ import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito
 import org.mockito.Mockito.when
 import play.api.mvc.{Action, AnyContent, DefaultActionBuilder, Results}
-import play.api.test.Helpers._
-import uk.gov.hmrc.auth.core._
+import play.api.test.Helpers.*
+import uk.gov.hmrc.auth.core.*
 import uk.gov.hmrc.auth.core.retrieve.{Retrieval, ~}
 
 import scala.concurrent.Future
@@ -39,7 +39,7 @@ class AffinityGroupIdentifierActionSpec extends SpecBase {
 
   val utr = "0987654321"
 
-  override lazy val trustsAuth = new TrustsAuthorisedFunctions(mockAuthConnector, appConfig)
+  override lazy val trustsAuth: TrustsAuthorisedFunctions = new TrustsAuthorisedFunctions(mockAuthConnector, appConfig)
 
   private val noEnrollment = Enrolments(Set())
 

@@ -17,21 +17,21 @@
 package controllers.register
 
 import base.SpecBase
-import controllers.register.individual.{routes => irts}
+import controllers.register.individual.routes as irts
 import forms.{AddOtherIndividualFormProvider, YesNoFormProvider}
 import models.Status.{Completed, InProgress}
 import models.register.pages.AddOtherIndividual
 import models.{FullName, TaskStatus, UserAnswers}
-import org.mockito.ArgumentMatchers.{any, eq => mEq}
+import org.mockito.ArgumentMatchers.{any, eq as mEq}
 import org.mockito.Mockito
 import org.mockito.Mockito.{reset, verify, when}
 import org.scalatest.BeforeAndAfterEach
 import pages.entitystatus.OtherIndividualStatus
-import pages.register.individual._
+import pages.register.individual.*
 import pages.register.{AddOtherIndividualPage, TrustHasOtherIndividualYesNoPage}
 import play.api.inject.bind
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import services.TrustsStoreService
 import uk.gov.hmrc.http.HttpResponse
 import utils.RegistrationProgress

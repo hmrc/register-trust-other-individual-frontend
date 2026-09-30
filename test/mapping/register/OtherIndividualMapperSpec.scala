@@ -19,10 +19,10 @@ package mapping.register
 import base.SpecBase
 import generators.Generators
 import mapping.reads.OtherIndividual
-import models._
-import pages.register.individual._
+import models.*
+import pages.register.individual.*
 import play.api.libs.json.Json
-import utils.Constants._
+import utils.Constants.*
 
 import java.time.LocalDate
 

@@ -23,11 +23,11 @@ object DateErrorFormatter {
 
   def formatArgs(args: Seq[Any])(implicit messages: Messages): Seq[String] = {
     val dateArgs = Seq("day", "month", "year")
-    args.map(arg => if (dateArgs.contains(arg)) messages(s"date.$arg").toLowerCase else arg.toString)
+    args.map(arg => if dateArgs.contains(arg) then messages(s"date.$arg").toLowerCase else arg.toString)
   }
 
   def addErrorClass(error: Option[FormError], dateArg: String): String =
-    if (error.isDefined && (error.get.args.contains(dateArg) || error.get.args.isEmpty)) {
+    if error.isDefined && (error.get.args.contains(dateArg) || error.get.args.isEmpty) then {
       s"govuk-input--error"
     } else {
       ""

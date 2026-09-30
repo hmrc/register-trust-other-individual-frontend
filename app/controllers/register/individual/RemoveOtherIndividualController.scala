@@ -16,7 +16,7 @@
 
 package controllers.register.individual
 
-import controllers.actions._
+import controllers.actions.*
 import controllers.actions.register.OtherIndividualRequiredActionImpl
 import controllers.register.RemoveIndexController
 import forms.RemoveIndexFormProvider

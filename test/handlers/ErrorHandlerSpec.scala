@@ -39,4 +39,5 @@ class ErrorHandlerSpec extends SpecBase {
         injector.instanceOf[PageNotFoundView].apply()(using fakeRequest, messages).toString
     }
   }
+
 }

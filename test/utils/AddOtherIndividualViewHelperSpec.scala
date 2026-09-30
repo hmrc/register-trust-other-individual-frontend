@@ -17,11 +17,11 @@
 package utils
 
 import base.SpecBase
-import controllers.register.individual.{routes => irts}
+import controllers.register.individual.routes as irts
 import models.Status.{Completed, InProgress}
 import models.{FullName, UkAddress, UserAnswers}
 import pages.entitystatus.OtherIndividualStatus
-import pages.register.{individual => ind}
+import pages.register.individual as ind
 import viewmodels.{AddRow, AddToRows}
 
 class AddOtherIndividualViewHelperSpec extends SpecBase {

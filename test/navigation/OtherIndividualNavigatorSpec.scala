@@ -17,10 +17,10 @@
 package navigation
 
 import base.SpecBase
-import controllers.register.individual.routes._
+import controllers.register.individual.routes.*
 import generators.Generators
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
-import pages.register.individual._
+import pages.register.individual.*
 import utils.Constants.ES
 
 class OtherIndividualNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Generators {

@@ -17,7 +17,7 @@
 package mapping.register
 
 import mapping.reads.OtherIndividuals
-import models.YesNoDontKnow._
+import models.YesNoDontKnow.*
 import models.{OtherIndividualType, UserAnswers}
 
 class OtherIndividualMapper {

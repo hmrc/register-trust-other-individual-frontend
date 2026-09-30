@@ -17,7 +17,7 @@
 package controllers.register
 
 import models.{OtherIndividuals, ReadableUserAnswers}
-import sections.{OtherIndividuals => section}
+import sections.OtherIndividuals as section
 
 trait AnyOtherIndividuals {
 

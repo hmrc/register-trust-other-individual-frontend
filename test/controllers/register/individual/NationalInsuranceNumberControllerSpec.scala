@@ -24,7 +24,7 @@ import navigation.{FakeNavigator, Navigator}
 import pages.register.individual.{NamePage, NationalInsuranceNumberPage}
 import play.api.inject.bind
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import views.html.register.individual.NationalInsuranceNumberView
 
 class NationalInsuranceNumberControllerSpec extends SpecBase {

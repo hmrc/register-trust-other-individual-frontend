@@ -92,7 +92,7 @@ trait Constraints {
             !((individual._1 \\ NationalInsuranceNumberPage.key).contains(JsString(nino)) && individual._2 != index)
           )
 
-          if (uniqueNino) {
+          if uniqueNino then {
             Valid
           } else {
             Invalid(errorKey)

@@ -19,7 +19,7 @@ package controllers.register.individual
 import java.time.LocalDate
 
 import config.annotations.OtherIndividual
-import controllers.actions._
+import controllers.actions.*
 import controllers.actions.register.individual.NameRequiredAction
 import forms.DateOfBirthFormProvider
 import javax.inject.Inject

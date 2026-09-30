@@ -31,7 +31,9 @@ class IDCardDetailsViewSpec extends QuestionViewBehaviours[PassportOrIdCardDetai
   private val index            = 0
   private val name             = FullName("First", Some("Middle"), "Last")
 
-  override val form = new PassportOrIdCardFormProvider(frontendAppConfig)(messageKeyPrefix)
+  override val form: Form[PassportOrIdCardDetails] = new PassportOrIdCardFormProvider(frontendAppConfig)(
+    messageKeyPrefix
+  )
 
   "IDCardDetailsView" must {
 

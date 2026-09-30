@@ -27,7 +27,7 @@ import pages.register.individual.NamePage
 import play.api.inject.bind
 import play.api.libs.json.Json
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import views.html.register.individual.NameView
 
 import scala.concurrent.Future

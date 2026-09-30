@@ -39,7 +39,7 @@ object MappingsSpec {
 
 class MappingsSpec extends SpecBase with Mappings {
 
-  import MappingsSpec._
+  import MappingsSpec.*
 
   "text" must {
 

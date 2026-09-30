@@ -17,7 +17,7 @@
 package controllers.register.individual
 
 import config.annotations.OtherIndividual
-import controllers.actions._
+import controllers.actions.*
 import controllers.actions.register.individual.NameRequiredAction
 import forms.NationalInsuranceNumberFormProvider
 import javax.inject.Inject

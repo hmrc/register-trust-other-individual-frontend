@@ -17,10 +17,6 @@ addOtherIndividual.title = Ychwanegu unigolyn arall
 answerPage.section.otherIndividual.subheading = Unigolyn Arall {0}
 answerPage.section.otherIndividuals.heading = Unigolion Eraill
 
-checkYourAnswers.guidance = Arweiniad ar gyfer gwirio’ch atebion
-checkYourAnswers.heading = Gwirio’ch Atebion
-checkYourAnswers.title = Gwirio’ch Atebion
-
 date.day = Diwrnod
 date.month = Mis
 date.year = Blwyddyn
