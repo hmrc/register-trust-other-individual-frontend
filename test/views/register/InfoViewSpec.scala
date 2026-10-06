@@ -27,7 +27,7 @@ class InfoViewSpec extends ViewBehaviours {
 
     "taxable" must {
 
-      val applyView = view.apply(fakeDraftId, isTaxable = true)(fakeRequest, messages)
+      val applyView = view.apply(fakeDraftId, isTaxable = true)(using fakeRequest, messages)
 
       behave like normalPageTitleWithSectionSubheading(
         applyView,
@@ -56,7 +56,7 @@ class InfoViewSpec extends ViewBehaviours {
 
     "non-taxable" must {
 
-      val applyView = view.apply(fakeDraftId, isTaxable = false)(fakeRequest, messages)
+      val applyView = view.apply(fakeDraftId, isTaxable = false)(using fakeRequest, messages)
 
       behave like normalPageTitleWithSectionSubheading(
         applyView,

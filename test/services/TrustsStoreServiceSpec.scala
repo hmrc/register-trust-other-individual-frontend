@@ -19,7 +19,7 @@ package services
 import base.SpecBase
 import connectors.TrustsStoreConnector
 import models.TaskStatus
-import org.mockito.ArgumentMatchers.{any, eq => eqTo}
+import org.mockito.ArgumentMatchers.{any, eq as eqTo}
 import org.mockito.Mockito
 import org.mockito.Mockito.{verify, when}
 import play.api.http.Status.OK
@@ -36,14 +36,14 @@ class TrustsStoreServiceSpec extends SpecBase {
   ".updateTaskStatus" must {
     "call trusts store connector" in {
 
-      when(mockConnector.updateTaskStatus(any(), any())(any(), any()))
+      when(mockConnector.updateTaskStatus(any(), any())(using any(), any()))
         .thenReturn(Future.successful(HttpResponse(OK, "")))
 
       val result = trustsStoreService.updateTaskStatus(draftId, TaskStatus.Completed)
 
       whenReady(result) { res =>
         res.status mustBe OK
-        verify(mockConnector).updateTaskStatus(eqTo(draftId), eqTo(TaskStatus.Completed))(any(), any())
+        verify(mockConnector).updateTaskStatus(eqTo(draftId), eqTo(TaskStatus.Completed))(using any(), any())
       }
     }
   }

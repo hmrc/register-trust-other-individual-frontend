@@ -23,13 +23,13 @@ import pages.QuestionPage
 import pages.register.{AddOtherIndividualPage, TrustHasOtherIndividualYesNoPage}
 import play.api.libs.json.Reads
 import sections.OtherIndividuals
-import viewmodels.addAnother._
+import viewmodels.addAnother.*
 
 class RegistrationProgress extends AnyOtherIndividuals {
 
   def otherIndividualsStatus(userAnswers: ReadableUserAnswers): Option[Status] =
 
-    if (!isAnyOtherIndividualAdded(userAnswers)) {
+    if !isAnyOtherIndividualAdded(userAnswers) then {
       userAnswers.get(TrustHasOtherIndividualYesNoPage) match {
         case Some(true)  => Some(Status.InProgress)
         case Some(false) => Some(Status.Completed)
@@ -44,7 +44,7 @@ class RegistrationProgress extends AnyOtherIndividuals {
 
       val complete = statusList.forall(isComplete => isComplete(userAnswers))
 
-      Some(if (complete) {
+      Some(if complete then {
         Status.Completed
       } else {
         Status.InProgress

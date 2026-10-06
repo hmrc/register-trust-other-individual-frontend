@@ -25,7 +25,7 @@ import pages.register.individual.{CountryOfResidenceInTheUkYesNoPage, NamePage}
 import play.api.data.Form
 import play.api.inject.bind
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import views.html.register.individual.CountryOfResidenceInTheUkYesNoView
 
 class CountryOfResidenceInTheUkYesNoControllerSpec extends SpecBase {
@@ -58,7 +58,7 @@ class CountryOfResidenceInTheUkYesNoControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, draftId, index, name.toString)(request, messages).toString
+        view(form, draftId, index, name.toString)(using request, messages).toString
 
       application.stop()
     }
@@ -84,7 +84,7 @@ class CountryOfResidenceInTheUkYesNoControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(true), draftId, index, name.toString)(request, messages).toString
+        view(form.fill(true), draftId, index, name.toString)(using request, messages).toString
 
       application.stop()
     }
@@ -137,7 +137,7 @@ class CountryOfResidenceInTheUkYesNoControllerSpec extends SpecBase {
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, draftId, index, name.toString)(request, messages).toString
+        view(boundForm, draftId, index, name.toString)(using request, messages).toString
 
       application.stop()
     }

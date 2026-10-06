@@ -17,7 +17,7 @@
 package views.register.individual
 
 import forms.UkAddressFormProvider
-import models.FullName
+import models.{FullName, UkAddress}
 import play.api.data.Form
 import play.twirl.api.HtmlFormat
 import views.behaviours.UkAddressViewBehaviours
@@ -29,14 +29,14 @@ class UkAddressViewSpec extends UkAddressViewBehaviours {
   val index            = 0
   val name: FullName   = FullName("FirstName", None, "LastName")
 
-  override val form = new UkAddressFormProvider()()
+  override val form: Form[UkAddress] = new UkAddressFormProvider()()
 
   "UkAddressView" must {
 
     val view = viewFor[UkAddressView](Some(emptyUserAnswers))
 
-    def applyView(form: Form[_]): HtmlFormat.Appendable =
-      view.apply(form, name.toString, index, fakeDraftId)(fakeRequest, messages)
+    def applyView(form: Form[?]): HtmlFormat.Appendable =
+      view.apply(form, name.toString, index, fakeDraftId)(using fakeRequest, messages)
 
     behave like dynamicTitlePage(applyView(form), messageKeyPrefix, name.toString)
 

@@ -26,7 +26,7 @@ import play.api.data.Form
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import utils.InputOption
 import utils.countryOptions.CountryOptionsNonUK
 import views.html.register.individual.NonUkAddressView
@@ -58,7 +58,7 @@ class NonUkAddressControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, countryOptions, name.toString, index, draftId)(request, messages).toString
+        view(form, countryOptions, name.toString, index, draftId)(using request, messages).toString
 
       application.stop()
     }
@@ -78,7 +78,7 @@ class NonUkAddressControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(answer), countryOptions, name.toString, index, draftId)(request, messages).toString
+        view(form.fill(answer), countryOptions, name.toString, index, draftId)(using request, messages).toString
 
       application.stop()
     }
@@ -120,7 +120,7 @@ class NonUkAddressControllerSpec extends SpecBase {
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, countryOptions, name.toString, index, draftId)(request, messages).toString
+        view(boundForm, countryOptions, name.toString, index, draftId)(using request, messages).toString
 
       application.stop()
     }

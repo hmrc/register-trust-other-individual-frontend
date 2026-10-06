@@ -17,9 +17,9 @@
 package utils.answers
 
 import base.SpecBase
-import controllers.register.individual.{routes => rts}
+import controllers.register.individual.routes as rts
 import models.{FullName, InternationalAddress, UkAddress, UserAnswers, YesNoDontKnow}
-import pages.register.individual._
+import pages.register.individual.*
 import play.twirl.api.Html
 import viewmodels.{AnswerRow, AnswerSection}
 

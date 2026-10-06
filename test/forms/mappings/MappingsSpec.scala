@@ -31,7 +31,7 @@ object MappingsSpec {
     val values: Set[Foo] = Set(Bar, Baz)
 
     implicit val fooEnumerable: Enumerable[Foo] =
-      Enumerable(values.toSeq.map(v => v.toString -> v): _*)
+      Enumerable(values.toSeq.map(v => v.toString -> v)*)
 
   }
 
@@ -39,7 +39,7 @@ object MappingsSpec {
 
 class MappingsSpec extends SpecBase with Mappings {
 
-  import MappingsSpec._
+  import MappingsSpec.*
 
   "text" must {
 
@@ -115,34 +115,6 @@ class MappingsSpec extends SpecBase with Mappings {
     "unbind" in {
       val result = testForm.fill(true)
       result.apply("value").value.value mustEqual "true"
-    }
-  }
-
-  "int" must {
-
-    val testForm: Form[Int] =
-      Form(
-        "value" -> int()
-      )
-
-    "bind a valid integer" in {
-      val result = testForm.bind(Map("value" -> "1"))
-      result.get mustEqual 1
-    }
-
-    "not bind an empty value" in {
-      val result = testForm.bind(Map("value" -> ""))
-      result.errors must contain(FormError("value", "error.required"))
-    }
-
-    "not bind an empty map" in {
-      val result = testForm.bind(Map.empty[String, String])
-      result.errors must contain(FormError("value", "error.required"))
-    }
-
-    "unbind a valid value" in {
-      val result = testForm.fill(123)
-      result.apply("value").value.value mustEqual "123"
     }
   }
 

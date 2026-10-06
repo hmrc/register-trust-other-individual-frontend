@@ -19,7 +19,7 @@ package controllers.register
 import base.SpecBase
 import forms.YesNoFormProvider
 import models.TaskStatus
-import org.mockito.ArgumentMatchers.{any, eq => mEq}
+import org.mockito.ArgumentMatchers.{any, eq as mEq}
 import org.mockito.Mockito
 import org.mockito.Mockito.{reset, verify, when}
 import org.scalatest.BeforeAndAfterEach
@@ -27,7 +27,7 @@ import pages.register.TrustHasOtherIndividualYesNoPage
 import play.api.data.Form
 import play.api.inject.bind
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import services.TrustsStoreService
 import uk.gov.hmrc.http.HttpResponse
 import views.html.register.TrustHasOtherIndividualYesNoView
@@ -48,7 +48,7 @@ class TrustHasOtherIndividualYesNoControllerSpec extends SpecBase with BeforeAnd
   override def beforeEach(): Unit = {
     reset(mockTrustsStoreService)
 
-    when(mockTrustsStoreService.updateTaskStatus(any(), any())(any(), any()))
+    when(mockTrustsStoreService.updateTaskStatus(any(), any())(using any(), any()))
       .thenReturn(Future.successful(HttpResponse(OK, "")))
   }
 
@@ -67,7 +67,7 @@ class TrustHasOtherIndividualYesNoControllerSpec extends SpecBase with BeforeAnd
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, draftId)(request, messages).toString
+        view(form, draftId)(using request, messages).toString
 
       application.stop()
     }
@@ -87,7 +87,7 @@ class TrustHasOtherIndividualYesNoControllerSpec extends SpecBase with BeforeAnd
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(true), draftId)(request, messages).toString
+        view(form.fill(true), draftId)(using request, messages).toString
 
       application.stop()
     }
@@ -112,7 +112,7 @@ class TrustHasOtherIndividualYesNoControllerSpec extends SpecBase with BeforeAnd
 
         redirectLocation(result).value mustEqual routes.InfoController.onPageLoad(draftId).url
 
-        verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+        verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(using any(), any())
 
         application.stop()
       }
@@ -137,7 +137,7 @@ class TrustHasOtherIndividualYesNoControllerSpec extends SpecBase with BeforeAnd
           result
         ).value mustEqual "http://localhost:9781/trusts-registration/draftId/registration-progress"
 
-        verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.Completed))(any(), any())
+        verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.Completed))(using any(), any())
 
         application.stop()
       }
@@ -159,7 +159,7 @@ class TrustHasOtherIndividualYesNoControllerSpec extends SpecBase with BeforeAnd
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, draftId)(request, messages).toString
+        view(boundForm, draftId)(using request, messages).toString
 
       application.stop()
     }

@@ -43,7 +43,7 @@ class LogoutController @Inject() (
 
     logger.info(s"[Session ID: ${utils.Session.id(hc)}] user signed out from the service, asking for feedback")
 
-    if (appConfig.logoutAudit) {
+    if appConfig.logoutAudit then {
 
       val auditData = Map(
         "sessionId" -> Session.id(hc),

@@ -18,7 +18,7 @@ package utils
 
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.{HtmlContent, Text}
-import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist._
+import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.*
 import viewmodels.{AnswerRow, AnswerSection, RepeaterAnswerSection, Section}
 
 object SectionFormatter {

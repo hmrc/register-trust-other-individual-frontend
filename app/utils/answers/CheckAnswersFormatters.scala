@@ -24,7 +24,7 @@ import uk.gov.hmrc.domain.Nino
 import uk.gov.hmrc.play.language.LanguageUtils
 import utils.countryOptions.CountryOptions
 
-import java.time.{LocalDate => JavaDate}
+import java.time.LocalDate as JavaDate
 import javax.inject.Inject
 
 class CheckAnswersFormatters @Inject() (languageUtils: LanguageUtils, countryOptions: CountryOptions) {
@@ -32,11 +32,8 @@ class CheckAnswersFormatters @Inject() (languageUtils: LanguageUtils, countryOpt
   def formatDate(date: JavaDate)(implicit messages: Messages): Html =
     escape(languageUtils.Dates.formatDate(date))
 
-  def utr(answer: String): Html =
-    escape(answer)
-
   def yesOrNo(answer: Boolean)(implicit messages: Messages): Html =
-    if (answer) {
+    if answer then {
       escape(messages("site.yes"))
     } else {
       escape(messages("site.no"))

@@ -16,7 +16,7 @@
 
 package controllers.register
 
-import controllers.actions._
+import controllers.actions.*
 import controllers.actions.register.{OtherIndividualRequiredActionImpl, OtherIndividualRequiredRequest}
 import forms.RemoveIndexFormProvider
 import pages.QuestionPage
@@ -58,7 +58,7 @@ trait RemoveIndexController extends FrontendBaseController with I18nSupport {
   def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) { implicit request =>
     val form: Form[Boolean] = formProvider(prefix)
 
-    Ok(view(form, draftId, index, name(request.otherIndividual), submitCall(index, draftId)))
+    Ok(view(form, name(request.otherIndividual), submitCall(index, draftId)))
   }
 
   def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async { implicit request =>
@@ -67,12 +67,12 @@ trait RemoveIndexController extends FrontendBaseController with I18nSupport {
     form
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) =>
+        (formWithErrors: Form[?]) =>
           Future.successful(
-            BadRequest(view(formWithErrors, draftId, index, name(request.otherIndividual), submitCall(index, draftId)))
+            BadRequest(view(formWithErrors, name(request.otherIndividual), submitCall(index, draftId)))
           ),
         remove =>
-          if (remove) {
+          if remove then {
             for {
               updatedAnswers <- Future.fromTry(request.userAnswers.deleteAtPath(otherIndividualAtIndex(index).path))
               _              <- registrationsRepository.set(updatedAnswers)

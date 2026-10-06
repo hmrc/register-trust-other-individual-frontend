@@ -17,7 +17,7 @@
 package controllers.register.individual
 
 import config.annotations.OtherIndividual
-import controllers.actions._
+import controllers.actions.*
 import controllers.actions.register.individual.NameRequiredAction
 import forms.YesNoFormProvider
 import javax.inject.Inject
@@ -61,7 +61,7 @@ class NationalInsuranceYesNoController @Inject() (
       form
         .bindFromRequest()
         .fold(
-          (formWithErrors: Form[_]) =>
+          (formWithErrors: Form[?]) =>
             Future.successful(BadRequest(view(formWithErrors, request.otherIndividualName, index, draftId))),
           value =>
             for {

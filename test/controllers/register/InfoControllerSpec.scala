@@ -18,7 +18,7 @@ package controllers.register
 
 import base.SpecBase
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import views.html.register.InfoView
 
 class InfoControllerSpec extends SpecBase {
@@ -42,7 +42,7 @@ class InfoControllerSpec extends SpecBase {
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(fakeDraftId, isTaxable = true)(request, messages).toString
+          view(fakeDraftId, isTaxable = true)(using request, messages).toString
 
         application.stop()
       }
@@ -62,10 +62,25 @@ class InfoControllerSpec extends SpecBase {
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(fakeDraftId, isTaxable = false)(request, messages).toString
+          view(fakeDraftId, isTaxable = false)(using request, messages).toString
 
         application.stop()
       }
+    }
+
+    "redirect to the name page for a POST" in {
+
+      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+
+      val request = FakeRequest(POST, routes.InfoController.onSubmit(fakeDraftId).url)
+
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual
+        controllers.register.individual.routes.NameController.onPageLoad(0, fakeDraftId).url
+
+      application.stop()
     }
   }
 

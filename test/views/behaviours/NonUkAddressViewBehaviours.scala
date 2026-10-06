@@ -43,7 +43,7 @@ trait NonUkAddressViewBehaviours extends ViewBehaviours {
 
       "rendered" must {
 
-        for (field <- fields)
+        for field <- fields do
 
           s"contain an input for $field" in {
             val doc = asDocument(createView(form))
@@ -66,13 +66,13 @@ trait NonUkAddressViewBehaviours extends ViewBehaviours {
             doc,
             "title",
             ViewUtils.breadcrumbTitle(
-              s"""${messages("error.browser.title.prefix")} ${messages(s"$titlePrefix.title", args: _*)}"""
+              s"""${messages("error.browser.title.prefix")} ${messages(s"$titlePrefix.title", args*)}"""
             )
           )
         }
       }
 
-      for (field <- fields)
+      for field <- fields do
 
         s"rendered with an error with field '$field'" must {
 
@@ -90,7 +90,7 @@ trait NonUkAddressViewBehaviours extends ViewBehaviours {
           }
         }
 
-      for (field <- fields)
+      for field <- fields do
         s"contains a label and optional hint text for the field '$field'" in {
           val doc       = asDocument(createView(form))
           val fieldName = field._1

@@ -16,7 +16,7 @@
 
 package models
 
-import play.api.libs.json._
+import play.api.libs.json.*
 
 case class FullName(firstName: String, middleName: Option[String], lastName: String) {
 

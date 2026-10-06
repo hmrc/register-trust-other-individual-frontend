@@ -32,7 +32,7 @@ class CountryOptions @Inject() (environment: Environment, config: FrontendAppCon
 
   def getFileName()(implicit messages: Messages) = {
     val isWelsh = messages.lang.code == config.WELSH
-    if (isWelsh) config.locationCanonicalListCY else config.locationCanonicalList
+    if isWelsh then config.locationCanonicalListCY else config.locationCanonicalList
   }
 
 }

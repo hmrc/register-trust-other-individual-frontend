@@ -17,14 +17,14 @@
 package connectors
 
 import config.FrontendAppConfig
-
-import javax.inject.Inject
 import models.{RegistrationSubmission, SubmissionDraftResponse}
 import play.api.libs.json.Json
-import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse, StringContextOps}
-import uk.gov.hmrc.http.HttpReads.Implicits._
+import play.api.libs.ws.writeableOf_JsValue
+import uk.gov.hmrc.http.HttpReads.Implicits.*
 import uk.gov.hmrc.http.client.HttpClientV2
+import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse, StringContextOps}
 
+import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 class SubmissionDraftConnector @Inject() (http: HttpClientV2, config: FrontendAppConfig) {

@@ -36,7 +36,7 @@ class NameRequiredActionAction(index: Int)(implicit
   private def getName[A](request: RegistrationDataRequest[A]): String =
     request.userAnswers.get(NamePage(index)) match {
       case Some(name) => name.toString
-      case _          => request.messages(messagesApi)("otherIndividual.name.default")
+      case _          => request.messages(using messagesApi)("otherIndividual.name.default")
     }
 
 }

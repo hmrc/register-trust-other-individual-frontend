@@ -22,13 +22,13 @@ import play.api.data.{Form, FormError}
 
 trait FormSpec extends SpecBase {
 
-  def checkForError(form: Form[_], data: Map[String, String], expectedErrors: Seq[FormError]): Assertion =
+  def checkForError(form: Form[?], data: Map[String, String], expectedErrors: Seq[FormError]): Assertion =
 
     form
       .bind(data)
       .fold(
         formWithErrors => {
-          for (error <- expectedErrors)
+          for error <- expectedErrors do
             formWithErrors.errors      must contain(FormError(error.key, error.message, error.args))
           formWithErrors.errors.size mustBe expectedErrors.size
         },

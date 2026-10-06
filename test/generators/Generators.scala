@@ -16,8 +16,8 @@
 
 package generators
 
-import org.scalacheck.Arbitrary._
-import org.scalacheck.Gen._
+import org.scalacheck.Arbitrary.*
+import org.scalacheck.Gen.*
 import org.scalacheck.{Gen, Shrink}
 
 import java.time.{Instant, LocalDate, ZoneOffset}
@@ -40,35 +40,6 @@ trait Generators extends UserAnswersGenerator with PageGenerators with ModelGene
         m + n
     }
   }
-
-  def intsInRangeWithCommas(min: Int, max: Int): Gen[String] = {
-    val numberGen = choose[Int](min, max)
-    genIntersperseString(numberGen.toString, ",")
-  }
-
-  def intsLargerThanMaxValue: Gen[BigInt] =
-    arbitrary[BigInt] suchThat (x => x > Int.MaxValue)
-
-  def intsSmallerThanMinValue: Gen[BigInt] =
-    arbitrary[BigInt] suchThat (x => x < Int.MinValue)
-
-  def nonNumerics: Gen[String] =
-    alphaStr suchThat (_.nonEmpty)
-
-  def decimals: Gen[String] =
-    arbitrary[BigDecimal]
-      .suchThat(_.abs < Int.MaxValue)
-      .suchThat(!_.isValidInt)
-      .map("%f".format(_))
-
-  def intsBelowValue(value: Int): Gen[Int] =
-    arbitrary[Int] suchThat (_ < value)
-
-  def intsAboveValue(value: Int): Gen[Int] =
-    arbitrary[Int] suchThat (_ > value)
-
-  def intsOutsideRange(min: Int, max: Int): Gen[Int] =
-    arbitrary[Int] suchThat (x => x < min || x > max)
 
   def nonBooleans: Gen[String] =
     arbitrary[String]
@@ -95,7 +66,7 @@ trait Generators extends UserAnswersGenerator with PageGenerators with ModelGene
     nonEmptyString suchThat (!excluded.contains(_))
 
   def oneOf[T](xs: Seq[Gen[T]]): Gen[T] =
-    if (xs.isEmpty) {
+    if xs.isEmpty then {
       throw new IllegalArgumentException("oneOf called on empty collection")
     } else {
       val vector = xs.toVector

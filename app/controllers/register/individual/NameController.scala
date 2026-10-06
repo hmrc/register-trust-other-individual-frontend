@@ -59,7 +59,7 @@ class NameController @Inject() (
       form
         .bindFromRequest()
         .fold(
-          (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, index, draftId))),
+          (formWithErrors: Form[?]) => Future.successful(BadRequest(view(formWithErrors, index, draftId))),
           value =>
             for {
               updatedAnswers <- Future.fromTry(request.userAnswers.set(NamePage(index), value))

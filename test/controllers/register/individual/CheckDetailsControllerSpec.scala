@@ -20,7 +20,7 @@ import base.SpecBase
 import models.{FullName, UserAnswers}
 import pages.register.individual.NamePage
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import utils.print.OtherIndividualPrintHelper
 import views.html.register.individual.CheckDetailsView
 
@@ -53,7 +53,23 @@ class CheckDetailsControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(Seq(answerSection), index, fakeDraftId)(request, messages).toString
+        view(Seq(answerSection), index, fakeDraftId)(using request, messages).toString
+    }
+
+    "set status to completed and redirect for a POST" in {
+
+      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+
+      val request = FakeRequest(POST, routes.CheckDetailsController.onSubmit(index, fakeDraftId).url)
+
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual controllers.register.routes.AddOtherIndividualController
+        .onPageLoad(fakeDraftId)
+        .url
+
+      application.stop()
     }
 
   }

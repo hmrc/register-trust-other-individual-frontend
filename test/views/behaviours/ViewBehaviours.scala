@@ -51,7 +51,7 @@ trait ViewBehaviours extends ViewSpecBase {
         "display the correct guidance" in {
 
           val doc = asDocument(view)
-          for (key <- expectedGuidanceKeys) assertContainsText(doc, messages(s"$messageKeyPrefix.$key"))
+          for key <- expectedGuidanceKeys do assertContainsText(doc, messages(s"$messageKeyPrefix.$key"))
         }
 
         "display language toggles" in {
@@ -94,7 +94,7 @@ trait ViewBehaviours extends ViewSpecBase {
         "display the correct guidance" in {
 
           val doc = asDocument(view)
-          for (key <- expectedGuidanceKeys) assertContainsText(doc, messages(s"$messageKeyPrefix.$key"))
+          for key <- expectedGuidanceKeys do assertContainsText(doc, messages(s"$messageKeyPrefix.$key"))
         }
 
         "display language toggles" in {
@@ -136,44 +136,7 @@ trait ViewBehaviours extends ViewSpecBase {
         "display the correct guidance" in {
 
           val doc = asDocument(view)
-          for (key <- expectedGuidanceKeys) assertContainsText(doc, messages(s"$messageKeyPrefix.$key"))
-        }
-
-        "display language toggles" in {
-
-          val doc = asDocument(view)
-          assertRenderedByCssSelector(doc, "a[lang=cy]")
-        }
-
-      }
-    }
-
-  def confirmationPage(
-    view: HtmlFormat.Appendable,
-    messageKeyPrefix: String,
-    messageKeyParam: String,
-    accessibleKeyParam: String
-  ): Unit =
-
-    "behave like a confirmation page" when {
-
-      "rendered" must {
-
-        "have the correct banner title" in {
-
-          findBannerTitle(view) mustBe messages("service.name")
-        }
-
-        "display the correct browser title" in {
-
-          val doc = asDocument(view)
-          assertEqualsMessage(doc, "title", s"$messageKeyPrefix.title", accessibleKeyParam)
-        }
-
-        "display the correct page title" in {
-
-          val doc = asDocument(view)
-          assertPageTitleEqualsMessage(doc, s"$messageKeyPrefix.heading", messageKeyParam + " " + accessibleKeyParam)
+          for key <- expectedGuidanceKeys do assertContainsText(doc, messages(s"$messageKeyPrefix.$key"))
         }
 
         "display language toggles" in {
@@ -196,20 +159,6 @@ trait ViewBehaviours extends ViewSpecBase {
       }
     }
 
-  def pageWithLink(view: HtmlFormat.Appendable, id: String, url: String): Unit =
-
-    "behave like a page with a link" must {
-
-      "have a link" in {
-
-        val doc     = asDocument(view)
-        val element = doc.getElementById(id)
-
-        assertRenderedById(doc, id)
-        assertAttributeValueForElement(element, "href", url)
-      }
-    }
-
   def pageWithASubmitButton(view: HtmlFormat.Appendable): Unit =
 
     "behave like a page with a submit button" must {
@@ -217,28 +166,6 @@ trait ViewBehaviours extends ViewSpecBase {
         val doc = asDocument(view)
         assertRenderedById(doc, "submit")
       }
-    }
-
-  def pageWithContinueButton(view: HtmlFormat.Appendable, url: String): Unit =
-
-    "behave like a page with a Continue button" must {
-      "have a continue button" in {
-        val doc = asDocument(view)
-        assertContainsTextForId(doc, "button", "Continue")
-        assertAttributeValueForElement(
-          doc.getElementById("button"),
-          "href",
-          url
-        )
-      }
-    }
-
-  def pageWithHint[A](form: Form[A], createView: Form[A] => HtmlFormat.Appendable, expectedHintKey: String): Unit =
-
-    "behave like a page with hint text" in {
-
-      val doc = asDocument(createView(form))
-      assertContainsHint(doc, "value", Some(messages(expectedHintKey)))
     }
 
 }

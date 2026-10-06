@@ -16,7 +16,7 @@
 
 package models
 
-import play.api.libs.json._
+import play.api.libs.json.*
 
 import java.time.LocalDate
 
@@ -41,12 +41,6 @@ case class IdentificationType(nino: Option[String], passport: Option[PassportTyp
 
 object IdentificationType {
   implicit val identificationTypeFormat: Format[IdentificationType] = Json.format[IdentificationType]
-}
-
-case class IdentificationOrgType(utr: Option[String], address: Option[AddressType])
-
-object IdentificationOrgType {
-  implicit val identificationOrgTypeFormat: Format[IdentificationOrgType] = Json.format[IdentificationOrgType]
 }
 
 case class PassportType(number: String, expirationDate: LocalDate, countryOfIssue: String)

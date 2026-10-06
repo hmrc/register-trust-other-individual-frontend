@@ -17,7 +17,7 @@
 package navigation
 
 import models.ReadableUserAnswers
-import pages._
+import pages.*
 import play.api.mvc.Call
 
 trait Navigator {
@@ -26,7 +26,7 @@ trait Navigator {
 
   def yesNoNav(ua: ReadableUserAnswers, fromPage: QuestionPage[Boolean], yesCall: => Call, noCall: => Call): Call =
     ua.get(fromPage)
-      .map(if (_) yesCall else noCall)
+      .map(if _ then yesCall else noCall)
       .getOrElse(controllers.routes.SessionExpiredController.onPageLoad)
 
 }

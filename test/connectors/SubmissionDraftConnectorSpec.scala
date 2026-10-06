@@ -17,7 +17,7 @@
 package connectors
 
 import base.SpecBase
-import com.github.tomakehurst.wiremock.client.WireMock._
+import com.github.tomakehurst.wiremock.client.WireMock.*
 import models.{RegistrationSubmission, SubmissionDraftResponse}
 import play.api.Application
 import play.api.http.Status

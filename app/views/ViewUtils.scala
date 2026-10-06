@@ -23,8 +23,8 @@ import viewmodels.RadioOption
 
 object ViewUtils {
 
-  def errorPrefix(form: Form[_])(implicit messages: Messages): String =
-    if (form.hasErrors || form.hasGlobalErrors) s"${messages("error.browser.title.prefix")} " else ""
+  def errorPrefix(form: Form[?])(implicit messages: Messages): String =
+    if form.hasErrors || form.hasGlobalErrors then s"${messages("error.browser.title.prefix")} " else ""
 
   def breadcrumbTitle(title: String)(implicit messages: Messages): String =
     s"$title - ${messages("entities.otherIndividual")} - ${messages("service.name")} - GOV.UK"
@@ -40,7 +40,7 @@ object ViewUtils {
       case _                                                                   =>
         val isSingleDateField =
           error.message.toLowerCase.contains("date") && !error.message.toLowerCase.contains("yesno")
-        if (error.key.toLowerCase.contains("date") || isSingleDateField) {
+        if error.key.toLowerCase.contains("date") || isSingleDateField then {
           s"${error.key}.day"
         } else {
           s"${error.key}"

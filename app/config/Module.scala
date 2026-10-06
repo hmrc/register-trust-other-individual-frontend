@@ -18,7 +18,7 @@ package config
 
 import com.google.inject.AbstractModule
 import config.annotations.OtherIndividual
-import controllers.actions.register._
+import controllers.actions.register.*
 import navigation.{Navigator, OtherIndividualNavigator}
 import repositories.{DefaultRegistrationsRepository, RegistrationsRepository}
 

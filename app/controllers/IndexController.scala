@@ -18,7 +18,7 @@ package controllers
 
 import connectors.SubmissionDraftConnector
 import controllers.actions.register.RegistrationIdentifierAction
-import controllers.register.{AnyOtherIndividuals, routes => rts}
+import controllers.register.{AnyOtherIndividuals, routes as rts}
 import models.{TaskStatus, UserAnswers}
 import play.api.i18n.I18nSupport
 import play.api.libs.json.Json
@@ -45,7 +45,7 @@ class IndexController @Inject() (
         _ <- repository.set(userAnswers)
         _ <- trustsStoreService.updateTaskStatus(draftId, TaskStatus.InProgress)
       } yield
-        if (isAnyOtherIndividualAdded(userAnswers)) {
+        if isAnyOtherIndividualAdded(userAnswers) then {
           Redirect(rts.AddOtherIndividualController.onPageLoad(draftId))
         } else {
           Redirect(rts.TrustHasOtherIndividualYesNoController.onPageLoad(draftId))

@@ -32,7 +32,7 @@
     addToList: AddToList
 )
 
-@(form: Form[_],
+@(form: Form[?],
     draftId: String,
     inProgress: Seq[AddRow],
     complete: Seq[AddRow],
@@ -51,9 +51,9 @@
 
         @headingI(heading)
 
-        @addToList(inProgress, "inprogress", "otherIndividual")
+        @addToList(inProgress, "inprogress")
 
-        @addToList(complete, "complete", "otherIndividual")
+        @addToList(complete, "complete")
 
         @if(maxedOut) {
         <div class="govuk-inset-text">

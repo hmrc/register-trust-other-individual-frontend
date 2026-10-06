@@ -17,9 +17,9 @@
 package utils.print
 
 import com.google.inject.Inject
-import controllers.register.individual.{routes => irts}
+import controllers.register.individual.routes as irts
 import models.UserAnswers
-import pages.register.individual._
+import pages.register.individual.*
 import play.api.i18n.Messages
 import viewmodels.{AnswerRow, AnswerSection}
 

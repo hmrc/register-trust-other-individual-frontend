@@ -17,12 +17,12 @@
 package navigation
 
 import config.FrontendAppConfig
-import controllers.register.individual.routes._
-import controllers.register.routes._
+import controllers.register.individual.routes.*
+import controllers.register.routes.*
 import models.ReadableUserAnswers
 import models.register.pages.AddOtherIndividual
 import pages.Page
-import pages.register.individual._
+import pages.register.individual.*
 import pages.register.{AddOtherIndividualPage, AddOtherIndividualYesNoPage, TrustHasOtherIndividualYesNoPage}
 import play.api.mvc.Call
 import sections.OtherIndividuals
@@ -150,7 +150,7 @@ class OtherIndividualNavigator @Inject() (config: FrontendAppConfig) extends Nav
   }
 
   private def navigateAwayFromCountryOfNationalityQuestions(draftId: String, index: Int, isTaxable: Boolean): Call =
-    if (isTaxable) {
+    if isTaxable then {
       NationalInsuranceYesNoController.onPageLoad(index, draftId)
     } else {
       CountryOfResidenceYesNoController.onPageLoad(index, draftId)

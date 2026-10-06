@@ -20,10 +20,10 @@ import com.google.inject.Inject
 import config.FrontendAppConfig
 import models.requests.IdentifierRequest
 import play.api.Logging
-import play.api.mvc.Results._
-import play.api.mvc.{Request, Result, _}
+import play.api.mvc.Results.*
+import play.api.mvc.{Request, Result, *}
 import uk.gov.hmrc.auth.core.AffinityGroup.{Agent, Organisation}
-import uk.gov.hmrc.auth.core._
+import uk.gov.hmrc.auth.core.*
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals
 import uk.gov.hmrc.auth.core.retrieve.~
 import uk.gov.hmrc.http.{HeaderCarrier, UnauthorizedException}
@@ -55,7 +55,7 @@ class AffinityGroupIdentifierAction[A] @Inject() (
     val e = for {
       enrolment  <- enrolments.getEnrolment(hmrcAgentEnrolmentKey)
       identifier <- enrolment.getIdentifier(arnIdentifier)
-      _          <- if (identifier.value.nonEmpty) Some(identifier) else None
+      _          <- if identifier.value.nonEmpty then Some(identifier) else None
     } yield AgentIdentifier(enrolment, identifier.value)
 
     e.fold {
@@ -85,7 +85,7 @@ class AffinityGroupIdentifierAction[A] @Inject() (
     val enrolment: Option[Enrolment] = for {
       enrolment <- enrolments.getEnrolment(taxEnrolment).orElse(enrolments.getEnrolment(nonTaxEnrolment))
       id        <- enrolment.getIdentifier(taxIdentifier).orElse(enrolment.getIdentifier(nonTaxIdentifier))
-      _         <- if (id.value.nonEmpty) Some(id) else None
+      _         <- if id.value.nonEmpty then Some(id) else None
     } yield enrolment
 
     enrolment.fold {

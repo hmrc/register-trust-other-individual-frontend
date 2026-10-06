@@ -27,7 +27,7 @@ import pages.register.individual.NamePage
 import play.api.inject.bind
 import play.api.libs.json.Json
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import views.html.register.individual.NameView
 
 import scala.concurrent.Future
@@ -61,7 +61,7 @@ class NameControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, index, draftId)(request, messages).toString
+        view(form, index, draftId)(using request, messages).toString
 
       application.stop()
     }
@@ -79,7 +79,7 @@ class NameControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(name), index, draftId)(request, messages).toString
+        view(form.fill(name), index, draftId)(using request, messages).toString
 
       application.stop()
     }
@@ -87,7 +87,7 @@ class NameControllerSpec extends SpecBase {
     "redirect to the next page when valid data is submitted" when {
       "using main answers" in {
 
-        when(registrationsRepository.getMainAnswers(any())(any()))
+        when(registrationsRepository.getMainAnswers(any())(using any()))
           .thenReturn(Future.successful(Some(ReadOnlyUserAnswers(Json.obj()))))
 
         val application = applicationBuilder(userAnswers = Some(emptyUserAnswers))
@@ -110,7 +110,7 @@ class NameControllerSpec extends SpecBase {
       }
       "using section answers" in {
 
-        when(registrationsRepository.getMainAnswers(any())(any()))
+        when(registrationsRepository.getMainAnswers(any())(using any()))
           .thenReturn(Future.successful(None))
 
         val application = applicationBuilder(userAnswers = Some(emptyUserAnswers))
@@ -150,7 +150,7 @@ class NameControllerSpec extends SpecBase {
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, index, draftId)(request, messages).toString
+        view(boundForm, index, draftId)(using request, messages).toString
 
       application.stop()
     }

@@ -36,12 +36,11 @@ trait OptionsViewBehaviours extends ViewBehaviours {
 
           val doc = asDocument(createView(form))
 
-          for (option <- options)
-            assertContainsRadioButton(doc, option.id, "value", option.value, isChecked = false)
+          for option <- options do assertContainsRadioButton(doc, option.id, "value", option.value, isChecked = false)
         }
       }
 
-      for (option <- options)
+      for option <- options do
 
         s"rendered with a value of '${option.value}'" must {
 
@@ -51,7 +50,7 @@ trait OptionsViewBehaviours extends ViewBehaviours {
 
             assertContainsRadioButton(doc, option.id, "value", option.value, isChecked = true)
 
-            for (unselectedOption <- options.filterNot(o => o == option))
+            for unselectedOption <- options.filterNot(o => o == option) do
               assertContainsRadioButton(doc, unselectedOption.id, "value", unselectedOption.value, isChecked = false)
           }
         }

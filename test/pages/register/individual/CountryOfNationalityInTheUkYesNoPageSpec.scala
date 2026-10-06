@@ -19,7 +19,7 @@ package pages.register.individual
 import models.UserAnswers
 import org.scalacheck.Arbitrary.arbitrary
 import pages.behaviours.PageBehaviours
-import utils.Constants._
+import utils.Constants.*
 
 class CountryOfNationalityInTheUkYesNoPageSpec extends PageBehaviours {
 

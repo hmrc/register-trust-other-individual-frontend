@@ -21,7 +21,7 @@ import forms.mappings.Mappings
 import javax.inject.Inject
 import models.PassportOrIdCardDetails
 import play.api.data.Form
-import play.api.data.Forms._
+import play.api.data.Forms.*
 
 class PassportOrIdCardFormProvider @Inject() (appConfig: FrontendAppConfig) extends Mappings {
 
@@ -68,7 +68,7 @@ class PassportOrIdCardFormProvider @Inject() (appConfig: FrontendAppConfig) exte
           )
         )
       )
-    )(PassportOrIdCardDetails.apply)(PassportOrIdCardDetails.unapply)
+    )(PassportOrIdCardDetails.apply)(o => Some(Tuple.fromProductTyped(o)))
   )
 
 }

@@ -17,7 +17,7 @@
 package connectors
 
 import base.SpecBase
-import com.github.tomakehurst.wiremock.client.WireMock._
+import com.github.tomakehurst.wiremock.client.WireMock.*
 import models.TaskStatus
 import play.api.Application
 import play.api.inject.guice.GuiceApplicationBuilder
@@ -39,7 +39,7 @@ class TrustsStoreConnectorSpec extends SpecBase with WireMockHelper {
           Seq(
             "microservice.services.trusts-store.port" -> server.port(),
             "auditing.enabled"                        -> false
-          ): _*
+          )*
         )
         .build()
 
@@ -65,7 +65,7 @@ class TrustsStoreConnectorSpec extends SpecBase with WireMockHelper {
           Seq(
             "microservice.services.trusts-store.port" -> server.port(),
             "auditing.enabled"                        -> false
-          ): _*
+          )*
         )
         .build()
 

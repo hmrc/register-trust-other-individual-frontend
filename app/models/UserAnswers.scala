@@ -17,7 +17,7 @@
 package models
 
 import play.api.Logging
-import play.api.libs.json._
+import play.api.libs.json.*
 import queries.{Gettable, Settable}
 
 import scala.util.{Failure, Success, Try}
@@ -96,26 +96,26 @@ object UserAnswers {
 
   implicit lazy val reads: Reads[UserAnswers] = {
 
-    import play.api.libs.functional.syntax._
+    import play.api.libs.functional.syntax.*
 
     (
       (__ \ "_id").read[String] and
         (__ \ "data").read[JsObject] and
         (__ \ "internalId").read[String] and
         (__ \ "isTaxable").readWithDefault[Boolean](true)
-    )(UserAnswers.apply _)
+    )(UserAnswers.apply)
   }
 
   implicit lazy val writes: OWrites[UserAnswers] = {
 
-    import play.api.libs.functional.syntax._
+    import play.api.libs.functional.syntax.*
 
     (
       (__ \ "_id").write[String] and
         (__ \ "data").write[JsObject] and
         (__ \ "internalId").write[String] and
         (__ \ "isTaxable").write[Boolean]
-    )(unlift(UserAnswers.unapply))
+    )(o => Tuple.fromProductTyped(o))
   }
 
 }

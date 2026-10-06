@@ -67,7 +67,7 @@ class TrustHasOtherIndividualYesNoController @Inject() (
             for {
               updatedAnswers <- Future.fromTry(request.userAnswers.set(TrustHasOtherIndividualYesNoPage, value))
               _              <- repository.set(updatedAnswers)
-              taskStatus      = if (value) TaskStatus.InProgress else TaskStatus.Completed
+              taskStatus      = if value then TaskStatus.InProgress else TaskStatus.Completed
               _              <- trustsStoreService.updateTaskStatus(draftId, taskStatus)
             } yield Redirect(navigator.nextPage(TrustHasOtherIndividualYesNoPage, draftId, updatedAnswers))
         )

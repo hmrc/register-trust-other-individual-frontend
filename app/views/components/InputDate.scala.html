@@ -15,7 +15,6 @@
  *@
 
 @import utils.DateErrorFormatter._
-@import viewmodels.Link
 
 @this(
     govukDateInput: GovukDateInput
@@ -26,10 +25,7 @@
     legend: String,
     legendClass: String = "govuk-fieldset__legend--l",
     hint: Option[String] = None,
-    readerHint: Option[String] = None,
-    link: Option[Link] = None,
-    legendAsHeading: Boolean = false,
-    extraText: Option[String] = None
+    legendAsHeading: Boolean = false
  )(implicit messages: Messages)
 
 @govukDateInput(DateInput(
@@ -67,5 +63,5 @@
         )
     ),
     hint = hint.map(hint => Hint(content = Text(messages(hint)))),
-    errorMessage = field.error.map(err => ErrorMessage.errorMessageWithDefaultStringsTranslated(content = Text(messages(err.message, formatArgs(err.args): _*))))
+    errorMessage = field.error.map(err => ErrorMessage.errorMessageWithDefaultStringsTranslated(content = Text(messages(err.message, formatArgs(err.args)*))))
 ))

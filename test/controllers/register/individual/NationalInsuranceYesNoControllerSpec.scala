@@ -24,7 +24,7 @@ import navigation.{FakeNavigator, Navigator}
 import pages.register.individual.{NamePage, NationalInsuranceYesNoPage}
 import play.api.inject.bind
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import views.html.register.individual.NationalInsuranceYesNoView
 
 class NationalInsuranceYesNoControllerSpec extends SpecBase {
@@ -54,7 +54,7 @@ class NationalInsuranceYesNoControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, name.toString, index, draftId)(request, messages).toString
+        view(form, name.toString, index, draftId)(using request, messages).toString
 
       application.stop()
     }
@@ -80,7 +80,7 @@ class NationalInsuranceYesNoControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(true), name.toString, index, draftId)(request, messages).toString
+        view(form.fill(true), name.toString, index, draftId)(using request, messages).toString
 
       application.stop()
     }
@@ -127,7 +127,7 @@ class NationalInsuranceYesNoControllerSpec extends SpecBase {
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, name.toString, index, draftId)(request, messages).toString
+        view(boundForm, name.toString, index, draftId)(using request, messages).toString
 
       application.stop()
     }

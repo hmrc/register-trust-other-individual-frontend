@@ -1,9 +1,5 @@
 service.name = Register a trust
 
-checkYourAnswers.title = Check Your Answers
-checkYourAnswers.heading = Check Your Answers
-checkYourAnswers.guidance = Guidance for check your answers
-
 date.day = Day
 date.month = Month
 date.year = Year
@@ -289,10 +285,6 @@ addOtherIndividual.maxedOut = You cannot add another other individual as you hav
 addOtherIndividual.maxedOut.paragraph = Check the other individuals you have added. If you have further other individuals to add, write to HMRC with their details.
 addOtherIndividual.maxedOut.all = You cannot enter another other individual as you have entered a maximum of 50.
 addOtherIndividual.maxedOut.all.paragraph = Check the other individuals you have added. If you have further other individuals to add, write to HMRC with their details.
-
-addOtherIndividualYesNo.title = Do you want to add an other individual?
-addOtherIndividualYesNo.heading = Do you want to add an other individual?
-addOtherIndividualYesNo.error.required = Select yes if you want to add an other individual
 
 otherIndividualsInfo.title = Information you’ll need to provide
 otherIndividualsInfo.heading = Information you’ll need to provide

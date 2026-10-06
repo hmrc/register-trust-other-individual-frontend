@@ -17,7 +17,7 @@
 package models
 
 import base.SpecBase
-import models.Status._
+import models.Status.*
 import viewmodels.addAnother.OtherIndividualViewModel
 
 class OtherIndividualsSpec extends SpecBase {

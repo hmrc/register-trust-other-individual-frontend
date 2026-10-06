@@ -18,7 +18,7 @@ package controllers.register.individual
 
 import base.SpecBase
 import forms.YesNoFormProvider
-import models.Status._
+import models.Status.*
 import models.{FullName, UserAnswers}
 import org.mockito.ArgumentCaptor
 import org.mockito.ArgumentMatchers.any
@@ -27,13 +27,13 @@ import pages.entitystatus.OtherIndividualStatus
 import pages.register.individual.NamePage
 import play.api.data.Form
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{route, _}
+import play.api.test.Helpers.{route, *}
 import sections.OtherIndividual
 import views.html.RemoveIndexView
 
 import scala.concurrent.Future
 
-class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation {
+class RemoveOtherIndividualControllerSpec extends SpecBase {
 
   private val prefix                              = "removeOtherIndividual"
   private val formProvider                        = new YesNoFormProvider()
@@ -69,11 +69,9 @@ class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation 
         contentAsString(result) mustEqual
           view(
             form(prefix),
-            fakeDraftId,
-            index,
             defaultOtherIndividualName,
             routes.RemoveOtherIndividualController.onSubmit(index, draftId)
-          )(request, messages).toString
+          )(using request, messages).toString
 
         application.stop()
       }
@@ -101,11 +99,9 @@ class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation 
         contentAsString(result) mustEqual
           view(
             form(prefix),
-            fakeDraftId,
-            index,
             testName.toString,
             routes.RemoveOtherIndividualController.onSubmit(index, draftId)
-          )(request, messages).toString
+          )(using request, messages).toString
 
         application.stop()
       }
@@ -127,8 +123,8 @@ class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation 
       "YES is submitted and trustee is removed" in {
 
         reset(registrationsRepository)
-        when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-        when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(None))
+        when(registrationsRepository.set(any())(using any(), any())).thenReturn(Future.successful(true))
+        when(registrationsRepository.get(any())(using any())).thenReturn(Future.successful(None))
 
         val application =
           applicationBuilder(userAnswers = Some(userAnswers)).build()
@@ -143,7 +139,7 @@ class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation 
         redirectLocation(result).value mustEqual addToPageRoute
 
         val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
-        verify(registrationsRepository, times(1)).set(uaCaptor.capture)(any(), any())
+        verify(registrationsRepository, times(1)).set(uaCaptor.capture)(using any(), any())
         uaCaptor.getValue.get(OtherIndividual(index)) mustNot be(defined)
 
         application.stop()
@@ -152,8 +148,8 @@ class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation 
       "NO is submitted and trustee is not removed" in {
 
         reset(registrationsRepository)
-        when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-        when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(None))
+        when(registrationsRepository.set(any())(using any(), any())).thenReturn(Future.successful(true))
+        when(registrationsRepository.get(any())(using any())).thenReturn(Future.successful(None))
 
         val application =
           applicationBuilder(userAnswers = Some(userAnswers)).build()
@@ -168,7 +164,7 @@ class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation 
         redirectLocation(result).value mustEqual addToPageRoute
 
         val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
-        verify(registrationsRepository, times(0)).set(uaCaptor.capture)(any(), any())
+        verify(registrationsRepository, times(0)).set(uaCaptor.capture)(using any(), any())
 
         application.stop()
       }
@@ -198,11 +194,9 @@ class RemoveOtherIndividualControllerSpec extends SpecBase with IndexValidation 
       contentAsString(result) mustEqual
         view(
           boundForm,
-          fakeDraftId,
-          index,
           defaultOtherIndividualName,
           routes.RemoveOtherIndividualController.onSubmit(index, draftId)
-        )(request, messages).toString
+        )(using request, messages).toString
 
       application.stop()
     }

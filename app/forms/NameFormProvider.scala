@@ -16,13 +16,13 @@
 
 package forms
 
-import forms.helpers.WhitespaceHelper._
+import forms.helpers.WhitespaceHelper.*
 import forms.mappings.Mappings
 
 import javax.inject.Inject
 import models.FullName
 import play.api.data.Form
-import play.api.data.Forms._
+import play.api.data.Forms.*
 
 class NameFormProvider @Inject() extends Mappings {
 
@@ -54,7 +54,7 @@ class NameFormProvider @Inject() extends Mappings {
             regexp(Validation.nameRegex, s"$prefix.error.lastname.invalid")
           )
         )
-    )(FullName.apply)(FullName.unapply)
+    )(FullName.apply)(o => Some(Tuple.fromProductTyped(o)))
   )
 
 }

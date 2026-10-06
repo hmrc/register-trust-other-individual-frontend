@@ -17,17 +17,17 @@
 package controllers.register
 
 import base.SpecBase
-import org.mockito.ArgumentMatchers.{eq => eqTo, _}
+import org.mockito.ArgumentMatchers.{eq as eqTo, *}
 import org.mockito.Mockito
 import org.mockito.Mockito.{never, verify}
 import play.api.inject.bind
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import uk.gov.hmrc.play.audit.http.connector.AuditConnector
 
 class LogoutControllerSpec extends SpecBase {
 
-  "logout should redirect to feedback and audit" in {
+  "logout should redirect to feedback" in {
 
     val mockAuditConnector = Mockito.mock(classOf[AuditConnector])
 
@@ -44,10 +44,32 @@ class LogoutControllerSpec extends SpecBase {
     redirectLocation(result).value mustBe frontendAppConfig.logoutUrl
 
     verify(mockAuditConnector, never())
-      .sendExplicitAudit(eqTo("trusts"), any[Map[String, String]])(any(), any())
+      .sendExplicitAudit(eqTo("trusts"), any[Map[String, String]])(using any(), any())
 
     application.stop()
 
+  }
+
+  "logout should redirect to feedback and send an audit event when logout auditing is enabled" in {
+
+    val mockAuditConnector = Mockito.mock(classOf[AuditConnector])
+
+    val application = applicationBuilder(userAnswers = Some(emptyUserAnswers))
+      .overrides(bind[AuditConnector].toInstance(mockAuditConnector))
+      .configure("microservice.services.features.auditing.logout" -> true)
+      .build()
+
+    val request = FakeRequest(GET, routes.LogoutController.logout().url)
+
+    val result = route(application, request).value
+
+    status(result) mustEqual SEE_OTHER
+    redirectLocation(result).value mustBe frontendAppConfig.logoutUrl
+
+    verify(mockAuditConnector)
+      .sendExplicitAudit(eqTo("trusts"), any[Map[String, String]])(using any(), any())
+
+    application.stop()
   }
 
 }
